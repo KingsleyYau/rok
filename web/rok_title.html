@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>头衔申请</title>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <style id="compiled-css" type="text/css">
+        .display-flex {
+            display: flex;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+
+        .div-size {
+            /*border: 1px solid red;*/
+            width: 230px;
+            /*height: 230px;*/
+            background-size: contain;
+            background-position: center;
+        }
+    </style>
+</head>
+
+<script src="js/jquery.min.js"></script>
+<script>
+    function onSummit() {
+        console.log('onSummit');
+        $.ajax({
+            url : "/api/rok_title",
+            type : "get",
+            data : $( '#postForm').serialize(),
+            success : function(data) {
+                console.info(data);
+                if (data.errno != 0) {
+                    alert(data.errmsg)
+                }
+            },
+            error : function(data) {
+                console.warn(data);
+            }
+        });
+        return false;
+    }
+</script>
+
+<body>
+    <form id="postForm" method="post" onsubmit="return onSummit();">
+        <label for="server">server:</label>
+        <input type="text" id="server" name="server" value="15" maxlength="6" required>
+        <br>
+        <label for="x">x:</label>
+        <input type="text" id="x" name="x" maxlength="4" required>
+		    <br>
+        <label for="y">y:</label>
+        <input type="text" id="y" name="y" maxlength="4" required>
+        <br>
+
+        <input type="radio" id="train" name="title" value="train" checked>
+        <label for="train">公爵</label>
+        <input type="radio" id="judge" name="title" value="judge">
+        <label for="judge">法官</label>
+        <input type="radio" id="architect" name="title" value="judge">
+        <label for="architect">大建筑师</label>
+        <input type="radio" id="scientist" name="title" value="judge">
+        <label for="scientist">大科学家</label>
+        <br>
+
+        <input type="submit" value="提交">
+    </form>
+</body>
+</html>
