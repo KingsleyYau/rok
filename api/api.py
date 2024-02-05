@@ -42,32 +42,34 @@ def find_player(bot, task, server, expected_pos):
         ImagePathAndProps.TITLE_BUTTON_PATH.value
     )
     task.tap(player_pos[0], player_pos[1])
+    log('寻找玩家,成功', player_pos)
     
 def judge(bot, task, server, expected_pos):
     title_expected_pos = (280, 380)
-    log('发放头衔,法官', expected_pos)
+    log('申请头衔,法官', expected_pos)
     find_player(bot, task, server, expected_pos)
     finish_title(bot, task, title_expected_pos)
     
 def train(bot, task, server, expected_pos):
     title_expected_pos = (505, 380)
-    log('发放头衔,公爵', expected_pos)
+    log('申请头衔,公爵', expected_pos)
     find_player(bot, task, server, expected_pos)
     finish_title(bot, task, title_expected_pos)
     
 def architect(bot, task, server, expected_pos):
     title_expected_pos = (735, 380)
-    log('发放头衔,大建筑师', expected_pos)
+    log('申请头衔,大建筑师', expected_pos)
     find_player(bot, task, server, expected_pos)
     finish_title(bot, task, title_expected_pos)
 
 def scientist(bot, task, server, expected_pos):
     title_expected_pos = (965, 380)
-    log('发放头衔,大科学家', expected_pos)
+    log('申请头衔,大科学家', expected_pos)
     find_player(bot, task, server, expected_pos)
     finish_title(bot, task, title_expected_pos)      
             
 def finish_title(bot, task, title_expected_pos):
+    log('发放头衔', title_expected_pos)
     _, _, title_check_pos = bot.gui.check_any(
         ImagePathAndProps.TITLE_CHECK_BUTTON_PATH.value
     )

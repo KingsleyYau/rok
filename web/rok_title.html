@@ -71,6 +71,8 @@
         docCookies.setItem('x', x, 31536e3);
         let y = formData.get('y');
         docCookies.setItem('y', y, 31536e3);
+        let title = formData.get('title');
+        docCookies.setItem('title', title, 31536e3);
 
         $.ajax({
             url: "/api/rok_title",
@@ -163,6 +165,10 @@
         }
         if (docCookies.hasItem('y')) {
             $("[id=y]").val(docCookies.getItem('y'));
+        }
+        if (docCookies.hasItem('title')) {
+            let title = docCookies.getItem('title');
+            $('input[value=' + title + ']').prop('checked', true)
         }
     }
 
