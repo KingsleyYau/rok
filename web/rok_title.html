@@ -15,9 +15,14 @@
 
         div {
             width: 100%;
+            margin: 2px 0px;
         }
 
         table {
+            width: 100%;
+            font-size:14px;
+        }
+        textarea {
             width: 100%;
             font-size:14px;
         }
@@ -44,6 +49,7 @@
 </head>
 
 <script src="js/jquery.min.js"></script>
+<script src="js/cookie.js"></script>
 <script>
     function titleChs(title) {
         if (title == 'train')
@@ -56,8 +62,16 @@
             return '科学家'
     }
 
-    function onSummit() {
-        console.log('onSummit');
+    function onSummit(form) {
+        console.log('onSummit', form);
+        let formData = new FormData(form);
+        let server = formData.get('server');
+        docCookies.setItem('server', server, 31536e3);
+        let x = formData.get('x');
+        docCookies.setItem('x', x, 31536e3);
+        let y = formData.get('y');
+        docCookies.setItem('y', y, 31536e3);
+
         $.ajax({
             url: "/api/rok_title",
             type: "get",
@@ -135,25 +149,42 @@
         return false;
     }
 
-    document.addEventListener("DOMContentLoaded", function () {
+    function reload() {
         onQueue();
+        setTimeout(() => {
+            reload();
+        }, 30000);
+
+        if (docCookies.hasItem('server')) {
+            $("[id=server]").val(docCookies.getItem('server'));
+        }
+        if (docCookies.hasItem('x')) {
+            $("[id=x]").val(docCookies.getItem('x'));
+        }
+        if (docCookies.hasItem('y')) {
+            $("[id=y]").val(docCookies.getItem('y'));
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        reload();
     });
 </script>
 
 <body>
 <div>
-    <form id="postForm" method="post" onsubmit="return onSummit();">
+    <form id="postForm" method="post" onsubmit="return onSummit(this);">
         <div>
             <label for="server">服务器:</label>
             <input type="text" id="server" name="server" value="15" maxlength="6" required>
         </div>
         <div>
             <label for="x">x坐标:</label>
-            <input type="text" id="x" name="x" maxlength="4" required>
+            <input type="text" id="x" name="x" maxlength="4" oninput="value=value.replace(/[^\d]/g,'')" required>
         </div>
         <div>
             <label for="y">y坐标:</label>
-            <input type="text" id="y" name="y" maxlength="4" required>
+            <input type="text" id="y" name="y" maxlength="4" oninput="value=value.replace(/[^\d]/g,'')" required>
         </div>
         <div>
             <input type="radio" id="train" name="title" value="train" checked>
@@ -175,6 +206,9 @@
 </div>
 <div>
     <table border="1" id='record'></table>
+</div>
+
+<div>
 </div>
 </body>
 </html>
