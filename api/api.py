@@ -91,11 +91,23 @@ def run_api(args):
     bot = Bot(device)
     task = Task(bot)
     expected_pos = (args.x, args.y)
-    if args.title == 'train':
-        train(bot, task, args.server, expected_pos)
-    elif args.title == 'judge':
-        judge(bot, task, args.server, expected_pos)
-    elif args.title == 'architect':
-        architect(bot, task, args.server, expected_pos)
-    elif args.title == 'scientist':
-        scientist(bot, task, args.server, expected_pos)
+    title_items = {
+        'train':{'name':'公爵','title_check_pos':(505, 380)},
+        'judge':{'name':'法官','title_check_pos':(280, 380)},
+        'architect':{'name':'建筑师','title_check_pos':(735, 380)},
+        'scientist':{'name':'科学家','title_check_pos':(965, 380)},
+        }
+    
+    title_item = title_items[args.title]
+    if title_item is not None:
+        log('申请头衔,' + title_item['name'])
+        find_player(bot, task, args.server, expected_pos)
+        finish_title(bot, task, title_item['title_check_pos'])    
+    # if args.title == 'train':
+    #     train(bot, task, args.server, expected_pos)
+    # elif args.title == 'judge':
+    #     judge(bot, task, args.server, expected_pos)
+    # elif args.title == 'architect':
+    #     architect(bot, task, args.server, expected_pos)
+    # elif args.title == 'scientist':
+    #     scientist(bot, task, args.server, expected_pos)

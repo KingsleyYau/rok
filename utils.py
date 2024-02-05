@@ -70,4 +70,4 @@ def get_last_info():
 
 def log(*args):
     time_string = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    print('[{}] {}'.format(time_string, args))
+    print('[{}] {}'.format(time_string, *args))
