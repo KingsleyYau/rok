@@ -13,7 +13,7 @@ while true; do
 	  y=`echo $LINE | jq -r '.record.y'`
 	  title=`echo $LINE | jq -r '.record.title'`
 		
-	  source /root/miniconda2/bin/activate rok && cd /root/Max/project/rok && python main.py --api true --server $server --x $x --y $y --title $title
+	  source /root/miniconda2/bin/activate rok && cd /root/Max/project/rok && python -u main.py --api true --server $server --x $x --y $y --title $title
 	  sed -i '1,1d' $RECROD_FILE
 	  break
 	done < $RECROD_FILE

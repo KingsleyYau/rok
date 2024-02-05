@@ -185,7 +185,7 @@ class Task:
                     end = time.time()
                 else:
                     self.tap(400, 400, 1)
-                    time.sleep(30)
+                    time.sleep(45)
                     break
 
         pos_list = None
@@ -360,7 +360,7 @@ class Task:
     def runOfRoK(self):
         cmd = "am start -n com.lilithgames.rok.offical.cn/com.harry.engine.MainActivity"
         str = self.device.shell(cmd)
-        time.sleep(60)
+        time.sleep(30)
 
     def stopRok(self):
         cmd = "am force-stop com.lilithgames.rok.offical.cn"
