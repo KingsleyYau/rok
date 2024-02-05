@@ -7,67 +7,174 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
     <style id="compiled-css" type="text/css">
-        .display-flex {
-            display: flex;
-            flex-wrap: wrap;
-            text-align: center;
+        body {
+            margin: 0;
+            padding: 2.5%;
+            overflow-x: hidden;
         }
 
-        .div-size {
-            /*border: 1px solid red;*/
-            width: 230px;
-            /*height: 230px;*/
-            background-size: contain;
-            background-position: center;
+        div {
+            width: 100%;
         }
+
+        table {
+            width: 100%;
+            font-size:14px;
+        }
+
+        .button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 4px 14px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+
+        .green {
+            background-color: #4CAF50; /* 绿色 */
+        }
+
     </style>
 </head>
 
 <script src="js/jquery.min.js"></script>
 <script>
+    function titleChs(title) {
+        if (title == 'train')
+            return '公爵'
+        else if (title == 'judge')
+            return '法官'
+        else if (title == 'architect')
+            return '建筑师'
+        else if (title == 'scientist')
+            return '科学家'
+    }
+
     function onSummit() {
         console.log('onSummit');
         $.ajax({
-            url : "/api/rok_title",
-            type : "get",
-            data : $( '#postForm').serialize(),
-            success : function(data) {
+            url: "/api/rok_title",
+            type: "get",
+            data: $('#postForm').serialize(),
+            success: function (data) {
                 console.info(data);
                 if (data.errno != 0) {
                     alert(data.errmsg)
+                } else {
+                    onQueue()
                 }
             },
-            error : function(data) {
+            error: function (data) {
                 console.warn(data);
             }
         });
         return false;
     }
+
+    function onQueue() {
+        console.log('onQueue');
+        $.ajax({
+            url: "/api/rok_title_queue",
+            type: "get",
+            data: $('#postForm').serialize(),
+            success: function (data) {
+                console.info(data);
+                let tb = $("[id=record]");
+                tb.empty();
+
+                let tr = "<tr id=title></tr>"
+                tb.append(tr)
+                tr = $("[id=title]");
+                let index = "<td>序号</td>"
+                tr.append(index);
+                let summit_time = "<td>提交时间</td>"
+                tr.append(summit_time);
+                let server = "<td>服务器</td>"
+                tr.append(server);
+                let x = "<td>x坐标</td>"
+                tr.append(x);
+                let y = "<td>y坐标</td>"
+                tr.append(y);
+                let title = "<td>头衔</td>"
+                tr.append(title);
+
+                if (data.errno == 0) {
+                    i = 0;
+                    data.data.queue.forEach(item => {
+                        let itemId = 'tr' + i;
+                        let tr = "<tr id=" + itemId + "></tr>"
+                        tb.append(tr)
+
+                        tr = $("[id=" + itemId + "]");
+                        let index = "<td>" + i + "</td>"
+                        tr.append(index);
+                        let summit_time = "<td>" + item.summit_time + "</td>"
+                        tr.append(summit_time);
+                        let server = "<td>" + item.record.server + "</td>"
+                        tr.append(server);
+                        let x = "<td>" + item.record.x + "</td>"
+                        tr.append(x);
+                        let y = "<td>" + item.record.y + "</td>"
+                        tr.append(y);
+                        let title = "<td>" + titleChs(item.record.title) + "</td>"
+                        tr.append(title);
+                        i++
+                    });
+                }
+            },
+            error: function (data) {
+                console.warn(data);
+            }
+        });
+        return false;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        onQueue();
+    });
 </script>
 
 <body>
+<div>
     <form id="postForm" method="post" onsubmit="return onSummit();">
-        <label for="server">server:</label>
-        <input type="text" id="server" name="server" value="15" maxlength="6" required>
-        <br>
-        <label for="x">x:</label>
-        <input type="text" id="x" name="x" maxlength="4" required>
-		    <br>
-        <label for="y">y:</label>
-        <input type="text" id="y" name="y" maxlength="4" required>
-        <br>
-
-        <input type="radio" id="train" name="title" value="train" checked>
-        <label for="train">公爵</label>
-        <input type="radio" id="judge" name="title" value="judge">
-        <label for="judge">法官</label>
-        <input type="radio" id="architect" name="title" value="judge">
-        <label for="architect">大建筑师</label>
-        <input type="radio" id="scientist" name="title" value="judge">
-        <label for="scientist">大科学家</label>
-        <br>
-
-        <input type="submit" value="提交">
+        <div>
+            <label for="server">服务器:</label>
+            <input type="text" id="server" name="server" value="15" maxlength="6" required>
+        </div>
+        <div>
+            <label for="x">x坐标:</label>
+            <input type="text" id="x" name="x" maxlength="4" required>
+        </div>
+        <div>
+            <label for="y">y坐标:</label>
+            <input type="text" id="y" name="y" maxlength="4" required>
+        </div>
+        <div>
+            <input type="radio" id="train" name="title" value="train" checked>
+            <label for="train">公爵</label>
+            <input type="radio" id="judge" name="title" value="judge">
+            <label for="judge">法官</label>
+            <input type="radio" id="architect" name="title" value="architect">
+            <label for="architect">建筑师</label>
+            <input type="radio" id="scientist" name="title" value="scientist">
+            <label for="scientist">科学家</label>
+        </div>
+        <div>
+            <input class="button green" type="submit" value="提交">
+        </div>
     </form>
+</div>
+<div>
+    <button class="button" id="refresh" onclick="onQueue()">刷新</button>
+</div>
+<div>
+    <table border="1" id='record'></table>
+</div>
 </body>
 </html>

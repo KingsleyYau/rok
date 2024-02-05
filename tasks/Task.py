@@ -185,6 +185,7 @@ class Task:
                     end = time.time()
                 else:
                     self.tap(400, 400, 1)
+                    time.sleep(30)
                     break
 
         pos_list = None
@@ -197,7 +198,7 @@ class Task:
             # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
             #     pos_list = self.pass_verification()
             else:
-                # self.tap(400, 400, 1)
+                self.tap(400, 400, 1)
                 return result
         if not pos_list:
             raise Exception("Could not pass verification")
@@ -359,6 +360,7 @@ class Task:
     def runOfRoK(self):
         cmd = "am start -n com.lilithgames.rok.offical.cn/com.harry.engine.MainActivity"
         str = self.device.shell(cmd)
+        time.sleep(60)
 
     def stopRok(self):
         cmd = "am force-stop com.lilithgames.rok.offical.cn"

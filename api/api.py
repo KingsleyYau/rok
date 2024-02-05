@@ -8,6 +8,7 @@ from tasks.Task import Task
 from utils import log
 
 def find_player(bot, task, server, expected_pos):
+    log('寻找玩家', expected_pos)
     # task.back_to_home_gui()
     task.back_to_map_gui()
     task.double_tap(640, 360)
@@ -37,33 +38,32 @@ def find_player(bot, task, server, expected_pos):
     task.tap(search_pos[0], search_pos[1], 10)
     
     task.tap(640, 360)
-    
-    _, _, title_pos = bot.gui.check_any(
+    _, _, player_pos = bot.gui.check_any(
         ImagePathAndProps.TITLE_BUTTON_PATH.value
     )
-    task.tap(title_pos[0], title_pos[1])
+    task.tap(player_pos[0], player_pos[1])
     
 def judge(bot, task, server, expected_pos):
     title_expected_pos = (280, 380)
-    log('发放头衔, 法官', expected_pos)
+    log('发放头衔,法官', expected_pos)
     find_player(bot, task, server, expected_pos)
     finish_title(bot, task, title_expected_pos)
     
 def train(bot, task, server, expected_pos):
     title_expected_pos = (505, 380)
-    log('发放头衔, 公爵', expected_pos)
+    log('发放头衔,公爵', expected_pos)
     find_player(bot, task, server, expected_pos)
     finish_title(bot, task, title_expected_pos)
     
 def architect(bot, task, server, expected_pos):
     title_expected_pos = (735, 380)
-    log('发放头衔, 大建筑师', expected_pos)
+    log('发放头衔,大建筑师', expected_pos)
     find_player(bot, task, server, expected_pos)
     finish_title(bot, task, title_expected_pos)
 
 def scientist(bot, task, server, expected_pos):
     title_expected_pos = (965, 380)
-    log('发放头衔, 大科学家', expected_pos)
+    log('发放头衔,大科学家', expected_pos)
     find_player(bot, task, server, expected_pos)
     finish_title(bot, task, title_expected_pos)      
             
@@ -73,10 +73,10 @@ def finish_title(bot, task, title_expected_pos):
     )
     log('title_check_pos', title_check_pos, 'title_expected_pos', title_expected_pos)
     if title_check_pos is None or abs(title_check_pos[0]-title_expected_pos[0]) > 30:
-        log('发放头衔成功', title_expected_pos)
+        log('发放头衔,成功', title_expected_pos)
         task.tap(title_expected_pos[0], title_expected_pos[1]) 
     else:
-        log('头衔已经发放, 跳过', title_check_pos)
+        log('头衔已经发放,跳过', title_check_pos)
     _, _, ok_pos = bot.gui.check_any(
         ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
     )
