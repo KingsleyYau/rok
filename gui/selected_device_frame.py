@@ -309,7 +309,7 @@ def enableChildren(parent):
 
 
 def building_pos_window(parent):
-    width = 940
+    width = 1024
     height = 360
 
     selected_building = {
@@ -391,7 +391,7 @@ def building_pos_window(parent):
         return frame
 
     def right_frame(parent):
-        rf_width = 300
+        rf_width = 360
         rf_height = 360
         # right side frame
         frame_right = LabelFrame(parent.building_pos_window,
