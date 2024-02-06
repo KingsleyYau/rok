@@ -141,7 +141,7 @@ def train_fn_creator(name, train_attr_name, upgrade_attr_name):
 
 def load_bot_config(prefix):
     try:
-        with open(resource_path(FilePaths.SAVE_FOLDER_PATH.value + '{}_config.json'.format(prefix))) as f:
+        with open(resource_path(FilePaths.SAVE_FOLDER_PATH.value + '{}_config.json'.format(prefix)), encoding='utf-8') as f:
             config_dict = json.load(f)
             config = BotConfig(config_dict)
     except Exception as e:
@@ -151,14 +151,13 @@ def load_bot_config(prefix):
 
 
 def write_bot_config(config, prefix):
-    with open(resource_path(FilePaths.SAVE_FOLDER_PATH.value + "{}_config.json".format(prefix)), 'w') as f:
-        json.dump(config.__dict__, f, indent=2)
+    with open(resource_path(FilePaths.SAVE_FOLDER_PATH.value + "{}_config.json".format(prefix)), 'w', encoding='utf-8') as f:
+        json.dump(config.__dict__, f, indent=2, ensure_ascii=False)
 
 
 def load_building_pos(prefix):
     try:
-        with open(resource_path(FilePaths.SAVE_FOLDER_PATH.value + "{}_building_pos.json".format(prefix)
-                                )) as f:
+        with open(resource_path(FilePaths.SAVE_FOLDER_PATH.value + "{}_building_pos.json".format(prefix)), encoding='utf-8') as f:
             building_pos = json.load(f)
     except Exception as e:
         traceback.print_exc()
@@ -167,13 +166,13 @@ def load_building_pos(prefix):
 
 
 def write_building_pos(building_pos, prefix):
-    with open(resource_path(FilePaths.SAVE_FOLDER_PATH.value + "{}_building_pos.json".format(prefix)), 'w') as f:
-        json.dump(building_pos, f, indent=2)
+    with open(resource_path(FilePaths.SAVE_FOLDER_PATH.value + "{}_building_pos.json".format(prefix)), 'w', encoding='utf-8') as f:
+        json.dump(building_pos, f, indent=2, ensure_ascii=False)
 
 
 def load_device_config():
     try:
-        with open(resource_path('devices_config.json')) as f:
+        with open(resource_path('devices_config.json'), encoding='utf-8') as f:
             config = json.load(f)
     except Exception as e:
         config = []
@@ -182,5 +181,5 @@ def load_device_config():
 
 def write_device_config(config):
     config_json = json.dumps(config)
-    with open(resource_path("devices_config.json"), 'w') as f:
+    with open(resource_path("devices_config.json"), 'w', encoding='utf-8') as f:
         f.write(config_json)

@@ -94,7 +94,7 @@ class GatherResource(Task):
 
                 # decreasing level
                 if should_decreasing_lv:
-                    self.set_text(insert="Decreasing level by 1")
+                    self.set_text(insert="没有更多资源点,降级")
                     self.tap(dec_pos[0], dec_pos[1], 1)
 
                 for j in range(5):
@@ -102,7 +102,7 @@ class GatherResource(Task):
                     is_found, _, _ = self.gui.check_any(ImagePathAndProps.RESOURCE_SEARCH_BUTTON_IMAGE_PATH.value)
                     if not is_found:
                         break
-                    self.set_text(insert="没有资源点, decreasing level by 1 [{}]".format(j))
+                    self.set_text(insert="没有更多资源点, 降级 [{}]".format(j))
                     self.tap(dec_pos[0], dec_pos[1], 1)
 
                 self.set_text(insert="发现资源点")
@@ -133,7 +133,7 @@ class GatherResource(Task):
                     self.set_text(insert="移除副将")
                     self.tap(473, 501, 0.5)
                 match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
-                self.set_text(insert="采集")
+                self.set_text(insert="开始采集")
                 self.tap(match_button_pos[0], match_button_pos[1], 2)
                 repeat_count = 0
                 self.swipe(300, 720, 400, 360, 1)

@@ -84,7 +84,7 @@ class Training(Task):
                             else:
                                 continue
                         x, y = pos
-                        super().set_text(insert='升级 T{}({})'.format(i + 1, config[4]))
+                        super().set_text(insert='升级T{}({})'.format(i + 1, config[4]))
                         super().tap(x, y)
 
                         # check has train button if has then tap it
@@ -101,7 +101,7 @@ class Training(Task):
                         _, _, pos = self.gui.check_any(ImagePathAndProps.TRAIN_BUTTON_IMAGE_PATH.value)
                         if pos is None:
                             continue
-                        super().set_text(insert='训练 T{}({})'.format(i + 1, config[4]))
+                        super().set_text(insert='训练T{}({})'.format(i + 1, config[4]))
                         x, y = pos
                         super().tap(x, y)
                         break
