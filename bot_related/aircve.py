@@ -131,13 +131,16 @@ def find_all_template(im_source, im_search, threshold=0.5, maxcnt=0, rgb=False, 
         if bgremove:
             s_gray = cv2.Canny(s_gray, 100, 200)
             i_gray = cv2.Canny(i_gray, 100, 200)
-
+            # cv2.imshow('i_gray', i_gray)
+            # cv2.imshow('s_gray', s_gray)
+            # cv2.waitKey(0)
         res = cv2.matchTemplate(i_gray, s_gray, method)
     w, h = im_source.shape[1], im_source.shape[0]
 
     result = []
     while True:
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+        print('find_all_template', max_val)
         if method in [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]:
             top_left = min_loc
         else:

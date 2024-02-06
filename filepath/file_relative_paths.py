@@ -698,7 +698,7 @@ class ImagePathAndProps(Enum):
         "resource/search_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.60,
         25,
         SEARCH_BUTTON
     ]
@@ -706,7 +706,7 @@ class ImagePathAndProps(Enum):
         "resource/search_server.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.60,
         25,
         SEARCH_SERVER
     ]    
@@ -714,7 +714,7 @@ class ImagePathAndProps(Enum):
         "resource/search_x.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.60,
         25,
         SEARCH_X
     ]
@@ -722,7 +722,7 @@ class ImagePathAndProps(Enum):
         "resource/search_y.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.60,
         25,
         SEARCH_Y
     ]
@@ -742,6 +742,15 @@ class ImagePathAndProps(Enum):
         25,
         TITLE_CHECK_BUTTON
     ]
+    HELLO_WROLD_IMG_PATH = [
+        "resource/hellow_world.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.70,
+        25,
+        HELLO_WROLD_IMG
+    ]    
+    
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [
         "resource/verification_verify_button.png",

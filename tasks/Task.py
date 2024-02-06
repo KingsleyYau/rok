@@ -155,7 +155,7 @@ class Task:
         while True:
             result = self.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
-            log('gui_name', gui_name)
+            log('back_to_map_gui', 'gui_name', gui_name)
             if gui_name == GuiName.MAP.name:
                 break
             elif gui_name == GuiName.HOME.name:
@@ -170,35 +170,48 @@ class Task:
         return loop_count
 
     def get_curr_gui_name(self):
-        log('get_curr_gui_name')
+        log('获取当前界面')
         if not self.isRoKRunning():
             str='game is not running, try to start game'
             print(str)
             self.set_text(insert=str)
             self.runOfRoK()
-            start = time.time()
-            end = start
-            while end - start <= 300 and self.isRoKRunning():
-                result = self.gui.get_curr_gui_name()
-                if result is None:
-                    time.sleep(5)
-                    end = time.time()
-                else:
-                    self.tap(400, 400, 1)
-                    time.sleep(45)
-                    break
+            time.sleep(30)
+            # start = time.time()
+            # end = start
+            # while end - start <= 300 and self.isRoKRunning():
+            #     result = self.gui.get_curr_gui_name()
+            #     log('result', result)
+            #     if result is None:
+            #         result = self.gui.get_hello_world_gui()
+            #         if result is None:
+            #             time.sleep(5)
+            #             end = time.time()
+            #         else:
+            #             self.tap(400, 400, 1)
+            #             time.sleep(45)
+            #             break
+            #     else:
+            #         self.tap(400, 400, 1)
+            #         time.sleep(45)
+            #         break
 
         pos_list = None
         for i in range(0, 1):
             result = self.gui.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
+            log('gui_name', gui_name, 'pos', pos)
             if gui_name == GuiName.VERIFICATION_VERIFY.name:
                 self.tap(pos[0], pos[1], 5)
                 pos_list = self.pass_verification()
+            elif gui_name == GuiName.HELLO_WROLD_IMG.name:
+                self.tap(400, 400)
+                time.sleep(30)
             # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
             #     pos_list = self.pass_verification()
+                return result
             else:
-                self.tap(400, 400, 1)
+                self.tap(400, 400)
                 return result
         if not pos_list:
             raise Exception("Could not pass verification")

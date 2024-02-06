@@ -13,7 +13,8 @@ import numpy as np
 import cv2
 from bot_related import aircve as aircv
 import io
-
+from utils import log
+from filepath.constants import HELLO_WROLD_IMG
 
 # small percentage are more similar
 def cal_similarity(image1, image2):
@@ -35,6 +36,7 @@ class GuiName(Enum):
     VERIFICATION_VERIFY = 5
     # VERIFICATION_VERIFY_TITLE = 6
     # VERIFICATION_CLOSE_REFRESH_OK = 7
+    HELLO_WROLD_IMG = 8
 
 
 class GuiDetector:
@@ -58,8 +60,19 @@ class GuiDetector:
             result = self.check_any(image_path_and_props.value)
             if result[0]:
                 return [result[1], result[2]]
+        if not result[0]:
+            return self.get_hello_world_gui()
         return None
 
+    def get_hello_world_gui(self):
+        result = self.check_any_gray(
+            ImagePathAndProps.HELLO_WROLD_IMG_PATH.value
+        )
+        log('get_hello_world_gui', result)
+        if result[0]:
+            return [result[1], result[2]]
+        return None
+    
     def get_windows_name(self):
         path, size, box, threshold, least_diff, gui = ImagePathAndProps.WINDOW_TITLE_MARK_IMG_PATH.value
 
@@ -196,7 +209,7 @@ class GuiDetector:
         for props in props_list:
             path, size, box, threshold, least_diff, gui = props
             # x0, y0, x1, y1 = box
-
+            log('check_any', path)
             imsrc = cv2.imread(resource_path(path))
 
             result = aircv.find_template(imsrc, imsch, threshold, True)
@@ -210,7 +223,24 @@ class GuiDetector:
                 return True, gui, result['result']
 
         return False, None, None
+    
+    def check_any_gray(self, *props_list):
+        imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
+                             cv2.IMREAD_COLOR)
 
+        for props in props_list:
+            path, size, box, threshold, least_diff, gui = props
+            # x0, y0, x1, y1 = box
+            log('check_any_gray', path)
+            imsrc = cv2.imread(resource_path(path))
+
+            result = aircv.find_template(imsrc, imsch, threshold, False, True)
+
+            if result is not None:
+                return True, gui, result['result']
+
+        return False, None, None
+    
     def has_image_props(self, props):
         path, size, box, threshold, least_diff, gui = props
         imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
