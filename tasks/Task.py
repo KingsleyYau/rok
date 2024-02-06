@@ -173,7 +173,7 @@ class Task:
         log('获取当前界面')
         if not self.isRoKRunning():
             str='game is not running, try to start game'
-            print(str)
+            log(str)
             self.set_text(insert=str)
             self.runOfRoK()
             time.sleep(30)
@@ -200,7 +200,7 @@ class Task:
         for i in range(0, 1):
             result = self.gui.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
-            log('gui_name', gui_name, 'pos', pos)
+            log('get_curr_gui_name', 'gui_name', gui_name, 'pos', pos)
             if gui_name == GuiName.VERIFICATION_VERIFY.name:
                 self.tap(pos[0], pos[1], 5)
                 pos_list = self.pass_verification()
