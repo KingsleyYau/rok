@@ -23,3 +23,10 @@ adb shell input tap 250 1120
 adb shell input tap 640 450
 # ROK踢出确定
 adb shell input tap 640 500
+
+# 设置
+adb shell input tap 50 50
+adb shell input tap 990 570
+adb shell input tap 700 380
+# 切换账号
+adb shell input tap 640 680
