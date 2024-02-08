@@ -2,6 +2,7 @@ from bot_related.device_gui_detector import GuiName, GuiDetector
 from bot_related.bot_config import TrainingAndUpgradeLevel, BotConfig
 from bot_related import haoi, twocaptcha
 from config import HAO_I, TWO_CAPTCHA
+from tasks.constants import TaskName, BuildingNames
 from filepath.file_relative_paths import (
     ImagePathAndProps,
     BuffsImageAndProps,
@@ -58,8 +59,8 @@ class Task:
         self.back_to_home_gui()
         self.home_gui_full_view()
         self.tap(
-            self.bot.building_pos["hospital"][0],
-            self.bot.building_pos["hospital"][1],
+            self.bot.building_pos[BuildingNames.HOSPITAL.value][0],
+            self.bot.building_pos[BuildingNames.HOSPITAL.value][1],
             2,
         )
         self.tap(285, 20, 0.5)
@@ -71,13 +72,13 @@ class Task:
         self.tap(heal_icon_pos[0], heal_icon_pos[1], 2)
         self.tap(heal_button_pos[0], heal_button_pos[1], 2)
         self.tap(
-            self.bot.building_pos["hospital"][0],
-            self.bot.building_pos["hospital"][1],
+            self.bot.building_pos[BuildingNames.HOSPITAL.value][0],
+            self.bot.building_pos[BuildingNames.HOSPITAL.value][1],
             2,
         )
         self.tap(
-            self.bot.building_pos["hospital"][0],
-            self.bot.building_pos["hospital"][1],
+            self.bot.building_pos[BuildingNames.HOSPITAL.value][0],
+            self.bot.building_pos[BuildingNames.HOSPITAL.value][1],
             2,
         )
 
@@ -347,7 +348,7 @@ class Task:
         self.tap(x, y, 0.1)
         self.tap(x, y, 0.1)
         time.sleep(1)
-     
+        
     def text(self, x, y, text):
         self.tap(x, y)
         cmd = "input keyevent KEYCODE_MOVE_END"

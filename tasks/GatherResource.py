@@ -147,7 +147,7 @@ class GatherResource(Task):
         self.tap(725, 20, 1)
         result = self.gui.resource_amount_image_to_string()
         self.set_text(
-            insert="\n玉米: {}\n木头: {}\n石头: {}\n金矿: {}\n".format(result[0], result[1], result[2], result[3]))
+            insert="玉米: {}, 木头: {}, 石头: {}, 金矿: {}".format(result[0], result[1], result[2], result[3]))
 
         ratio = [
             self.bot.config.gatherResourceRatioFood,

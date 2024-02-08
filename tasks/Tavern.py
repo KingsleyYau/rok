@@ -19,7 +19,7 @@ class Tavern(Task):
 
         # tap tavern building
         x, y = tavern_pos
-        super().set_text(insert='打开酒馆 at ({}, {})'.format(x, y))
+        super().set_text(insert='打开酒馆({}, {})'.format(x, y))
         super().tap(x, y, 1)
         _, _, tavern_btn_pos = self.gui.check_any(ImagePathAndProps.TAVERN_BUTTON_BUTTON_IMAGE_PATH.value)
         if tavern_btn_pos is None:
@@ -31,7 +31,7 @@ class Tavern(Task):
             if open_btn_pos is None:
                 return next_task
             x, y = open_btn_pos
-            super().set_text(insert="打开免费宝箱 at ({}, {})".format(x, y))
+            super().set_text(insert="打开免费宝箱({}, {})".format(x, y))
             super().tap(x, y, 4)
             _, _, confirm_btn_pos = self.gui.check_any(ImagePathAndProps.CHEST_CONFIRM_BUTTON_IMAGE_PATH.value)
             if confirm_btn_pos is None:
