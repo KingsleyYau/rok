@@ -209,7 +209,7 @@ class GuiDetector:
         for props in props_list:
             path, size, box, threshold, least_diff, gui = props
             # x0, y0, x1, y1 = box
-            log('check_any', path)
+            log('check_any', path, 'threshold', threshold)
             imsrc = cv2.imread(resource_path(path))
 
             result = aircv.find_template(imsrc, imsch, threshold, True)
@@ -220,6 +220,7 @@ class GuiDetector:
                 cv2.waitKey(0)
 
             if result is not None:
+                log('check_any', path, 'result', result)
                 return True, gui, result['result']
 
         return False, None, None

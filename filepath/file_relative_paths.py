@@ -39,15 +39,15 @@ class ItemsImageAndProps(Enum):
         "resource/items/enhanced_gathering_blue.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.70,
+        0.80,
         25,
         BOOSTS,
     ]
     ENHANCED_GATHER_PURPLE = [
-        "resource/items/enhanced_gathering_blue.png",
+        "resource/items/enhanced_gathering_purple.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.70,
+        0.80,
         25,
         BOOSTS,
     ]

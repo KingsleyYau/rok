@@ -176,6 +176,7 @@ class Task:
             str='game is not running, try to start game'
             log(str)
             self.set_text(insert=str)
+            self.stopRok()
             self.runOfRoK()
             time.sleep(30)
             # start = time.time()

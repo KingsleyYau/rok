@@ -13,6 +13,7 @@ def str2bool(v):
         raise argparse.ArgumentTypeError('Unsupported value encountered.')
     
 def main():
+    # adb.bridge = adb.enable_adb('192.168.88.140', 9037)
     adb.bridge = adb.enable_adb('127.0.0.1', 5037)
     window = MainWindow()
     window.run()
