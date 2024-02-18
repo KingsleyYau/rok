@@ -38,7 +38,7 @@
   "useNormalAPRecovery": false,
   "timeout": 300,
   "useGatheringBoosts": true,
-  "gatherResource": false,
+  "gatherResource": true,
   "gatherResourceNoSecondaryCommander": false,
   "gatherResourceRatioFood": 1,
   "gatherResourceRatioWood": 1,
