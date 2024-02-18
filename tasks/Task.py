@@ -9,7 +9,7 @@ from filepath.file_relative_paths import (
     ItemsImageAndProps,
 )
 from datetime import datetime
-from utils import aircv_rectangle_to_box, stop_thread, log
+from utils import aircv_rectangle_to_box, stop_thread, log, device_log
 from enum import Enum
 
 import config
@@ -81,7 +81,7 @@ class Task:
 
     # Home
     def back_to_home_gui(self):
-        log('回到城市')
+        device_log(self.device, '回到城市')
         loop_count = 0
         gui_name = None
         while True:
@@ -110,7 +110,7 @@ class Task:
         self.tap(x, y)
 
     def home_gui_full_view(self):
-        log('回到城市全视觉')
+        device_log(self.device, '回到城市全视觉')
         self.tap(60, 540, 5)
         self.tap(1105, 200, 5)
         self.tap(1220, 35, 5)
@@ -150,11 +150,11 @@ class Task:
     def back_to_map_gui(self):
         loop_count = 0
         gui_name = None
-        log('回到地图')
+        device_log(self.device, '回到地图')
         while True:
             result = self.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
-            log('back_to_map_gui', 'gui_name', gui_name)
+            device_log(self.device, 'back_to_map_gui', 'gui_name', gui_name)
             if gui_name == GuiName.MAP.name:
                 break
             elif gui_name == GuiName.HOME.name:
@@ -169,10 +169,10 @@ class Task:
         return loop_count
 
     def get_curr_gui_name(self):
-        log('获取当前界面')
+        device_log(self.device, '获取当前界面')
         if not self.isRoKRunning():
             str='游戏还没运行, 尝试启动'
-            log(str)
+            device_log(self.device, str)
             self.set_text(insert=str)
             self.stopRok()
             self.runOfRoK()
@@ -181,7 +181,7 @@ class Task:
         for i in range(0, 1):
             result = self.gui.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
-            log('get_curr_gui_name', 'gui_name', gui_name, 'pos', pos)
+            device_log(self.device, 'get_curr_gui_name', 'gui_name', gui_name, 'pos', pos)
             if gui_name == GuiName.VERIFICATION_VERIFY.name:
                 self.tap(pos[0], pos[1], 5)
                 pos_list = self.pass_verification()
@@ -326,11 +326,11 @@ class Task:
             cmd = "input tap {} {}".format(x, y)
         
         str = self.device.shell(cmd)
-        log(cmd)
+        device_log(self.device, cmd)
         time.sleep(sleep_time)
         
     def double_tap(self, x, y):
-        log('double_tap', x, y)
+        device_log(self.device, 'double_tap', x, y)
         self.tap(x, y, 0.1)
         self.tap(x, y, 0.1)
         time.sleep(1)
@@ -346,7 +346,7 @@ class Task:
         
         cmd = "input text {}".format(text)
         str = self.device.shell(cmd)
-        log(cmd)
+        device_log(self.device, cmd)
         
         cmd = "input keyevent KEYCODE_ENTER"
         self.device.shell(cmd)
@@ -357,19 +357,19 @@ class Task:
         cmd = "dumpsys activity top"
         str = self.device.shell(cmd)
         ret = str.find("com.lilithgames.rok.offical.cn/com.harry.engine.MainActivity") != -1
-        log('isRoKRunning', cmd, ret)
+        device_log(self.device, 'isRoKRunning', cmd, ret)
         # return True
         return ret
 
     def runOfRoK(self):
         cmd = "am start -n com.lilithgames.rok.offical.cn/com.harry.engine.MainActivity"
-        log('runOfRoK', cmd)
+        device_log(self.device, 'runOfRoK', cmd)
         str = self.device.shell(cmd)
         time.sleep(30)
 
     def stopRok(self):
         cmd = "am force-stop com.lilithgames.rok.offical.cn"
-        log('stopRok', cmd)
+        device_log(self.device, 'stopRok', cmd)
         str = self.device.shell(cmd)
 
     def set_text(self, **kwargs):
@@ -384,23 +384,23 @@ class Task:
 
         if title in kwargs:
             self.bot.text[title] = kwargs[title]
-            log(kwargs[title])
+            device_log(self.device, kwargs[title])
 
         if replace in kwargs:
             self.bot.text[text_list][kwargs[index]] = (
                 dt_string + " " + kwargs[replace].lower()
             )
-            log(f"\t* {dt_string} {kwargs[replace].lower()}")
+            device_log(self.device, f"\t* {dt_string} {kwargs[replace].lower()}")
 
         if insert in kwargs:
             self.bot.text[text_list].insert(
                 kwargs.get(index, 0), dt_string + " " + kwargs[insert].lower()
             )
-            log(f"\t* {dt_string} {kwargs[insert].lower()}")
+            device_log(self.device, f"\t* {dt_string} {kwargs[insert].lower()}")
 
         if append in kwargs:
             self.bot.text[text_list].append(dt_string + " " + kwargs[append].lower())
-            log(f"\t* {dt_string} {kwargs[append].lower()}")
+            device_log(self.device, f"\t* {dt_string} {kwargs[append].lower()}")
 
         if remove in kwargs and kwargs.get(remove, False):
             self.bot.text[text_list].clear()

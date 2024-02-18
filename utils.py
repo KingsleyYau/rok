@@ -71,3 +71,7 @@ def get_last_info():
 def log(*args):
     time_string = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     print('[{}] {}'.format(time_string, args))
+    
+def device_log(device, *args):
+    time_string = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    print('[{}] {} - {}'.format(time_string, f"{device.name.replace(':', '_')}", args))    
