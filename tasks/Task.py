@@ -187,7 +187,7 @@ class Task:
                 pos_list = self.pass_verification()
             elif gui_name == GuiName.HELLO_WROLD_IMG.name:
                 self.tap(400, 400)
-                time.sleep(config.global_config.startSleepTime)
+                time.sleep(int(config.global_config.startSleepTime))
             # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
             #     pos_list = self.pass_verification()
                 return result
@@ -317,7 +317,7 @@ class Task:
             time.sleep(duration / 1000 + 0.5 + 0.2)
 
     # long_press_duration is in milliseconds
-    def tap(self, x, y, sleep_time=config.global_config.tapSleepTime, long_press_duration=-1):
+    def tap(self, x, y, sleep_time=int(config.global_config.tapSleepTime), long_press_duration=-1):
         cmd = None
         if long_press_duration > -1:
             cmd = "input swipe {} {} {} {} {}".format(x, y, x, y, long_press_duration)
