@@ -25,17 +25,17 @@ class Adb:
 
     def get_device(self, host='127.0.0.1', port=5555):
         print('get_device', host, port)
-        self.client.remote_connect(host, port)
-        device = self.client.device('{}:{}'.format(host, port))
-        print('get_device', host, port, device)
-        # try:
+        try:
+            self.client.remote_connect(host, port)
+            device = self.client.device('{}:{}'.format(host, port))
+            print('get_device', host, port, device)
         #     print('get_device', host, port)
         #     # if device is None:
         #     #     self.connect_to_device(host, port)
         #     #     device = self.client.device('{}:{}'.format(host, port))
-        # except Exception as e:
-        #     traceback.print_exc()
-        #     return None
+        except Exception as e:
+            traceback.print_exc()
+            return None
         return device
 
 
@@ -49,14 +49,16 @@ def enable_adb(host='127.0.0.1', port=5037):
 
         if version != 41:
             raise RuntimeError('Error: require adb version 41, but version is {}'.format(version))
-
+        adb.client.devices()
+        
     except RuntimeError as err:
-        print(err)
+        print('enable_adb', err)
         ret = subprocess.run(build_command(adb_path, '-P', str(port), 'kill-server', host), shell=True,
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
-
-        ret = subprocess.run(build_command(adb_path, '-P', str(port), 'connect', host), shell=True,
+        print('enable_adb', ret)
+        ret = subprocess.run(build_command(adb_path, '-P', str(port), 'start-server', host), shell=True,
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
+        print('enable_adb', ret)
         #
         # if ret.returncode != 0:
         #     raise RuntimeError('Error: fail to start adb server. \n({})'.format(ret))

@@ -113,9 +113,10 @@ class Task:
         self.tap(x, y, 2)
 
     def home_gui_full_view(self):
-        self.tap(60, 540, 0.5)
-        self.tap(1105, 200, 1)
-        self.tap(1220, 35, 2)
+        log('home_gui_full_view')
+        self.tap(60, 540, 5)
+        self.tap(1105, 200, 5)
+        self.tap(1220, 35, 5)
 
     # Building Position
     def find_building_title(self):
@@ -179,25 +180,6 @@ class Task:
             self.stopRok()
             self.runOfRoK()
             time.sleep(60)
-            # start = time.time()
-            # end = start
-            # while end - start <= 300 and self.isRoKRunning():
-            #     result = self.gui.get_curr_gui_name()
-            #     log('result', result)
-            #     if result is None:
-            #         result = self.gui.get_hello_world_gui()
-            #         if result is None:
-            #             time.sleep(5)
-            #             end = time.time()
-            #         else:
-            #             self.tap(400, 400, 1)
-            #             time.sleep(45)
-            #             break
-            #     else:
-            #         self.tap(400, 400, 1)
-            #         time.sleep(45)
-            #         break
-
         pos_list = None
         for i in range(0, 1):
             result = self.gui.get_curr_gui_name()
@@ -213,8 +195,14 @@ class Task:
             #     pos_list = self.pass_verification()
                 return result
             else:
-                self.tap(400, 400)
-                return result
+                _, _, comfirm_pos = self.gui.check_any(
+                    ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
+                    )
+                if comfirm_pos is not None:
+                    self.tap(comfirm_pos[0], comfirm_pos[1])
+                else:
+                    self.tap(400, 400)
+            return result
         if not pos_list:
             raise Exception("Could not pass verification")
 
@@ -332,7 +320,7 @@ class Task:
             time.sleep(duration / 1000 + 0.5 + 0.2)
 
     # long_press_duration is in milliseconds
-    def tap(self, x, y, sleep_time=1, long_press_duration=-1):
+    def tap(self, x, y, sleep_time=3, long_press_duration=-1):
         cmd = None
         if long_press_duration > -1:
             cmd = "input swipe {} {} {} {} {}".format(x, y, x, y, long_press_duration)
@@ -368,17 +356,23 @@ class Task:
         
     # edit by seashell-freya, github: https://github.com/seashell-freya
     def isRoKRunning(self):
-        cmd = "dumpsys window windows | grep mCurrentFocus"
+        # cmd = "dumpsys window windows | grep mCurrentFocus"
+        cmd = "dumpsys activity top"
         str = self.device.shell(cmd)
-        return str.find("com.lilithgames.rok.offical.cn/com.harry.engine.MainActivity") != -1
+        ret = str.find("com.lilithgames.rok.offical.cn/com.harry.engine.MainActivity") != -1
+        log('isRoKRunning', cmd, ret)
+        # return True
+        return ret
 
     def runOfRoK(self):
         cmd = "am start -n com.lilithgames.rok.offical.cn/com.harry.engine.MainActivity"
+        log('runOfRoK', cmd)
         str = self.device.shell(cmd)
         time.sleep(30)
 
     def stopRok(self):
         cmd = "am force-stop com.lilithgames.rok.offical.cn"
+        log('stopRok', cmd)
         str = self.device.shell(cmd)
 
     def set_text(self, **kwargs):
@@ -393,23 +387,23 @@ class Task:
 
         if title in kwargs:
             self.bot.text[title] = kwargs[title]
-            print(kwargs[title])
+            log(kwargs[title])
 
         if replace in kwargs:
             self.bot.text[text_list][kwargs[index]] = (
                 dt_string + " " + kwargs[replace].lower()
             )
-            print(f"\t* {dt_string} {kwargs[replace].lower()}")
+            log(f"\t* {dt_string} {kwargs[replace].lower()}")
 
         if insert in kwargs:
             self.bot.text[text_list].insert(
                 kwargs.get(index, 0), dt_string + " " + kwargs[insert].lower()
             )
-            print(f"\t* {dt_string} {kwargs[insert].lower()}")
+            log(f"\t* {dt_string} {kwargs[insert].lower()}")
 
         if append in kwargs:
             self.bot.text[text_list].append(dt_string + " " + kwargs[append].lower())
-            print(f"\t* {dt_string} {kwargs[append].lower()}")
+            log(f"\t* {dt_string} {kwargs[append].lower()}")
 
         if remove in kwargs and kwargs.get(remove, False):
             self.bot.text[text_list].clear()
