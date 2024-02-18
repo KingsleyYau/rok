@@ -65,8 +65,8 @@ def finish_title(bot, task, title_item):
     
 def run_api(args):
     print(args)
-    adb.bridge = adb.enable_adb('192.168.88.140', 9037)
-    device = adb.bridge.get_device('192.168.88.140', 9999)
+    adb.bridge = adb.enable_adb('192.168.88.140', 5037)
+    device = adb.bridge.get_device('192.168.88.140', 5555)
     bot = Bot(device)
     task = Task(bot)
     expected_pos = (args.x, args.y)

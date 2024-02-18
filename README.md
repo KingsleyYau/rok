@@ -23,28 +23,30 @@
   - requests-toolbelt
   
 ### Set Up
-
 - Use following commands to install package into you **python** / **python virtual environment** (version 3.7)
-
   ```
   pip install -r requirements.txt
 
   ```
 
 - Download **ADB** version 29.0.5-5949299 (1.0.41) (require for same version or you can change version in adb.py)
-
   - move all **adb** files under: **project folder/adb/**
 
 - Download **tesseract** version v5.0.0-alpha.20201127 (no require for same version)
-
   - move all **tesseract** files under: **project folder/tesseract/**
 
 - Use following command to run project
-
   ```
   python main.py
   ```
-    
+- Question
+  - shutdown SELinux
+  ```
+  vim /etc/selinux/config
+  SELINUX=enforcing // 默认为enforcing，可设置为enforcing、permissive、disabled中的一项。
+  SELINUXTYPE=targeted // 目前只能设置成targeted、mls中的一项
+  ```
+  
 ### Configurations
 - Emulator resolution must be <u>**1280x720**</u>
 - Emulator must **Enable** Android Debug Bridge (ADB)

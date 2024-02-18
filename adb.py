@@ -46,8 +46,8 @@ def enable_adb(host='127.0.0.1', port=5037):
         if version != 41:
             raise RuntimeError('Error: require adb version 41, but version is {}'.format(version))
 
-    except RuntimeError as e:
-        print(e)
+    except RuntimeError as err:
+        print(err)
         ret = subprocess.run(build_command(adb_path, '-P', str(port), 'kill-server', host), shell=True,
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
 

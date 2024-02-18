@@ -172,7 +172,7 @@ def write_building_pos(building_pos, prefix):
 
 def load_device_config():
     try:
-        with open(resource_path('devices_config.json'), encoding='utf-8') as f:
+        with open(resource_path(FilePaths.SAVE_FOLDER_PATH.value + 'devices_config.json'), encoding='utf-8') as f:
             config = json.load(f)
     except Exception as e:
         config = []
@@ -181,5 +181,5 @@ def load_device_config():
 
 def write_device_config(config):
     config_json = json.dumps(config)
-    with open(resource_path("devices_config.json"), 'w', encoding='utf-8') as f:
+    with open(resource_path(FilePaths.SAVE_FOLDER_PATH.value + "devices_config.json"), 'w', encoding='utf-8') as f:
         f.write(config_json)
