@@ -36,7 +36,8 @@ class Materials(Task):
                 list_amount[0], list_amount[1], list_amount[2], list_amount[3])
             )
             min = 0
-            for i in range(len(list_amount)):
+            # 不生产兽骨
+            for i in range(len(list_amount) - 1):
                 if list_amount[min] > list_amount[i]:
                     min = i
             x, y = icon_pos[min]
