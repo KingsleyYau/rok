@@ -171,7 +171,7 @@ class Task:
     def get_curr_gui_name(self):
         log('获取当前界面')
         if not self.isRoKRunning():
-            str='game is not running, try to start game'
+            str='游戏还没运行, 尝试启动'
             log(str)
             self.set_text(insert=str)
             self.stopRok()

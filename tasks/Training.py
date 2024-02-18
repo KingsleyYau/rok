@@ -60,12 +60,12 @@ class Training(Task):
                 super().back_to_home_gui()
                 upgraded = False
                 x, y = config[3]
-                super().tap(x, y, 1)
+                super().tap(x, y,)
                 _, _, pos = self.gui.check_any(config[0])
                 if pos is None:
                     continue
                 x, y = pos
-                super().tap(x, y, 1)
+                super().tap(x, y)
                 _, _, pos = self.gui.check_any(ImagePathAndProps.SPEED_UP_BUTTON_IMAGE_PATH.value)
                 if pos is not None:
                     continue
