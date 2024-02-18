@@ -1,4 +1,15 @@
+#!/bin/bash
+# Run emulator script
+# Author: Max.Chiu
+
 ./emulator/emulator -avd android30 -noaudio -no-boot-anim -gpu off -no-window -http-proxy http://192.168.88.140:1080
+
+DEVICE=""
+if [ ! "$1" == "" ]
+then
+  echo echo "DEVICE:$1"
+  DEVICE="-s $1"
+fi
 
 #settings put global http_proxy 192.168.88.140:1080  
 # 端口转发

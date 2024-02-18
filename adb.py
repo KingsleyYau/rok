@@ -18,20 +18,24 @@ class Adb:
         adb_path = resource_path(FilePaths.ADB_EXE_PATH.value)
         cmd = build_command(adb_path, 'connect', "{}:{}".format(host, port))
         ret = subprocess.check_output(cmd, shell=True, stderr=subprocess.PIPE, encoding="utf-8", timeout=2)
-        return self.get_device(host, port)
+        print('connect_to_device', ret)
 
     def get_client_devices(self):
         return self.client.devices()
 
     def get_device(self, host='127.0.0.1', port=5555):
+        print('get_device', host, port)
+        self.client.remote_connect(host, port)
         device = self.client.device('{}:{}'.format(host, port))
-        try:
-            if device is None:
-                self.connect_to_device(host, port)
-                device = self.client.device('{}:{}'.format(host, port))
-        except Exception as e:
-            traceback.print_exc()
-            return None
+        print('get_device', host, port, device)
+        # try:
+        #     print('get_device', host, port)
+        #     # if device is None:
+        #     #     self.connect_to_device(host, port)
+        #     #     device = self.client.device('{}:{}'.format(host, port))
+        # except Exception as e:
+        #     traceback.print_exc()
+        #     return None
         return device
 
 

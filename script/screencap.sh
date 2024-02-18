@@ -2,8 +2,15 @@
 # Run emulator script
 # Author: Max.Chiu
 
+DEVICE=""
+if [ ! "$1" == "" ]
+then
+  echo "DEVICE:$1"
+  DEVICE="-s $1"
+fi
+
 FILE=/sdcard/rok.jpg
-adb shell rm -f $FILE
-adb shell screencap -p $FILE
-adb pull $FILE
-adb shell rm -f $FILE
+adb $DEVICE shell rm -f $FILE
+adb $DEVICE shell screencap -p $FILE
+adb $DEVICE pull $FILE
+adb $DEVICE shell rm -f $FILE
