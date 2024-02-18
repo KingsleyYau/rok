@@ -15,16 +15,16 @@ class ClaimVip(Task):
         super().set_text(title='收集VIP', remove=True)
         super().back_to_home_gui()
         # tap on vip
-        super().set_text(insert='Open VIP')
+        super().set_text(insert='打开VIP')
         x, y = vip_pos
         super().tap(x, y, 2)
         # tap on vip point chest
-        super().set_text(insert='Claim daily vip point')
+        super().set_text(insert='收集VIP积分')
         x, y = vip_point_chest
         super().tap(x, y, 5)
         super().tap(x, y, 1)
         # tap on free chest
-        super().set_text(insert='Claim daily free vip chest')
+        super().set_text(insert='收集VIP礼物')
         x, y = vip_free_chest
         super().tap(x, y, 1)
         return next_task
