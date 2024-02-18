@@ -11,23 +11,23 @@ class Alliance(Task):
         super().__init__(bot)
 
     def do(self, next_task=TaskName.MATERIALS):
-        super().set_text(title='Alliance', remove=True)
+        super().set_text(title='联盟任务', remove=True)
         alliance_btn_pos = (1030, 670)
         try:
             for name in ['HELP', 'GIFTS', 'TERRITORY', 'TECHNOLOGY']:
-                super().set_text(insert='Open alliance')
+                super().set_text(insert='打开联盟中心')
                 super().back_to_home_gui()
                 super().menu_should_open(True)
                 x, y = alliance_btn_pos
                 super().tap(x, y, 3)
 
                 if name == 'HELP':
-                    super().set_text(insert='Help Alliance')
+                    super().set_text(insert='帮助盟友')
                     super().tap(920, 400)  # enter the help page
                     super().tap(650, 650)  # tap the help button if present, otherwise it will tap on empty space
 
                 elif name == 'GIFTS':
-                    super().set_text(insert='Claim gift')
+                    super().set_text(insert='收集水晶箱子')
                     # gifts_pos = (885, 560)
                     gifts_pos = (1050, 400)
                     rate_pos = (930, 205)
@@ -38,7 +38,7 @@ class Alliance(Task):
                     super().tap(x, y, 2)
 
                     # collecting rate gifts
-                    super().set_text(insert='Claim rate gift')
+                    super().set_text(insert='收集稀有礼物')
                     x, y = rate_pos
                     super().tap(x, y, 1)
                     for i in range(20):
@@ -49,7 +49,7 @@ class Alliance(Task):
                         super().tap(x, y, 0.5)
 
                     # collecting normal gifts
-                    super().set_text(insert='Claim normal gift')
+                    super().set_text(insert='收集普通礼物')
                     x, y = normal_pos
                     super().tap(x, y, 1)
                     x, y = claim_all_pos
@@ -60,7 +60,7 @@ class Alliance(Task):
                     super().tap(x, y, 1)
 
                 elif name == 'TERRITORY':
-                    super().set_text(insert='Claim resource')
+                    super().set_text(insert='收集领土资源')
                     territory_pos = (785, 405)
                     claim_pos = (1020, 140)
                     x, y = territory_pos
@@ -69,7 +69,7 @@ class Alliance(Task):
                     super().tap(x, y, 1)
 
                 elif name == 'TECHNOLOGY':
-                    super().set_text(insert='Donate technology')
+                    super().set_text(insert='捐献科技')
                     technology_pos = (660, 560)
                     x, y = technology_pos
                     super().tap(x, y, 5)
@@ -84,7 +84,7 @@ class Alliance(Task):
                             for i in range(20):
                                 super().tap(x, y, 0.5)
                     else:
-                        super().set_text(insert="Cannot found Officer's Recommendation")
+                        super().set_text(insert="没有找到推荐捐献科技")
 
         except Exception as e:
             traceback.print_exc()

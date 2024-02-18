@@ -1,6 +1,7 @@
 from ppadb.client import Client as PPADBClient
 from utils import resource_path
 from utils import build_command
+from utils import log
 from filepath.file_relative_paths import FilePaths
 import subprocess
 import traceback
@@ -52,13 +53,13 @@ def enable_adb(host='127.0.0.1', port=5037):
         adb.client.devices()
         
     except RuntimeError as err:
-        print('enable_adb', err)
-        ret = subprocess.run(build_command(adb_path, '-P', str(port), 'kill-server', host), shell=True,
-                             stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
-        print('enable_adb', ret)
-        ret = subprocess.run(build_command(adb_path, '-P', str(port), 'start-server', host), shell=True,
-                             stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
-        print('enable_adb', ret)
+        log('enable_adb', err)
+        cmd = build_command(adb_path, 'kill-server')
+        ret = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
+        log('enable_adb', cmd, ret)
+        cmd = build_command(adb_path, 'start-server')
+        ret = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
+        log('enable_adb', ret)
         #
         # if ret.returncode != 0:
         #     raise RuntimeError('Error: fail to start adb server. \n({})'.format(ret))

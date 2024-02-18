@@ -9,7 +9,7 @@ class Collecting(Task):
         super().__init__(bot)
 
     def do(self, next_task=TaskName.CLAIM_QUEST):
-        super().set_text(title='Collecting Resource, Troops, and Help Alliance', remove=True)
+        super().set_text(title='收集城内资源/治疗部队/帮助盟友', remove=True)
         super().set_text(insert='Init view')
 
         try:

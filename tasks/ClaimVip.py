@@ -12,7 +12,7 @@ class ClaimVip(Task):
         vip_pos = (150, 65)
         vip_point_chest = (1010, 180)
         vip_free_chest = (920, 400)
-        super().set_text(title='Claim VIP Chest', remove=True)
+        super().set_text(title='收集VIP', remove=True)
         super().back_to_home_gui()
         # tap on vip
         super().set_text(insert='Open VIP')

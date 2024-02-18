@@ -113,7 +113,7 @@ class Task:
         self.tap(x, y, 2)
 
     def home_gui_full_view(self):
-        log('home_gui_full_view')
+        log('回到城市全视觉')
         self.tap(60, 540, 5)
         self.tap(1105, 200, 5)
         self.tap(1220, 35, 5)
@@ -145,9 +145,9 @@ class Task:
             ImagePathAndProps.MENU_OPENED_IMAGE_PATH.value
         )
         if should_open and not is_open:
-            self.tap(c_x, c_y, 0.5)
+            self.tap(c_x, c_y)
         elif not should_open and is_open:
-            self.tap(c_x, c_y, 0.5)
+            self.tap(c_x, c_y)
 
     # Map
     def back_to_map_gui(self):
@@ -320,7 +320,7 @@ class Task:
             time.sleep(duration / 1000 + 0.5 + 0.2)
 
     # long_press_duration is in milliseconds
-    def tap(self, x, y, sleep_time=3, long_press_duration=-1):
+    def tap(self, x, y, sleep_time=2, long_press_duration=-1):
         cmd = None
         if long_press_duration > -1:
             cmd = "input swipe {} {} {} {} {}".format(x, y, x, y, long_press_duration)

@@ -10,15 +10,15 @@ class MysteryMerchant(Task):
         super().__init__(bot)
 
     def do(self, next_task=TaskName.MYSTERY_MERCHANT.value):
-        self.set_text(title='Mystery Merchant')
+        self.set_text(title='神秘商店')
         self.back_to_home_gui()
         self.home_gui_full_view()
 
         found, _, pos = self.gui.check_any(ImagePathAndProps.MERCHANT_ICON_IMAGE_PATH.value)
         if not found:
-            self.set_text(insert='Mystery Merchant not found', index=0)
+            self.set_text(insert='没有发现神秘商店', index=0)
             return next_task
-        self.set_text(insert='Open Mystery Merchant')
+        self.set_text(insert='打开神秘商店')
         x, y = pos
         self.tap(x, y, 2)
 

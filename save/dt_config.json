@@ -39,7 +39,7 @@
   "timeout": 300,
   "useGatheringBoosts": true,
   "gatherResource": true,
-  "gatherResourceNoSecondaryCommander": true,
+  "gatherResourceNoSecondaryCommander": false,
   "gatherResourceRatioFood": 1,
   "gatherResourceRatioWood": 1,
   "gatherResourceRatioStone": 1,

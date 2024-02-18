@@ -12,7 +12,7 @@ class Materials(Task):
 
     def do(self, next_task=TaskName.TAVERN):
         try:
-            super().set_text(title='Materials Production', remove=True)
+            super().set_text(title='生产材料', remove=True)
 
             icon_pos = [
                 (765, 230),
