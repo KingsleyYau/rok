@@ -30,13 +30,13 @@ class MysteryMerchant(Task):
                 list = self.gui.find_all_image_props(ImagePathAndProps.MERCHANT_BUY_WITH_FOOD_IMAGE_PATH.value)
                 for buy_with_food_btn in list:
                     x, y = buy_with_food_btn['result']
-                    self.tap(x, y, 0.5)
+                    self.tap(x, y,)
 
                 self.set_text(insert='buy item with wood')
                 list = self.gui.find_all_image_props(ImagePathAndProps.MERCHANT_BUY_WITH_WOOD_IMAGE_PATH.value)
                 for buy_with_wood_btn in list:
                     x, y = buy_with_wood_btn['result']
-                    self.tap(x, y, 0.5)
+                    self.tap(x, y)
 
                 self.swipe(730, 575, 730, 475, 1, 1000)
 
@@ -46,6 +46,6 @@ class MysteryMerchant(Task):
                 return next_task
             self.set_text(insert='Refresh')
             x, y = pos
-            self.tap(x, y, 2)
+            self.tap(x, y)
 
 

@@ -33,7 +33,7 @@ class Collecting(Task):
                 x, y = self.bot.building_pos[name]
                 self.set_text(insert='tap {} at position ({},{})'.format(name, x, y))
                 self.tap(x, y)
-                self.tap(x_e, y_e, 0.2)
+                self.tap(x_e, y_e, 1)
 
         except Exception as e:
             traceback.print_exc()

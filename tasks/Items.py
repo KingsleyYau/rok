@@ -42,9 +42,9 @@ class Items(Task):
         self.back_to_home_gui()
         self.menu_should_open(True)
         x, y = self.items_btn_pos
-        self.tap(x, y, 3)
+        self.tap(x, y)
         x, y = self.resources_btn_pos
-        self.tap(x, y, 0.5)
+        self.tap(x, y)
         for item in [ImagePathAndProps.ITEM_VIP1_IMAGE_PATH, ImagePathAndProps.ITEM_VIP2_IMAGE_PATH]:
             found = True
             while found:
@@ -82,13 +82,13 @@ class Items(Task):
                     break
                 self.set_text(insert=f'Found Gems item at {pos}')
                 x, y = pos
-                self.tap(x, y, 0.5)
+                self.tap(x, y)
                 x, y = self.max_btn_pos
-                self.tap(x, y, 0.5)
+                self.tap(x, y)
                 x, y = self.use_btn_pos
-                self.tap(x, y, 1)
+                self.tap(x, y)
                 # Tap in a random place just in case a popup opens
-                self.tap(1100, 200, 0.5)
+                self.tap(1100, 200)
 
     def use_daily_rss(self):
         if not self.bot.config.useItemsDailyRss:
@@ -99,9 +99,9 @@ class Items(Task):
         self.back_to_home_gui()
         self.menu_should_open(True)
         x, y = self.items_btn_pos
-        self.tap(x, y, 3)
+        self.tap(x, y)
         x, y = self.resources_btn_pos
-        self.tap(x, y, 0.5)
+        self.tap(x, y)
 
         # Need to open only 5 items for daily quest
         for i in range(0, 5):
@@ -110,15 +110,15 @@ class Items(Task):
                 return
             self.set_text(insert=f'Found resource pack 1 chest at {pos}')
             x, y = pos
-            self.tap(x, y, 0.5)
+            self.tap(x, y)
             x, y = self.minus_btn_pos
-            self.tap(x, y, 0.5)
+            self.tap(x, y)
             x, y = self.use_btn_pos
-            self.tap(x, y, 1)
+            self.tap(x, y)
             found, _, pos = self.gui.check_any(ImagePathAndProps.ITEM_EXCESS_RESOURCE_PROMPT_NO_IMAGE_PATH.value)
             if found:
                 # Weird state where we are trying to open too many resources, exit without using resource pack
                 self.back(0.5)
                 return
             # Tap in a random place just in case a popup opens
-            self.tap(1100, 200, 0.5)
+            self.tap(1100, 200)

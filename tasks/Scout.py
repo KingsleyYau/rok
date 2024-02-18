@@ -22,10 +22,10 @@ class Scout(Task):
                 self.back_to_map_gui()
                 self.set_text(insert="Open mail")
                 x, y = mail_pos
-                self.tap(x, y, 2)
+                self.tap(x, y)
                 self.set_text(insert="Open report")
                 x, y = report_pos
-                self.tap(x, y, 1)
+                self.tap(x, y)
 
                 found, name, pos = self.gui.check_any(
                     ImagePathAndProps.MAIL_EXPLORATION_REPORT_IMAGE_PATH.value,
@@ -38,7 +38,7 @@ class Scout(Task):
                         == ImagePathAndProps.MAIL_EXPLORATION_REPORT_IMAGE_PATH.value[5]
                     ):
                         x, y = pos
-                        self.tap(x, y, 2)
+                        self.tap(x, y)
 
                     result_list = self.gui.find_all_image_props(
                         ImagePathAndProps.MAIL_SCOUT_BUTTON_IMAGE_PATH.value
@@ -47,22 +47,22 @@ class Scout(Task):
 
                     if idx < len(result_list):
                         x, y = result_list[idx]["result"]
-                        self.tap(x, y, 2)
+                        self.tap(x, y)
                     else:
                         break
 
                     x, y = pos
-                    self.tap(x, y, 2)
+                    self.tap(x, y)
 
                 else:
                     break
 
                 x, y = center_pos
-                self.tap(x, y, 0.1)
-                self.tap(x, y, 0.1)
-                self.tap(x, y, 0.1)
-                self.tap(x, y, 0.1)
-                self.tap(x, y, 0.5)
+                self.tap(x, y)
+                self.tap(x, y)
+                self.tap(x, y)
+                self.tap(x, y)
+                self.tap(x, y)
 
                 found, name, pos = self.gui.check_any(
                     ImagePathAndProps.INVESTIGATE_BUTTON_IMAGE_PATH.value,
@@ -71,7 +71,7 @@ class Scout(Task):
 
                 if found:
                     x, y = pos
-                    self.tap(x, y, 2)
+                    self.tap(x, y)
                 else:
                     continue
 
@@ -84,7 +84,7 @@ class Scout(Task):
 
                     if found:
                         x, y = pos
-                        self.tap(x - 10, y - 10, 2)
+                        self.tap(x - 10, y - 10)
                     else:
                         break
 
@@ -94,7 +94,7 @@ class Scout(Task):
 
                     if found:
                         x, y = pos
-                        self.tap(x, y, 2)
+                        self.tap(x, y)
                     else:
                         break
                 else:
@@ -111,7 +111,7 @@ class Scout(Task):
                 self.set_text(insert="tap scout camp")
                 scout_camp_pos = self.bot.building_pos[BuildingNames.SCOUT_CAMP.value]
                 x, y = scout_camp_pos
-                self.tap(x, y, 1)
+                self.tap(x, y)
 
                 # find and tap scout button
                 self.set_text(insert="open scout camp")
@@ -120,7 +120,7 @@ class Scout(Task):
                 )
                 if is_found:
                     x, y = btn_pos
-                    self.tap(x, y, 1)
+                    self.tap(x, y)
                 else:
                     return next_task
 
@@ -131,7 +131,7 @@ class Scout(Task):
                 )
                 if is_found:
                     x, y = btn_pos
-                    self.tap(x, y, 2)
+                    self.tap(x, y)
                 else:
                     return next_task
 
@@ -142,7 +142,7 @@ class Scout(Task):
                 )
                 if is_found:
                     x, y = btn_pos
-                    self.tap(x, y, 2)
+                    self.tap(x, y)
                 else:
                     return next_task
 
@@ -154,7 +154,7 @@ class Scout(Task):
                 )
                 if found:
                     x, y = pos
-                    self.tap(x - 10, y - 10, 2)
+                    self.tap(x - 10, y - 10)
                 else:
                     return next_task
 
@@ -163,7 +163,7 @@ class Scout(Task):
                 )
                 if is_found:
                     x, y = btn_pos
-                    self.tap(x, y, 2)
+                    self.tap(x, y)
                 else:
                     return next_task
         except Exception as e:

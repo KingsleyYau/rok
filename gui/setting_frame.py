@@ -16,6 +16,8 @@ class SettingFrame(Frame):
         list = [
             self.windows_resize(),
             self.option_frame(),
+            self.startSleepTime(),
+            self.tapSleepTime(),
             self.twocaptcha_entries(),
             self.haoi_entries()
         ]
@@ -46,6 +48,36 @@ class SettingFrame(Frame):
         method_label.grid(row=0, column=0, sticky=W)
         option.grid(row=0, column=1, sticky=N + W)
         return f
+    
+    def startSleepTime(self):
+        defaultStartSleepTime = StringVar()
+        defaultStartSleepTime.set(config.global_config.startSleepTime)
+
+        lf = LabelFrame(self, text='startSleepTime')
+        ul = Label(lf, text='startSleepTime:')
+        ue = Entry(lf, textvariable=defaultStartSleepTime)
+
+        ul.config(width=10, anchor=W, justify=LEFT)
+        ue.config(width=53, validate='key', validatecommand=(lf.register(self.creator('startSleepTime')), '%P'))
+        ul.grid(row=0, column=0, sticky=N + W, padx=(10, 10), pady=(10, 10))
+        ue.grid(row=0, column=1, sticky=N + W, padx=(0, 10), pady=(10, 10))
+        
+        return lf
+    
+    def tapSleepTime(self):
+        defaultTapSleepTime = StringVar()
+        defaultTapSleepTime.set(config.global_config.tapSleepTime)
+
+        lf = LabelFrame(self, text='tapSleepTime')
+        ul = Label(lf, text='tapSleepTime:')
+        ue = Entry(lf, textvariable=defaultTapSleepTime)
+
+        ul.config(width=10, anchor=W, justify=LEFT)
+        ue.config(width=53, validate='key', validatecommand=(lf.register(self.creator('tapSleepTime')), '%P'))
+        ul.grid(row=0, column=0, sticky=N + W, padx=(10, 10), pady=(10, 10))
+        ue.grid(row=0, column=1, sticky=N + W, padx=(0, 10), pady=(10, 10))
+        
+        return lf
 
     def haoi_entries(self):
 

@@ -68,12 +68,12 @@ class GatherResource(Task):
 
             # tap on magnifier
             x, y = magnifier_pos
-            self.tap(x, y, 1)
-            self.tap(chose_icon_pos[0], chose_icon_pos[1], 1)
+            self.tap(x, y)
+            self.tap(chose_icon_pos[0], chose_icon_pos[1])
             search_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_SEARCH_BUTTON_IMAGE_PATH.value)[2]
             dec_pos = self.gui.check_any(ImagePathAndProps.DECREASING_BUTTON_IMAGE_PATH.value)[2]
             inc_pos = self.gui.check_any(ImagePathAndProps.INCREASING_BUTTON_IMAGE_PATH.value)[2]
-            self.tap(inc_pos[0] - 33, inc_pos[1], 1)
+            self.tap(inc_pos[0] - 33, inc_pos[1])
 
             repeat_count = 0
             for i in range(10):
@@ -90,23 +90,23 @@ class GatherResource(Task):
 
                     x, y = magnifier_pos
                     self.tap(x, y, 1)
-                    self.tap(chose_icon_pos[0], chose_icon_pos[1], 1)
+                    self.tap(chose_icon_pos[0], chose_icon_pos[1])
 
                 # decreasing level
                 if should_decreasing_lv:
                     self.set_text(insert="没有更多资源点,降级")
-                    self.tap(dec_pos[0], dec_pos[1], 1)
+                    self.tap(dec_pos[0], dec_pos[1])
 
                 for j in range(5):
-                    self.tap(search_pos[0], search_pos[1], 2)
+                    self.tap(search_pos[0], search_pos[1])
                     is_found, _, _ = self.gui.check_any(ImagePathAndProps.RESOURCE_SEARCH_BUTTON_IMAGE_PATH.value)
                     if not is_found:
                         break
                     self.set_text(insert="没有更多资源点, 降级 [{}]".format(j))
-                    self.tap(dec_pos[0], dec_pos[1], 1)
+                    self.tap(dec_pos[0], dec_pos[1])
 
                 self.set_text(insert="发现资源点")
-                self.tap(640, 320, 1)
+                self.tap(640, 320)
 
                 # check is same pos
                 new_resource_pos = self.gui.resource_location_image_to_string()
@@ -122,19 +122,19 @@ class GatherResource(Task):
                 last_resource_pos.append(new_resource_pos)
                 should_decreasing_lv = False
                 gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
-                self.tap(gather_button_pos[0], gather_button_pos[1], 2)
+                self.tap(gather_button_pos[0], gather_button_pos[1])
                 pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
                 if pos is None:
                     self.set_text(insert="没有队列采集")
                     return next_task
                 new_troops_button_pos = pos
-                self.tap(new_troops_button_pos[0], new_troops_button_pos[1], 2)
+                self.tap(new_troops_button_pos[0], new_troops_button_pos[1])
                 if self.bot.config.gatherResourceNoSecondaryCommander:
                     self.set_text(insert="移除副将")
-                    self.tap(473, 501, 0.5)
+                    self.tap(473, 501)
                 match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
                 self.set_text(insert="开始采集")
-                self.tap(match_button_pos[0], match_button_pos[1], 2)
+                self.tap(match_button_pos[0], match_button_pos[1])
                 repeat_count = 0
                 self.swipe(300, 720, 400, 360, 1)
 
@@ -144,7 +144,7 @@ class GatherResource(Task):
         return next_task
 
     def get_min_resource(self):
-        self.tap(725, 20, 1)
+        self.tap(725, 20)
         result = self.gui.resource_amount_image_to_string()
         self.set_text(
             insert="玉米: {}, 木头: {}, 石头: {}, 金矿: {}".format(result[0], result[1], result[2], result[3]))

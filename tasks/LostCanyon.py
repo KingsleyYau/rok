@@ -15,7 +15,7 @@ class LostCanyon(Task):
         self.back_to_home_gui()
         self.menu_should_open(True)
         x, y = campaign_btn_pos
-        self.tap(x, y, 1)
+        self.tap(x, y)
 
         found, _, pos = self.gui.check_any(ImagePathAndProps.LOST_CANYON_IMAGE_PATH.value)
         if not found:
@@ -28,9 +28,9 @@ class LostCanyon(Task):
 
         # Click on rewards
         self.set_text(insert='Get Rewards')
-        self.tap(1015, 120, 1)
+        self.tap(1015, 120)
         while True:
-            self.tap(640, 650, 1)
+            self.tap(640, 650)
             attempts = self.gui.lost_canyon_attempts_image_to_string()
             self.set_text(insert=f'Attempts [{attempts}]')
             if attempts == 0:
@@ -49,10 +49,10 @@ class LostCanyon(Task):
                 # Check if skip battle button is checked, if not press it
                 is_check, _, pos = self.gui.check_any(ImagePathAndProps.SKIP_BATTLE_CHECKED_IMAGE_PATH.value)
                 if not is_check:
-                    self.tap(590, 590, 1)
+                    self.tap(590, 590)
 
                 # Click OK
-                self.tap(640, 650, 3)
+                self.tap(640, 650)
                 # Click again to go back
-                self.tap(640, 650, 2)
+                self.tap(640, 650)
                 # Repeat
