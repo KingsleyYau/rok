@@ -153,5 +153,5 @@ cython_debug/
 
 
 script/capture
-script/rok.jpg
-script/2.png
+script/*.png
+script/*.jpg

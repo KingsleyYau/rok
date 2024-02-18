@@ -13,7 +13,7 @@ fi
 
 #settings put global http_proxy 192.168.88.140:1080  
 # 端口转发
-ncat --sh-exec "ncat 127.0.0.1 5555" -l 9999 --keep-open
+ncat -c "ncat 127.0.0.1 5555" -l 9999 --keep-open
 # 打开网页
 adb shell am start -a android.intent.action.VIEW -d http://www.baidu.com
 # 同意隐私
