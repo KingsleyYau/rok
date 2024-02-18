@@ -178,7 +178,7 @@ class Task:
             self.set_text(insert=str)
             self.stopRok()
             self.runOfRoK()
-            time.sleep(30)
+            time.sleep(60)
             # start = time.time()
             # end = start
             # while end - start <= 300 and self.isRoKRunning():
@@ -208,7 +208,7 @@ class Task:
                 pos_list = self.pass_verification()
             elif gui_name == GuiName.HELLO_WROLD_IMG.name:
                 self.tap(400, 400)
-                time.sleep(30)
+                time.sleep(60)
             # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
             #     pos_list = self.pass_verification()
                 return result

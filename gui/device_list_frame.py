@@ -41,7 +41,7 @@ class DeviceListTable(Frame):
 
     def add_row(self, name, ip, port):
         try:
-            new_row = DeviceRow(self, self.main_frame, name, ip, port)
+            new_row = DeviceRow(self, self.main_frame, name, ip, int(port))
             new_row.set_on_display_click(self.on_display_click)
             new_row.set_on_del_click(self.on_delete_click)
             self.device_rows.append(new_row)
@@ -121,7 +121,8 @@ class DeviceRow(Frame):
         def callback():
             device = adb.bridge.get_device(self.ip, self.port)
             device.name = self.name
-            device.save_file_prefix = f"{self.name}_{device.serial.replace(':', '_')}"
+            # device.save_file_prefix = f"{self.name}_{device.serial.replace(':', '_')}"
+            device.save_file_prefix = f"{self.name}"
             if device is None:
                 return
             if self.device_frame is None:
