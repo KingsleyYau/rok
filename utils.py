@@ -45,6 +45,13 @@ def img_to_string(pil_image):
         .replace('\t', '').replace('\n', '').replace('\f', '')
     return result
 
+def img_to_num(pil_image):
+    # pil_image.save(resource_path("test.png"))
+    tess.pytesseract.tesseract_cmd = resource_path(FilePaths.TESSERACT_EXE_PATH.value)
+    result = tess.image_to_string(pil_image)
+    log('img_to_num', result)
+    result = result.replace('\t', '').replace('\n', '').replace('\f', '').replace(',', '')
+    return result
 
 def img_remove_background_and_enhance_word(cv_image, lower, upper):
     hsv = cv2.cvtColor(cv_image, cv2.COLOR_BGR2HSV)

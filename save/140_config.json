@@ -52,5 +52,5 @@
   "useItems": false,
   "useItemsVip": true,
   "useItemsGems": false,
-  "useItemsDailyRss": false
+  "useItemsDailyRss": true
 }

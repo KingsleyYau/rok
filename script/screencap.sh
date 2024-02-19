@@ -9,7 +9,7 @@ then
   DEVICE="-s $1"
 fi
 
-FILE=/sdcard/rok.jpg
+FILE=/sdcard/screen.jpg
 adb $DEVICE shell rm -f $FILE
 adb $DEVICE shell screencap -p $FILE
 adb $DEVICE pull $FILE

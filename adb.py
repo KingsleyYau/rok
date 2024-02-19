@@ -6,7 +6,6 @@ from filepath.file_relative_paths import FilePaths
 import subprocess
 import traceback
 
-
 bridge = None
 
 
@@ -19,17 +18,17 @@ class Adb:
         adb_path = resource_path(FilePaths.ADB_EXE_PATH.value)
         cmd = build_command(adb_path, 'connect', "{}:{}".format(host, port))
         ret = subprocess.check_output(cmd, shell=True, stderr=subprocess.PIPE, encoding="utf-8", timeout=2)
-        print('connect_to_device', ret)
+        log('connect_to_device', ret)
 
     def get_client_devices(self):
         return self.client.devices()
 
     def get_device(self, host='127.0.0.1', port=5555):
-        print('get_device', host, port)
+        log('get_device', host, port)
         try:
             self.client.remote_connect(host, port)
             device = self.client.device('{}:{}'.format(host, port))
-            print('get_device', host, port, device)
+            log('get_device', host, port, device)
         #     print('get_device', host, port)
         #     # if device is None:
         #     #     self.connect_to_device(host, port)

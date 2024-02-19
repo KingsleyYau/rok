@@ -3,7 +3,7 @@ from filepath.file_relative_paths import ImagePathAndProps
 from filepath.file_relative_paths import GuiCheckImagePathAndPropsOrdered
 from filepath.file_relative_paths import FilePaths
 from utils import resource_path
-from utils import img_to_string
+from utils import img_to_string, img_to_num
 from utils import img_remove_background_and_enhance_word
 from utils import bot_print
 
@@ -132,16 +132,18 @@ class GuiDetector:
             (910, 245, 990, 264),
             (1000, 245, 1100, 264),
         ]
+        i=0
+        imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
+        imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
         for box in boxes:
             x0, y0, x1, y1 = box
-            imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
-                                 cv2.IMREAD_COLOR)
-            imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
-            imsch = imsch[y0:y1, x0:x1]
-            ret, imsch = cv2.threshold(imsch, 215, 255, cv2.THRESH_BINARY)
-            resource_image = Image.fromarray(imsch)
+            log('materilal_amount_image_to_string', box)
+            imdst = imsch[y0:y1, x0:x1]
+            ret, imths = cv2.threshold(imdst, 215, 255, cv2.THRESH_BINARY)
+            resource_image = Image.fromarray(imths)
+            i=i+1
             try:
-                result_list.append(int(img_to_string(resource_image)))
+                result_list.append(int(img_to_num(resource_image)))
             except Exception as e:
                 result_list.append(-1)
         return result_list
