@@ -7,7 +7,7 @@ class StrImagePosition(Enum):
 
 
 class FilePaths(Enum):
-    TEST_SRC_FOLDER_PATH = "test_screen_caps/"
+    TEST_SRC_FOLDER_PATH = "script/capture/"
     TEST_CURR_SCREEN_CAP_PATH = "test_screen_caps/current_cap.png"
     ADB_EXE_PATH = "adb/adb"
     TESSERACT_EXE_PATH = "/usr/local/Cellar/tesseract/5.3.4/bin/tesseract"

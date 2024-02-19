@@ -3,7 +3,7 @@ from filepath.file_relative_paths import ImagePathAndProps
 from filepath.file_relative_paths import GuiCheckImagePathAndPropsOrdered
 from filepath.file_relative_paths import FilePaths
 from utils import resource_path
-from utils import img_to_string, img_to_num
+from utils import img_to_string, img_to_string_eng
 from utils import img_remove_background_and_enhance_word
 from utils import bot_print
 
@@ -13,7 +13,7 @@ import numpy as np
 import cv2
 from bot_related import aircve as aircv
 import io
-from utils import log
+from utils import log, device_log
 from filepath.constants import HELLO_WROLD_IMG
 
 # small percentage are more similar
@@ -68,7 +68,7 @@ class GuiDetector:
         result = self.check_any_gray(
             ImagePathAndProps.HELLO_WROLD_IMG_PATH.value
         )
-        log('get_hello_world_gui', result)
+        device_log(self.__device, 'get_hello_world_gui', result)
         if result[0]:
             return [result[1], result[2]]
         return None
@@ -106,18 +106,20 @@ class GuiDetector:
         boxes = [
             (695, 10, 770, 34), (820, 10, 890, 34), (943, 10, 1015, 34), (1065, 10, 1140, 34)
         ]
+        imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
+                     cv2.IMREAD_COLOR)
+        imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
         for box in boxes:
             x0, y0, x1, y1 = box
-            imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
-                                 cv2.IMREAD_COLOR)
-            imsch = imsch[y0:y1, x0:x1]
-            resource_image = Image.fromarray(imsch)
+            imdst = imsch[y0:y1, x0:x1]
+            resource_image = Image.fromarray(imdst)
             try:
                 result_list.append(abs(int(img_to_string(resource_image)
+                                           .replace(' ', '')
                                            .replace('.', '')
-                                           .replace('B', '00000000')
-                                           .replace('M', '00000')
-                                           .replace('K', '00')
+                                           .replace('亿', '00000000')
+                                           .replace('万', '0000')
+                                           
                                            ))
                                    )
             except Exception as e:
@@ -137,13 +139,15 @@ class GuiDetector:
         imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
         for box in boxes:
             x0, y0, x1, y1 = box
-            log('materilal_amount_image_to_string', box)
+            device_log(self.__device, 'materilal_amount_image_to_string', box)
             imdst = imsch[y0:y1, x0:x1]
             ret, imths = cv2.threshold(imdst, 215, 255, cv2.THRESH_BINARY)
             resource_image = Image.fromarray(imths)
             i=i+1
             try:
-                result_list.append(int(img_to_num(resource_image)))
+                result_list.append(int(img_to_string_eng(resource_image)
+                                       .replace(',', '')
+                                       ))
             except Exception as e:
                 result_list.append(-1)
         return result_list
@@ -157,7 +161,7 @@ class GuiDetector:
         imsch = imsch[y0:y1, x0:x1]
         ret, imsch = cv2.threshold(imsch, 215, 255, cv2.THRESH_BINARY)
         resource_image = Image.fromarray(imsch)
-        result = ''.join(c for c in img_to_string(resource_image) if c.isdigit())
+        result = ''.join(c for c in img_to_string_eng(resource_image) if c.isdigit())
         return result
 
     def match_query_to_string(self):
@@ -210,19 +214,17 @@ class GuiDetector:
 
         for props in props_list:
             path, size, box, threshold, least_diff, gui = props
-            # x0, y0, x1, y1 = box
-            # log('check_any', path, 'threshold', threshold)
             imsrc = cv2.imread(resource_path(path))
 
             result = aircv.find_template(imsrc, imsch, threshold, True)
-
+            # device_log(self.__device, 'check_any', path, threshold, result)
+            
             if self.debug:
                 cv2.imshow('imsrc', imsrc)
                 cv2.imshow('imsch', imsch)
                 cv2.waitKey(0)
 
             if result is not None:
-                # log('check_any', path, 'result', result)
                 return True, gui, result['result']
 
         return False, None, None
@@ -234,7 +236,7 @@ class GuiDetector:
         for props in props_list:
             path, size, box, threshold, least_diff, gui = props
             # x0, y0, x1, y1 = box
-            log('check_any_gray', path)
+            device_log(self.__device, 'check_any_gray', path)
             imsrc = cv2.imread(resource_path(path))
 
             result = aircv.find_template(imsrc, imsch, threshold, False, True)

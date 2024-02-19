@@ -20,6 +20,12 @@ class Materials(Task):
                 (950, 230),
                 (1045, 230)
             ]
+            icon_name = [
+                '皮革',
+                '矿石',
+                '乌木',
+                '兽骨',
+            ]
             super().set_text(insert='Init view')
             super().back_to_home_gui()
             super().home_gui_full_view()
@@ -41,7 +47,7 @@ class Materials(Task):
                 if list_amount[min] > list_amount[i]:
                     min = i
             x, y = icon_pos[min]
-            super().set_text(insert='生产最少材料')
+            super().set_text(insert='生产最少材料, {}'.format(icon_name[min]))
             for i in range(5):
                 super().tap(x, y)
         except Exception as e:

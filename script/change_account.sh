@@ -25,3 +25,13 @@ adb $DEVICE shell input tap 640 200
 adb $DEVICE shell input tap 125 140
 adb $DEVICE shell input text 15220039797
 adb $DEVICE shell input tap 640 200
+
+
+###################################
+# 封号界面,账号管理
+adb $DEVICE shell input tap 800 460
+
+# 搞起枪
+adb $DEVICE shell input tap 800 240
+# 切换账号 确定
+adb $DEVICE shell input tap 800 500

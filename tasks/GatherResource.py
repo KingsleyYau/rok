@@ -4,7 +4,7 @@ from filepath.constants import MAP
 from filepath.file_relative_paths import BuffsImageAndProps, ItemsImageAndProps, ImagePathAndProps
 from tasks.Task import Task
 from tasks.constants import TaskName, Resource
-
+from utils import log, device_log
 
 class GatherResource(Task):
 
@@ -94,7 +94,7 @@ class GatherResource(Task):
 
                 # decreasing level
                 if should_decreasing_lv:
-                    self.set_text(insert="没有更多资源点,降级")
+                    self.set_text(insert="没有更多资源点, 降级")
                     self.tap(dec_pos[0], dec_pos[1])
 
                 for j in range(5):
@@ -122,18 +122,19 @@ class GatherResource(Task):
                 last_resource_pos.append(new_resource_pos)
                 should_decreasing_lv = False
                 gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
-                self.tap(gather_button_pos[0], gather_button_pos[1])
+                self.tap(gather_button_pos[0], gather_button_pos[1], 8)
                 pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
                 if pos is None:
                     self.set_text(insert="没有队列采集")
                     return next_task
                 new_troops_button_pos = pos
-                self.tap(new_troops_button_pos[0], new_troops_button_pos[1])
+                self.set_text(insert="创建部队")
+                self.tap(new_troops_button_pos[0], new_troops_button_pos[1], 10)
                 if self.bot.config.gatherResourceNoSecondaryCommander:
                     self.set_text(insert="移除副将")
                     self.tap(473, 501)
+                self.set_text(insert="开始行军")
                 match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
-                self.set_text(insert="开始采集")
                 self.tap(match_button_pos[0], match_button_pos[1])
                 repeat_count = 0
                 self.swipe(300, 720, 400, 360, 1)
@@ -144,6 +145,12 @@ class GatherResource(Task):
         return next_task
 
     def get_min_resource(self):
+        res_names = [
+            '玉米',
+            '木头',
+            '石头',
+            '金矿',
+            ]
         self.tap(725, 20)
         result = self.gui.resource_amount_image_to_string()
         self.set_text(
@@ -167,6 +174,7 @@ class GatherResource(Task):
         for i in range(len(result)):
             if diff[m] < diff[i]:
                 m = i
+        device_log(self.bot.device, 'get_min_resource, {}'.format(res_names[m]))
         return m
 
     def check_query_space(self):

@@ -43,14 +43,15 @@ def img_to_string(pil_image):
     tess.pytesseract.tesseract_cmd = resource_path(FilePaths.TESSERACT_EXE_PATH.value)
     result = tess.image_to_string(pil_image, lang='chi_sim', config='--psm 6') \
         .replace('\t', '').replace('\n', '').replace('\f', '')
+    log('img_to_string', result)
     return result
 
-def img_to_num(pil_image):
+def img_to_string_eng(pil_image):
     # pil_image.save(resource_path("test.png"))
     tess.pytesseract.tesseract_cmd = resource_path(FilePaths.TESSERACT_EXE_PATH.value)
     result = tess.image_to_string(pil_image)
-    log('img_to_num', result)
-    result = result.replace('\t', '').replace('\n', '').replace('\f', '').replace(',', '')
+    log('img_to_string_eng', result)
+    result = result.replace('\t', '').replace('\n', '').replace('\f', '')
     return result
 
 def img_remove_background_and_enhance_word(cv_image, lower, upper):

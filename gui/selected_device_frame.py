@@ -160,6 +160,13 @@ class SelectedDeviceFrame(Frame):
         building_pos_button = button(frame, on_building_pos_click, text='Building Pos')
         building_pos_button.grid(row=0, column=1, sticky=N + W)
 
+        # snapshot
+        def on_snapshot_click(btn):
+            self.bot.gui.save_screen('{}.png'.format(self.bot.device.name))
+            
+        snapshot_button = button(frame, on_snapshot_click, text='Snapshot')
+        snapshot_button.grid(row=0, column=2, sticky=N + W)
+                
         server_label = Label(frame, text='server:')
         server = StringVar()
         server_entry = Entry(frame, textvariable=server, width=5)
