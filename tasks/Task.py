@@ -319,19 +319,7 @@ class Task:
         str = self.device.shell(cmd)
         device_log(self.device, cmd)
         time.sleep(sleep_time)
-        
-    # def tap(self, x, y, sleep_time=int(config.global_config.tapSleepTime), long_press_duration=-1):
-    #     cmd = None
-    #     if long_press_duration > -1:
-    #         cmd = "input swipe {} {} {} {} {}".format(x, y, x, y, long_press_duration)
-    #         sleep_time = long_press_duration / 1000 + 0.2
-    #     else:
-    #         cmd = "input tap {} {}".format(x, y)
-    #
-    #     str = self.device.shell(cmd)
-    #     device_log(self.device, cmd)
-    #     time.sleep(sleep_time)
-        
+                
     def double_tap(self, x, y):
         device_log(self.device, 'double_tap', x, y)
         self.tap((x, y), 0.1)
