@@ -16,7 +16,6 @@ class ClaimVip(Task):
         super().back_to_home_gui()
         # tap on vip
         super().set_text(insert='打开VIP')
-        x, y = vip_pos
         super().tap(vip_pos)
         # tap on vip point chest
         super().set_text(insert='收集VIP积分')
@@ -25,4 +24,5 @@ class ClaimVip(Task):
         # tap on free chest
         super().set_text(insert='收集VIP礼物')
         super().tap(vip_free_chest)
+        self.bot.snashot_update_event()
         return next_task

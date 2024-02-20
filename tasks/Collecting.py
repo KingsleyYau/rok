@@ -28,11 +28,10 @@ class Collecting(Task):
                 BuildingNames.GOLDMINE.value,
                 BuildingNames.ALLIANCE_CENTER.value
             ]:
-                x, y = self.bot.building_pos[name]
                 self.set_text(insert='{} at position {}'.format(name, self.bot.building_pos[name]))
                 self.tap(self.bot.building_pos[name])
                 self.tap(pos_e)
-
+            self.bot.snashot_update_event()
         except Exception as e:
             traceback.print_exc()
             return next_task

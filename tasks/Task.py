@@ -280,6 +280,7 @@ class Task:
             self.tap(item_pos)
             # tap on use Item
             self.tap(use_btn_pos)
+            self.bot.snashot_update_event()
             return True
         return False
 

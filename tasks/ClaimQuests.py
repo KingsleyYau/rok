@@ -40,6 +40,7 @@ class ClaimQuests(Task):
             # chest position
             for pos in [(355, 200), (530, 200), (710, 200), (885, 200), (1050, 200)]:
                 super().tap(pos)
+            self.bot.snashot_update_event()
         except Exception as e:
             traceback.print_exc()
             return TaskName.CLAIM_QUEST

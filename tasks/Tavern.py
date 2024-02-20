@@ -19,6 +19,8 @@ class Tavern(Task):
         # tap tavern building
         super().set_text(insert='打开酒馆{}'.format(tavern_pos))
         super().tap(tavern_pos)
+        self.bot.snashot_update_event()
+        
         _, _, tavern_btn_pos = self.gui.check_any(ImagePathAndProps.TAVERN_BUTTON_BUTTON_IMAGE_PATH.value)
         if tavern_btn_pos is None:
             return next_task
@@ -28,8 +30,8 @@ class Tavern(Task):
             if open_btn_pos is None:
                 break
             super().set_text(insert="打开免费[白银/黄金/水晶]宝箱{}".format(open_btn_pos))
-            self.bot.snashot_update_event()
             super().tap(open_btn_pos, 8)
+            self.bot.snashot_update_event()
             _, _, confirm_btn_pos = self.gui.check_any(ImagePathAndProps.CHEST_CONFIRM_BUTTON_IMAGE_PATH.value)
             if confirm_btn_pos is None:
                 break
@@ -51,6 +53,7 @@ class Tavern(Task):
             return next_task
         super().set_text(insert="打开免费传说宝箱{}".format(open_btn_pos))
         super().tap(open_btn_pos, 8)
+        self.bot.snashot_update_event()
         _, _, confirm_btn_pos = self.gui.check_any(ImagePathAndProps.CHEST_CONFIRM_BUTTON_IMAGE_PATH.value)
         if confirm_btn_pos is None:
             return next_task

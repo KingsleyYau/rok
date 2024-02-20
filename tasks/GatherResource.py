@@ -73,10 +73,9 @@ class GatherResource(Task):
             dec_pos = self.gui.check_any(ImagePathAndProps.DECREASING_BUTTON_IMAGE_PATH.value)[2]
             inc_pos = self.gui.check_any(ImagePathAndProps.INCREASING_BUTTON_IMAGE_PATH.value)[2]
             self.tap((inc_pos[0] - 33, inc_pos[1]))
-
+            self.bot.snashot_update_event()
             repeat_count = 0
             for i in range(10):
-
                 # open search resource
                 if len(last_resource_pos) > 0:
                     self.back_to_map_gui()
@@ -105,7 +104,6 @@ class GatherResource(Task):
 
                 self.set_text(insert="发现资源点")
                 self.tap((640, 320))
-                
                 self.bot.snashot_update_event()
                 
                 # check is same pos
@@ -115,6 +113,7 @@ class GatherResource(Task):
                         should_decreasing_lv = True
                         repeat_count = repeat_count + 1
                         self.set_text(insert="资源点正在采集")
+                        self.bot.snashot_update_event()
                         if repeat_count > 4:
                             self.set_text(insert="stuck! end task")
                             break
@@ -127,19 +126,26 @@ class GatherResource(Task):
                 pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
                 if pos is None:
                     self.set_text(insert="没有更多队列采集")
+                    self.bot.snashot_update_event()
                     return next_task
+                
                 new_troops_button_pos = pos
                 self.set_text(insert="创建部队")
                 self.tap(new_troops_button_pos, 10)
+                self.bot.snashot_update_event()
+                
                 if self.bot.config.gatherResourceNoSecondaryCommander:
                     self.set_text(insert="移除副将")
                     self.tap((473, 501))
+                    self.bot.snashot_update_event()
+                    
                 self.set_text(insert="开始行军")
                 match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
                 self.tap(match_button_pos)
+                self.bot.snashot_update_event()
                 repeat_count = 0
                 self.swipe(300, 720, 400, 360, 1)
-
+            self.bot.snashot_update_event()
         except Exception as e:
             traceback.print_exc()
             return next_task

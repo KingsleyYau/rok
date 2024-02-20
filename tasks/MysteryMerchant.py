@@ -22,9 +22,8 @@ class MysteryMerchant(Task):
         self.tap(pos)
 
         while True:
-
+            self.bot.snashot_update_event()
             for i in range(5):
-
                 self.set_text(insert='buy item with food')
                 list = self.gui.find_all_image_props(ImagePathAndProps.MERCHANT_BUY_WITH_FOOD_IMAGE_PATH.value)
                 for buy_with_food_btn in list:
@@ -41,7 +40,6 @@ class MysteryMerchant(Task):
             found, _, pos = self.gui.check_any(ImagePathAndProps.MERCHANT_FREE_BTN_IMAGE_PATH.value)
             if not found:
                 return next_task
-            self.set_text(insert='Refresh')
+            self.set_text(insert='刷新')
             self.tap(pos)
-
 

@@ -59,6 +59,8 @@ class Training(Task):
                 super().back_to_home_gui()
                 upgraded = False
                 super().tap(config[3])
+                self.bot.snashot_update_event()
+                
                 _, _, pos = self.gui.check_any(config[0])
                 if pos is None:
                     continue
@@ -81,6 +83,7 @@ class Training(Task):
                                 continue
                         super().set_text(insert='升级T{}({})'.format(i + 1, config[4]))
                         super().tap(pos)
+                        self.bot.snashot_update_event()
 
                         # check has train button if has then tap it
                         _, _, pos = self.gui.check_any(ImagePathAndProps.UPGRADE_BUTTON_IMAGE_PATH.value)
@@ -91,12 +94,15 @@ class Training(Task):
                         config[1] != TrainingAndUpgradeLevel.DISABLED.value):
                     for i in range(config[1], -1, -1):
                         super().tap(soldier_icon_pos[i])
+                        self.bot.snashot_update_event()
+                        
                         _, _, pos = self.gui.check_any(ImagePathAndProps.TRAIN_BUTTON_IMAGE_PATH.value)
                         if pos is None:
                             continue
                         super().set_text(insert='训练T{}({})'.format(i + 1, config[4]))
                         super().tap(pos)
                         break
+            self.bot.snashot_update_event()
         except Exception as e:
             traceback.print_exc()
             return TaskName.TRAINING
