@@ -95,7 +95,6 @@ class Scout(Task):
                 idx = idx + 1
 
             while True:
-                self.set_text(insert="init view")
                 self.back_to_home_gui()
                 self.home_gui_full_view()
 

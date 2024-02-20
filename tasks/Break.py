@@ -13,7 +13,6 @@ class Break(Task):
     def do(self, next_task = TaskName.COLLECTING):
         try:
             super().set_text(title='Break', remove=True)
-            super().set_text(insert='Init View')
             super().call_idle_back()
             super().heal_troops()
             super().set_text(insert='0/{} seconds'.format(self.bot.config.breakTime))
