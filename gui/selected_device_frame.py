@@ -28,7 +28,7 @@ class SelectedDeviceFrame(Frame):
         self.bot_building_pos = load_building_pos(self.device.save_file_prefix)
         self.windows_size = [kwargs['width'], kwargs['height']]
 
-        display_frame, self.task_title, self.task_text = self.task_display_frame()
+        display_frame, self.task_title, self.task_text, self.display_canvas = self.task_display_frame()
         config_frame = self.config_frame()
         bottom_frame = self.bottom_frame()
 
@@ -44,6 +44,12 @@ class SelectedDeviceFrame(Frame):
         #
         # self.master.master.master.bind("<FocusIn>", handle_focus)
 
+        
+    def refresh_snapshot(self):
+        img = self.bot.gui.get_curr_device_screen_img().resize((210, 135))
+        self.display_canvas.img = image = ImageTk.PhotoImage(img)
+        self.display_canvas.create_image((0, 0), image=image, anchor='nw')
+            
     def task_display_frame(self):
         width = self.windows_size[0] - 20
         height = 210
@@ -55,14 +61,17 @@ class SelectedDeviceFrame(Frame):
         frame.rowconfigure(2, weight=height - 10)
 
         dl = Label(frame, text=self.device.save_file_prefix, width=width, height=5, bg='white')
-        title = Label(frame, text="Task: None", width=width, height=5)
+        title = Label(frame, text="Task: None", width=width, height=5, bg='white')
+        # title.config(bg='white', anchor=W, justify=LEFT)
         text = Text(frame, width=width, height=height - 30)
-        title.config(bg='white', anchor=W, justify=LEFT)
+        canvas = Canvas(frame, width=210)
 
-        dl.grid(row=0, column=0, pady=(10, 0), sticky=N + W)
-        title.grid(row=1, column=0, pady=10, sticky=N + W)
-        text.grid(row=2, column=0, sticky=N + W)
-        return frame, title, text
+        dl.grid(row=0, column=0, columnspan=2, pady=5, sticky=N + W)
+        title.grid(row=1, column=0, pady=5, sticky=N + W)
+        text.grid(row=2, column=0, pady=5, sticky=N + W)
+        canvas.grid(row=1, column=1, rowspan=2, pady=5, sticky=N + W)
+        
+        return frame, title, text, canvas
 
     def config_frame(self):
         frame_canvas = LabelFrame(self,
@@ -162,7 +171,8 @@ class SelectedDeviceFrame(Frame):
 
         # snapshot
         def on_snapshot_click(btn):
-            self.bot.gui.save_screen('{}.png'.format(self.bot.device.name))
+            # self.bot.gui.save_screen('{}.png'.format(self.bot.device.name))
+            self.refresh_snapshot()
             
         snapshot_button = button(frame, on_snapshot_click, text='Snapshot')
         snapshot_button.grid(row=0, column=2, sticky=N + W)

@@ -165,7 +165,7 @@ class Task:
             time.sleep(60)
         pos_list = None
         
-        pos_free = (400 + int(10 * random.random()), 400 + int(10 * random.random()))
+        pos_free = (400 + int(50 * (0.5 - random.random())), 400 + int(50 * (0.5 - random.random())))
         
         for i in range(0, 1):
             result = self.gui.get_curr_gui_name()
