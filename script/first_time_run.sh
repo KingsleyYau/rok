@@ -16,6 +16,8 @@ fi
 ncat -c "ncat 127.0.0.1 5555" -l 9999 --keep-open
 # 打开网页
 adb shell am start -a android.intent.action.VIEW -d http://www.baidu.com
+
+
 # 同意隐私
 adb shell input tap 750 530
 # QQ登录

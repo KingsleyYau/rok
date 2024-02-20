@@ -186,8 +186,8 @@ class Task:
                     ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
                     )
                 if comfirm_pos is not None:
-                    device_log(self.device, '被踢, 点击确定')
-                    self.tap(comfirm_pos[0])
+                    # device_log(self.device, '被踢, 点击确定')
+                    self.tap(comfirm_pos)
                 else:
                     self.tap(pos_free)
             return result
