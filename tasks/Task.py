@@ -189,6 +189,10 @@ class Task:
             # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
             #     pos_list = self.pass_verification()
                 return result
+            elif gui_name == GuiName.WINDOW.name:
+                device_log(self.device, '弹出窗口, 点击关闭', pos)
+                self.tap(pos)
+                return result
             # elif (gui_name == GuiName.MAP.name) | (gui_name == GuiName.HOME.name):
             #     device_log(self.device, '地图/城市界面, 不需要处理')
             else:
