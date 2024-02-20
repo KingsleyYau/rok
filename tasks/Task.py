@@ -299,10 +299,14 @@ class Task:
             time.sleep(duration / 1000 + 0.2)
 
     def zoom(self, x_f, y_f, x_t, y_t, times=1, duration=300, zoom_type="out"):
+        device_log(self.device, 'zoom', zoom_type)
         cmd_hold = "input swipe {} {} {} {} {}".format(
-            x_t, y_t, x_t, y_t, duration + 50
+            x_t, y_t, x_t, y_t, duration + 1000
         )
-        if type == "out":
+        # cmd_hold = "input tap {} {} {}".format(
+        #     x_t, y_t, duration + 1000
+        # )
+        if zoom_type == "out":
             cmd_swipe = "input swipe {} {} {} {} {}".format(
                 x_f, y_t, x_f, y_t, duration
             )
@@ -312,7 +316,9 @@ class Task:
             )
 
         for i in range(times):
+            device_log(self.device, 'cmd_hold', cmd_hold)
             self.device.shell(cmd_hold)
+            device_log(self.device, 'cmd_swipe', cmd_swipe)
             self.device.shell(cmd_swipe)
             time.sleep(duration / 1000 + 0.5 + 0.2)
 

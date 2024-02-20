@@ -98,7 +98,7 @@ class GatherResource(Task):
                     self.tap(dec_pos[0], dec_pos[1])
 
                 for j in range(5):
-                    self.tap(search_pos[0], search_pos[1])
+                    self.tap(search_pos[0], search_pos[1], 5)
                     is_found, _, _ = self.gui.check_any(ImagePathAndProps.RESOURCE_SEARCH_BUTTON_IMAGE_PATH.value)
                     if not is_found:
                         break
@@ -110,16 +110,17 @@ class GatherResource(Task):
 
                 # check is same pos
                 new_resource_pos = self.gui.resource_location_image_to_string()
-                if new_resource_pos in last_resource_pos:
-                    should_decreasing_lv = True
-                    repeat_count = repeat_count + 1
-                    self.set_text(insert="资源点正在采集")
-                    if repeat_count > 4:
-                        self.set_text(insert="stuck! end task")
-                        break
-                    else:
-                        continue
-                last_resource_pos.append(new_resource_pos)
+                if len(new_resource_pos) > 0:
+                    if new_resource_pos in last_resource_pos:
+                        should_decreasing_lv = True
+                        repeat_count = repeat_count + 1
+                        self.set_text(insert="资源点正在采集")
+                        if repeat_count > 4:
+                            self.set_text(insert="stuck! end task")
+                            break
+                        else:
+                            continue
+                    last_resource_pos.append(new_resource_pos)
                 should_decreasing_lv = False
                 gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
                 self.tap(gather_button_pos[0], gather_button_pos[1], 8)

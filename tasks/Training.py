@@ -13,7 +13,7 @@ class Training(Task):
 
     def do(self, next_task=TaskName.GATHER):
         super().set_text(title='训练/升级部队', remove=True)
-        super().set_text(insert='Init view')
+        super().set_text(insert='回到城市')
         super().back_to_map_gui()
         super().back_to_home_gui()
         super().home_gui_full_view()

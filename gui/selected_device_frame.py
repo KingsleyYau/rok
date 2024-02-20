@@ -166,95 +166,19 @@ class SelectedDeviceFrame(Frame):
             
         snapshot_button = button(frame, on_snapshot_click, text='Snapshot')
         snapshot_button.grid(row=0, column=2, sticky=N + W)
-                
-        server_label = Label(frame, text='server:')
-        server = StringVar()
-        server_entry = Entry(frame, textvariable=server, width=5)
-        server.set('15')
-        server_label.grid(row=1, column=0, columnspan=1, sticky=N + W)
-        server_entry.grid(row=1, column=1, columnspan=1, sticky=N + W)
         
-        x_label = Label(frame, text='x:', width=4)
-        x = StringVar()
-        x_entry = Entry(frame, textvariable=x, width=3)
-        x.set('169')
-        x_label.grid(row=1, column=2, columnspan=1, sticky=N + W)
-        x_entry.grid(row=1, column=3, columnspan=1, sticky=N + W)
-        
-        y_label = Label(frame, text='y:', width=4)
-        y = StringVar()
-        y_entry = Entry(frame, textvariable=y, width=3)
-        y.set('953')
-        y_label.grid(row=1, column=4, columnspan=1, sticky=N + W)
-        y_entry.grid(row=1, column=5, columnspan=1, sticky=N + W)
-        
-        task = Task(self.bot)
-        def on_title_click(btn):
-            task.back_to_home_gui()
+        # diamond
+        def on_diamond_click(btn):
+            task = Task(self.bot)
             task.back_to_map_gui()
-            _, _, pos = self.bot.gui.check_any(
-                ImagePathAndProps.SEARCH_ICON_SMALL_IMAGE_PATH.value
-            )
-            task.tap(pos[0], pos[1], 1)
+            task.zoom(320, 180, 640, 360, zoom_type='out')
+            # while True:
+            #     task.swipe(320, 300, 640, 300)
+            #     time.sleep(5)
             
-            _, _, server_pos = self.bot.gui.check_any(
-                ImagePathAndProps.SEARCH_SERVER_IMAGE_PATH.value
-            )
-            task.text(server_pos[0] - 25, server_pos[1] + 10, server_entry.get())
-            
-            _, _, x_pos = self.bot.gui.check_any(
-                ImagePathAndProps.SEARCH_X_IMAGE_PATH.value
-            )
-            task.text(x_pos[0] + 25, x_pos[1] + 10, x_entry.get())
-            
-            _, _, y_pos = self.bot.gui.check_any(
-                ImagePathAndProps.SEARCH_Y_IMAGE_PATH.value
-            )
-            task.text(y_pos[0] + 25, y_pos[1] + 10, y_entry.get())
-            
-            _, _, search_pos = self.bot.gui.check_any(
-                ImagePathAndProps.SEARCH_BUTTON_IMAGE_PATH.value
-            )
-            task.tap(search_pos[0], search_pos[1], 10)
-            
-            task.tap(640, 360, 1)
-            
-            _, _, title_pos = self.bot.gui.check_any(
-                ImagePathAndProps.TITLE_BUTTON_PATH.value
-            )
-            task.tap(title_pos[0], title_pos[1])
-              
-        def on_train_click(btn):
-            title_expected_pos = (505, 380)
-            log('发放头衔, 公爵', title_expected_pos)
-            on_title_click(btn)
-            on_title_confirm(title_expected_pos)
-            
-        def on_judge_click(btn):
-            title_expected_pos = (280, 380)
-            log('发放头衔, 法官', title_expected_pos)
-            on_title_click(btn)
-            on_title_confirm(title_expected_pos)
-            
-        def on_title_confirm(title_expected_pos):
-            _, _, title_check_pos = self.bot.gui.check_any(
-                ImagePathAndProps.TITLE_CHECK_BUTTON_PATH.value
-            )
-            log('title_check_pos', title_check_pos, 'title_expected_pos', title_expected_pos)
-            if title_check_pos is None or abs(title_check_pos[0]-title_expected_pos[0]) > 30:
-                log('发放头衔成功', title_expected_pos)
-                task.tap(title_expected_pos[0], title_expected_pos[1]) 
-            else:
-                log('头衔已经发放, 跳过', title_check_pos)
-            _, _, ok_pos = self.bot.gui.check_any(
-                ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
-            )
-            task.tap(ok_pos[0], ok_pos[1]) 
-               
-        train_button = button(frame, on_train_click, text='公爵')
-        train_button.grid(row=1, column=6, columnspan=1, sticky=N + W)
-        judge_button = button(frame, on_judge_click, text='大法官')
-        judge_button.grid(row=1, column=7, columnspan=1, sticky=N + W)
+        diamond_button = button(frame, on_diamond_click, text='Diamond')
+        diamond_button.grid(row=0, column=3, sticky=N + W)
+        
         return frame
 
     def on_task_update(self, text):

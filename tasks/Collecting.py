@@ -10,7 +10,7 @@ class Collecting(Task):
 
     def do(self, next_task=TaskName.CLAIM_QUEST):
         super().set_text(title='收集城内资源/治疗部队/帮助盟友', remove=True)
-        super().set_text(insert='Init view')
+        super().set_text(insert='回到城市')
 
         try:
             super().back_to_home_gui()
