@@ -97,7 +97,7 @@ class Task:
         self.tap(pos)
 
     def home_gui_full_view(self):
-        self.set_text(insert='回到城市全视觉')
+        self.set_text(insert='切换城市全视觉')
         self.tap((60, 540), 5)
         self.tap((1105, 200), 5)
         self.tap((1220, 35), 5)
@@ -165,7 +165,7 @@ class Task:
             time.sleep(60)
         pos_list = None
         
-        pos_free = (400 + 10 * random.random(), 400 + 10 * random.random())
+        pos_free = (400 + int(10 * random.random()), 400 + int(10 * random.random()))
         
         for i in range(0, 1):
             result = self.gui.get_curr_gui_name()
