@@ -13,7 +13,7 @@ from filepath.file_relative_paths import ImagePathAndProps
 from PIL import ImageTk, Image
 from tasks.Task import Task
 import time
-from utils import log
+from utils import log, device_log
 
 class SelectedDeviceFrame(Frame):
 
@@ -46,6 +46,7 @@ class SelectedDeviceFrame(Frame):
 
         
     def refresh_snapshot(self):
+        device_log(self.device, '截图')
         img = self.bot.gui.get_curr_device_screen_img().resize((205, 155))
         self.display_canvas.img = image = ImageTk.PhotoImage(img)
         self.display_canvas.create_image(5, 5, image=image, anchor='nw')
@@ -137,6 +138,7 @@ class SelectedDeviceFrame(Frame):
         self.bot.text_update_event = self.on_task_update
         self.bot.building_pos_update_event = lambda **kw: write_building_pos(kw['building_pos'], kw['prefix'])
         self.bot.config_update_event = lambda **kw: write_bot_config(kw['config'], kw['prefix'])
+        self.bot.snashot_update_event = self.on_snashot_update
 
         self.bot.start(self.bot.do_task)
 
@@ -197,7 +199,9 @@ class SelectedDeviceFrame(Frame):
         self.task_text.delete(1.0, END)
         for t in text_list:
             self.task_text.insert(INSERT, t + '\n')
-
+            
+    def on_snashot_update(self):
+        self.refresh_snapshot()
 
 def section_frame(app, parent, title_component_fn, sub_component_fns=[], start_row=0, start_column=0):
     outer_frame = Frame(parent)

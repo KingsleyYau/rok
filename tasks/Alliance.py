@@ -55,10 +55,8 @@ class Alliance(Task):
                     super().set_text(insert='收集领土资源')
                     territory_pos = (785, 405)
                     claim_pos = (1020, 140)
-                    x, y = territory_pos
-                    super().tap((x, y))
-                    x, y = claim_pos
-                    super().tap((x, y))
+                    super().tap(territory_pos)
+                    super().tap(claim_pos)
 
                 elif name == 'TECHNOLOGY':
                     super().set_text(insert='捐献科技')
@@ -75,6 +73,8 @@ class Alliance(Task):
                                 super().tap(donate_btn_pos)
                     else:
                         super().set_text(insert="没有找到推荐捐献科技")
+                        
+                self.bot.snashot_update_event()
 
         except Exception as e:
             traceback.print_exc()

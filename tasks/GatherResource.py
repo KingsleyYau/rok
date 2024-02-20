@@ -105,7 +105,9 @@ class GatherResource(Task):
 
                 self.set_text(insert="发现资源点")
                 self.tap((640, 320))
-
+                
+                self.bot.snashot_update_event()
+                
                 # check is same pos
                 new_resource_pos = self.gui.resource_location_image_to_string()
                 if len(new_resource_pos) > 0:

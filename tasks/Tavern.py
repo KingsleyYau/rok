@@ -28,6 +28,7 @@ class Tavern(Task):
             if open_btn_pos is None:
                 break
             super().set_text(insert="打开免费[白银/黄金/水晶]宝箱{}".format(open_btn_pos))
+            self.bot.snashot_update_event()
             super().tap(open_btn_pos, 8)
             _, _, confirm_btn_pos = self.gui.check_any(ImagePathAndProps.CHEST_CONFIRM_BUTTON_IMAGE_PATH.value)
             if confirm_btn_pos is None:

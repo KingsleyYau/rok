@@ -46,6 +46,7 @@ class Bot:
         self.gui = GuiDetector(device)
         self.text_update_event = lambda v: v
         self.text = {"title": "", "text_list": []}
+        self.snashot_update_event = None
 
         self.building_pos_update_event = lambda **kw: kw
         self.config_update_event = lambda **kw: kw
