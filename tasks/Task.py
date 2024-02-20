@@ -171,25 +171,29 @@ class Task:
             result = self.gui.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
             device_log(self.device, '获取当前界面', 'gui_name', gui_name, 'pos', pos)
+            
+            _, _, comfirm_pos = self.gui.check_any(
+                    ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
+                    )
+            if comfirm_pos is not None:
+                device_log(self.device, '发现确定按钮, 点击确定', comfirm_pos)
+                self.tap(comfirm_pos)
+                    
             if gui_name == GuiName.VERIFICATION_VERIFY.name:
                 self.tap(pos, 5)
                 pos_list = self.pass_verification()
             elif gui_name == GuiName.HELLO_WROLD_IMG.name:
-                device_log(self.device, '欢迎界面, 点击任意地方')
+                device_log(self.device, '欢迎界面, 点击任意地方', pos_free)
                 self.tap(pos_free)
                 time.sleep(int(config.global_config.startSleepTime))
             # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
             #     pos_list = self.pass_verification()
                 return result
+            # elif (gui_name == GuiName.MAP.name) | (gui_name == GuiName.HOME.name):
+            #     device_log(self.device, '地图/城市界面, 不需要处理')
             else:
-                _, _, comfirm_pos = self.gui.check_any(
-                    ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
-                    )
-                if comfirm_pos is not None:
-                    device_log(self.device, '点击确定')
-                    self.tap(comfirm_pos)
-                else:
-                    self.tap(pos_free)
+                device_log(self.device, '点击任意地方', pos_free)
+                self.tap(pos_free)
             return result
         if not pos_list:
             raise Exception("Could not pass verification")
