@@ -22,15 +22,15 @@ class Tavern(Task):
         _, _, tavern_btn_pos = self.gui.check_any(ImagePathAndProps.TAVERN_BUTTON_BUTTON_IMAGE_PATH.value)
         if tavern_btn_pos is None:
             return next_task
-        super().tap(tavern_btn_pos, 4)
+        super().tap(tavern_btn_pos, 8)
         for i in range(20):
             _, _, open_btn_pos = self.gui.check_any(ImagePathAndProps.CHEST_OPEN_BUTTON_IMAGE_PATH.value)
             if open_btn_pos is None:
                 return next_task
             super().set_text(insert="打开免费宝箱({})".format(open_btn_pos))
-            super().tap(open_btn_pos, 4)
+            super().tap(open_btn_pos, 8)
             _, _, confirm_btn_pos = self.gui.check_any(ImagePathAndProps.CHEST_CONFIRM_BUTTON_IMAGE_PATH.value)
             if confirm_btn_pos is None:
                 return next_task
-            super().tap(confirm_btn_pos, 4)
+            super().tap(confirm_btn_pos, 8)
         return next_task

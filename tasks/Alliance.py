@@ -18,7 +18,7 @@ class Alliance(Task):
                 super().set_text(insert='打开联盟中心')
                 super().back_to_home_gui()
                 super().menu_should_open(True)
-                super().tap(alliance_btn_pos, 3)
+                super().tap(alliance_btn_pos)
 
                 if name == 'HELP':
                     super().set_text(insert='帮助盟友')
