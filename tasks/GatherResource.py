@@ -124,7 +124,7 @@ class GatherResource(Task):
                 self.tap(gather_button_pos, 8)
                 pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
                 if pos is None:
-                    self.set_text(insert="没有队列采集")
+                    self.set_text(insert="没有更多队列采集")
                     return next_task
                 new_troops_button_pos = pos
                 self.set_text(insert="创建部队")

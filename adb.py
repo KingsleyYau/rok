@@ -53,12 +53,12 @@ def enable_adb(host='127.0.0.1', port=5037):
         
     except RuntimeError as err:
         log('enable_adb', err)
-        cmd = build_command(adb_path, 'kill-server')
+        cmd = build_command(adb_path + ' kill-server')
         ret = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
         log('enable_adb', cmd, ret)
-        cmd = build_command(adb_path, 'start-server')
+        cmd = build_command(adb_path + ' start-server')
         ret = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
-        log('enable_adb', ret)
+        log('enable_adb', cmd, ret)
         #
         # if ret.returncode != 0:
         #     raise RuntimeError('Error: fail to start adb server. \n({})'.format(ret))
