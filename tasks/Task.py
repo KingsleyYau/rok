@@ -170,7 +170,7 @@ class Task:
         for i in range(0, 1):
             result = self.gui.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
-            device_log(self.device, 'get_curr_gui_name', 'gui_name', gui_name, 'pos', pos)
+            device_log(self.device, '获取当前界面', 'gui_name', gui_name, 'pos', pos)
             if gui_name == GuiName.VERIFICATION_VERIFY.name:
                 self.tap(pos, 5)
                 pos_list = self.pass_verification()
