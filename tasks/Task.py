@@ -162,7 +162,7 @@ class Task:
             self.set_text(insert=str)
             self.stopRok()
             self.runOfRoK()
-            time.sleep(60)
+            time.sleep(30)
         pos_list = None
         
         pos_free = (400 + int(50 * (0.5 - random.random())), 400 + int(50 * (0.5 - random.random())))
@@ -175,6 +175,7 @@ class Task:
                 self.tap(pos, 5)
                 pos_list = self.pass_verification()
             elif gui_name == GuiName.HELLO_WROLD_IMG.name:
+                device_log(self.device, '欢迎界面, 点击任意地方')
                 self.tap(pos_free)
                 time.sleep(int(config.global_config.startSleepTime))
             # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
@@ -185,6 +186,7 @@ class Task:
                     ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
                     )
                 if comfirm_pos is not None:
+                    device_log(self.device, '被踢, 点击确定')
                     self.tap(comfirm_pos[0])
                 else:
                     self.tap(pos_free)

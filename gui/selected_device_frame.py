@@ -46,7 +46,7 @@ class SelectedDeviceFrame(Frame):
 
         
     def refresh_snapshot(self):
-        img = self.bot.gui.get_curr_device_screen_img().resize((210, 135))
+        img = self.bot.gui.get_curr_device_screen_img().resize((210, 120))
         self.display_canvas.img = image = ImageTk.PhotoImage(img)
         self.display_canvas.create_image((0, 0), image=image, anchor='nw')
             

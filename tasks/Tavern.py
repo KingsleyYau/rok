@@ -27,10 +27,31 @@ class Tavern(Task):
             _, _, open_btn_pos = self.gui.check_any(ImagePathAndProps.CHEST_OPEN_BUTTON_IMAGE_PATH.value)
             if open_btn_pos is None:
                 return next_task
-            super().set_text(insert="打开免费宝箱({})".format(open_btn_pos))
+            super().set_text(insert="打开免费[白银/黄金/水晶]宝箱{}".format(open_btn_pos))
             super().tap(open_btn_pos, 8)
             _, _, confirm_btn_pos = self.gui.check_any(ImagePathAndProps.CHEST_CONFIRM_BUTTON_IMAGE_PATH.value)
             if confirm_btn_pos is None:
                 return next_task
             super().tap(confirm_btn_pos, 8)
+        
+        # 重新打开酒馆
+        super().back_to_home_gui()
+        super().home_gui_full_view()
+
+        # tap tavern building
+        super().set_text(insert='打开酒馆{}'.format(tavern_pos))
+        super().tap(tavern_pos)
+        _, _, tavern_btn_pos = self.gui.check_any(ImagePathAndProps.TAVERN_BUTTON_BUTTON2_IMAGE_PATH.value)
+        if tavern_btn_pos is None:
+            return next_task
+        super().tap(tavern_btn_pos, 8)
+        _, _, open_btn_pos = self.gui.check_any(ImagePathAndProps.CHEST_OPEN_BUTTON_IMAGE_PATH.value)
+        if open_btn_pos is None:
+            return next_task
+        super().set_text(insert="打开免费传说宝箱({})".format(open_btn_pos))
+        super().tap(open_btn_pos, 8)
+        _, _, confirm_btn_pos = self.gui.check_any(ImagePathAndProps.CHEST_CONFIRM_BUTTON_IMAGE_PATH.value)
+        if confirm_btn_pos is None:
+            return next_task
+        super().tap(confirm_btn_pos, 8)
         return next_task
