@@ -230,6 +230,8 @@ class Task:
         return pos_list
 
     def has_buff(self, checking_location, buff_img_props):
+        path, size, box, threshold, least_diff, tab_name = buff_img_props
+        self.set_text(insert='检查是否存在增益,{}'.format(path))
         # Where to check
         if checking_location == HOME:
             self.back_to_home_gui()
@@ -274,6 +276,7 @@ class Task:
             _, _, item_pos = self.gui.check_any(item_img_props)
             if item_pos is None:
                 continue
+            self.set_text(insert='使用增益{}'.format(path))
             self.tap(item_pos)
             # tap on use Item
             self.tap(use_btn_pos)
