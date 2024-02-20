@@ -70,7 +70,7 @@ class Task:
 
     # Home
     def back_to_home_gui(self):
-        device_log(self.device, '回到城市')
+        self.set_text(insert='回到城市')
         loop_count = 0
         gui_name = None
         while True:
@@ -97,7 +97,7 @@ class Task:
         self.tap(pos)
 
     def home_gui_full_view(self):
-        device_log(self.device, '回到城市全视觉')
+        self.set_text(insert='回到城市全视觉')
         self.tap((60, 540), 5)
         self.tap((1105, 200), 5)
         self.tap((1220, 35), 5)
@@ -137,7 +137,7 @@ class Task:
     def back_to_map_gui(self):
         loop_count = 0
         gui_name = None
-        device_log(self.device, '回到地图')
+        self.set_text(insert='回到地图')
         while True:
             result = self.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result

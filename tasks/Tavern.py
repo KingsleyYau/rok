@@ -12,13 +12,12 @@ class Tavern(Task):
 
     def do(self, next_task=TaskName.TRAINING):
         super().set_text(title='酒馆', remove=True)
-        super().set_text(insert='回到城市')
         super().back_to_home_gui()
         super().home_gui_full_view()
         tavern_pos = self.bot.building_pos[BuildingNames.TAVERN.value]
 
         # tap tavern building
-        super().set_text(insert='打开酒馆({})'.format(tavern_pos))
+        super().set_text(insert='打开酒馆{}'.format(tavern_pos))
         super().tap(tavern_pos)
         _, _, tavern_btn_pos = self.gui.check_any(ImagePathAndProps.TAVERN_BUTTON_BUTTON_IMAGE_PATH.value)
         if tavern_btn_pos is None:

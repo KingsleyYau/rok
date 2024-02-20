@@ -17,9 +17,8 @@ class LocateBuilding(Task):
     def do(self, next_task=TaskName.COLLECTING):
 
         try:
-            super().set_text(title='Init Building Position', remove=True)
+            super().set_text(title='初始化建筑地图', remove=True)
             super().set_text(insert='progress: 0%', index=0)
-            super().set_text(append='init view')
 
             super().back_to_home_gui()
             super().home_gui_full_view()

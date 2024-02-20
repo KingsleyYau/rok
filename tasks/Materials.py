@@ -26,7 +26,6 @@ class Materials(Task):
                 '乌木',
                 '兽骨',
             ]
-            super().set_text(insert='回到城市')
             super().back_to_home_gui()
             super().home_gui_full_view()
             blacksmith_pos = self.bot.building_pos[BuildingNames.BLACKSMITH.value]
