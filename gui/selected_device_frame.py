@@ -46,9 +46,9 @@ class SelectedDeviceFrame(Frame):
 
         
     def refresh_snapshot(self):
-        img = self.bot.gui.get_curr_device_screen_img().resize((210, 120))
+        img = self.bot.gui.get_curr_device_screen_img().resize((205, 155))
         self.display_canvas.img = image = ImageTk.PhotoImage(img)
-        self.display_canvas.create_image((0, 0), image=image, anchor='nw')
+        self.display_canvas.create_image(5, 5, image=image, anchor='nw')
             
     def task_display_frame(self):
         width = self.windows_size[0] - 20
@@ -69,7 +69,7 @@ class SelectedDeviceFrame(Frame):
         dl.grid(row=0, column=0, columnspan=2, pady=5, sticky=N + W)
         title.grid(row=1, column=0, pady=5, sticky=N + W)
         text.grid(row=2, column=0, pady=5, sticky=N + W)
-        canvas.grid(row=1, column=1, rowspan=2, pady=5, sticky=N + W)
+        canvas.grid(row=1, column=1, rowspan=2, pady=0, sticky=N + W)
         
         return frame, title, text, canvas
 
