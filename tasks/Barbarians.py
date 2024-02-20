@@ -43,10 +43,9 @@ class Barbarians(Task):
                 super().back_to_map_gui()
 
                 # tap on magnifier
-                super().tap(60, 540, 1)
+                super().tap((60, 540))
                 # tap on barbarians icon
-                x, y = icon_pos
-                super().tap(x, y, 1)
+                super().tap(icon_pos)
 
                 # set barbarians level
                 level = random.randrange(min_lv, max_lv + 1)
@@ -57,10 +56,8 @@ class Barbarians(Task):
                 _, _, search_pos = self.gui.check_any(
                     ImagePathAndProps.RESOURCE_SEARCH_BUTTON_IMAGE_PATH.value
                 )
-                x, y = search_pos
-                super().tap(x, y, 2)
-                x, y = center_pos
-                super().tap(x, y, 1)
+                super().tap(search_pos)
+                super().tap(center_pos)
 
                 found, _, _ = self.gui.check_any(
                     ImagePathAndProps.RESOURCE_SEARCH_BUTTON_IMAGE_PATH.value
@@ -76,8 +73,7 @@ class Barbarians(Task):
                 _, _, atk_btn_pos = self.gui.check_any(
                     ImagePathAndProps.ATTACK_BUTTON_POS_IMAGE_PATH.value
                 )
-                x, y = atk_btn_pos
-                super().tap(x, y, 3)
+                super().tap(atk_btn_pos)
 
                 if not self.bot.config.holdPosition or is_in_city:
                     # tap on new troop
@@ -87,8 +83,7 @@ class Barbarians(Task):
                     if not has_new_troops_btn:
                         super().set_text(insert="Not more space for march")
                         return next_task
-                    x, y = new_troop_btn_pos
-                    super().tap(x, y, 2)
+                    super().tap(new_troop_btn_pos)
 
                     # select saves
                     self.select_save_blue_one()
@@ -98,16 +93,14 @@ class Barbarians(Task):
                         ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value
                     )
                     super().set_text(insert="March")
-                    x, y = match_button_pos
-                    super().tap(x, y, 1)
+                    super().tap(match_button_pos)
 
                     if self.use_ap_recovery():
                         _, _, match_button_pos = self.gui.check_any(
                             ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value
                         )
                         super().set_text(insert="March")
-                        x, y = match_button_pos
-                        super().tap(x, y, 1)
+                        super().tap(match_button_pos)
 
                     commander_cv_img = self.gui.get_image_in_box(queue_one_pos)
                     is_in_city = False
@@ -121,20 +114,18 @@ class Barbarians(Task):
                     if pos is None:
                         break
                     x, y = pos
-                    super().tap(x - 10, y - 10, 2)
+                    super().tap((x - 10, y - 10), 2)
 
                     # tap on match button
                     _, _, pos = self.gui.check_any(
                         ImagePathAndProps.MARCH_BAR_IMAGE_PATH.value
                     )
-                    x, y = pos
-                    super().tap(x, y, 1)
+                    super().tap(pos)
                     if self.use_ap_recovery():
                         _, _, pos = self.gui.check_any(
                             ImagePathAndProps.MARCH_BAR_IMAGE_PATH.value
                         )
-                        x, y = pos
-                        super().tap(x, y, 1)
+                        super().tap(pos)
 
                 # block and try to catch battle result
                 battle_result = self.battle_result_detector(commander_cv_img)
@@ -159,16 +150,13 @@ class Barbarians(Task):
             # call commander return
             result = self.gui.has_image_cv_img(commander_cv_img)
             if result is not None:
-                x, y = result["result"]
-                super().tap(x, y, 1)
-                x, y = center_pos
-                super().tap(x, y, 1)
+                super().tap(result["result"])
+                super().tap(center_pos)
                 _, _, pos = self.gui.check_any(
                     ImagePathAndProps.RETURN_BUTTON_IMAGE_PATH.value
                 )
                 if pos is not None:
-                    x, y = pos
-                    super().tap(x, y, 1)
+                    super().tap(pos)
                     is_in_city = True
 
         except Exception as e:
@@ -213,8 +201,7 @@ class Barbarians(Task):
                 * (max_pos[0] - min_pos[0])
                 + min_pos[0]
             )
-            y = max_pos[1]
-            super().tap(x, y, 1)
+            super().tap(max_pos[1])
             # self.gui.debug = True
             curr_lv = self.gui.barbarians_level_image_to_string()
             # self.gui.debug = False
@@ -223,22 +210,19 @@ class Barbarians(Task):
                 super().set_text(
                     insert="Fail to read current level, set to lv.1".format(curr_lv)
                 )
-                x, y = min_pos
-                super().tap(x, y, 1)
+                super().tap(min_pos)
                 curr_lv = 1
             elif abs(level - curr_lv) > 5:
                 super().set_text(insert="current level is {}".format(curr_lv))
                 super().set_text(insert="fail to read level, set to level 1")
-                x, y = min_pos
-                super().tap(x, y, 1)
+                super().tap(min_pos)
                 curr_lv = base_level + 1
             else:
                 super().set_text(insert="current level is {}".format(curr_lv))
 
             btn_pos = inc_pos if curr_lv < level else dec_pos
             for i in range(int(abs(level - curr_lv))):
-                x, y = btn_pos
-                super().tap(x, y)
+                super().tap(btn_pos)
 
     # attack barbarians
     def hold_pos_after_attack(self, should_hold):
@@ -250,14 +234,13 @@ class Barbarians(Task):
                 ImagePathAndProps.HOLD_POS_UNCHECK_IMAGE_PATH.value
             )
             x, y = pos
-            super().tap(x - 3, y)
+            super().tap((x - 3, y))
         elif not should_hold and is_check:
             x, y = pos
-            super().tap(x - 3, y)
+            super().tap((x - 3, y))
 
     def tap_on_save_btn(self, pos):
-        _x, _y = pos
-        super().tap(_x, _y, 1)
+        super().tap(pos)
         is_save_unselect, _, _ = self.gui.check_any(
             ImagePathAndProps.UNSELECT_BLUE_ONE_SAVE_BUTTON_IMAGE_PATH.value
         )
@@ -282,8 +265,7 @@ class Barbarians(Task):
                 print(has_save_btn)
                 for times in range(3):
                     # tap switch button
-                    x, y = switch_btn_pos
-                    super().tap(x, y)
+                    super().tap(switch_btn_pos)
                     # check is save one exists
                     has_save_btn, _, save_btn_pos = self.gui.check_any(
                         ImagePathAndProps.UNSELECT_BLUE_ONE_SAVE_BUTTON_IMAGE_PATH.value
@@ -348,7 +330,7 @@ class Barbarians(Task):
                 )
                 if pos is not None:
                     super().set_text(insert="Use Daily AP Recovery")
-                    super().tap(pos[0], pos[1], 1)
+                    super().tap(pos, 1)
                     used = True
             if self.bot.config.useNormalAPRecovery and not used:
                 _, _, pos = self.gui.check_any(
@@ -357,7 +339,7 @@ class Barbarians(Task):
                 if pos is not None:
                     super().set_text(insert="Use Normal AP Recovery")
                     for i in range(2):
-                        super().tap(pos[0], pos[1], 1)
+                        super().tap(pos, 1)
                     used = True
             if not used:
                 super().set_text(insert="Run out of AP")

@@ -18,24 +18,20 @@ class Tavern(Task):
         tavern_pos = self.bot.building_pos[BuildingNames.TAVERN.value]
 
         # tap tavern building
-        x, y = tavern_pos
-        super().set_text(insert='打开酒馆({}, {})'.format(x, y))
-        super().tap(x, y, 1)
+        super().set_text(insert='打开酒馆({})'.format(tavern_pos))
+        super().tap(tavern_pos)
         _, _, tavern_btn_pos = self.gui.check_any(ImagePathAndProps.TAVERN_BUTTON_BUTTON_IMAGE_PATH.value)
         if tavern_btn_pos is None:
             return next_task
-        x, y = tavern_btn_pos
-        super().tap(x, y, 4)
+        super().tap(tavern_btn_pos, 4)
         for i in range(20):
             _, _, open_btn_pos = self.gui.check_any(ImagePathAndProps.CHEST_OPEN_BUTTON_IMAGE_PATH.value)
             if open_btn_pos is None:
                 return next_task
-            x, y = open_btn_pos
-            super().set_text(insert="打开免费宝箱({}, {})".format(x, y))
-            super().tap(x, y, 4)
+            super().set_text(insert="打开免费宝箱({})".format(open_btn_pos))
+            super().tap(open_btn_pos, 4)
             _, _, confirm_btn_pos = self.gui.check_any(ImagePathAndProps.CHEST_CONFIRM_BUTTON_IMAGE_PATH.value)
             if confirm_btn_pos is None:
                 return next_task
-            x, y = confirm_btn_pos
-            super().tap(x, y, 4)
+            super().tap(confirm_btn_pos, 4)
         return next_task

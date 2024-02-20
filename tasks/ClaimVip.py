@@ -17,14 +17,12 @@ class ClaimVip(Task):
         # tap on vip
         super().set_text(insert='打开VIP')
         x, y = vip_pos
-        super().tap(x, y, 2)
+        super().tap(vip_pos)
         # tap on vip point chest
         super().set_text(insert='收集VIP积分')
-        x, y = vip_point_chest
-        super().tap(x, y, 5)
-        super().tap(x, y, 1)
+        super().tap(vip_point_chest, 5)
+        super().tap(vip_point_chest)
         # tap on free chest
         super().set_text(insert='收集VIP礼物')
-        x, y = vip_free_chest
-        super().tap(x, y, 1)
+        super().tap(vip_free_chest)
         return next_task

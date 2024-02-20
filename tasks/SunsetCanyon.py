@@ -14,8 +14,7 @@ class SunsetCanyon(Task):
         campaign_btn_pos = (830, 670)
         self.back_to_home_gui()
         self.menu_should_open(True)
-        x, y = campaign_btn_pos
-        self.tap(x, y, 1)
+        self.tap(campaign_btn_pos)
 
         found, _, pos = self.gui.check_any(ImagePathAndProps.SUNSET_CANYON_IMAGE_PATH.value)
         if not found:
@@ -23,11 +22,10 @@ class SunsetCanyon(Task):
             return next_task
 
         self.set_text(insert='Open Sunset Canyon')
-        x, y = pos
-        self.tap(x, y, 1)
+        self.tap(pos)
 
         while True:
-            self.tap(640, 650, 1)
+            self.tap((640, 650))
             free_attempts, ticket_attempts = self.gui.sunset_canyon_attempts_image_to_string()
             self.set_text(insert=f'Free attempts [{free_attempts}]. Ticket attempts [{ticket_attempts}]')
             if free_attempts == 0 and ticket_attempts == 0:
@@ -46,10 +44,10 @@ class SunsetCanyon(Task):
                 # Check if skip battle button is checked, if not press it
                 is_check, _, pos = self.gui.check_any(ImagePathAndProps.SKIP_BATTLE_CHECKED_IMAGE_PATH.value)
                 if not is_check:
-                    self.tap(590, 590, 1)
+                    self.tap((590, 590))
 
                 # Click OK
-                self.tap(640, 650, 3)
+                self.tap((640, 650))
                 # Click again to go back
-                self.tap(640, 650, 2)
+                self.tap((640, 650))
                 # Repeat

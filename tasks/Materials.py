@@ -30,13 +30,11 @@ class Materials(Task):
             super().back_to_home_gui()
             super().home_gui_full_view()
             blacksmith_pos = self.bot.building_pos[BuildingNames.BLACKSMITH.value]
-            x, y = blacksmith_pos
-            super().tap(x, y)
+            super().tap(blacksmith_pos)
             _, _, product_btn_pos = self.gui.check_any(ImagePathAndProps.MATERIALS_PRODUCTION_BUTTON_IMAGE_PATH.value)
             if product_btn_pos is None:
                 return next_task
-            x, y = product_btn_pos
-            super().tap(x, y, 5)
+            super().tap(product_btn_pos, 5)
             list_amount = self.gui.materilal_amount_image_to_string()
             super().set_text(insert='皮革: {}, 矿石: {}, 乌木: {}, 兽骨: {}'.format(
                 list_amount[0], list_amount[1], list_amount[2], list_amount[3])
@@ -46,10 +44,9 @@ class Materials(Task):
             for i in range(len(list_amount) - 1):
                 if list_amount[min] > list_amount[i]:
                     min = i
-            x, y = icon_pos[min]
             super().set_text(insert='生产最少材料, {}'.format(icon_name[min]))
             for i in range(5):
-                super().tap(x, y)
+                super().tap(icon_pos[min])
         except Exception as e:
             traceback.print_exc()
             return next_task

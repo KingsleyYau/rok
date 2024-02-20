@@ -15,7 +15,7 @@ from enum import Enum
 import config
 import traceback
 import time
-
+import random
 
 from filepath.constants import RESOURCES, SPEEDUPS, BOOSTS, EQUIPMENT, OTHER, MAP, HOME
 
@@ -38,18 +38,16 @@ class Task:
             )
             if commander_pos is not None:
                 x, y = commander_pos
-                self.tap(x - 10, y - 10)
-                x, y = self.center
-                self.tap(x, y)
-                self.tap(x, y)
+                self.tap((x - 10, y - 10))
+                self.tap(self.center)
+                self.tap(self.center)
             else:
                 return
             _, _, return_btn_pos = self.gui.check_any(
                 ImagePathAndProps.RETURN_BUTTON_IMAGE_PATH.value
             )
             if return_btn_pos is not None:
-                x, y = return_btn_pos
-                self.tap(x, y)
+                self.tap(return_btn_pos)
             else:
                 return
 
@@ -58,26 +56,17 @@ class Task:
         heal_button_pos = (960, 590)
         self.back_to_home_gui()
         self.home_gui_full_view()
-        self.tap(
-            self.bot.building_pos[BuildingNames.HOSPITAL.value][0],
-            self.bot.building_pos[BuildingNames.HOSPITAL.value][1],
-        )
-        self.tap(285, 20)
+        self.tap(self.bot.building_pos[BuildingNames.HOSPITAL.value])
+        self.tap((285, 20))
         _, _, heal_icon_pos = self.gui.check_any(
             ImagePathAndProps.HEAL_ICON_IMAGE_PATH.value
         )
         if heal_icon_pos is None:
             return
-        self.tap(heal_icon_pos[0], heal_icon_pos[1])
-        self.tap(heal_button_pos[0], heal_button_pos[1])
-        self.tap(
-            self.bot.building_pos[BuildingNames.HOSPITAL.value][0],
-            self.bot.building_pos[BuildingNames.HOSPITAL.value][1],
-        )
-        self.tap(
-            self.bot.building_pos[BuildingNames.HOSPITAL.value][0],
-            self.bot.building_pos[BuildingNames.HOSPITAL.value][1],
-        )
+        self.tap(heal_icon_pos[0])
+        self.tap(heal_button_pos[0])
+        self.tap(self.bot.building_pos[BuildingNames.HOSPITAL.value])
+        self.tap(self.bot.building_pos[BuildingNames.HOSPITAL.value])
 
     # Home
     def back_to_home_gui(self):
@@ -90,8 +79,7 @@ class Task:
             if gui_name == GuiName.HOME.name:
                 break
             elif gui_name == GuiName.MAP.name:
-                x_pos, y_pos = info
-                self.tap(x_pos, y_pos)
+                self.tap(info)
             elif gui_name == GuiName.WINDOW.name:
                 self.back(1)
             else:
@@ -106,14 +94,13 @@ class Task:
         )
         if not has_green_home:
             return None
-        x, y = pos
-        self.tap(x, y)
+        self.tap(pos)
 
     def home_gui_full_view(self):
         device_log(self.device, '回到城市全视觉')
-        self.tap(60, 540, 5)
-        self.tap(1105, 200, 5)
-        self.tap(1220, 35, 5)
+        self.tap((60, 540), 5)
+        self.tap((1105, 200), 5)
+        self.tap((1220, 35), 5)
 
     # Building Position
     def find_building_title(self):
@@ -142,9 +129,9 @@ class Task:
             ImagePathAndProps.MENU_OPENED_IMAGE_PATH.value
         )
         if should_open and not is_open:
-            self.tap(c_x, c_y)
+            self.tap((c_x, c_y))
         elif not should_open and is_open:
-            self.tap(c_x, c_y)
+            self.tap((c_x, c_y))
 
     # Map
     def back_to_map_gui(self):
@@ -158,8 +145,7 @@ class Task:
             if gui_name == GuiName.MAP.name:
                 break
             elif gui_name == GuiName.HOME.name:
-                x_pos, y_pos = pos
-                self.tap(x_pos, y_pos)
+                self.tap(pos)
             elif gui_name == GuiName.WINDOW.name:
                 self.back(1)
             else:
@@ -178,15 +164,18 @@ class Task:
             self.runOfRoK()
             time.sleep(60)
         pos_list = None
+        
+        pos_free = (400 + 10 * random.random(), 400 + 10 * random.random())
+        
         for i in range(0, 1):
             result = self.gui.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
             device_log(self.device, 'get_curr_gui_name', 'gui_name', gui_name, 'pos', pos)
             if gui_name == GuiName.VERIFICATION_VERIFY.name:
-                self.tap(pos[0], pos[1], 5)
+                self.tap(pos, 5)
                 pos_list = self.pass_verification()
             elif gui_name == GuiName.HELLO_WROLD_IMG.name:
-                self.tap(400, 400)
+                self.tap(pos_free)
                 time.sleep(int(config.global_config.startSleepTime))
             # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
             #     pos_list = self.pass_verification()
@@ -196,9 +185,9 @@ class Task:
                     ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
                     )
                 if comfirm_pos is not None:
-                    self.tap(comfirm_pos[0], comfirm_pos[1])
+                    self.tap(comfirm_pos[0])
                 else:
-                    self.tap(400, 400)
+                    self.tap(pos_free)
             return result
         if not pos_list:
             raise Exception("Could not pass verification")
@@ -221,11 +210,11 @@ class Task:
                 return None
 
             for pos in pos_list:
-                self.tap(400 + pos[0], pos[1])
-            self.tap(780, 680, 5)
+                self.tap((400 + pos[0], pos[1]))
+            self.tap((780, 680), 5)
 
         except Exception as e:
-            self.tap(100, 100)
+            self.tap((100, 100))
             traceback.print_exc()
 
         return pos_list
@@ -268,20 +257,16 @@ class Task:
             # open menu
             self.menu_should_open(True)
             # open items window
-            x, y = items_icon_pos
-            self.tap(x, y)
+            self.tap(items_icon_pos)
             # tap on tab
-            x, y = tabs_pos[tab_name]
-            self.tap(x, y)
+            self.tap(tabs_pos[tab_name])
             # find item, and tap it
             _, _, item_pos = self.gui.check_any(item_img_props)
             if item_pos is None:
                 continue
-            x, y = item_pos
-            self.tap(x, y)
+            self.tap(item_pos)
             # tap on use Item
-            x, y = use_btn_pos
-            self.tap(x, y)
+            self.tap(use_btn_pos)
             return True
         return False
 
@@ -323,26 +308,38 @@ class Task:
             time.sleep(duration / 1000 + 0.5 + 0.2)
 
     # long_press_duration is in milliseconds
-    def tap(self, x, y, sleep_time=int(config.global_config.tapSleepTime), long_press_duration=-1):
+    def tap(self, pos, sleep_time=int(config.global_config.tapSleepTime), long_press_duration=-1):
         cmd = None
         if long_press_duration > -1:
-            cmd = "input swipe {} {} {} {} {}".format(x, y, x, y, long_press_duration)
+            cmd = "input swipe {} {} {} {} {}".format(pos[0], pos[1], pos[0], pos[1], long_press_duration)
             sleep_time = long_press_duration / 1000 + 0.2
         else:
-            cmd = "input tap {} {}".format(x, y)
+            cmd = "input tap {} {}".format(pos[0], pos[1])
         
         str = self.device.shell(cmd)
         device_log(self.device, cmd)
         time.sleep(sleep_time)
         
+    # def tap(self, x, y, sleep_time=int(config.global_config.tapSleepTime), long_press_duration=-1):
+    #     cmd = None
+    #     if long_press_duration > -1:
+    #         cmd = "input swipe {} {} {} {} {}".format(x, y, x, y, long_press_duration)
+    #         sleep_time = long_press_duration / 1000 + 0.2
+    #     else:
+    #         cmd = "input tap {} {}".format(x, y)
+    #
+    #     str = self.device.shell(cmd)
+    #     device_log(self.device, cmd)
+    #     time.sleep(sleep_time)
+        
     def double_tap(self, x, y):
         device_log(self.device, 'double_tap', x, y)
-        self.tap(x, y, 0.1)
-        self.tap(x, y, 0.1)
+        self.tap((x, y), 0.1)
+        self.tap((x, y), 0.1)
         time.sleep(1)
         
     def text(self, x, y, text):
-        self.tap(x, y)
+        self.tap((x, y))
         cmd = "input keyevent KEYCODE_MOVE_END"
         self.device.shell(cmd)
         for i in range(8):

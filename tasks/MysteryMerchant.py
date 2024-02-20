@@ -19,8 +19,7 @@ class MysteryMerchant(Task):
             self.set_text(insert='没有发现神秘商店', index=0)
             return next_task
         self.set_text(insert='打开神秘商店')
-        x, y = pos
-        self.tap(x, y, 2)
+        self.tap(pos)
 
         while True:
 
@@ -29,14 +28,12 @@ class MysteryMerchant(Task):
                 self.set_text(insert='buy item with food')
                 list = self.gui.find_all_image_props(ImagePathAndProps.MERCHANT_BUY_WITH_FOOD_IMAGE_PATH.value)
                 for buy_with_food_btn in list:
-                    x, y = buy_with_food_btn['result']
-                    self.tap(x, y,)
+                    self.tap(buy_with_food_btn['result'])
 
                 self.set_text(insert='buy item with wood')
                 list = self.gui.find_all_image_props(ImagePathAndProps.MERCHANT_BUY_WITH_WOOD_IMAGE_PATH.value)
                 for buy_with_wood_btn in list:
-                    x, y = buy_with_wood_btn['result']
-                    self.tap(x, y)
+                    self.tap(buy_with_wood_btn['result'])
 
                 self.swipe(730, 575, 730, 475, 1, 1000)
 
@@ -45,7 +42,6 @@ class MysteryMerchant(Task):
             if not found:
                 return next_task
             self.set_text(insert='Refresh')
-            x, y = pos
-            self.tap(x, y)
+            self.tap(pos)
 
 

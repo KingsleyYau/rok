@@ -21,11 +21,9 @@ class Scout(Task):
             while self.bot.config.enableInvestigation:
                 self.back_to_map_gui()
                 self.set_text(insert="Open mail")
-                x, y = mail_pos
-                self.tap(x, y)
+                self.tap(mail_pos)
                 self.set_text(insert="Open report")
-                x, y = report_pos
-                self.tap(x, y)
+                self.tap(report_pos)
 
                 found, name, pos = self.gui.check_any(
                     ImagePathAndProps.MAIL_EXPLORATION_REPORT_IMAGE_PATH.value,
@@ -37,8 +35,7 @@ class Scout(Task):
                         name
                         == ImagePathAndProps.MAIL_EXPLORATION_REPORT_IMAGE_PATH.value[5]
                     ):
-                        x, y = pos
-                        self.tap(x, y)
+                        self.tap(pos)
 
                     result_list = self.gui.find_all_image_props(
                         ImagePathAndProps.MAIL_SCOUT_BUTTON_IMAGE_PATH.value
@@ -46,23 +43,20 @@ class Scout(Task):
                     result_list.sort(key=lambda result: result["result"][1])
 
                     if idx < len(result_list):
-                        x, y = result_list[idx]["result"]
-                        self.tap(x, y)
+                        self.tap(result_list[idx]["result"])
                     else:
                         break
 
-                    x, y = pos
-                    self.tap(x, y)
+                    self.tap(pos)
 
                 else:
                     break
 
-                x, y = center_pos
-                self.tap(x, y)
-                self.tap(x, y)
-                self.tap(x, y)
-                self.tap(x, y)
-                self.tap(x, y)
+                self.tap(center_pos)
+                self.tap(center_pos)
+                self.tap(center_pos)
+                self.tap(center_pos)
+                self.tap(center_pos)
 
                 found, name, pos = self.gui.check_any(
                     ImagePathAndProps.INVESTIGATE_BUTTON_IMAGE_PATH.value,
@@ -70,8 +64,7 @@ class Scout(Task):
                 )
 
                 if found:
-                    x, y = pos
-                    self.tap(x, y)
+                    self.tap(pos)
                 else:
                     continue
 
@@ -84,7 +77,7 @@ class Scout(Task):
 
                     if found:
                         x, y = pos
-                        self.tap(x - 10, y - 10)
+                        self.tap((x - 10, y - 10))
                     else:
                         break
 
@@ -93,8 +86,7 @@ class Scout(Task):
                     )
 
                     if found:
-                        x, y = pos
-                        self.tap(x, y)
+                        self.tap(pos)
                     else:
                         break
                 else:
@@ -110,8 +102,7 @@ class Scout(Task):
                 # open scout interface
                 self.set_text(insert="tap scout camp")
                 scout_camp_pos = self.bot.building_pos[BuildingNames.SCOUT_CAMP.value]
-                x, y = scout_camp_pos
-                self.tap(x, y)
+                self.tap(scout_camp_pos)
 
                 # find and tap scout button
                 self.set_text(insert="open scout camp")
@@ -119,8 +110,7 @@ class Scout(Task):
                     ImagePathAndProps.SCOUT_BUTTON_IMAGE_PATH.value
                 )
                 if is_found:
-                    x, y = btn_pos
-                    self.tap(x, y)
+                    self.tap(btn_pos)
                 else:
                     return next_task
 
@@ -130,8 +120,7 @@ class Scout(Task):
                     ImagePathAndProps.SCOUT_EXPLORE_BUTTON_IMAGE_PATH.value
                 )
                 if is_found:
-                    x, y = btn_pos
-                    self.tap(x, y)
+                    self.tap(btn_pos)
                 else:
                     return next_task
 
@@ -141,8 +130,7 @@ class Scout(Task):
                     ImagePathAndProps.SCOUT_EXPLORE2_BUTTON_IMAGE_PATH.value
                 )
                 if is_found:
-                    x, y = btn_pos
-                    self.tap(x, y)
+                    self.tap(btn_pos)
                 else:
                     return next_task
 
@@ -154,7 +142,7 @@ class Scout(Task):
                 )
                 if found:
                     x, y = pos
-                    self.tap(x - 10, y - 10)
+                    self.tap((x - 10, y - 10))
                 else:
                     return next_task
 
@@ -162,8 +150,7 @@ class Scout(Task):
                     ImagePathAndProps.SCOUT_SEND_BUTTON_IMAGE_PATH.value
                 )
                 if is_found:
-                    x, y = btn_pos
-                    self.tap(x, y)
+                    self.tap(btn_pos)
                 else:
                     return next_task
         except Exception as e:

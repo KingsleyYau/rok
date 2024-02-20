@@ -14,8 +14,7 @@ class LostCanyon(Task):
         campaign_btn_pos = (830, 670)
         self.back_to_home_gui()
         self.menu_should_open(True)
-        x, y = campaign_btn_pos
-        self.tap(x, y)
+        self.tap(campaign_btn_pos)
 
         found, _, pos = self.gui.check_any(ImagePathAndProps.LOST_CANYON_IMAGE_PATH.value)
         if not found:
@@ -23,14 +22,13 @@ class LostCanyon(Task):
             return next_task
 
         self.set_text(insert='Open Lost Canyon')
-        x, y = pos
-        self.tap(x, y, 1)
+        self.tap(pos)
 
         # Click on rewards
         self.set_text(insert='Get Rewards')
-        self.tap(1015, 120)
+        self.tap((1015, 120))
         while True:
-            self.tap(640, 650)
+            self.tap((640, 650))
             attempts = self.gui.lost_canyon_attempts_image_to_string()
             self.set_text(insert=f'Attempts [{attempts}]')
             if attempts == 0:
@@ -39,7 +37,7 @@ class LostCanyon(Task):
             else:
                 # Either we have attempts left, or we couldn't read the number of attempts
                 # Try to challenge anyway and see if it works
-                self.tap(950, 250, 6)
+                self.tap((950, 250), 8)
                 # Verify that it opened and we can see the Ok button
                 is_present, _, pos = self.gui.check_any(ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value)
                 if not is_present:
@@ -49,10 +47,10 @@ class LostCanyon(Task):
                 # Check if skip battle button is checked, if not press it
                 is_check, _, pos = self.gui.check_any(ImagePathAndProps.SKIP_BATTLE_CHECKED_IMAGE_PATH.value)
                 if not is_check:
-                    self.tap(590, 590)
+                    self.tap((590, 590))
 
                 # Click OK
-                self.tap(640, 650)
+                self.tap((640, 650))
                 # Click again to go back
-                self.tap(640, 650)
+                self.tap((640, 650))
                 # Repeat

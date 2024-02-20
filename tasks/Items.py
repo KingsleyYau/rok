@@ -41,10 +41,8 @@ class Items(Task):
         # Reopen Items Window so that item values are reset to 1
         self.back_to_home_gui()
         self.menu_should_open(True)
-        x, y = self.items_btn_pos
-        self.tap(x, y)
-        x, y = self.resources_btn_pos
-        self.tap(x, y)
+        self.tap(self.items_btn_pos)
+        self.tap(self.resources_btn_pos)
         for item in [ImagePathAndProps.ITEM_VIP1_IMAGE_PATH, ImagePathAndProps.ITEM_VIP2_IMAGE_PATH]:
             found = True
             while found:
@@ -52,14 +50,11 @@ class Items(Task):
                 if not found:
                     break
                 self.set_text(insert=f'Found VIP item at {pos}')
-                x, y = pos
-                self.tap(x, y, 0.5)
-                x, y = self.max_btn_pos
-                self.tap(x, y, 0.5)
-                x, y = self.use_btn_pos
-                self.tap(x, y, 1)
+                self.tap(pos)
+                self.tap(self.max_btn_pos)
+                self.tap(self.use_btn_pos)
                 # Tap in a random place just in case a popup opens
-                self.tap(1100, 200, 0.5)
+                self.tap((1100, 200))
 
     def use_gems(self):
         if not self.bot.config.useItemsGems:
@@ -69,10 +64,8 @@ class Items(Task):
         # Reopen Items Window so that item values are reset to 1
         self.back_to_home_gui()
         self.menu_should_open(True)
-        x, y = self.items_btn_pos
-        self.tap(x, y, 3)
-        x, y = self.resources_btn_pos
-        self.tap(x, y, 0.5)
+        self.tap(self.items_btn_pos)
+        self.tap(self.resources_btn_pos)
         for item in [ImagePathAndProps.ITEM_GEMS1_IMAGE_PATH, ImagePathAndProps.ITEM_GEMS2_IMAGE_PATH,
                      ImagePathAndProps.ITEM_GEMS3_IMAGE_PATH]:
             found = True
@@ -81,14 +74,11 @@ class Items(Task):
                 if not found:
                     break
                 self.set_text(insert=f'Found Gems item at {pos}')
-                x, y = pos
-                self.tap(x, y)
-                x, y = self.max_btn_pos
-                self.tap(x, y)
-                x, y = self.use_btn_pos
-                self.tap(x, y)
+                self.tap(pos)
+                self.tap(self.max_btn_pos)
+                self.tap(self.use_btn_pos)
                 # Tap in a random place just in case a popup opens
-                self.tap(1100, 200)
+                self.tap((1100, 200))
 
     def use_daily_rss(self):
         if not self.bot.config.useItemsDailyRss:
@@ -98,10 +88,8 @@ class Items(Task):
         # Reopen Items Window so that item values are reset to 1
         self.back_to_home_gui()
         self.menu_should_open(True)
-        x, y = self.items_btn_pos
-        self.tap(x, y)
-        x, y = self.resources_btn_pos
-        self.tap(x, y)
+        self.tap(self.items_btn_pos)
+        self.tap(self.resources_btn_pos)
 
         # Need to open only 5 items for daily quest
         for i in range(0, 5):
@@ -109,16 +97,13 @@ class Items(Task):
             if not found:
                 return
             self.set_text(insert=f'Found resource pack 1 chest at {pos}')
-            x, y = pos
-            self.tap(x, y)
-            x, y = self.minus_btn_pos
-            self.tap(x, y)
-            x, y = self.use_btn_pos
-            self.tap(x, y)
+            self.tap(pos)
+            self.tap(self.minus_btn_pos)
+            self.tap(self.use_btn_pos)
             found, _, pos = self.gui.check_any(ImagePathAndProps.ITEM_EXCESS_RESOURCE_PROMPT_NO_IMAGE_PATH.value)
             if found:
                 # Weird state where we are trying to open too many resources, exit without using resource pack
                 self.back(0.5)
                 return
             # Tap in a random place just in case a popup opens
-            self.tap(1100, 200)
+            self.tap((1100, 200))

@@ -14,7 +14,6 @@ class Training(Task):
     def do(self, next_task=TaskName.GATHER):
         super().set_text(title='训练/升级部队', remove=True)
         super().set_text(insert='回到城市')
-        super().back_to_map_gui()
         super().back_to_home_gui()
         super().home_gui_full_view()
         try:
@@ -59,13 +58,11 @@ class Training(Task):
                 super().set_text(insert='训练/升级部队({})'.format(config[4]))
                 super().back_to_home_gui()
                 upgraded = False
-                x, y = config[3]
-                super().tap(x, y,)
+                super().tap(config[3])
                 _, _, pos = self.gui.check_any(config[0])
                 if pos is None:
                     continue
-                x, y = pos
-                super().tap(x, y)
+                super().tap(pos)
                 _, _, pos = self.gui.check_any(ImagePathAndProps.SPEED_UP_BUTTON_IMAGE_PATH.value)
                 if pos is not None:
                     continue
@@ -74,8 +71,7 @@ class Training(Task):
                         else TrainingAndUpgradeLevel.T4.value
                     min = config[2] - 1 if config[2] != TrainingAndUpgradeLevel.UPGRADE_ALL.value else -1
                     for i in range(max, min, -1):
-                        x, y = soldier_icon_pos[i]
-                        super().tap(x, y)
+                        super().tap(soldier_icon_pos[i])
                         # check has upgrade button, if has then tap it
                         _, _, pos = self.gui.check_any(ImagePathAndProps.TRAINING_UPGRADE_BUTTON_IMAGE_PATH.value)
                         if pos is None:
@@ -83,27 +79,23 @@ class Training(Task):
                                 break
                             else:
                                 continue
-                        x, y = pos
                         super().set_text(insert='升级T{}({})'.format(i + 1, config[4]))
-                        super().tap(x, y)
+                        super().tap(pos)
 
                         # check has train button if has then tap it
                         _, _, pos = self.gui.check_any(ImagePathAndProps.UPGRADE_BUTTON_IMAGE_PATH.value)
-                        x, y = pos
-                        super().tap(x, y)
+                        super().tap(pos)
                         upgraded = True
 
                 if not upgraded and (
                         config[1] != TrainingAndUpgradeLevel.DISABLED.value):
                     for i in range(config[1], -1, -1):
-                        x, y = soldier_icon_pos[i]
-                        super().tap(x, y)
+                        super().tap(soldier_icon_pos[i])
                         _, _, pos = self.gui.check_any(ImagePathAndProps.TRAIN_BUTTON_IMAGE_PATH.value)
                         if pos is None:
                             continue
                         super().set_text(insert='训练T{}({})'.format(i + 1, config[4]))
-                        x, y = pos
-                        super().tap(x, y)
+                        super().tap(pos)
                         break
         except Exception as e:
             traceback.print_exc()

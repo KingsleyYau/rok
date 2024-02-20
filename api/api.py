@@ -15,9 +15,9 @@ def find_player(bot, task, server, expected_pos):
     # _, _, pos = bot.gui.check_any_gray(
     #     ImagePathAndProps.SEARCH_ICON_SMALL_IMAGE_PATH.value
     # )
-    # task.tap(pos[0], pos[1], 1)
+    # task.tap(pos[0])
     log('点击搜索')
-    task.tap(435, 15)
+    task.tap((435, 15))
     
     _, _, server_pos = bot.gui.check_any_gray(
         ImagePathAndProps.SEARCH_SERVER_IMAGE_PATH.value
@@ -37,13 +37,13 @@ def find_player(bot, task, server, expected_pos):
     _, _, search_pos = bot.gui.check_any_gray(
         ImagePathAndProps.SEARCH_BUTTON_IMAGE_PATH.value
     )
-    task.tap(search_pos[0], search_pos[1], 10)
+    task.tap(search_pos, 10)
     
-    task.tap(640, 360)
+    task.tap((640, 360))
     _, _, player_pos = bot.gui.check_any(
         ImagePathAndProps.TITLE_BUTTON_PATH.value
     )
-    task.tap(player_pos[0], player_pos[1])
+    task.tap(player_pos)
     log('寻找玩家', player_pos, '成功')
             
 def finish_title(bot, task, title_item):
@@ -55,13 +55,13 @@ def finish_title(bot, task, title_item):
     log('title_check_pos', title_check_pos, 'title_expected_pos', title_expected_pos)
     if title_check_pos is None or abs(title_check_pos[0]-title_expected_pos[0]) > 30:
         log('发放头衔', title_item['name'], '成功')
-        task.tap(title_expected_pos[0], title_expected_pos[1]) 
+        task.tap(title_expected_pos) 
     else:
         log('头衔已经发放', title_item['name'], '跳过')
     _, _, ok_pos = bot.gui.check_any(
         ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
     )
-    task.tap(ok_pos[0], ok_pos[1])     
+    task.tap(ok_pos)     
     
 def run_api(args):
     print(args)

@@ -18,7 +18,7 @@ class Collecting(Task):
 
             super().menu_should_open(False)
 
-            x_e, y_e = 105, 125
+            pos_e = (105, 125)
             for name in [
                 BuildingNames.BARRACKS.value,
                 BuildingNames.ARCHERY_RANGE.value,
@@ -32,8 +32,8 @@ class Collecting(Task):
             ]:
                 x, y = self.bot.building_pos[name]
                 self.set_text(insert='tap {} at position ({},{})'.format(name, x, y))
-                self.tap(x, y)
-                self.tap(x_e, y_e, 1)
+                self.tap(self.bot.building_pos[name])
+                self.tap(pos_e)
 
         except Exception as e:
             traceback.print_exc()

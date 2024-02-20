@@ -57,12 +57,12 @@ class LocateBuilding(Task):
             for row in range(0, y_times):
                 for col in range(0, x_times):
                     x, y = x_start + x_interval * col, y_start + y_interval * row
-                    super().tap(x, y, 1)
+                    super().tap((x, y), 1)
                     super().set_text(insert='tap at ({}, {})'.format(x, y), index=1)
                     num_of_back = super().back_to_home_gui()
                     if num_of_back == 0:
-                        super().tap(x_start, y_start)
-                        super().tap(x, y)
+                        super().tap((x_start, y_start))
+                        super().tap((x, y))
 
                     # sleep 0.5 sec just for a case if screen print before button display
                     time.sleep(0.5)
@@ -72,8 +72,7 @@ class LocateBuilding(Task):
 
                     # if tap on the building, then try to tap on building infomation button to get building name
                     if has_info_btn:
-                        x, y = info_btn_pos
-                        super().tap(x, y, 1)
+                        super().tap(info_btn_pos)
                         name = self.gui.get_windows_name()
                         if name is None:
                             super().back_to_home_gui()
@@ -86,7 +85,7 @@ class LocateBuilding(Task):
                             super().set_text(insert='<{}> on position ({}, {})'.format(name, x, y), index=1)
                             super().back()
 
-                    super().tap(x_start, y_start)
+                    super().tap((x_start, y_start))
                     super().set_text(
                         replace='progress: {}%'.format(int(((row * x_times) + (col + 1)) / total * 100)),
                         index=0)
