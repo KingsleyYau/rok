@@ -26,16 +26,17 @@ class MysteryMerchant(Task):
         while True:
             self.bot.snashot_update_event()
             for i in range(5):
-                self.set_text(insert='buy item with food')
+                self.set_text(insert='使用食物购买道具')
                 list = self.gui.find_all_image_props(ImagePathAndProps.MERCHANT_BUY_WITH_FOOD_IMAGE_PATH.value)
                 for buy_with_food_btn in list:
                     self.tap(buy_with_food_btn['result'])
 
-                self.set_text(insert='buy item with wood')
+                self.set_text(insert='使用木头购买道具')
                 list = self.gui.find_all_image_props(ImagePathAndProps.MERCHANT_BUY_WITH_WOOD_IMAGE_PATH.value)
                 for buy_with_wood_btn in list:
                     self.tap(buy_with_wood_btn['result'])
 
+                self.set_text(insert='上拉更多道具')
                 self.swipe(730, 575, 730, 475, 1, 1000)
 
             # tap on free refresh

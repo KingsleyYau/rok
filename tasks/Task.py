@@ -157,7 +157,7 @@ class Task:
 
     def get_curr_gui_name(self):
         if not self.isRoKRunning():
-            str='游戏还没运行, 尝试启动'
+            str='ROK还没运行, 尝试启动'
             device_log(self.device, str)
             self.set_text(insert=str)
             self.stopRok()
@@ -288,6 +288,7 @@ class Task:
             self.tap(use_btn_pos)
             self.bot.snashot_update_event()
             return True
+        self.set_text(insert='没有对应的增益道具')
         return False
 
     # Action

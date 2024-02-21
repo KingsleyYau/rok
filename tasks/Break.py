@@ -22,6 +22,7 @@ class Break(Task):
 
             # stop game if config set true
             if self.bot.config.terminate:
+                super().set_text(insert='关闭ROK')
                 super().stopRok()
             self.bot.snashot_update_event()
             
