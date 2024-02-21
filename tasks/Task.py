@@ -30,7 +30,7 @@ class Task:
         self.gui = bot.gui
 
     def call_idle_back(self):
-        self.set_text(insert="call back idle commander")
+        self.set_text(insert="收回空闲队列")
         self.back_to_map_gui()
         while True:
             _, _, commander_pos = self.gui.check_any(

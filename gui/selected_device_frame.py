@@ -149,13 +149,14 @@ class SelectedDeviceFrame(Frame):
         # self.bot.building_pos_update_event = lambda **kw: write_building_pos(kw['building_pos'], kw['prefix'])
         # self.bot.config_update_event = lambda **kw: write_bot_config(kw['config'], kw['prefix'])
         # self.bot.snashot_update_event = self.on_snashot_update
-
+        self.task_title.config(text='Task: None')
+        self.task_text.delete(1.0, END)
         self.bot.start(self.bot.do_task)
 
     def stop(self):
         self.bot.stop()
-        self.task_title.config(text='Task: None')
-        self.task_text.delete(1.0, END)
+        # self.task_title.config(text='Task: None')
+        # self.task_text.delete(1.0, END)
 
     def bottom_frame(self):
         frame = Frame(self)
