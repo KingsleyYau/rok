@@ -216,8 +216,7 @@ class SelectedDeviceFrame(Frame):
                 task.tap(login_other_pos)
                 
             # 输入手机
-            task.tap((125, 100))
-            task.text('13751872204')
+            task.text(125, 100, '13751872204')
             task.tap((640, 200))
             
         change_account_button = button(frame, on_change_account_click, text='Change Account')

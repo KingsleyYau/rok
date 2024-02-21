@@ -16,8 +16,10 @@ class MysteryMerchant(Task):
 
         found, _, pos = self.gui.check_any(ImagePathAndProps.MERCHANT_ICON_IMAGE_PATH.value)
         if not found:
-            self.set_text(insert='没有发现神秘商店', index=0)
-            return next_task
+            found, _, pos = self.gui.check_any(ImagePathAndProps.MERCHANT_ICON2_IMAGE_PATH.value)
+            if not found:
+                self.set_text(insert='没有发现神秘商店', index=0)
+                return next_task
         self.set_text(insert='打开神秘商店')
         self.tap(pos)
 
