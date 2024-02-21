@@ -15,9 +15,9 @@ class Alliance(Task):
         alliance_btn_pos = (1030, 670)
         try:
             for name in ['HELP', 'GIFTS', 'TERRITORY', 'TECHNOLOGY']:
-                super().set_text(insert='打开联盟中心')
                 super().back_to_home_gui()
                 super().menu_should_open(True)
+                super().set_text(insert='打开联盟中心')
                 super().tap(alliance_btn_pos)
 
                 if name == 'HELP':

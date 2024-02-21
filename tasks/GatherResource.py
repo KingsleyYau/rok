@@ -103,7 +103,7 @@ class GatherResource(Task):
                     self.tap(dec_pos)
 
                 self.set_text(insert="发现资源点")
-                self.tap((640, 320))
+                self.tap((640, 320), 8)
                 self.bot.snashot_update_event()
                 
                 # check is same pos

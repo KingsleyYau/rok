@@ -29,6 +29,7 @@ class Materials(Task):
             super().back_to_home_gui()
             super().home_gui_full_view()
             
+            super().set_text(insert='打开铁匠铺')
             blacksmith_pos = self.bot.building_pos[BuildingNames.BLACKSMITH.value]
             super().tap(blacksmith_pos)
             self.bot.snashot_update_event()

@@ -12,8 +12,7 @@ class Training(Task):
         super().__init__(bot)
 
     def do(self, next_task=TaskName.GATHER):
-        super().set_text(title='训练/升级部队', remove=True)
-        super().set_text(insert='回到城市')
+        super().set_text(title='[训练/升级]部队', remove=True)
         super().back_to_home_gui()
         super().home_gui_full_view()
         try:
@@ -55,7 +54,7 @@ class Training(Task):
                     BuildingNames.SIEGE_WORKSHOP.value
                 ]
             ]:
-                super().set_text(insert='训练/升级部队({})'.format(config[4]))
+                super().set_text(insert='[训练/升级]部队({})'.format(config[4]))
                 super().back_to_home_gui()
                 upgraded = False
                 super().tap(config[3])

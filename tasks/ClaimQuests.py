@@ -13,6 +13,7 @@ class ClaimQuests(Task):
         super().set_text(title='收集每日任务', remove=True)
         try:
             super().back_to_home_gui()
+            super().set_text(insert='打开任务中心')
             super().tap((45, 170), 5)
 
             quests_tap_pos = (100, 180)

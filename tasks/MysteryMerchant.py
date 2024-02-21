@@ -13,7 +13,6 @@ class MysteryMerchant(Task):
         self.set_text(title='神秘商店')
         self.back_to_home_gui()
         self.home_gui_full_view()
-
         found, _, pos = self.gui.check_any(ImagePathAndProps.MERCHANT_ICON_IMAGE_PATH.value)
         if not found:
             self.set_text(insert='没有发现神秘商店', index=0)

@@ -16,7 +16,7 @@ class Break(Task):
             super().call_idle_back()
             super().heal_troops()
             super().set_text(insert='0/{} seconds'.format(self.bot.config.breakTime))
-            progress_time = self.bot.config.breakTime // 100
+            progress_time = max(self.bot.config.breakTime // 100, 1)
             # super().back_to_home_gui()
             # super().home_gui_full_view()
 
