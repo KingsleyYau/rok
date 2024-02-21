@@ -209,23 +209,26 @@ class GuiDetector:
         bot_print("Building <{}> on position [({}, {}), ({}, {})] ".format(s, x0, y0, x1, y1))
 
     def check_any(self, *props_list):
-        imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
-                             cv2.IMREAD_COLOR)
-
-        for props in props_list:
-            path, size, box, threshold, least_diff, gui = props
-            imsrc = cv2.imread(resource_path(path))
-
-            result = aircv.find_template(imsrc, imsch, threshold, True)
-            # device_log(self.__device, 'check_any', path, threshold, result)
-            
-            if self.debug:
-                cv2.imshow('imsrc', imsrc)
-                cv2.imshow('imsch', imsch)
-                cv2.waitKey(0)
-
-            if result is not None:
-                return True, gui, result['result']
+        try:
+            imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
+                                 cv2.IMREAD_COLOR)
+    
+            for props in props_list:
+                path, size, box, threshold, least_diff, gui = props
+                imsrc = cv2.imread(resource_path(path))
+    
+                result = aircv.find_template(imsrc, imsch, threshold, True)
+                device_log(self.__device, 'check_any', path, threshold, result)
+                
+                if self.debug:
+                    cv2.imshow('imsrc', imsrc)
+                    cv2.imshow('imsch', imsch)
+                    cv2.waitKey(0)
+    
+                if result is not None:
+                    return True, gui, result['result']
+        except Exception as e:
+            traceback.print_exc()
 
         return False, None, None
     

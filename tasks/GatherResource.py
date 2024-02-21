@@ -25,7 +25,7 @@ class GatherResource(Task):
             has_blue = self.has_buff(MAP, b_buff_props)
             has_purple = self.has_buff(MAP, p_buff_props)
             if not has_blue and not has_purple:
-                self.set_text(insert='使用采集加速')
+                self.set_text(insert='当前没有采集加速, 尝试使用')
                 self.use_item(MAP, [b_item_props, p_item_props])
             else:
                 self.set_text(insert="采集加速已经生效")

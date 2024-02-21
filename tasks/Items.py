@@ -103,7 +103,7 @@ class Items(Task):
             found, _, pos = self.gui.check_any(ImagePathAndProps.ITEM_EXCESS_RESOURCE_PROMPT_NO_IMAGE_PATH.value)
             if found:
                 # Weird state where we are trying to open too many resources, exit without using resource pack
-                self.back(0.5)
+                self.back()
                 return
             # Tap in a random place just in case a popup opens
             self.tap((1100, 200))

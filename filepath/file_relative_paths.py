@@ -757,7 +757,23 @@ class ImagePathAndProps(Enum):
         0.70,
         25,
         HELLO_WROLD_IMG
-    ]    
+    ]   
+    CONFIRM_BUTTON_PATH = [
+        "resource/confirm.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        CONFIRM_BUTTON,
+    ] 
+    CANCEL_BUTTON_PATH = [
+        "resource/cancel.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        CANCEL_BUTTON,
+    ] 
     
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [
@@ -788,7 +804,7 @@ class GuiCheckImagePathAndProps(Enum):
         "resource/window.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.70,
+        0.80,
         25,
         WINDOW,
     ]
@@ -803,7 +819,7 @@ class GuiCheckImagePathAndProps(Enum):
         'resource/verification_chest_button1.png',
         (1280, 720),
         (0, 0, 0, 0),
-        0.8,
+        0.9,
         25,
         VERIFICATION_CHEST1]
 

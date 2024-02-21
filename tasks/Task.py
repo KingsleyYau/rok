@@ -70,22 +70,23 @@ class Task:
 
     # Home
     def back_to_home_gui(self):
-        self.set_text(insert='回到城市')
         loop_count = 0
         gui_name = None
         while True:
             result = self.get_curr_gui_name()
-            gui_name, info = ["UNKNOW", None] if result is None else result
+            gui_name, pos = ["UNKNOW", None] if result is None else result
             if gui_name == GuiName.HOME.name:
                 break
-            elif gui_name == GuiName.MAP.name:
-                self.tap(info)
-            elif gui_name == GuiName.WINDOW.name:
-                self.back(1)
             else:
-                self.back(1)
+                self.set_text(insert='回到城市, 当前界面{},{}'.format(gui_name,pos))
+                if gui_name == GuiName.MAP.name:
+                    self.tap(pos)
+                elif gui_name == GuiName.WINDOW.name:
+                    self.tap(pos)
+                else:
+                    self.back()
             loop_count = loop_count + 1
-            time.sleep(0.5)
+            time.sleep(1)
         return loop_count
 
     def find_home(self):
@@ -137,25 +138,24 @@ class Task:
     def back_to_map_gui(self):
         loop_count = 0
         gui_name = None
-        self.set_text(insert='回到地图')
         while True:
             result = self.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
-            device_log(self.device, 'back_to_map_gui', 'gui_name', gui_name)
             if gui_name == GuiName.MAP.name:
                 break
-            elif gui_name == GuiName.HOME.name:
-                self.tap(pos)
-            elif gui_name == GuiName.WINDOW.name:
-                self.back(1)
             else:
-                self.back(1)
+                self.set_text(insert='回到地图, 当前界面{},{}'.format(gui_name,pos))
+                if gui_name == GuiName.HOME.name:
+                    self.tap(pos)
+                elif gui_name == GuiName.WINDOW.name:
+                    self.tap(pos)
+                else:
+                    self.back()
             loop_count = loop_count + 1
             time.sleep(1)
         return loop_count
 
     def get_curr_gui_name(self):
-        device_log(self.device, '获取当前界面')
         if not self.isRoKRunning():
             str='游戏还没运行, 尝试启动'
             device_log(self.device, str)
@@ -168,17 +168,28 @@ class Task:
         pos_free = (400 + int(50 * (0.5 - random.random())), 400 + int(50 * (0.5 - random.random())))
         
         for i in range(0, 1):
-            result = self.gui.get_curr_gui_name()
-            gui_name, pos = ["UNKNOW", None] if result is None else result
-            device_log(self.device, '获取当前界面', 'gui_name', gui_name, 'pos', pos)
+            self.bot.snashot_update_event()
             
             _, _, comfirm_pos = self.gui.check_any(
-                    ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
+                    ImagePathAndProps.CONFIRM_BUTTON_PATH.value
                     )
             if comfirm_pos is not None:
-                device_log(self.device, '发现确定按钮, 点击确定', comfirm_pos)
+                device_log(self.device, '发现确定按钮, 点击', comfirm_pos)
                 self.tap(comfirm_pos)
-                    
+             
+            _, _, cancel_pos = self.gui.check_any(
+                    ImagePathAndProps.CANCEL_BUTTON_PATH.value
+                    )
+            if cancel_pos is not None:
+                device_log(self.device, '发现取消按钮, 点击', cancel_pos)
+                self.tap(cancel_pos)
+            
+            result = self.gui.get_curr_gui_name()
+            gui_name, pos = ["UNKNOW", None] if result is None else result
+            device_log(self.device, '获取当前界面', 'gui_name', gui_name, 'pos', pos)  
+            
+            self.bot.snashot_update_event()
+               
             if gui_name == GuiName.VERIFICATION_VERIFY.name:
                 self.tap(pos, 5)
                 pos_list = self.pass_verification()
@@ -192,6 +203,7 @@ class Task:
             elif gui_name == GuiName.WINDOW.name:
                 device_log(self.device, '弹出窗口, 点击关闭', pos)
                 self.tap(pos)
+                
                 return result
             # elif (gui_name == GuiName.MAP.name) | (gui_name == GuiName.HOME.name):
             #     device_log(self.device, '地图/城市界面, 不需要处理')
@@ -244,7 +256,6 @@ class Task:
         return has
 
     def use_item(self, using_location, item_img_props_list):
-
         # Where to use the item
         if using_location == HOME:
             self.back_to_home_gui()
@@ -258,7 +269,7 @@ class Task:
 
         for item_img_props in item_img_props_list:
             path, size, box, threshold, least_diff, tab_name = item_img_props
-
+            self.set_text(insert='寻找增益道具, {}'.format(path))
             tabs_pos = {
                 RESOURCES: (250, 80),
                 SPEEDUPS: (435, 80),
@@ -276,8 +287,8 @@ class Task:
             _, _, item_pos = self.gui.check_any(item_img_props)
             if item_pos is None:
                 continue
-            self.set_text(insert='使用增益, {}'.format(path))
-            self.tap(item_pos)
+            self.set_text(insert='使用增益道具, {},{}'.format(path, item_pos))
+            self.tap(item_pos, 5)
             # tap on use Item
             self.tap(use_btn_pos)
             self.bot.snashot_update_event()
@@ -285,7 +296,8 @@ class Task:
         return False
 
     # Action
-    def back(self, sleep_time=0.5):
+    def back(self, sleep_time=3):
+        device_log(self.device, 'back', sleep_time)
         cmd = "input keyevent 4"
         self.device.shell(cmd)
         time.sleep(sleep_time)
