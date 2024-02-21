@@ -550,6 +550,14 @@ class ImagePathAndProps(Enum):
         25,
         MERCHANT_ICON,
     ]
+    MERCHANT_ICON2_IMAGE_PATH = [
+        "resource/merchant_icon2.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        MERCHANT_ICON2,
+    ]
     MERCHANT_FREE_BTN_IMAGE_PATH = [
         "resource/merchant_free_btn.png",
         (1280, 720),

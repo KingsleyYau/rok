@@ -82,7 +82,7 @@ class Task:
                 if gui_name == GuiName.MAP.name:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
-                    self.tap(pos)
+                    self.back()
                 else:
                     self.back()
             loop_count = loop_count + 1
@@ -148,7 +148,7 @@ class Task:
                 if gui_name == GuiName.HOME.name:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
-                    self.tap(pos)
+                    self.back()
                 else:
                     self.back()
             loop_count = loop_count + 1

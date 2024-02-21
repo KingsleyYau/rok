@@ -21,7 +21,7 @@
   "trainStableUpgradeLevel": -1,
   "trainSiegeWorkshopTrainingLevel": 3,
   "trainSiegeWorkshopUpgradeLevel": -1,
-  "enableVipClaimChest": true,
+  "enableVipClaimChest": false,
   "vipDoRound": 24,
   "claimQuests": true,
   "questDoRound": 10,

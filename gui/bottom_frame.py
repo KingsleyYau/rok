@@ -4,7 +4,7 @@ from utils import get_last_info
 from version import version
 import threading
 
-url = "https://github.com/Dylan-Zheng/Rise-of-Kingdoms-Bot"
+url = "https://github.com/KingsleyYau/rok"
 
 
 class BottomFrame(Frame):

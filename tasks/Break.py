@@ -16,6 +16,7 @@ class Break(Task):
             super().call_idle_back()
             super().heal_troops()
             super().set_text(insert='0/{} seconds'.format(self.bot.config.breakTime))
+            progress_time = self.bot.config.breakTime // 100
             # super().back_to_home_gui()
             # super().home_gui_full_view()
 
@@ -28,7 +29,8 @@ class Break(Task):
             for i in range(self.bot.config.breakTime):
                 time.sleep(1)
                 count = count + 1
-                super().set_text(replace='{}/{} seconds'.format(count, self.bot.config.breakTime), index=0)
+                if count % progress_time == 0:
+                    super().set_text(replace='{}/{} seconds'.format(count, self.bot.config.breakTime), index=0)
             return next_task
         except Exception as e:
             traceback.print_exc()
