@@ -38,6 +38,7 @@ class ClaimQuests(Task):
                 super().tap(claim_btn_pos)
 
             super().set_text(insert='收集每日任务宝箱')
+            super().tap(daily_objectives_tap_pos)
             # chest position
             for pos in [(355, 200), (530, 200), (710, 200), (885, 200), (1050, 200)]:
                 super().tap(pos)

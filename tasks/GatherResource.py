@@ -144,7 +144,7 @@ class GatherResource(Task):
                 self.tap(match_button_pos)
                 self.bot.snashot_update_event()
                 repeat_count = 0
-                self.swipe(300, 720, 400, 360, 1)
+                self.swipe((300, 720), (400, 360), 1)
             self.bot.snashot_update_event()
         except Exception as e:
             traceback.print_exc()

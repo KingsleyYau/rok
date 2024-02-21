@@ -790,6 +790,14 @@ class ImagePathAndProps(Enum):
         25,
         LOGIN_OTHER_BUTTON,
     ] 
+    DIAMOND_IMG_PATH = [
+        "resource/diamond.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        DIAMOND_IMG,
+    ] 
     
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [

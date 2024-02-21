@@ -31,6 +31,7 @@ from tasks.Tavern import Tavern
 from tasks.Training import Training
 from tasks.MysteryMerchant import MysteryMerchant
 from tasks.SunsetCanyon import SunsetCanyon
+from tasks.GatherDiamond import GatherDiamond
 from tasks.constants import TaskName
 from utils import stop_thread
 import random
@@ -81,6 +82,7 @@ class Bot:
         self.sunset_canyon = SunsetCanyon(self)
         self.lost_canyon = LostCanyon(self)
         self.items_task = Items(self)
+        self.gather_diamond_task = GatherDiamond(self)
 
         # Other task
         self.screen_shot_task = ScreenShot(self)
@@ -119,6 +121,7 @@ class Bot:
             [self.claim_vip_task, "enableVipClaimChest", "vipDoRound"],
             [self.collecting_task, "enableCollecting"],
             [self.gather_resource_task, "gatherResource"],
+            [self.gather_diamond_task, "gatherDiamond"],
             [self.materials_task, "enableMaterialProduce", "materialDoRound"],
             [self.scout_task, "enableScout"],
             [self.tavern_task, "enableTavern"],

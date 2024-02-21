@@ -188,8 +188,7 @@ class Barbarians(Task):
             inc_pos = lock_pos
 
         # set to max level
-        x, y = max_pos
-        super().swipe(x, y, x + 100, y)
+        super().swipe(max_pos, (max_pos[0] + 100, max_pos[1]))
         # try to get max lv. in integer
         max_lv = self.gui.barbarians_level_image_to_string()
         super().set_text(insert="Max level is {}".format(max_lv))

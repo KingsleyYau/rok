@@ -78,7 +78,7 @@ class Task:
             if gui_name == GuiName.HOME.name:
                 break
             else:
-                self.set_text(insert='回到城市, 当前界面{},{}'.format(gui_name,pos))
+                self.set_text(insert='回到城市, 当前界面{}, {}'.format(gui_name,pos))
                 if gui_name == GuiName.MAP.name:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
@@ -144,7 +144,7 @@ class Task:
             if gui_name == GuiName.MAP.name:
                 break
             else:
-                self.set_text(insert='回到地图, 当前界面{},{}'.format(gui_name,pos))
+                self.set_text(insert='回到地图, 当前界面{}, {}'.format(gui_name,pos))
                 if gui_name == GuiName.HOME.name:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
@@ -194,16 +194,15 @@ class Task:
                 self.tap(pos, 5)
                 pos_list = self.pass_verification()
             elif gui_name == GuiName.HELLO_WROLD_IMG.name:
-                self.set_text(insert='欢迎界面, 点击任意地方 {}'.format(pos_free))
+                self.set_text(insert='欢迎界面, 点击任意地方, {}'.format(pos_free))
                 self.tap(pos_free)
                 time.sleep(int(config.global_config.startSleepTime))
             # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
             #     pos_list = self.pass_verification()
-                return result
-            # elif (gui_name == GuiName.MAP.name) | (gui_name == GuiName.HOME.name):
-            #     device_log(self.device, '地图/城市界面, 不需要处理')
+            elif (gui_name == GuiName.MAP.name) | (gui_name == GuiName.HOME.name):
+                device_log(self.device, '[地图/城市]界面, 不需要处理')
             else:
-                device_log(self.device, '点击任意地方', pos_free)
+                device_log(self.device, '未知界面, 点击任意地方', pos_free)
                 self.tap(pos_free)
             return result
         if not pos_list:
@@ -299,35 +298,35 @@ class Task:
         time.sleep(sleep_time)
 
     # duration is in milliseconds
-    def swipe(self, x_f, y_f, x_t, y_t, times=1, duration=300):
-        cmd = "input swipe {} {} {} {} {}".format(x_f, y_f, x_t, y_t, duration)
+    def swipe(self, pos1, pos2, times=1, duration=300):
+        cmd = "input swipe {} {} {} {} {}".format(pos1[0], pos1[1], pos2[0], pos2[1], duration)
         for i in range(times):
             self.device.shell(cmd)
             time.sleep(duration / 1000 + 0.2)
 
-    def zoom(self, x_f, y_f, x_t, y_t, times=1, duration=300, zoom_type="out"):
-        device_log(self.device, 'zoom', zoom_type)
-        cmd_hold = "input swipe {} {} {} {} {}".format(
-            x_t, y_t, x_t, y_t, duration + 1000
-        )
-        # cmd_hold = "input tap {} {} {}".format(
-        #     x_t, y_t, duration + 1000
-        # )
-        if zoom_type == "out":
-            cmd_swipe = "input swipe {} {} {} {} {}".format(
-                x_f, y_t, x_f, y_t, duration
-            )
-        else:
-            cmd_swipe = "input swipe {} {} {} {} {}".format(
-                x_t, y_t, x_f, y_f, duration
-            )
-
-        for i in range(times):
-            device_log(self.device, 'cmd_hold', cmd_hold)
-            self.device.shell(cmd_hold)
-            device_log(self.device, 'cmd_swipe', cmd_swipe)
-            self.device.shell(cmd_swipe)
-            time.sleep(duration / 1000 + 0.5 + 0.2)
+    # def zoom(self, x_f, y_f, x_t, y_t, times=1, duration=300, zoom_type="out"):
+    #     device_log(self.device, 'zoom', zoom_type)
+    #     cmd_hold = "input swipe {} {} {} {} {}".format(
+    #         pos2[0], pos2[1], x_t, y_t, duration + 1000
+    #     )
+    #     # cmd_hold = "input tap {} {} {}".format(
+    #     #     x_t, y_t, duration + 1000
+    #     # )
+    #     if zoom_type == "out":
+    #         cmd_swipe = "input swipe {} {} {} {} {}".format(
+    #             x_f, y_t, x_f, y_t, duration
+    #         )
+    #     else:
+    #         cmd_swipe = "input swipe {} {} {} {} {}".format(
+    #             x_t, y_t, x_f, y_f, duration
+    #         )
+    #
+    #     for i in range(times):
+    #         device_log(self.device, 'cmd_hold', cmd_hold)
+    #         self.device.shell(cmd_hold)
+    #         device_log(self.device, 'cmd_swipe', cmd_swipe)
+    #         self.device.shell(cmd_swipe)
+    #         time.sleep(duration / 1000 + 0.5 + 0.2)
 
     # long_press_duration is in milliseconds
     def tap(self, pos, sleep_time=int(config.global_config.tapSleepTime), long_press_duration=-1):

@@ -192,11 +192,65 @@ class SelectedDeviceFrame(Frame):
         # diamond
         def on_diamond_click(btn):
             task = Task(self.bot)
+            task.back_to_home_gui()
             task.back_to_map_gui()
-            task.zoom(320, 180, 640, 360, zoom_type='out')
-            # while True:
-            #     task.swipe(320, 300, 640, 300)
-            #     time.sleep(5)
+            self.refresh_snapshot()
+            
+            size_count = 1
+            src = (960, 320)
+            dst = (320, 320)
+            count = 0
+            direction = 'S'
+            
+            while count < 20:
+                size_step = size_count
+                device_log(self.device, 'count', count, 'size_count', size_count, 'direction', direction)
+                while size_step > 0:
+                    device_log(self.device, 'find', 'size_step', size_step, src, dst)  
+                    task.swipe(src, dst, 1)
+                    time.sleep(1)
+                    size_step = size_step - 1
+                    
+                    _, _, diamond_pos = self.bot.gui.check_any(ImagePathAndProps.DIAMOND_IMG_PATH.value)
+                    if diamond_pos is not None:
+                        device_log(self.device, 'found diamond', 'count', count, 'size_step', size_step, 'direction', direction, diamond_pos)  
+                        task.tap(diamond_pos)
+                        gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
+                        self.tap(gather_button_pos, 8)
+                        new_troops_button_pos = self.bot.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
+                        if new_troops_button_pos is None:
+                            device_log(self.device, '没有更多队列采集') 
+                            return 
+                        task.tap(new_troops_button_pos, 10)
+                        match_button_pos = self.bot.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
+                        task.tap(match_button_pos)
+                    
+                    if direction == 'S':
+                        src = (640, 480)
+                        dst = (640, 240)
+                    elif direction == 'W':
+                        src = (320, 320)
+                        dst = (960, 320)
+                    elif direction == 'N':
+                        src = (640, 240)
+                        dst = (640, 480)
+                    else:
+                        src = (960, 320)
+                        dst = (320, 320)
+                    device_log(self.device, 'decrease', 'count', count, 'size_step', size_step, 'direction', direction)  
+                    
+                count = count + 1           
+                if (count) % 2 == 0:
+                    size_count = size_count + 1
+                    if direction == 'S':
+                        direction = 'W'
+                    elif direction == 'W':
+                        direction = 'N'
+                    elif direction == 'N':
+                        direction = 'E'
+                    else:
+                        direction = 'W'
+                    device_log(self.device, 'change direction', 'count', count, 'size_count', size_count, 'direction', direction)
             
         diamond_button = button(frame, on_diamond_click, text='Diamond')
         diamond_button.grid(row=0, column=3, sticky=N + W)
@@ -215,12 +269,16 @@ class SelectedDeviceFrame(Frame):
             if login_other_pos is not None:
                 task.tap(login_other_pos)
                 
+            # 同意隐私
+            task.tap((185, 220))
             # 输入手机
-            task.text(125, 100, '13751872204')
-            task.tap((640, 200))
+            task.text(185, 140, '13751872204')
+            # 发送验证码
+            task.tap((640, 300))
             
-        change_account_button = button(frame, on_change_account_click, text='Change Account')
-        change_account_button.grid(row=0, column=4, sticky=N + W)
+        change_account_button = button(frame, on_change_account_click, text='Switch By Phone')
+        change_account_button.grid(row=1, column=0, columnspan=2, sticky=N + W)
+        
         return frame
 
     def on_task_update(self, text):
