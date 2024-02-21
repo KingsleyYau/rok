@@ -43,7 +43,17 @@ class SelectedDeviceFrame(Frame):
         #         self.building_pos_window.focus_force()
         #
         # self.master.master.master.bind("<FocusIn>", handle_focus)
+        if self.bot_building_pos is None:
+            self.bot_config.hasBuildingPos = False
+            self.bot_building_pos = {}
 
+        self.bot.config = self.bot_config
+        self.bot.building_pos = self.bot_building_pos
+
+        self.bot.text_update_event = self.on_task_update
+        self.bot.building_pos_update_event = lambda **kw: write_building_pos(kw['building_pos'], kw['prefix'])
+        self.bot.config_update_event = lambda **kw: write_bot_config(kw['config'], kw['prefix'])
+        self.bot.snashot_update_event = self.on_snashot_update
         
     def refresh_snapshot(self):
         device_log(self.device, '截图')
@@ -128,17 +138,17 @@ class SelectedDeviceFrame(Frame):
         return frame_canvas
 
     def start(self):
-        if self.bot_building_pos is None:
-            self.bot_config.hasBuildingPos = False
-            self.bot_building_pos = {}
-
-        self.bot.config = self.bot_config
-        self.bot.building_pos = self.bot_building_pos
-
-        self.bot.text_update_event = self.on_task_update
-        self.bot.building_pos_update_event = lambda **kw: write_building_pos(kw['building_pos'], kw['prefix'])
-        self.bot.config_update_event = lambda **kw: write_bot_config(kw['config'], kw['prefix'])
-        self.bot.snashot_update_event = self.on_snashot_update
+        # if self.bot_building_pos is None:
+        #     self.bot_config.hasBuildingPos = False
+        #     self.bot_building_pos = {}
+        #
+        # self.bot.config = self.bot_config
+        # self.bot.building_pos = self.bot_building_pos
+        #
+        # self.bot.text_update_event = self.on_task_update
+        # self.bot.building_pos_update_event = lambda **kw: write_building_pos(kw['building_pos'], kw['prefix'])
+        # self.bot.config_update_event = lambda **kw: write_bot_config(kw['config'], kw['prefix'])
+        # self.bot.snashot_update_event = self.on_snashot_update
 
         self.bot.start(self.bot.do_task)
 
@@ -191,6 +201,27 @@ class SelectedDeviceFrame(Frame):
         diamond_button = button(frame, on_diamond_click, text='Diamond')
         diamond_button.grid(row=0, column=3, sticky=N + W)
         
+        # change account
+        def on_change_account_click(btn):
+            task = Task(self.bot)
+            task.back_to_map_gui()
+            # 打开设置
+            task.tap((50, 50))
+            task.tap((990, 570))
+            task.tap((700, 380))
+            # 切换账号
+            task.tap((640, 680))
+            _, _, login_other_pos = self.bot.gui.check_any(ImagePathAndProps.LOGIN_OTHER_BUTTON_PATH.value)
+            if login_other_pos is not None:
+                task.tap(login_other_pos)
+                
+            # 输入手机
+            task.tap((125, 100))
+            task.text('13751872204')
+            task.tap((640, 200))
+            
+        change_account_button = button(frame, on_change_account_click, text='Change Account')
+        change_account_button.grid(row=0, column=4, sticky=N + W)
         return frame
 
     def on_task_update(self, text):

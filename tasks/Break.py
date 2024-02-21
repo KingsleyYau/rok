@@ -22,7 +22,8 @@ class Break(Task):
             # stop game if config set true
             if self.bot.config.terminate:
                 super().stopRok()
-
+            self.bot.snashot_update_event()
+            
             count = 0
             for i in range(self.bot.config.breakTime):
                 time.sleep(1)

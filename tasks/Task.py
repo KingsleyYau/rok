@@ -194,16 +194,11 @@ class Task:
                 self.tap(pos, 5)
                 pos_list = self.pass_verification()
             elif gui_name == GuiName.HELLO_WROLD_IMG.name:
-                device_log(self.device, '欢迎界面, 点击任意地方', pos_free)
+                self.set_text(insert='欢迎界面, 点击任意地方 {}'.format(pos_free))
                 self.tap(pos_free)
                 time.sleep(int(config.global_config.startSleepTime))
             # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
             #     pos_list = self.pass_verification()
-                return result
-            elif gui_name == GuiName.WINDOW.name:
-                device_log(self.device, '弹出窗口, 点击关闭', pos)
-                self.tap(pos)
-                
                 return result
             # elif (gui_name == GuiName.MAP.name) | (gui_name == GuiName.HOME.name):
             #     device_log(self.device, '地图/城市界面, 不需要处理')
@@ -373,7 +368,8 @@ class Task:
         # cmd = "dumpsys window windows | grep mCurrentFocus"
         cmd = "dumpsys activity top"
         str = self.device.shell(cmd)
-        ret = str.find("com.lilithgames.rok.offical.cn/com.harry.engine.MainActivity") != -1
+        ret = (str.find("com.lilithgames.rok.offical.cn/com.harry.engine.MainActivity") != -1) | \
+              (str.find('com.lilithgames.rok.offical.cn/com.lilith.sdk.special.uiless.domestic.UILessDomesticSwitchActivity') != -1)
         device_log(self.device, 'isRoKRunning', cmd, ret)
         # return True
         return ret

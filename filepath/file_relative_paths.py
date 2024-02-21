@@ -774,6 +774,14 @@ class ImagePathAndProps(Enum):
         25,
         CANCEL_BUTTON,
     ] 
+    LOGIN_OTHER_BUTTON_PATH = [
+        "resource/login_other.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        LOGIN_OTHER_BUTTON,
+    ] 
     
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [
