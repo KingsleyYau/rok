@@ -23,6 +23,8 @@ class BotConfig:
         self.breakTime = config.get('breakTime', 60 * 3)
         self.terminate = config.get("terminate", False)
         self.breakDoRound = config.get('breakDoRound', 1)
+        self.tapSleep = config.get('tapSleep', 3)
+        self.restartSleep = config.get('restartSleep', 60)
 
         self.hasBuildingPos = config.get('hasBuildingPos', False)
 

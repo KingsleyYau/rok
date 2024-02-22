@@ -14,7 +14,12 @@ class GatherDiamond(Task):
     def __init__(self, bot):
         super().__init__(bot)
         self.max_query_space = 5
-
+        
+    def get_kilometer(self, count):
+        edge = (count // 2)
+        max_kilometer = int(math.sqrt((pow(edge, 2) + pow(edge, 2))) * 5)
+        return max_kilometer
+    
     def do(self, next_task=TaskName.BREAK):
         self.set_text(title='采集宝石', remove=True)
         # self.call_idle_back()
@@ -47,14 +52,13 @@ class GatherDiamond(Task):
             total_count = self.bot.config.gatherDiamondMaxRange
             direction = 'S'
             
-            edge = (total_count // 2)
-            max_kilometer = int(math.sqrt((pow(edge, 2) + pow(edge, 2))) * 5)
+            max_kilometer = self.get_kilometer(total_count)
             self.set_text(insert="开始寻找宝石, 一共{}次, 最大范围约{}公里".format(total_count, max_kilometer))
             
             while count < total_count:
                 size_step = size_count
                 while size_step > 0:
-                    self.set_text(insert="寻找宝石, {}/{}次, {}/{}步".format(count, total_count, size_count-size_step, size_count))
+                    self.set_text(insert="寻找宝石, {}/{}次, {}/{}步, 距离约{}公里".format(count, total_count, size_count-size_step, size_count, self.get_kilometer(count)))
                     self.swipe(src, dst, 1)
                     time.sleep(1)
                     size_step = size_step - 1
@@ -109,7 +113,7 @@ class GatherDiamond(Task):
                     else:
                         direction = 'W'
                     size_count = size_count + 1
-                    self.set_text(insert="改变方向, {}, {}/{}次, {}步".format(direction, count, total_count, size_count))
+                    self.set_text(insert="改变方向, {}, {}/{}次, {}步, 距离约{}公里".format(direction, count, total_count, size_count, self.get_kilometer(count)))
                     
             self.set_text(insert="没有发现更多宝石, 可以加大搜索范围")
         except Exception as e:

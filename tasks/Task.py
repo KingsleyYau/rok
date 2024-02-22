@@ -195,7 +195,7 @@ class Task:
             elif gui_name == GuiName.HELLO_WROLD_IMG.name:
                 self.set_text(insert='欢迎界面, 点击任意地方, {}'.format(pos_free))
                 self.tap(pos_free)
-                time.sleep(int(config.global_config.startSleepTime))
+                time.sleep(self.bot.config.restartSleep)
             # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
             #     pos_list = self.pass_verification()
             # elif (gui_name == GuiName.MAP.name) | (gui_name == GuiName.HOME.name):
@@ -328,7 +328,10 @@ class Task:
     #         time.sleep(duration / 1000 + 0.5 + 0.2)
 
     # long_press_duration is in milliseconds
-    def tap(self, pos, sleep_time=int(config.global_config.tapSleepTime), long_press_duration=-1):
+    def tap(self, pos):
+        return self.tap(self, pos, self.bot.config.tapSleep)
+        
+    def tap(self, pos, sleep_time=3, long_press_duration=-1):
         cmd = None
         if long_press_duration > -1:
             cmd = "input swipe {} {} {} {} {}".format(pos[0], pos[1], pos[0], pos[1], long_press_duration)

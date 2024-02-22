@@ -6,6 +6,8 @@
   "breakTime": 1800,
   "terminate": true,
   "breakDoRound": 1,
+  "tapSleep": 5,
+  "restartSleep": 120,
   "hasBuildingPos": true,
   "enableMysteryMerchant": true,
   "enableCollecting": true,
