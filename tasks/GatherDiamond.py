@@ -33,7 +33,9 @@ class GatherDiamond(Task):
         self.back_to_home_gui()
         self.back_to_map_gui()
         self.bot.snashot_update_event()
-        
+        result = self.gui.resource_amount_image_to_string()
+        if result and len(result) > 4:
+            self.set_text(title='采集宝石, 当前宝石: {}'.format(result[4]), remove=True)
         try:
             size_count = 1
             size_step = 0

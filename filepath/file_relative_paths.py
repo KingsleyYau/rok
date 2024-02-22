@@ -794,7 +794,7 @@ class ImagePathAndProps(Enum):
         "resource/diamond.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.50,
+        0.60,
         25,
         DIAMOND_IMG,
     ] 

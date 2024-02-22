@@ -46,6 +46,7 @@
   "gatherResourceRatioGold": 4,
   "holdOneQuerySpace": false,
   "gatherDiamond": false,
+  "gatherDiamondMaxRange": 30,
   "enableScout": false,
   "enableInvestigation": true,
   "enableSunsetCanyon": false,
