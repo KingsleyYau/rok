@@ -15,7 +15,7 @@ class GatherResource(Task):
     def do(self, next_task=TaskName.BREAK):
         magnifier_pos = (60, 540)
         self.set_text(title='采集野外资源', remove=True)
-        self.call_idle_back()
+        # self.call_idle_back()
 
         if self.bot.config.useGatheringBoosts:
             b_buff_props = BuffsImageAndProps.ENHANCED_GATHER_BLUE.value

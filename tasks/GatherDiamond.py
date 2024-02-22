@@ -1,4 +1,5 @@
 import traceback
+import math
 
 from filepath.constants import MAP
 from filepath.file_relative_paths import BuffsImageAndProps, ItemsImageAndProps, ImagePathAndProps
@@ -6,6 +7,7 @@ from tasks.Task import Task
 from tasks.constants import TaskName, Resource
 from utils import log, device_log
 import time
+from cv2 import edgePreservingFilter
 
 class GatherDiamond(Task):
 
@@ -15,7 +17,7 @@ class GatherDiamond(Task):
 
     def do(self, next_task=TaskName.BREAK):
         self.set_text(title='采集宝石', remove=True)
-        self.call_idle_back()
+        # self.call_idle_back()
 
         # if self.bot.config.useGatheringBoosts:
         #     b_buff_props = BuffsImageAndProps.ENHANCED_GATHER_BLUE.value
@@ -44,7 +46,10 @@ class GatherDiamond(Task):
             count = 0
             total_count = self.bot.config.gatherDiamondMaxRange
             direction = 'S'
-            self.set_text(insert="开始寻找宝石, 一共{}次".format(total_count))
+            
+            edge = (total_count // 2)
+            max_kilometer = int(math.sqrt((pow(edge, 2) + pow(edge, 2))) * 5)
+            self.set_text(insert="开始寻找宝石, 一共{}次, 最大范围约{}公里".format(total_count, max_kilometer))
             
             while count < total_count:
                 size_step = size_count
