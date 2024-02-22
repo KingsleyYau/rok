@@ -37,8 +37,8 @@ class GatherDiamond(Task):
         try:
             size_count = 1
             size_step = 0
-            src = (960, 320)
-            dst = (320, 320)
+            src = (880, 320)
+            dst = (400, 320)
             count = 0
             total_count = self.bot.config.gatherDiamondMaxRange
             direction = 'S'
@@ -79,17 +79,17 @@ class GatherDiamond(Task):
                         self.tap(match_button_pos)
                     
                     if direction == 'S':
-                        src = (640, 480)
-                        dst = (640, 240)
+                        src = (640, 600)
+                        dst = (640, 120)
                     elif direction == 'W':
-                        src = (320, 320)
-                        dst = (960, 320)
+                        src = (400, 320)
+                        dst = (880, 320)
                     elif direction == 'N':
-                        src = (640, 240)
-                        dst = (640, 480)
+                        src = (640, 120)
+                        dst = (640, 600)
                     else:
-                        src = (960, 320)
-                        dst = (320, 320)
+                        src = (880, 320)
+                        dst = (400, 320)
                     
                 count = count + 1           
                 if (count) % 2 == 0:
