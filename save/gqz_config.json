@@ -4,7 +4,7 @@
   "action_wait_time": 1,
   "enableBreak": true,
   "breakTime": 1800,
-  "terminate": false,
+  "terminate": true,
   "breakDoRound": 1,
   "hasBuildingPos": true,
   "enableMysteryMerchant": true,
