@@ -83,7 +83,7 @@ class Task:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
                     self.back()
-                else:
+                elif gui_name != GuiName.HELLO_WROLD_IMG.name:
                     self.back()
             loop_count = loop_count + 1
             time.sleep(1)
@@ -149,7 +149,7 @@ class Task:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
                     self.back()
-                else:
+                elif gui_name != GuiName.HELLO_WROLD_IMG.name:
                     self.back()
             loop_count = loop_count + 1
             time.sleep(1)
@@ -158,13 +158,12 @@ class Task:
     def get_curr_gui_name(self):
         if not self.isRoKRunning():
             str='ROK还没运行, 尝试启动'
-            device_log(self.device, str)
             self.set_text(insert=str)
+            self.bot.snashot_update_event()
             self.stopRok()
             self.runOfRoK()
             time.sleep(30)
         pos_list = None
-        
         pos_free = (400 + int(50 * (0.5 - random.random())), 400 + int(50 * (0.5 - random.random())))
         
         for i in range(0, 1):
@@ -199,11 +198,11 @@ class Task:
                 time.sleep(int(config.global_config.startSleepTime))
             # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
             #     pos_list = self.pass_verification()
-            elif (gui_name == GuiName.MAP.name) | (gui_name == GuiName.HOME.name):
-                device_log(self.device, '[地图/城市]界面, 不需要处理')
-            else:
-                device_log(self.device, '未知界面, 点击任意地方', pos_free)
-                self.tap(pos_free)
+            # elif (gui_name == GuiName.MAP.name) | (gui_name == GuiName.HOME.name):
+            #     device_log(self.device, '[地图/城市]界面, 不需要处理')
+            # else:
+            #     device_log(self.device, '未知界面, 点击任意地方', pos_free)
+            #     self.tap(pos_free)
             return result
         if not pos_list:
             raise Exception("Could not pass verification")

@@ -58,6 +58,9 @@ class GatherDiamond(Task):
                         self.tap(diamond_pos)
                         
                         gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
+                        if gather_button_pos is None:
+                            self.set_text(insert="没有发现采集按钮, 可能资源点正在采集")
+                            continue
                         self.tap(gather_button_pos, 8)
                 
                         new_troops_button_pos = self.bot.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]

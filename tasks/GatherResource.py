@@ -120,8 +120,13 @@ class GatherResource(Task):
                         else:
                             continue
                     last_resource_pos.append(new_resource_pos)
+                    
                 should_decreasing_lv = False
                 gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
+                if gather_button_pos is None:
+                    self.set_text(insert="没有发现采集按钮, 可能资源点正在采集")
+                    continue
+                
                 self.tap(gather_button_pos, 8)
                 pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
                 if pos is None:
@@ -181,7 +186,7 @@ class GatherResource(Task):
         for i in range(len(result)):
             if diff[m] < diff[i]:
                 m = i
-        device_log(self.bot.device, 'get_min_resource, {}'.format(res_names[m]))
+        self.set_text(insert='最少的资源是{}'.format(res_names[m]))
         return m
 
     def check_query_space(self):
