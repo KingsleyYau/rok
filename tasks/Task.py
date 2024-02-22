@@ -18,6 +18,7 @@ import time
 import random
 
 from filepath.constants import RESOURCES, SPEEDUPS, BOOSTS, EQUIPMENT, OTHER, MAP, HOME
+from time import sleep
 
 
 class Task:
@@ -327,11 +328,9 @@ class Task:
     #         self.device.shell(cmd_swipe)
     #         time.sleep(duration / 1000 + 0.5 + 0.2)
 
-    # long_press_duration is in milliseconds
-    def tap(self, pos):
-        return self.tap(self, pos, self.bot.config.tapSleep)
-        
-    def tap(self, pos, sleep_time=3, long_press_duration=-1):
+    def tap(self, pos, sleep_time=-1, long_press_duration=-1):
+        if sleep_time == -1:
+            sleep_time = self.bot.config.tapSleep
         cmd = None
         if long_press_duration > -1:
             cmd = "input swipe {} {} {} {} {}".format(pos[0], pos[1], pos[0], pos[1], long_press_duration)

@@ -45,7 +45,7 @@ class GatherDiamond(Task):
             self.set_text(title='采集宝石, 当前宝石: {}'.format(result[4]), remove=True)
         try:
             size_count = 1
-            size_step = 0
+            size_step = size_count
             src = (880, 320)
             dst = (400, 320)
             count = 0
@@ -54,11 +54,12 @@ class GatherDiamond(Task):
             
             max_kilometer = self.get_kilometer(total_count)
             self.set_text(insert="开始寻找宝石, 一共{}次, 最大范围约{}公里".format(total_count, max_kilometer))
+            self.set_text(insert="寻找宝石")
             
             while count < total_count:
                 size_step = size_count
                 while size_step > 0:
-                    self.set_text(insert="寻找宝石, {}/{}次, {}/{}步, 距离约{}公里".format(count, total_count, size_count-size_step, size_count, self.get_kilometer(count)))
+                    self.set_text(replace="寻找宝石, {}/{}次, {}/{}步, {}, 距离约{}公里".format(count, total_count, size_count-size_step, size_count, direction, self.get_kilometer(count)), index=0)
                     self.swipe(src, dst, 1)
                     time.sleep(1)
                     size_step = size_step - 1
@@ -66,7 +67,7 @@ class GatherDiamond(Task):
                     
                     _, _, diamond_pos = self.bot.gui.check_any(ImagePathAndProps.DIAMOND_IMG_PATH.value)
                     if diamond_pos is not None:
-                        self.set_text(insert="发现宝石, {}".format(diamond_pos))
+                        self.set_text(insert="发现宝石, {}, {}/{}次, {}步, {}, 距离约{}公里".format(diamond_pos, count, total_count, size_count, direction, self.get_kilometer(count)))
                         self.tap(diamond_pos)
                         self.bot.snashot_update_event()
                         
@@ -111,9 +112,9 @@ class GatherDiamond(Task):
                     elif direction == 'N':
                         direction = 'E'
                     else:
-                        direction = 'W'
+                        direction = 'S'
                     size_count = size_count + 1
-                    self.set_text(insert="改变方向, {}, {}/{}次, {}步, 距离约{}公里".format(direction, count, total_count, size_count, self.get_kilometer(count)))
+                    # self.set_text(insert="改变方向, {}, {}/{}次, {}步, 距离约{}公里".format(direction, count, total_count, size_count, self.get_kilometer(count)))
                     
             self.set_text(insert="没有发现更多宝石, 可以加大搜索范围")
         except Exception as e:
