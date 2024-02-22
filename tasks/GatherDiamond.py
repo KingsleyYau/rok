@@ -36,17 +36,18 @@ class GatherDiamond(Task):
         
         try:
             size_count = 1
+            size_step = 1
             src = (960, 320)
             dst = (320, 320)
             count = 0
-            total_count = 30
+            total_count = self.bot.config.gatherDiamondMaxRange
             direction = 'S'
-            self.set_text(insert="开始寻找宝石... {}".format(total_count))
+            self.set_text(insert="开始寻找宝石... 一共{}次".format(total_count))
             
             while count < total_count:
                 size_step = size_count
                 while size_step > 0:
-                    self.set_text(insert="寻找宝石... {},{}".format(count, size_step))
+                    self.set_text(insert="寻找宝石... {}/{}次, {}/{}步".format(count, total_count, size_step, size_count))
                     self.swipe(src, dst, 1)
                     time.sleep(1)
                     size_step = size_step - 1
@@ -54,12 +55,12 @@ class GatherDiamond(Task):
                     
                     _, _, diamond_pos = self.bot.gui.check_any(ImagePathAndProps.DIAMOND_IMG_PATH.value)
                     if diamond_pos is not None:
-                        self.set_text(insert="发现宝石, {}".format(diamond_pos))
+                        self.set_text(insert="发现宝石 {}".format(diamond_pos))
                         self.tap(diamond_pos)
                         
                         gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
                         if gather_button_pos is None:
-                            self.set_text(insert="没有发现采集按钮, 可能资源点正在采集")
+                            self.set_text(insert="没有发现采集按钮, 可能宝石正在采集")
                             continue
                         self.tap(gather_button_pos, 8)
                 
@@ -97,7 +98,7 @@ class GatherDiamond(Task):
                         direction = 'E'
                     else:
                         direction = 'W'
-                    self.set_text(insert="改变方向 {},{},{}".format(count, size_count, direction))
+                    self.set_text(insert="改变方向 {}, {}/{}次, {}/{}步".format(direction, count, total_count, size_step, size_count))
             self.set_text(insert="没有发现更多宝石, 可以加大搜索范围")
         except Exception as e:
             traceback.print_exc()

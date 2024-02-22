@@ -173,6 +173,13 @@ class SelectedDeviceFrame(Frame):
 
         start_button = button(frame, on_start_or_stop_click, text='Start')
         start_button.grid(row=0, column=0, padx=(0, 5), sticky=N + W)
+                
+        def on_kill_click(btn):
+            task = Task(self.bot)
+            task.stopRok()
+            
+        kill_button = button(frame, on_kill_click, text='Kill')
+        kill_button.grid(row=0, column=1, sticky=N + W)
         
         #building position setting
         def on_building_pos_click(btn):
@@ -180,7 +187,7 @@ class SelectedDeviceFrame(Frame):
                 self.building_pos_window = building_pos_window(self)
 
         building_pos_button = button(frame, on_building_pos_click, text='Building Pos')
-        building_pos_button.grid(row=0, column=1, sticky=N + W)
+        building_pos_button.grid(row=0, column=2, sticky=N + W)
 
         # snapshot
         def on_snapshot_click(btn):
@@ -188,14 +195,7 @@ class SelectedDeviceFrame(Frame):
             self.refresh_snapshot()
             
         snapshot_button = button(frame, on_snapshot_click, text='Snapshot')
-        snapshot_button.grid(row=0, column=2, sticky=N + W)
-        
-        def on_kill_click(btn):
-            task = Task(self.bot)
-            task.stopRok()
-            
-        kill_button = button(frame, on_kill_click, text='Kill')
-        on_kill_click.grid(row=0, column=3, sticky=N + W)
+        snapshot_button.grid(row=0, column=3, sticky=N + W)
         
         # change account
         def on_change_account_click(btn):
