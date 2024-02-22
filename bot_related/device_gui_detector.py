@@ -104,7 +104,7 @@ class GuiDetector:
     def resource_amount_image_to_string(self):
         result_list = []
         boxes = [
-            (695, 10, 770, 34), (820, 10, 890, 34), (943, 10, 1015, 34), (1065, 10, 1140, 34), (1175, 10, 1245, 34)
+            (695, 10, 770, 34), (820, 10, 890, 34), (943, 10, 1015, 34), (1065, 10, 1140, 34), (1182, 10, 1245, 34)
         ]
         imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
                      cv2.IMREAD_COLOR)
