@@ -198,12 +198,13 @@ class SelectedDeviceFrame(Frame):
         snapshot_button.grid(row=0, column=3, sticky=N + W)
         
         # change account
-        def on_change_account_click(btn):
+        def on_switch_account_click(btn):
             task = Task(self.bot)
             task.back_to_map_gui()
             # 打开设置
             task.tap((50, 50))
             task.tap((990, 570))
+            # 账号管理
             task.tap((700, 380))
             # 切换账号
             task.tap((640, 680))
@@ -218,8 +219,26 @@ class SelectedDeviceFrame(Frame):
             # 发送验证码
             task.tap((640, 300))
             
-        change_account_button = button(frame, on_change_account_click, text='Switch By Phone')
-        change_account_button.grid(row=1, column=0, columnspan=2, sticky=N + W)
+        switch_account_button = button(frame, on_switch_account_click, text='Switch By Phone')
+        switch_account_button.grid(row=1, column=0, columnspan=2, sticky=N + W)
+        
+        # change player
+        def on_change_player_click(btn):
+            task = Task(self.bot)
+            task.back_to_map_gui()
+            # 打开设置
+            task.tap((50, 50))
+            task.tap((990, 570))
+            # 角色管理
+            task.tap((560, 380))
+            # 切换角色
+            task.tap((800, 240))
+            _, _, yes_pos = self.bot.gui.check_any(ImagePathAndProps.YES_BUTTON_PATH.value)
+            if yes_pos is not None:
+                task.tap(yes_pos)
+                
+        change_player_button = button(frame, on_change_player_click, text='Change Player')
+        change_player_button.grid(row=1, column=2, columnspan=2, sticky=N + W)
         
         return frame
 

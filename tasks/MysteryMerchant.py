@@ -10,7 +10,7 @@ class MysteryMerchant(Task):
         super().__init__(bot)
 
     def do(self, next_task=TaskName.MYSTERY_MERCHANT.value):
-        self.set_text(title='神秘商店')
+        self.set_text(title='神秘商店', remove=True)
         self.back_to_home_gui()
         self.home_gui_full_view()
         found, _, pos = self.gui.check_any(ImagePathAndProps.MERCHANT_ICON_IMAGE_PATH.value)

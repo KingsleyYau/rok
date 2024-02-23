@@ -22,24 +22,10 @@ class GatherDiamond(Task):
     
     def do(self, next_task=TaskName.BREAK):
         self.set_text(title='采集宝石', remove=True)
-        # self.call_idle_back()
-
-        # if self.bot.config.useGatheringBoosts:
-        #     b_buff_props = BuffsImageAndProps.ENHANCED_GATHER_BLUE.value
-        #     p_buff_props = BuffsImageAndProps.ENHANCED_GATHER_PURPLE.value
-        #     b_item_props = ItemsImageAndProps.ENHANCED_GATHER_BLUE.value
-        #     p_item_props = ItemsImageAndProps.ENHANCED_GATHER_PURPLE.value
-        #     has_blue = self.has_buff(MAP, b_buff_props)
-        #     has_purple = self.has_buff(MAP, p_buff_props)
-        #     if not has_blue and not has_purple:
-        #         self.set_text(insert='当前没有采集加速, 尝试使用')
-        #         self.use_item(MAP, [b_item_props, p_item_props])
-        #     else:
-        #         self.set_text(insert="采集加速已经生效")
-                
         self.back_to_home_gui()
         self.back_to_map_gui()
         self.bot.snashot_update_event()
+        
         result = self.gui.resource_amount_image_to_string()
         if result and len(result) > 4:
             self.set_text(title='采集宝石, 当前宝石: {}'.format(result[4]), remove=True)
@@ -67,27 +53,27 @@ class GatherDiamond(Task):
                     
                     _, _, diamond_pos = self.bot.gui.check_any(ImagePathAndProps.DIAMOND_IMG_PATH.value)
                     if diamond_pos is not None:
-                        self.set_text(insert="发现宝石, {}, {}/{}次, {}步, {}, 距离约{}公里".format(diamond_pos, count, total_count, size_count, direction, self.get_kilometer(count)))
+                        self.set_text(insert="发现宝石, {}, {}/{}次, {}步, {}, 距离约{}公里".format(diamond_pos, count, total_count, size_count, direction, self.get_kilometer(count)), index=1)
                         self.tap(diamond_pos)
                         self.bot.snashot_update_event()
                         
                         gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
                         if gather_button_pos is None:
-                            self.set_text(insert="没有发现采集按钮, 可能宝石正在采集")
+                            self.set_text(insert="没有发现采集按钮, 可能宝石正在采集", index=1)
                             continue
                         self.tap(gather_button_pos, 5)
                         self.bot.snashot_update_event()
                 
                         new_troops_button_pos = self.bot.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
                         if new_troops_button_pos is None:
-                            self.set_text(insert="没有更多队列采集")
+                            self.set_text(insert="没有更多队列采集", index=1)
                             return 
-                        self.set_text(insert="创建部队")
+                        self.set_text(insert="创建部队", index=1)
                         self.tap(new_troops_button_pos, 5)
                         self.bot.snashot_update_event()
                         
                         match_button_pos = self.bot.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
-                        self.set_text(insert="开始行军")
+                        self.set_text(insert="开始行军", index=1)
                         self.tap(match_button_pos)
                     
                     if direction == 'S':

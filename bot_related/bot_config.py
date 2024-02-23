@@ -100,7 +100,7 @@ class BotConfig:
         
         # Gather diamond
         self.gatherDiamond = config.get('gatherDiamond', False)
-        self.gatherDiamondMaxRange = config.get('gatherDiamondMaxRange', 30)
+        self.gatherDiamondMaxRange = config.get('gatherDiamondMaxRange', 20)
         
         # Scout
         self.enableScout = config.get('enableScout', False)

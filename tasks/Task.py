@@ -342,10 +342,10 @@ class Task:
         device_log(self.device, cmd)
         time.sleep(sleep_time)
                 
-    def double_tap(self, x, y):
-        device_log(self.device, 'double_tap', x, y)
-        self.tap((x, y), 0.1)
-        self.tap((x, y), 0.1)
+    def double_tap(self, pos):
+        device_log(self.device, 'double_tap', pos)
+        self.tap(pos, 0.1)
+        self.tap(pos, 0.1)
         time.sleep(1)
         
     def text(self, x, y, text):

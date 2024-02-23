@@ -798,6 +798,38 @@ class ImagePathAndProps(Enum):
         25,
         DIAMOND_IMG,
     ] 
+    TERRITORY_IMG_PATH = [
+        "resource/territory.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        TERRITORY_IMG,
+    ]
+    TERRITORY_GATHERING_IMG_PATH = [
+        "resource/territory_gathering.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        TERRITORY_GATHERING_IMG,
+    ]
+    TERRITORY_GATHER_JOIN_IMG_PATH = [
+        "resource/territory_gather_join.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        TERRITORY_GATHER_JOIN_IMG,
+    ]
+    YES_BUTTON_PATH = [
+        "resource/yes.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        YES_BUTTON,
+    ] 
     
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [

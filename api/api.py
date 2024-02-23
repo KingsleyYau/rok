@@ -11,7 +11,7 @@ def find_player(bot, task, server, expected_pos):
     log('寻找玩家', expected_pos)
     # task.back_to_home_gui()
     task.back_to_map_gui()
-    task.double_tap(400, 400)
+    task.double_tap((400, 400))
     # _, _, pos = bot.gui.check_any_gray(
     #     ImagePathAndProps.SEARCH_ICON_SMALL_IMAGE_PATH.value
     # )
@@ -77,8 +77,15 @@ def run_api(args):
         'scientist':{'name':'科学家','title_check_pos':(965, 380)},
         }
     
-    title_item = title_items[args.title]
-    if title_item is not None:
-        log('申请头衔', title_item['name'])
-        find_player(bot, task, args.server, expected_pos)
-        finish_title(bot, task, title_item)    
+    type = 'request_title'
+    if args.type is not None and len(args) > 0:
+        type = args.type
+    
+    if type == 'request_title':
+        title_item = title_items[args.title]
+        if title_item is not None:
+            log('申请头衔', title_item['name'])
+            find_player(bot, task, args.server, expected_pos)
+            finish_title(bot, task, title_item)    
+    elif type == 'request_bot':
+        log('开始打工')

@@ -124,7 +124,7 @@ use_gathering_boosts = checkbox_fn_creator('useGatheringBoosts', 'Use gathering 
 hold_one_query_space_checkbox = checkbox_fn_creator('holdOneQuerySpace', 'Hold space for attack barbarians')
 
 gather_diamond_checkbox = checkbox_fn_creator('gatherDiamond', 'Gather diamond')
-gather_diamond_max_range_entry = entry_int_fn_creator('gatherDiamondMaxRange', 'Maxmum search range(Default 30):')
+gather_diamond_max_range_entry = entry_int_fn_creator('gatherDiamondMaxRange', 'Maxmum search range(Default 20):')
 
 enable_scout_checkbox = checkbox_fn_creator('enableScout', 'Enable explore')
 enable_Investigation_checkbox = checkbox_fn_creator('enableInvestigation', 'Investigate Cave, Village')
