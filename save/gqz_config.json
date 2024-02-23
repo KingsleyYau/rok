@@ -3,7 +3,7 @@
   "enableStop": false,
   "action_wait_time": 1,
   "enableBreak": true,
-  "breakTime": 1200,
+  "breakTime": 600,
   "terminate": true,
   "breakDoRound": 1,
   "tapSleep": 8,

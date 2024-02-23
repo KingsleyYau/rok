@@ -24,6 +24,9 @@ def api(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--api", type=str2bool, default=False, help="api mode")
+    parser.add_argument("--run_type", type=str, default='request_title', help="run_type")
+    parser.add_argument("--device_name", type=str, default='request_title', help="device_name")
+    parser.add_argument("--run", type=str2bool, default=True, help="start/stop bot")
     parser.add_argument("--title", type=str, default='train', help="title")
     parser.add_argument("--server", type=str, default='15', help="title")
     parser.add_argument("--x", type=str, default='0', help="x")

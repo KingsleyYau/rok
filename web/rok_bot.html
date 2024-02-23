@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>头衔申请</title>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <style id="compiled-css" type="text/css">
+        body {
+            margin: 0;
+            padding: 2.5%;
+            overflow-x: hidden;
+        }
+
+        div {
+            width: 100%;
+            margin: 2px 0px;
+        }
+
+        img {
+            width: 100%;
+            margin: 2px 0px;
+        }
+
+        table {
+            width: 100%;
+            font-size:14px;
+        }
+        textarea {
+            width: 100%;
+            font-size:14px;
+        }
+
+        .button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 4px 14px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+
+        .green {
+            background-color: #4CAF50; /* 绿色 */
+        }
+
+    </style>
+</head>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/cookie.js"></script>
+<script>
+    function onQueue() {
+        console.log('onQueue');
+        $.ajax({
+            url: "/api/rok_bot_snapshot?device_name=" + docCookies.getItem('device_name'),
+            type: "get",
+            data: '',
+            success: function (data) {
+                // console.info(data);
+                let snapshot = $("[id=snapshot]");
+                snapshot.attr('src', data.data.photo);
+            },
+            error: function (data) {
+                // console.warn(data);
+            }
+        });
+        return false;
+    }
+
+    function onSummit(form) {
+        console.log('onSummit', form);
+        let formData = new FormData(form);
+        let device_name = formData.get('device_name');
+        docCookies.setItem('device_name', device_name, 31536e3);
+        let run = formData.get('run');
+        docCookies.setItem('run', run, 31536e3);
+
+        $.ajax({
+            url: "/api/rok_bot",
+            type: "get",
+            data: $('#postForm').serialize(),
+            success: function (data) {
+                console.info(data);
+                if (data.errno != 0) {
+                    alert(data.errmsg)
+                } else {
+                    // onQueue()
+                }
+            },
+            error: function (data) {
+                console.warn(data);
+            }
+        });
+
+        return false;
+    }
+
+    function reload() {
+        onQueue();
+
+        // setTimeout(() => {
+        //     reload();
+        // }, 30000);
+
+        if (docCookies.hasItem('device_name')) {
+            $("[id=device_name]").val(docCookies.getItem('device_name'));
+        }
+        if (docCookies.hasItem('run')) {
+            let run = parseInt(docCookies.getItem('run'));
+            if (run) {
+                $('input[id=run]').prop('checked', run)
+            } else {
+                $('input[id=run]').removeAttr('checked')
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        reload();
+    });
+</script>
+
+<body>
+<div>
+    <form id="postForm" method="post" onsubmit="return onSummit(this);">
+        <div>
+            <label for="device_name">名字:</label>
+            <input type="text" id="device_name" name="device_name" value="xj" maxlength="6" required>
+        </div>
+        <div>
+            <input type="checkbox" id="run" name="run" value=1 checked>
+            <label>打工</label>
+        </div>
+        <div>
+            <input class="button green" type="submit" value="提交">
+        </div>
+    </form>
+</div>
+<div>
+    <button class="button" id="refresh" onclick="onQueue()">刷新</button>
+</div>
+<div>
+    <img id="snapshot" width: 230px;></img>
+</div>
+
+<div>
+</div>
+</body>
+</html>
