@@ -49,6 +49,10 @@
         .green {
             background-color: #4CAF50; /* 绿色 */
         }
+        .red {
+            background-color: #f20d0d; /* 红色 */
+        }
+
 
     </style>
 </head>
@@ -63,20 +67,40 @@
             type: "get",
             data: '',
             success: function (data) {
-                // console.info(data);
+                console.info('onQueue.success', data);
                 let snapshot = $("[id=snapshot]");
                 snapshot.attr('src', data.data.photo);
             },
             error: function (data) {
-                // console.warn(data);
+                console.warn('onQueue.error');
+                console.warn(data);
+            }
+        });
+        return false;
+    }
+
+    function onKill() {
+        console.log('onKill');
+        $.ajax({
+            url: "/api/rok_bot?run_type=request_stop&device_name=" + docCookies.getItem('device_name'),
+            type: "get",
+            data: '',
+            success: function (data) {
+                console.info('onKill.success', data);
+                let snapshot = $("[id=snapshot]");
+                snapshot.attr('src', data.data.photo);
+            },
+            error: function (data) {
+                console.warn('onKill.error');
+                console.warn(data);
             }
         });
         return false;
     }
 
     function onSummit(form) {
-        console.log('onSummit', form);
         let formData = new FormData(form);
+        console.log('onSummit', formData);
         let device_name = formData.get('device_name');
         docCookies.setItem('device_name', device_name, 31536e3);
         let run = formData.get('run');
@@ -87,15 +111,21 @@
             type: "get",
             data: $('#postForm').serialize(),
             success: function (data) {
-                console.info(data);
+                console.info('onSummit.success', data);
                 if (data.errno != 0) {
                     alert(data.errmsg)
                 } else {
-                    // onQueue()
+                    let run = formData.get('run');
+                    run = parseInt(run);
+                    if (run) {
+                        alert('开始打工')
+                    } else {
+                        alert('停止打工')
+                    }
                 }
             },
             error: function (data) {
-                console.warn(data);
+                console.warn('onSummit.error', data);
             }
         });
 
@@ -103,12 +133,6 @@
     }
 
     function reload() {
-        onQueue();
-
-        // setTimeout(() => {
-        //     reload();
-        // }, 30000);
-
         if (docCookies.hasItem('device_name')) {
             $("[id=device_name]").val(docCookies.getItem('device_name'));
         }
@@ -120,6 +144,11 @@
                 $('input[id=run]').removeAttr('checked')
             }
         }
+
+        onQueue();
+        // setTimeout(() => {
+        //     reload();
+        // }, 30000);
     }
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -136,6 +165,7 @@
         </div>
         <div>
             <input type="checkbox" id="run" name="run" value=1 checked>
+            <input type="hidden" id="runtype" name="run_type" value='request_bot'>
             <label>打工</label>
         </div>
         <div>
@@ -145,6 +175,7 @@
 </div>
 <div>
     <button class="button" id="refresh" onclick="onQueue()">刷新</button>
+    <button class="button red" id="stop" onclick="onKill()">强制停止</button>
 </div>
 <div>
     <img id="snapshot" width: 230px;></img>

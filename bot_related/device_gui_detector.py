@@ -239,17 +239,15 @@ class GuiDetector:
 
         return False, None, None
     
-    def check_any_gray(self, *props_list):
+    def check_any_gray(self, *props_list, bgremove=True):
         imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
                              cv2.IMREAD_COLOR)
 
         for props in props_list:
             path, size, box, threshold, least_diff, gui = props
-            # x0, y0, x1, y1 = box
-            # device_log(self.__device, 'check_any_gray', path)
+            device_log(self.__device, 'check_any_gray', path, threshold)
             imsrc = cv2.imread(resource_path(path))
-
-            result = aircv.find_template(imsrc, imsch, threshold, False, True)
+            result = aircv.find_template(imsrc, imsch, threshold, False, bgremove)
 
             if result is not None:
                 return True, gui, result['result']

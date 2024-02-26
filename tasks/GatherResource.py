@@ -197,28 +197,8 @@ class GatherResource(Task):
                 
                 if not self.create_troop():
                     return next_task
-                # pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
-                # if pos is None:
-                #     self.set_text(insert="没有更多队列采集")
-                #     self.bot.snashot_update_event()
-                #     return next_task
-                #
-                # new_troops_button_pos = pos
-                # self.set_text(insert="创建部队")
-                # self.tap(new_troops_button_pos, 10)
-                # self.bot.snashot_update_event()
-                #
-                # if self.bot.config.gatherResourceNoSecondaryCommander:
-                #     self.set_text(insert="移除副将")
-                #     self.tap((473, 501))
-                #     self.bot.snashot_update_event()
-                #
-                # self.set_text(insert="开始行军")
-                # match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
-                # self.tap(match_button_pos)
-                # self.bot.snashot_update_event()
-                
                 repeat_count = 0
+                self.swipe((320, 720), (200, 400))
                 
             self.bot.snashot_update_event()
         except Exception as e:

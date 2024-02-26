@@ -87,24 +87,41 @@ def write_run_config(config, prefix):
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(config.__dict__, f, indent=2, ensure_ascii=False)   
         
+def snapshot(bot, name):
+    img = bot.gui.get_curr_device_screen_img().resize((640,360))
+    if img is not None:
+        try:
+            os.mkdir('capture')
+        except BaseException as e:
+            if e.errno != errno.EEXIST:
+                print(e)
+        img = img.convert('RGB')
+        img.save('run/{}.jpg'.format(name))
+            
 def start_work(bot, name):
     def on_snashot_update():
-        img = bot.gui.get_curr_device_screen_img().resize(320,240)
-        if img is not None:
-            try:
-                os.mkdir('capture')
-            except BaseException as e:
-                if e.errno != errno.EEXIST:
-                    print(e)
-            img = img.convert('RGB')
-            img.save('run/{}.jpg'.format(name))
-        
+        snapshot(bot, name)
+    
     bot.config = load_bot_config(name)
     bot.building_pos = load_building_pos(name)
     bot.snashot_update_event = on_snashot_update
     bot.start(bot.do_task)
+    snapshot(bot, name)
     return True
-        
+ 
+def change_player(task, bot, i):
+    task.back_to_map_gui()
+    # 打开设置
+    task.tap((50, 50))
+    task.tap((990, 570))
+    # 角色管理
+    task.tap((560, 380))
+    # 切换角色
+    task.tap((400 * i, 240))
+    _, _, yes_pos = bot.gui.check_any(ImagePathAndProps.YES_BUTTON_PATH.value)
+    if yes_pos is not None:
+        task.tap(yes_pos)  
+                      
 def run_api(args):
     log(args)
     adb.bridge = adb.enable_adb('127.0.0.1', 5037)
@@ -149,7 +166,23 @@ def run_api(args):
         if title_item is not None:
             log('申请头衔', title_item['name'])
             find_player(bot, task, args.server, expected_pos)
-            finish_title(bot, task, title_item)    
+            finish_title(bot, task, title_item)   
+    elif run_type == 'request_stop':
+        try:
+            config = load_run_config(device_name)
+            config.name = device_name
+            log('config', config)
+            
+            config.running = args.run;
+            write_run_config(config, device_name)
+        
+            log('杀掉', config.name)    
+            bot.stop()
+            task.stopRok()
+            os.remove('run/{}.jpg'.format(device_name))
+        except BaseException as e:
+            log(e)   
+            
     elif run_type == 'request_bot':
         try:
             os.mkdir('run')
@@ -179,5 +212,6 @@ def run_api(args):
         write_run_config(config, device_name)   
         log('停止打工', config.name)    
         bot.stop()
-        task.stopRok()
-        os.remove('run/{}.jpg'.format(device_name))
+        
+    elif run_type == 'change_player':
+        change_player(task, bot, args.player)

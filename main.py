@@ -31,6 +31,7 @@ if __name__ == '__main__':
     parser.add_argument("--server", type=str, default='15', help="title")
     parser.add_argument("--x", type=str, default='0', help="x")
     parser.add_argument("--y", type=str, default='0', help="y")
+    parser.add_argument("--player", type=int, default='1', help="player")
     args = parser.parse_args()
     if args.api:
         api(args)

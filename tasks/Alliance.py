@@ -19,7 +19,7 @@ class Alliance(Task):
                 super().menu_should_open(True)
                 super().set_text(insert='打开联盟中心')
                 super().tap(alliance_btn_pos)
-
+                self.bot.snashot_update_event()
                 if name == 'HELP':
                     super().set_text(insert='帮助盟友')
                     super().tap((920, 400))  # enter the help page

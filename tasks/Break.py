@@ -13,13 +13,26 @@ class Break(Task):
     def do(self, next_task = TaskName.COLLECTING):
         try:
             super().set_text(title='Break', remove=True)
-            super().call_idle_back()
-            super().heal_troops()
+            # super().call_idle_back()
+            super().back_to_home_gui()
+            # super().home_gui_full_view()
+            # super().heal_troops()
+            
+            res_names = [
+                '玉米',
+                '木头',
+                '石头',
+                '金矿',
+                '砖石'
+            ]
+            result = self.gui.resource_amount_image_to_string()
+            tips = "玉米: {}, 木头: {}, 石头: {}, 金矿: {}".format(result[0], result[1], result[2], result[3], result[4])
+            self.set_text(insert=tips)
+            
             super().set_text(insert='0/{} seconds'.format(self.bot.config.breakTime))
             progress_time = max(self.bot.config.breakTime // 100, 1)
-            # super().back_to_home_gui()
-            # super().home_gui_full_view()
 
+            
             # stop game if config set true
             if self.bot.config.terminate:
                 super().set_text(insert='关闭ROK')
