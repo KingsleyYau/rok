@@ -60,6 +60,23 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/cookie.js"></script>
 <script>
+    function onLog() {
+        console.log('onLog');
+        $.ajax({
+            url: "/api/rok_bot_log?device_name=" + docCookies.getItem('device_name'),
+            type: "get",
+            data: '',
+            success: function (data) {
+                console.info('onLog.success', data);
+            },
+            error: function (data) {
+                console.warn('onLog.error');
+                console.warn(data);
+            }
+        });
+        return false;
+    }
+
     function onQueue() {
         console.log('onQueue');
         $.ajax({
@@ -146,9 +163,10 @@
         }
 
         onQueue();
-        // setTimeout(() => {
-        //     reload();
-        // }, 30000);
+
+        setTimeout(() => {
+            reload();
+        }, 10000);
     }
 
     document.addEventListener("DOMContentLoaded", function () {

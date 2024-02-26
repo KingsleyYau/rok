@@ -13,6 +13,7 @@ class Materials(Task):
     def do(self, next_task=TaskName.TAVERN):
         try:
             super().set_text(title='生产材料', remove=True)
+            self.swipe((320, 720), (200, 400))
 
             icon_pos = [
                 (765, 230),

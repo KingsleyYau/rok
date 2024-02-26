@@ -9,6 +9,7 @@ class ClaimVip(Task):
         super().__init__(bot)
 
     def do(self, next_task=TaskName.CLAIM_QUEST):
+        self.swipe((320, 720), (200, 400))
         vip_pos = (150, 65)
         vip_point_chest = (1010, 180)
         vip_free_chest = (920, 400)
