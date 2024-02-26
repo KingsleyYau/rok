@@ -68,6 +68,8 @@
             data: '',
             success: function (data) {
                 console.info('onLog.success', data);
+                let log = $("[id=log]");
+                log.html(data.data.lines)
             },
             error: function (data) {
                 console.warn('onLog.error');
@@ -163,6 +165,7 @@
         }
 
         onQueue();
+        onLog();
 
         setTimeout(() => {
             reload();
@@ -198,7 +201,9 @@
 <div>
     <img id="snapshot" width: 230px;></img>
 </div>
-
+<div style="white-space: pre-line">
+    <label id="log" style="font-size: 14px;"></label>
+</div>
 <div>
 </div>
 </body>
