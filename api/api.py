@@ -88,7 +88,7 @@ def write_run_config(config, prefix):
         json.dump(config.__dict__, f, indent=2, ensure_ascii=False)   
         
 def snapshot(bot, name):
-    img = bot.gui.get_curr_device_screen_img().resize((640,360))
+    img = bot.gui.get_curr_device_screen_img().resize((480,270))
     if img is not None:
         try:
             os.mkdir('capture')
