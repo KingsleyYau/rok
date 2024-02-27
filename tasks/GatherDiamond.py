@@ -20,7 +20,7 @@ class GatherDiamond(Task):
         
     def get_kilometer(self, count):
         edge = (count // 2)
-        step_kilometer = 5
+        step_kilometer = 3
         max_kilometer = int(math.sqrt((pow(edge//2, 2) + pow(edge//2, 2))) * step_kilometer)
         return max_kilometer
     

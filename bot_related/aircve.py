@@ -48,7 +48,7 @@ __version__ = "0.1.x" # 0.1.5 laster, version managed by pbr(tags) now
 __project_url__ = "https://github.com/netease/aircv"
 
 
-DEBUG = True
+DEBUG = False
 
 #def crop(img, (x0, y0), end=(0, 0), rect=(0, 0)):
 #    ''' Crop image '''
