@@ -79,7 +79,7 @@ class Task:
             if gui_name == GuiName.HOME.name:
                 break
             else:
-                self.set_text(insert='切换到城市, 当前界面{}, {}'.format(gui_name,pos))
+                self.set_text(insert='切换到城市, 当前界面{}, {}, loop_count:{}'.format(gui_name, pos, loop_count))
                 if gui_name == GuiName.MAP.name:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
@@ -87,6 +87,9 @@ class Task:
                 elif gui_name != GuiName.HELLO_WROLD_IMG.name:
                     self.back()
             loop_count = loop_count + 1
+            if loop_count > 20:
+                self.set_text(insert='程序可能卡死, 重启'.format(loop_count))
+                self.stopRok()
             time.sleep(1)
         return loop_count
 
@@ -153,6 +156,9 @@ class Task:
                 elif gui_name != GuiName.HELLO_WROLD_IMG.name:
                     self.back()
             loop_count = loop_count + 1
+            if loop_count > 20:
+                self.set_text(insert='程序可能卡死, 重启'.format(loop_count))
+                self.stopRok()
             time.sleep(1)
         return loop_count
 

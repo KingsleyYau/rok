@@ -7,10 +7,10 @@ class StrImagePosition(Enum):
 
 
 class FilePaths(Enum):
-    TEST_SRC_FOLDER_PATH = "test_screen_caps/"
+    TEST_SRC_FOLDER_PATH = "script/capture/"
     TEST_CURR_SCREEN_CAP_PATH = "test_screen_caps/current_cap.png"
     ADB_EXE_PATH = "adb/adb"
-    TESSERACT_EXE_PATH = "/usr/local/Cellar/tesseract/5.3.4/bin/tesseract"
+    TESSERACT_EXE_PATH = "/usr/bin/tesseract"
     TESSDATA_CHI_SIM_PATH = "tessdata/chi_sim.traineddata"
     SAVE_FOLDER_PATH = "save/"
 
@@ -39,15 +39,15 @@ class ItemsImageAndProps(Enum):
         "resource/items/enhanced_gathering_blue.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.70,
+        0.80,
         25,
         BOOSTS,
     ]
     ENHANCED_GATHER_PURPLE = [
-        "resource/items/enhanced_gathering_blue.png",
+        "resource/items/enhanced_gathering_purple.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.70,
+        0.80,
         25,
         BOOSTS,
     ]
@@ -318,6 +318,14 @@ class ImagePathAndProps(Enum):
         25,
         TAVERN_BUTTON,
     ]
+    TAVERN_BUTTON_BUTTON2_IMAGE_PATH = [
+        "resource/tavern_button2.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        TAVERN_BUTTON2,
+    ]
     CHEST_OPEN_BUTTON_IMAGE_PATH = [
         "resource/chest_open_button.png",
         (1280, 720),
@@ -542,6 +550,14 @@ class ImagePathAndProps(Enum):
         25,
         MERCHANT_ICON,
     ]
+    MERCHANT_ICON2_IMAGE_PATH = [
+        "resource/merchant_icon2.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        MERCHANT_ICON2,
+    ]
     MERCHANT_FREE_BTN_IMAGE_PATH = [
         "resource/merchant_free_btn.png",
         (1280, 720),
@@ -698,15 +714,23 @@ class ImagePathAndProps(Enum):
         "resource/search_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.60,
         25,
         SEARCH_BUTTON
     ]
+    SEARCH_SERVER_IMAGE_PATH = [
+        "resource/search_server.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.60,
+        25,
+        SEARCH_SERVER
+    ]    
     SEARCH_X_IMAGE_PATH = [
         "resource/search_x.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.60,
         25,
         SEARCH_X
     ]
@@ -714,11 +738,107 @@ class ImagePathAndProps(Enum):
         "resource/search_y.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.60,
         25,
         SEARCH_Y
     ]
-
+    TITLE_BUTTON_PATH = [
+        "resource/title_button.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        TITLE_BUTTON
+    ]
+    TITLE_CHECK_BUTTON_PATH = [
+        "resource/title_check_button.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        TITLE_CHECK_BUTTON
+    ]
+    HELLO_WROLD_IMG_PATH = [
+        "resource/hellow_world.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.70,
+        25,
+        HELLO_WROLD_IMG
+    ]   
+    CONFIRM_BUTTON_PATH = [
+        "resource/confirm.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        CONFIRM_BUTTON,
+    ] 
+    CANCEL_BUTTON_PATH = [
+        "resource/cancel.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        CANCEL_BUTTON,
+    ] 
+    LOGIN_OTHER_BUTTON_PATH = [
+        "resource/login_other.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        LOGIN_OTHER_BUTTON,
+    ] 
+    DIAMOND_IMG_PATH = [
+        "resource/diamond.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.60,
+        25,
+        DIAMOND_IMG,
+    ] 
+    TERRITORY_IMG_PATH = [
+        "resource/territory.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        TERRITORY_IMG,
+    ]
+    TERRITORY_GATHERING_IMG_PATH = [
+        "resource/territory_gathering.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        TERRITORY_GATHERING_IMG,
+    ]
+    TERRITORY_GATHER_JOIN_IMG_PATH = [
+        "resource/territory_gather_join.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        TERRITORY_GATHER_JOIN_IMG,
+    ]
+    YES_BUTTON_PATH = [
+        "resource/yes.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        YES_BUTTON,
+    ] 
+    RESOURCE_IMG_PATH = [
+        "resource/resource.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        RESOURCE_IMG,
+    ]
+    
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [
         "resource/verification_verify_button.png",
@@ -748,7 +868,7 @@ class GuiCheckImagePathAndProps(Enum):
         "resource/window.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.70,
+        0.80,
         25,
         WINDOW,
     ]
@@ -763,7 +883,7 @@ class GuiCheckImagePathAndProps(Enum):
         'resource/verification_chest_button1.png',
         (1280, 720),
         (0, 0, 0, 0),
-        0.8,
+        0.9,
         25,
         VERIFICATION_CHEST1]
 

@@ -222,8 +222,7 @@ class SelectedDeviceFrame(Frame):
         switch_account_button = button(frame, on_switch_account_click, text='Switch By Phone')
         switch_account_button.grid(row=1, column=0, columnspan=2, sticky=N + W)
         
-        # change player
-        def on_change_player_click(btn):
+        def change_player1():
             task = Task(self.bot)
             task.back_to_map_gui()
             # 打开设置
@@ -237,11 +236,16 @@ class SelectedDeviceFrame(Frame):
             if yes_pos is not None:
                 task.tap(yes_pos)
                 
+        # change player
+        def on_change_player_click(btn):
+            self.stop()
+            self.bot.start(change_player1)
+            self.start()
+                
         change_player_button = button(frame, on_change_player_click, text='Player1')
         change_player_button.grid(row=1, column=2, columnspan=1, sticky=N + W)
         
-                # change player
-        def on_change_player2_click(btn):
+        def change_player2():
             task = Task(self.bot)
             task.back_to_map_gui()
             # 打开设置
@@ -254,6 +258,12 @@ class SelectedDeviceFrame(Frame):
             _, _, yes_pos = self.bot.gui.check_any(ImagePathAndProps.YES_BUTTON_PATH.value)
             if yes_pos is not None:
                 task.tap(yes_pos)
+                
+        # change player
+        def on_change_player2_click(btn):
+            self.stop()
+            self.bot.start(change_player2)
+            self.start()
                 
         change_player_button = button(frame, on_change_player2_click, text='Player2')
         change_player_button.grid(row=1, column=3, columnspan=1, sticky=N + W)

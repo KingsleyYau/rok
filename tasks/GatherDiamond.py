@@ -60,7 +60,7 @@ class GatherDiamond(Task):
                     size_step = size_step - 1
                     self.bot.snashot_update_event()
                     
-                    _, _, diamond_pos = self.bot.gui.check_any_gray(ImagePathAndProps.DIAMOND_IMG_PATH.value, bgremove=False)
+                    _, _, diamond_pos = self.bot.gui.check_any(ImagePathAndProps.DIAMOND_IMG_PATH.value)
                     if diamond_pos is not None:
                         self.set_text(insert="发现宝石, {}, {}/{}次, {}步, {}, 当前最大距离约{}公里".format(diamond_pos, count, total_count, size_count, direction, self.get_kilometer(count)), index=1)
                         self.tap(diamond_pos)
@@ -73,7 +73,7 @@ class GatherDiamond(Task):
                             src = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
                             src = src[int(resource_xy_pos[1])-5:int(resource_xy_pos[1] + 20), int(resource_xy_pos[0]+140):int(resource_xy_pos[0]+140+100)]
                             coordinate = img_to_string_eng(src).replace('\n', '')
-                            self.set_text(insert="发现宝石, coordinate, {}".format(coordinate))
+                            self.set_text(insert="发现宝石, 坐标:{}".format(coordinate))
                             
                         gather = True
                         if len(coordinate) > 0:
