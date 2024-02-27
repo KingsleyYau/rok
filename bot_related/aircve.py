@@ -140,13 +140,14 @@ def find_all_template(im_source, im_search, threshold=0.5, maxcnt=0, rgb=False, 
     result = []
     while True:
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
-        if not rgb:
-            print('find_all_template', max_val, threshold)
+        # if not rgb:
+        #     print('find_all_template', max_val, threshold)
         if method in [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]:
             top_left = min_loc
         else:
             top_left = max_loc
         if DEBUG: 
+            print('find_all_template', max_val, threshold)
             print('templmatch_value(thresh:%.1f) = %.3f' %(threshold, max_val)) # not show debug
         if max_val < threshold:
             break

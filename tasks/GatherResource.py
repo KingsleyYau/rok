@@ -107,6 +107,8 @@ class GatherResource(Task):
         try:
             chose_icon_pos = resource_icon_pos[0]
             self.back_to_map_gui()
+            self.swipe((320, 720), (200, 400))
+            
             resourse_code = self.get_min_resource()
             self.back_to_map_gui()
 
@@ -185,6 +187,7 @@ class GatherResource(Task):
                             self.set_text(insert="stuck! end task")
                             break
                         else:
+                            self.swipe((400, 180), (800, 400))
                             continue
                     last_resource_pos.append(new_resource_pos)
                     
@@ -192,13 +195,14 @@ class GatherResource(Task):
                 gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
                 if gather_button_pos is None:
                     self.set_text(insert="没有发现采集按钮, 可能资源点正在采集")
+                    self.swipe((400, 180), (800, 400))
                     continue
                 self.tap(gather_button_pos, 8)
                 
                 if not self.create_troop():
                     return next_task
                 repeat_count = 0
-                self.swipe((320, 720), (200, 400))
+                self.swipe((400, 180), (800, 400))
                 
             self.bot.snashot_update_event()
         except Exception as e:

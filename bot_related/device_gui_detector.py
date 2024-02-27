@@ -168,7 +168,7 @@ class GuiDetector:
         imsch = imsch[y0:y1, x0:x1]
         ret, imsch = cv2.threshold(imsch, 215, 255, cv2.THRESH_BINARY)
         resource_image = Image.fromarray(imsch)
-        result = ''.join(c for c in img_to_string_eng(resource_image) if c.isdigit())
+        result = ''.join(c for c in img_to_string(resource_image) if c.isdigit())
         return result
 
     def match_query_to_string(self):

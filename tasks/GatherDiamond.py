@@ -29,7 +29,10 @@ class GatherDiamond(Task):
         
         result = self.gui.resource_amount_image_to_string()
         if result and len(result) > 4:
-            self.set_text(title='采集宝石, 当前宝石: {}'.format(result[4]), remove=True)
+            if self.bot.diamond > 0:
+                self.bot.diamond_add = int(result[4]) - self.bot.diamond
+            self.bot.diamond = int(result[4])
+            self.set_text(title='采集宝石, 当前宝石: {}, 打工累计获取宝石: {}'.format(result[4], self.bot.diamond_add), remove=True)
         try:
             size_count = 1
             size_step = size_count
@@ -90,7 +93,6 @@ class GatherDiamond(Task):
                         src = (880, 320)
                         dst = (400, 320)
                     
-                count = count + 1           
                 if (count) % 2 == 0:
                     if direction == 'S':
                         direction = 'W'
@@ -102,7 +104,7 @@ class GatherDiamond(Task):
                         direction = 'S'
                     size_count = size_count + 1
                     # self.set_text(insert="改变方向, {}, {}/{}次, {}步, 距离约{}公里".format(direction, count, total_count, size_count, self.get_kilometer(count)))
-                    
+                count = count + 1    
             self.set_text(insert="没有发现更多宝石, 可以加大搜索范围")
         except Exception as e:
             traceback.print_exc()

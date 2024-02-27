@@ -79,7 +79,7 @@ class Task:
             if gui_name == GuiName.HOME.name:
                 break
             else:
-                self.set_text(insert='回到城市, 当前界面{}, {}'.format(gui_name,pos))
+                self.set_text(insert='切换到城市, 当前界面{}, {}'.format(gui_name,pos))
                 if gui_name == GuiName.MAP.name:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
@@ -99,7 +99,7 @@ class Task:
         self.tap(pos)
 
     def home_gui_full_view(self):
-        self.set_text(insert='切换城市全视觉')
+        self.set_text(insert='切换到城市全视觉')
         self.tap((60, 540), 5)
         self.tap((1105, 200), 5)
         self.tap((1220, 35), 5)
@@ -145,7 +145,7 @@ class Task:
             if gui_name == GuiName.MAP.name:
                 break
             else:
-                self.set_text(insert='回到地图, 当前界面{}, {}'.format(gui_name,pos))
+                self.set_text(insert='切换到地图, 当前界面{}, {}'.format(gui_name,pos))
                 if gui_name == GuiName.HOME.name:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
@@ -302,6 +302,7 @@ class Task:
         cmd = "input swipe {} {} {} {} {}".format(pos1[0], pos1[1], pos2[0], pos2[1], duration)
         for i in range(times):
             self.device.shell(cmd)
+            device_log(self.device, 'swipe', cmd)
             time.sleep(duration / 1000 + 0.2)
 
     # def zoom(self, x_f, y_f, x_t, y_t, times=1, duration=300, zoom_type="out"):

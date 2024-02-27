@@ -88,6 +88,8 @@ class Bot:
         self.screen_shot_task = ScreenShot(self)
 
         self.round_count = 0
+        self.diamond = 0
+        self.diamond_add = 0
 
     def start(self, fn):
         if self.daemon_thread is not None and self.daemon_thread.is_alive():
