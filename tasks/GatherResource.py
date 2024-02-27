@@ -4,7 +4,9 @@ from filepath.constants import MAP
 from filepath.file_relative_paths import BuffsImageAndProps, ItemsImageAndProps, ImagePathAndProps
 from tasks.Task import Task
 from tasks.constants import TaskName, Resource
-from utils import log, device_log
+from utils import log, device_log, img_to_string, img_to_string_eng
+import cv2
+import numpy as np
 
 class GatherResource(Task):
 
@@ -53,29 +55,29 @@ class GatherResource(Task):
                     self.set_text(insert='定位联盟矿{}'.format(territory_gathering_pos))
                     self.tap((territory_gathering_pos[0] + 5, territory_gathering_pos[1] - 20))
                     self.bot.snashot_update_event()
-                    
+        
                     self.set_text(insert='打开联盟矿')
                     self.tap((640, 320))
                     gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
                     self.tap(gather_button_pos)
                     self.bot.snashot_update_event()
-                    
+        
                     gather_join_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_GATHER_JOIN_IMG_PATH.value)[2]
                     if gather_join_pos is None:
                         self.set_text(insert="没有找到加入按钮, 可能已经在采集")
                         break
                     self.tap(gather_join_pos)
                     self.bot.snashot_update_event()
-                    
+        
                     if not self.create_troop():
                         return next_task
                     break
-                 
+        
                 self.set_text(insert='打开联盟资源中心')   
                 territory_tab_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value)[2]
                 if territory_tab_pos is not None:
                     self.tap(territory_tab_pos)
-
+        
         except Exception as e:
             traceback.print_exc()
             pass
@@ -97,6 +99,7 @@ class GatherResource(Task):
                 self.set_text(insert="采集加速已经生效")
 
         last_resource_pos = []
+        coordinate = ''
         should_decreasing_lv = False
         resource_icon_pos = [
             (450, 640),
@@ -172,16 +175,25 @@ class GatherResource(Task):
                     self.tap(dec_pos)
 
                 self.set_text(insert="发现资源点")
-                self.tap((640, 320), 8)
+                self.tap((640, 320), 2 * self.bot.config.tapSleep)
                 self.bot.snashot_update_event()
                 
+                coordinate = ''
+                _, _, resource_xy_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_IMG_PATH.value)
+                if resource_xy_pos is not None:
+                    src = cv2.imdecode(np.asarray(self.bot.gui.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
+                    src = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+                    src = src[int(resource_xy_pos[1])-5:int(resource_xy_pos[1] + 20), int(resource_xy_pos[0]+140):int(resource_xy_pos[0]+140+100)]
+                    coordinate = img_to_string_eng(src).replace('\n', '')
+                    self.set_text(insert="发现资源点, coordinate, {}".format(coordinate))
+                
                 # check is same pos
-                new_resource_pos = self.gui.resource_location_image_to_string()
-                if len(new_resource_pos) > 0:
-                    if new_resource_pos in last_resource_pos:
+                # new_resource_pos = self.gui.resource_location_image_to_string()
+                if len(coordinate) > 0:
+                    if coordinate in last_resource_pos:
                         should_decreasing_lv = True
                         repeat_count = repeat_count + 1
-                        self.set_text(insert="资源点正在采集")
+                        self.set_text(insert="资源点正在采集, {}".format(coordinate))
                         self.bot.snashot_update_event()
                         if repeat_count > 4:
                             self.set_text(insert="stuck! end task")
@@ -189,7 +201,7 @@ class GatherResource(Task):
                         else:
                             self.swipe((400, 180), (800, 400))
                             continue
-                    last_resource_pos.append(new_resource_pos)
+                    last_resource_pos.append(coordinate)
                     
                 should_decreasing_lv = False
                 gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]

@@ -291,7 +291,9 @@ class Task:
         return False
 
     # Action
-    def back(self, sleep_time=3):
+    def back(self, sleep_time=-1):
+        if sleep_time == -1:
+            sleep_time = self.bot.config.tapSleep
         device_log(self.device, 'back', sleep_time)
         cmd = "input keyevent 4"
         self.device.shell(cmd)

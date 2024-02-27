@@ -830,6 +830,14 @@ class ImagePathAndProps(Enum):
         25,
         YES_BUTTON,
     ] 
+    RESOURCE_IMG_PATH = [
+        "resource/resource.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        RESOURCE_IMG,
+    ]
     
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [
