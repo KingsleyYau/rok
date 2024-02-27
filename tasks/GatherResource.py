@@ -185,7 +185,7 @@ class GatherResource(Task):
                     src = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
                     src = src[int(resource_xy_pos[1])-5:int(resource_xy_pos[1] + 20), int(resource_xy_pos[0]+140):int(resource_xy_pos[0]+140+100)]
                     coordinate = img_to_string_eng(src).replace('\n', '')
-                    self.set_text(insert="发现资源点, coordinate, {}".format(coordinate))
+                    self.set_text(insert="发现资源点, 坐标, {}".format(coordinate))
                 
                 # check is same pos
                 # new_resource_pos = self.gui.resource_location_image_to_string()

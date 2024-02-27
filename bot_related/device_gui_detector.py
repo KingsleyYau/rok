@@ -225,7 +225,7 @@ class GuiDetector:
                 imsrc = cv2.imread(resource_path(path))
     
                 result = aircv.find_template(imsrc, imsch, threshold, True)
-                device_log(self.__device, 'check_any', path, threshold, result)
+                # device_log(self.__device, 'check_any', path, threshold, result)
                 
                 if self.debug:
                     cv2.imshow('imsrc', imsrc)
@@ -245,7 +245,7 @@ class GuiDetector:
 
         for props in props_list:
             path, size, box, threshold, least_diff, gui = props
-            device_log(self.__device, 'check_any_gray', path, threshold)
+            # device_log(self.__device, 'check_any_gray', path, threshold)
             imsrc = cv2.imread(resource_path(path))
             result = aircv.find_template(imsrc, imsch, threshold, False, bgremove)
 

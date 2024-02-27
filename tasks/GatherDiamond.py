@@ -72,7 +72,7 @@ class GatherDiamond(Task):
                             src = cv2.imdecode(np.asarray(self.bot.gui.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
                             src = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
                             src = src[int(resource_xy_pos[1])-5:int(resource_xy_pos[1] + 20), int(resource_xy_pos[0]+140):int(resource_xy_pos[0]+140+100)]
-                            coordinate = img_to_string_eng(src).replace('\n', '')
+                            coordinate = img_to_string_eng(src).replace('\n', '').replace(',', '')
                             self.set_text(insert="发现宝石, 坐标:{}".format(coordinate))
                             
                         gather = True

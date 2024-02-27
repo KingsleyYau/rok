@@ -14,7 +14,7 @@ class Break(Task):
         try:
             super().set_text(title='Break', remove=True)
             # super().call_idle_back()
-            super().back_to_home_gui()
+            super().back_to_map_gui()
             # super().home_gui_full_view()
             # super().heal_troops()
             

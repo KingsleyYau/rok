@@ -171,7 +171,7 @@ class Task:
             self.bot.snashot_update_event()
             self.stopRok()
             self.runOfRoK()
-            time.sleep(30)
+            time.sleep(20)
         pos_list = None
         pos_free = (400 + int(50 * (0.5 - random.random())), 400 + int(50 * (0.5 - random.random())))
         

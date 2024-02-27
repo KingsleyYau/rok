@@ -203,15 +203,19 @@ def run_api(args):
         
         if config.running:
             log('开始打工', config.name)
+            config.diamond_add = 0
             start_work(bot, device_name)
         
         while config.running:
             time.sleep(1)
             config = load_run_config(device_name)
-            
+        config.diamond_add = bot.diamond_add
         write_run_config(config, device_name)   
-        log('停止打工', config.name)    
+        log('停止打工', config.name, '本次打工累计获得宝石:{}'.format(bot.diamond_add))    
         bot.stop()
+        
+        file_path = 'run/{}.jpg'.format(device_name)
+        os.remove(file_path)
         
     elif run_type == 'change_player':
         change_player(task, bot, args.player)
