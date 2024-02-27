@@ -313,7 +313,7 @@ class Task:
         for i in range(times):
             self.device.shell(cmd)
             device_log(self.device, 'swipe', cmd)
-            time.sleep(duration / 1000 + 0.2)
+            # time.sleep(duration / 1000 + 0.2)
 
     # def zoom(self, x_f, y_f, x_t, y_t, times=1, duration=300, zoom_type="out"):
     #     device_log(self.device, 'zoom', zoom_type)
