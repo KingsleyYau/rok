@@ -45,6 +45,7 @@ class Break(Task):
                 count = count + 1
                 if count % progress_time == 0:
                     super().set_text(replace='{}/{} seconds'.format(count, self.bot.config.breakTime), index=0)
+                    self.bot.snashot_update_event()
             return next_task
         except Exception as e:
             traceback.print_exc()
