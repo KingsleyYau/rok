@@ -11,6 +11,7 @@ from cv2 import edgePreservingFilter
 from utils import log, device_log, img_to_string, img_to_string_eng
 import cv2
 import numpy as np
+from sys import exception
 
 class GatherDiamond(Task):
 
@@ -20,7 +21,7 @@ class GatherDiamond(Task):
         
     def get_kilometer(self, count):
         edge = (count // 2)
-        step_kilometer = 3
+        step_kilometer = 4
         max_kilometer = int(math.sqrt((pow(edge//2, 2) + pow(edge//2, 2))) * step_kilometer)
         return max_kilometer
     
@@ -34,7 +35,10 @@ class GatherDiamond(Task):
         if result and len(result) > 4:
             if self.bot.diamond > 0:
                 self.bot.diamond_add = int(result[4]) - self.bot.diamond
-            self.bot.diamond = int(result[4])
+            try:
+                self.bot.diamond = int(result[4])
+            except Exception as e:
+                device_log(self.device, '解析宝石数量出错{}'.format(e))
             self.set_text(title='采集宝石, 当前宝石: {}, 打工累计获取宝石: {}'.format(result[4], self.bot.diamond_add), remove=True)
         try:
             size_count = 1

@@ -11,9 +11,12 @@ from gui.creator import write_device_config, load_device_config
 from bot_related.bot import Bot
 from tasks.constants import BuildingNames
 from filepath.file_relative_paths import ImagePathAndProps
-from tasks.Task import Task
 from utils import log
 from api.run_config import RunConfig
+
+from tasks.Task import Task
+from tasks.Player1 import Player1
+from tasks.Player2 import Player2
 
 def find_player(bot, task, server, expected_pos):
     log('寻找玩家', expected_pos)
@@ -109,19 +112,14 @@ def start_work(bot, name):
     snapshot(bot, name)
     return True
  
-def change_player(task, bot, i):
-    task.back_to_map_gui()
-    # 打开设置
-    task.tap((50, 50))
-    task.tap((990, 570))
-    # 角色管理
-    task.tap((560, 380))
-    # 切换角色
-    task.tap((400 * i, 240))
-    _, _, yes_pos = bot.gui.check_any(ImagePathAndProps.YES_BUTTON_PATH.value)
-    if yes_pos is not None:
-        task.tap(yes_pos)  
-                      
+def change_player(task, bot, device_name, i):
+    if i == 1:
+        task = Player1(bot)
+        bot.start(task.do)
+    elif i == 2:
+        task = Player2(bot)
+        bot.start(task.do)    
+                 
 def run_api(args):
     log(args)
     adb.bridge = adb.enable_adb('127.0.0.1', 5037)
@@ -218,4 +216,4 @@ def run_api(args):
         os.remove(file_path)
         
     elif run_type == 'change_player':
-        change_player(task, bot, args.player)
+        change_player(task, bot, device_name, args.player)

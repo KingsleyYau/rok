@@ -308,7 +308,7 @@ class Task:
         time.sleep(sleep_time)
 
     # duration is in milliseconds
-    def swipe(self, pos1, pos2, times=1, duration=1000):
+    def swipe(self, pos1, pos2, times=1, duration=500):
         cmd = "input swipe {} {} {} {} {}".format(pos1[0], pos1[1], pos2[0], pos2[1], duration)
         for i in range(times):
             self.device.shell(cmd)

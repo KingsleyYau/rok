@@ -12,6 +12,8 @@ from tasks.constants import BuildingNames
 from filepath.file_relative_paths import ImagePathAndProps
 from PIL import ImageTk, Image
 from tasks.Task import Task
+from tasks.Player1 import Player1
+from tasks.Player2 import Player2
 import time
 from utils import log, device_log
 
@@ -221,47 +223,23 @@ class SelectedDeviceFrame(Frame):
             
         switch_account_button = button(frame, on_switch_account_click, text='Switch By Phone')
         switch_account_button.grid(row=1, column=0, columnspan=2, sticky=N + W)
-        
-        def change_player1():
-            task = Task(self.bot)
-            task.back_to_map_gui()
-            # 打开设置
-            task.tap((50, 50))
-            task.tap((990, 570))
-            # 角色管理
-            task.tap((560, 380), 2 * self.bot.config.tapSleep)
-            # 切换角色
-            task.tap((400, 240))
-            _, _, yes_pos = self.bot.gui.check_any(ImagePathAndProps.YES_BUTTON_PATH.value)
-            if yes_pos is not None:
-                task.tap(yes_pos)
                 
         # change player
         def on_change_player_click(btn):
             self.stop()
-            change_player1()
+            btn.config(text='Start')
+            task = Player1(self.bot)
+            self.bot.start(task.do)
                 
         change_player_button = button(frame, on_change_player_click, text='Player1')
         change_player_button.grid(row=1, column=2, columnspan=1, sticky=N + W)
         
-        def change_player2():
-            task = Task(self.bot)
-            task.back_to_map_gui()
-            # 打开设置
-            task.tap((50, 50))
-            task.tap((990, 570))
-            # 角色管理
-            task.tap((560, 380), 2 * self.bot.config.tapSleep)
-            # 切换角色
-            task.tap((800, 240))
-            _, _, yes_pos = self.bot.gui.check_any(ImagePathAndProps.YES_BUTTON_PATH.value)
-            if yes_pos is not None:
-                task.tap(yes_pos)
-                
         # change player
         def on_change_player2_click(btn):
             self.stop()
-            change_player2()
+            btn.config(text='Start')
+            task = Player2(self.bot)
+            self.bot.start(task.do)
                 
         change_player_button = button(frame, on_change_player2_click, text='Player2')
         change_player_button.grid(row=1, column=3, columnspan=1, sticky=N + W)
