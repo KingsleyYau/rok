@@ -30,7 +30,7 @@ class Break(Task):
             self.set_text(insert=tips)
             
             super().set_text(insert='0/{} seconds'.format(self.bot.config.breakTime))
-            progress_time = max(self.bot.config.breakTime // 100, 1)
+            progress_time = max(self.bot.config.breakTime // 20, 1)
 
             
             # stop game if config set true

@@ -24,6 +24,28 @@ class GatherDiamond(Task):
         max_kilometer = int(math.sqrt((pow(edge//2, 2) + pow(edge//2, 2))) * step_kilometer)
         return max_kilometer
     
+    def create_troop(self):
+        new_troops_button_pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
+        if new_troops_button_pos is None:
+            self.set_text(insert="没有更多队列采集")
+            self.bot.snashot_update_event()
+            return False
+        
+        self.set_text(insert="创建部队")
+        self.tap(new_troops_button_pos, 10)
+        self.bot.snashot_update_event()
+        
+        if self.bot.config.gatherResourceNoSecondaryCommander:
+            self.set_text(insert="移除副将")
+            self.tap((473, 501))
+            self.bot.snashot_update_event()
+            
+        self.set_text(insert="开始行军")
+        match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
+        self.tap(match_button_pos)
+        self.bot.snashot_update_event()
+        return True
+    
     def do(self, next_task=TaskName.BREAK):
         self.set_text(title='采集宝石', remove=True)
         self.back_to_home_gui()
@@ -95,17 +117,8 @@ class GatherDiamond(Task):
                             self.tap(gather_button_pos, 2 * self.bot.config.tapSleep)
                             self.bot.snashot_update_event()
                     
-                            new_troops_button_pos = self.bot.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
-                            if new_troops_button_pos is None:
-                                self.set_text(insert="没有更多队列采集", index=1)
-                                return 
-                            self.set_text(insert="创建部队", index=1)
-                            self.tap(new_troops_button_pos, 2 * self.bot.config.tapSleep)
-                            self.bot.snashot_update_event()
-                            
-                            match_button_pos = self.bot.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
-                            self.set_text(insert="开始行军", index=1)
-                            self.tap(match_button_pos, 2 * self.bot.config.tapSleep)
+                            if not self.create_troop():
+                                return next_task
                     
                     if direction == 'S':
                         src = (640, 600)
@@ -133,6 +146,7 @@ class GatherDiamond(Task):
                     # self.set_text(insert="改变方向, {}, {}/{}次, {}步, 距离约{}公里".format(direction, count, total_count, size_count, self.get_kilometer(count)))
                 count = count + 1    
             self.set_text(insert="没有发现更多宝石, 可以加大搜索范围")
+            
         except Exception as e:
             traceback.print_exc()
             return next_task

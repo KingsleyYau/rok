@@ -110,7 +110,7 @@ class GatherResource(Task):
         try:
             chose_icon_pos = resource_icon_pos[0]
             self.back_to_map_gui()
-            self.swipe((320, 720), (200, 400))
+            self.swipe((320, 600), (200, 400))
             
             resourse_code = self.get_min_resource()
             self.back_to_map_gui()
@@ -207,10 +207,11 @@ class GatherResource(Task):
                 if gather_button_pos is None:
                     self.set_text(insert="没有发现采集按钮, 可能资源点正在采集")
                     continue
-                self.tap(gather_button_pos, 8)
+                self.tap(gather_button_pos, 2 * self.bot.config.tapSleep)
                 
                 if not self.create_troop():
                     return next_task
+                self.swipe((200, 320), (800, 320))
                 repeat_count = 0
                 
             self.bot.snashot_update_event()

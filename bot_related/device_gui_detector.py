@@ -69,7 +69,7 @@ class GuiDetector:
         result = self.check_any_gray(
             ImagePathAndProps.HELLO_WROLD_IMG_PATH.value
         )
-        device_log(self.__device, 'get_hello_world_gui', result)
+        # device_log(self.__device, 'get_hello_world_gui', result)
         if result[0]:
             return [result[1], result[2]]
         return None
