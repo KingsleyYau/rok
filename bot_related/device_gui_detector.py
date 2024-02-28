@@ -15,6 +15,7 @@ from bot_related import aircve as aircv
 import io
 from utils import log, device_log
 from filepath.constants import HELLO_WROLD_IMG
+import re
 
 # small percentage are more similar
 def cal_similarity(image1, image2):
@@ -124,6 +125,7 @@ class GuiDetector:
                     unit = 1
                     rec = rec.replace('.', '')
                 rec = rec.replace('亿', '').replace('万', '')
+                rec = re.sub('[0-9]', '', rec)
                 device_log(self.__device, 'resource_amount_image_to_string', rec)
                 count = int(float(rec) * unit)
                 result_list.append(count)

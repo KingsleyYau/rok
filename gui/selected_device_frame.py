@@ -175,6 +175,7 @@ class SelectedDeviceFrame(Frame):
 
         start_button = button(frame, on_start_or_stop_click, text='Start')
         start_button.grid(row=0, column=0, padx=(0, 5), sticky=N + W)
+        self.start_button = start_button
                 
         def on_kill_click(btn):
             task = Task(self.bot)
@@ -227,7 +228,7 @@ class SelectedDeviceFrame(Frame):
         # change player
         def on_change_player_click(btn):
             self.stop()
-            btn.config(text='Start')
+            self.start_button.config(text='Start')
             task = Player1(self.bot)
             self.bot.start(task.do)
                 
@@ -237,7 +238,7 @@ class SelectedDeviceFrame(Frame):
         # change player
         def on_change_player2_click(btn):
             self.stop()
-            btn.config(text='Start')
+            self.bottom_frame.start_button.config(text='Start')
             task = Player2(self.bot)
             self.bot.start(task.do)
                 
