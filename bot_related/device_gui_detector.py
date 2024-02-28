@@ -125,7 +125,7 @@ class GuiDetector:
                     unit = 1
                     rec = rec.replace('.', '')
                 rec = rec.replace('亿', '').replace('万', '')
-                rec = re.sub('[0-9]', '', rec)
+                rec = re.sub('[^0-9.]', '', rec)
                 device_log(self.__device, 'resource_amount_image_to_string', rec)
                 count = int(float(rec) * unit)
                 result_list.append(count)

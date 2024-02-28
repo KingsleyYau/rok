@@ -25,7 +25,7 @@
   "trainSiegeWorkshopUpgradeLevel": -1,
   "enableVipClaimChest": false,
   "vipDoRound": 30,
-  "claimQuests": false,
+  "claimQuests": true,
   "questDoRound": 10,
   "allianceAction": true,
   "allianceDoRound": 10,
