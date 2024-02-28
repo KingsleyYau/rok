@@ -382,7 +382,7 @@ class Task:
         str = self.device.shell(cmd)
         ret = (str.find("com.lilithgames.rok.offical.cn/com.harry.engine.MainActivity") != -1) | \
               (str.find('com.lilithgames.rok.offical.cn/com.lilith.sdk.special.uiless.domestic.UILessDomesticSwitchActivity') != -1)
-        device_log(self.device, 'isRoKRunning', cmd, ret)
+        # device_log(self.device, 'isRoKRunning', cmd, ret)
         # return True
         return ret
 

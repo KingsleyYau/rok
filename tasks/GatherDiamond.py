@@ -11,7 +11,6 @@ from cv2 import edgePreservingFilter
 from utils import log, device_log, img_to_string, img_to_string_eng
 import cv2
 import numpy as np
-from sys import exception
 
 class GatherDiamond(Task):
 
@@ -21,7 +20,7 @@ class GatherDiamond(Task):
         
     def get_kilometer(self, count):
         edge = (count // 2)
-        step_kilometer = 4
+        step_kilometer = 5
         max_kilometer = int(math.sqrt((pow(edge//2, 2) + pow(edge//2, 2))) * step_kilometer)
         return max_kilometer
     
