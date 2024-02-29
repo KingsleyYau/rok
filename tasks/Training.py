@@ -54,7 +54,7 @@ class Training(Task):
                     BuildingNames.SIEGE_WORKSHOP.value
                 ]
             ]:
-                super().set_text(insert='[训练/升级]部队({})'.format(config[4]))
+                super().set_text(insert='选择{}训练营'.format(config[4]))
                 super().back_to_home_gui()
                 upgraded = False
                 super().tap(config[3])
@@ -80,7 +80,7 @@ class Training(Task):
                                 break
                             else:
                                 continue
-                        super().set_text(insert='升级T{}({})'.format(i + 1, config[4]))
+                        super().set_text(insert='升级T{}{}'.format(i + 1, config[4]))
                         super().tap(pos)
                         self.bot.snashot_update_event()
 
@@ -98,7 +98,7 @@ class Training(Task):
                         _, _, pos = self.gui.check_any(ImagePathAndProps.TRAIN_BUTTON_IMAGE_PATH.value)
                         if pos is None:
                             continue
-                        super().set_text(insert='训练T{}({})'.format(i + 1, config[4]))
+                        super().set_text(insert='训练T{}{}'.format(i + 1, config[4]))
                         super().tap(pos)
                         break
             self.bot.snashot_update_event()
