@@ -854,7 +854,14 @@ class ImagePathAndProps(Enum):
         25,
         MAX_BUTTON,
     ]
-    
+    KILO_IMG_PATH = [
+        "resource/kilo.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        KILO_IMG,
+    ]    
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [
         "resource/verification_verify_button.png",

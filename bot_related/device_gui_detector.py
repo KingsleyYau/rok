@@ -102,6 +102,29 @@ class GuiDetector:
         title_image = Image.fromarray(title_image)
         return img_to_string(title_image)
     
+    def get_kilometer(self):
+        kilo = 0
+        imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
+        try:
+            pos = self.check_any(ImagePathAndProps.KILO_IMG_PATH.value)[2]
+            if pos is not None:
+                # device_log(self.__device, 'get_kilometer', pos)
+                box = (int(pos[0]) - 40, int(pos[1]) - 10, int(pos[0]) - 16, int(pos[1]) + 10)
+                # device_log(self.__device, 'get_kilometer', box)
+                x0, y0, x1, y1 = box
+                imdst = imsch[y0:y1, x0:x1]
+                kilo_image = Image.fromarray(imdst)
+                kilo_image.save('script/kilo.png')
+                rec = img_to_string(kilo_image).replace(' ', '').replace(',', '')
+                rec = re.sub('[^0-9]', '', rec)
+                if len(rec) > 0:
+                    kilo = rec
+                # device_log(self.__device, 'get_kilometer', kilo)
+        except Exception as e:
+            device_log(self.__device, 'get_kilometer', e)
+            traceback.print_exc()
+        return kilo
+    
     def troop_already_full(self):
         box = (1200, 160, 1250, 185)
         imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
