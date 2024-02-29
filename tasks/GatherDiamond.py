@@ -19,8 +19,8 @@ class GatherDiamond(Task):
         self.max_query_space = 5
         
     def get_kilometer(self, count):
-        step_kilometer = 3
-        edge = (count // 2)
+        step_kilometer = 4
+        edge = math.ceil(count / 4)
         edge = edge * step_kilometer
         max_kilometer = math.ceil(math.sqrt((pow(edge, 2) + pow(edge, 2))))
         return max_kilometer

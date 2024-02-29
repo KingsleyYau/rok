@@ -838,6 +838,22 @@ class ImagePathAndProps(Enum):
         25,
         RESOURCE_IMG,
     ]
+    CLEAR_BUTTON_PATH = [
+        "resource/clear.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        CLEAR_BUTTON,
+    ]
+    MAX_BUTTON_PATH = [
+        "resource/max.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        MAX_BUTTON,
+    ]
     
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [
