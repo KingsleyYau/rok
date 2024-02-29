@@ -112,7 +112,7 @@ class GuiDetector:
         troop_image = Image.fromarray(imdst)
         try:
             rec = img_to_string(troop_image).replace(' ', '').replace(',', '')
-            if len(rec > 1):
+            if len(rec) > 1:
                 return rec[0] == rec[-1]
         except Exception as e:
             device_log(self.__device, 'troop_already_full', e)
