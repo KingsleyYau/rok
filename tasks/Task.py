@@ -194,7 +194,7 @@ class Task:
             
             result = self.gui.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
-            device_log(self.device, '获取当前界面', 'gui_name', gui_name, 'pos', pos)  
+            device_log(self.device, '获取当前界面', gui_name, pos)  
             
             self.bot.snashot_update_event()
                

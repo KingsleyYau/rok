@@ -33,7 +33,7 @@ class GatherDiamond(Task):
             return False
         
         self.set_text(insert="创建部队", index=1)
-        self.tap(new_troops_button_pos, 10)
+        self.tap(new_troops_button_pos, 2 * self.bot.config.tapSleep)
         self.bot.snashot_update_event()
         
         if self.bot.config.gatherResourceNoSecondaryCommander:
@@ -43,7 +43,7 @@ class GatherDiamond(Task):
             
         self.set_text(insert="开始行军", index=1)
         match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
-        self.tap(match_button_pos)
+        self.tap(match_button_pos, 2 * self.bot.config.tapSleep)
         self.bot.snashot_update_event()
         return True
     
@@ -64,8 +64,12 @@ class GatherDiamond(Task):
                 self.bot.diamond = int(result[4])
             except Exception as e:
                 device_log(self.device, '解析宝石数量出错{}'.format(e))
-            self.set_text(title='采集宝石, 当前宝石: {}, 打工累计获取宝石: {}'.format(result[4], self.bot.diamond_add), remove=True)
+            self.set_text(title='采集宝石, 当前宝石: {}, 打工获得宝石: {}'.format(result[4], self.bot.diamond_add), remove=True)
         try:
+            if self.gui.troop_already_full():
+                self.set_text(insert="没有更多队列采集")
+                return next_task
+                                
             size_count = 1
             size_step = size_count
             src = (880, 320)
@@ -121,6 +125,10 @@ class GatherDiamond(Task):
                                 self.bot.snashot_update_event()
                         
                                 if not self.create_troop():
+                                    return next_task
+                                
+                                if self.gui.troop_already_full():
+                                    self.set_text(insert="没有更多队列采集")
                                     return next_task
                     
                     if direction == 'S':

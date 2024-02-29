@@ -102,6 +102,23 @@ class GuiDetector:
         title_image = Image.fromarray(title_image)
         return img_to_string(title_image)
     
+    def troop_already_full(self):
+        box = (1200, 160, 1250, 185)
+        imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
+                     cv2.IMREAD_COLOR)
+        imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
+        x0, y0, x1, y1 = box
+        imdst = imsch[y0:y1, x0:x1]
+        troop_image = Image.fromarray(imdst)
+        try:
+            rec = img_to_string(troop_image).replace(' ', '').replace(',', '')
+            if len(rec > 1):
+                return rec[0] == rec[-1]
+        except Exception as e:
+            device_log(self.__device, 'troop_already_full', e)
+            traceback.print_exc()
+        return False
+    
     def resource_amount_image_to_string(self):
         result_list = []
         boxes = [
