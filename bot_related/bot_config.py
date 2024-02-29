@@ -90,6 +90,8 @@ class BotConfig:
         self.timeout = config.get('timeout', 300)
 
         # Gather resource
+        self.gatherWildResource = config.get('gatherWildResource', True)
+        self.gatherAllianceResource = config.get('gatherAllianceResource', True)
         self.useGatheringBoosts = config.get('useGatheringBoosts', False)
         self.gatherResource = config.get('gatherResource', True)
         self.gatherResourceNoSecondaryCommander = config.get('gatherResourceNoSecondaryCommander', True)
