@@ -11,7 +11,6 @@ class MysteryMerchant(Task):
 
     def do(self, next_task=TaskName.MYSTERY_MERCHANT.value):
         self.set_text(title='神秘商店', remove=True)
-        self.swipe((320, 720), (200, 400))
         self.back_to_home_gui()
         self.home_gui_full_view()
         found, _, pos = self.gui.check_any(ImagePathAndProps.MERCHANT_ICON_IMAGE_PATH.value)

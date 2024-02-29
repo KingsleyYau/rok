@@ -114,16 +114,13 @@ class Bot:
         return self.screen_shot_task.do_city_screen()
 
     def do_task(self, curr_task=TaskName.COLLECTING):
-
-        tasks = [
+        random_tasks = [
             [self.mystery_merchant_task, "enableMysteryMerchant"],
             [self.alliance_task, "allianceAction", "allianceDoRound"],
             [self.barbarians_task, "attackBarbarians"],
             [self.claim_quests_task, "claimQuests", "questDoRound"],
             [self.claim_vip_task, "enableVipClaimChest", "vipDoRound"],
             [self.collecting_task, "enableCollecting"],
-            [self.gather_resource_task, "gatherResource"],
-            [self.gather_diamond_task, "gatherDiamond"],
             [self.materials_task, "enableMaterialProduce", "materialDoRound"],
             [self.scout_task, "enableScout"],
             [self.tavern_task, "enableTavern"],
@@ -132,6 +129,12 @@ class Bot:
             [self.lost_canyon, "enableLostCanyon"],
             [self.items_task, "useItems"],
         ]
+        
+        priority_tasks = [
+            [self.gather_resource_task, "gatherResource"],
+            [self.gather_diamond_task, "gatherDiamond"],
+        ]
+        
 
         if self.building_pos is None:
             curr_task = TaskName.INIT_BUILDING_POS
@@ -147,7 +150,9 @@ class Bot:
                 self.task.set_text(insert="cannot pass verification - stopping bot now")
                 self.stop()
 
-            random.shuffle(tasks)
+            random.shuffle(random_tasks)
+            tasks = priority_tasks + random_tasks
+            device_log(self.device, tasks)
             # restart
             if (
                 curr_task == TaskName.KILL_GAME

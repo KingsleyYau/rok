@@ -22,7 +22,7 @@ class GatherResource(Task):
             return False
         
         self.set_text(insert="创建部队")
-        self.tap(new_troops_button_pos, 10)
+        self.tap(new_troops_button_pos, 2 * self.bot.config.tapSleep)
         self.bot.snashot_update_event()
         
         if self.bot.config.gatherResourceNoSecondaryCommander:
@@ -110,10 +110,11 @@ class GatherResource(Task):
         try:
             chose_icon_pos = resource_icon_pos[0]
             self.back_to_map_gui()
-            self.swipe((320, 600), (200, 400))
+            self.swipe((360, 600), (200, 400))
             
             resourse_code = self.get_min_resource()
             self.back_to_map_gui()
+            self.swipe((480, 320), (800, 320))
 
             if resourse_code == Resource.FOOD.value:
                 chose_icon_pos = resource_icon_pos[0]

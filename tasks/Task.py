@@ -313,6 +313,8 @@ class Task:
         for i in range(times):
             self.device.shell(cmd)
             device_log(self.device, 'swipe', cmd)
+            if self.bot.config.swipeSleep > 0:
+                time.sleep(self.bot.config.swipeSleep)
             # time.sleep(duration / 1000 + 0.2)
 
     # def zoom(self, x_f, y_f, x_t, y_t, times=1, duration=300, zoom_type="out"):

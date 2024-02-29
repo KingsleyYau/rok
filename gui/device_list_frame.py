@@ -71,10 +71,10 @@ class DeviceListTable(Frame):
         row.device_frame.grid()
 
     def on_delete_click(self, row):
-        ip, port = row.ip, row.port
+        name, ip, port = row.name, row.ip, row.port
         # tmp = list(filter(lambda addr: addr['ip'] == ip and addr['port'] == port, self.master.devices_config))
         self.master.devices_config.remove(
-            next(addr for addr in self.master.devices_config if addr['ip'] == ip and addr['port'] == port)
+            next(addr for addr in self.master.devices_config if addr['name'] == name)
         )
         write_device_config(self.master.devices_config)
         self.remove_row(row)

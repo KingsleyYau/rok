@@ -19,9 +19,10 @@ class GatherDiamond(Task):
         self.max_query_space = 5
         
     def get_kilometer(self, count):
+        step_kilometer = 3
         edge = (count // 2)
-        step_kilometer = 5
-        max_kilometer = int(math.sqrt((pow(edge//2, 2) + pow(edge//2, 2))) * step_kilometer)
+        edge = edge * step_kilometer
+        max_kilometer = math.ceil(math.sqrt((pow(edge, 2) + pow(edge, 2))))
         return max_kilometer
     
     def create_troop(self):
@@ -31,16 +32,16 @@ class GatherDiamond(Task):
             self.bot.snashot_update_event()
             return False
         
-        self.set_text(insert="创建部队")
+        self.set_text(insert="创建部队", index=1)
         self.tap(new_troops_button_pos, 10)
         self.bot.snashot_update_event()
         
         if self.bot.config.gatherResourceNoSecondaryCommander:
-            self.set_text(insert="移除副将")
+            self.set_text(insert="移除副将", index=1)
             self.tap((473, 501))
             self.bot.snashot_update_event()
             
-        self.set_text(insert="开始行军")
+        self.set_text(insert="开始行军", index=1)
         match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
         self.tap(match_button_pos)
         self.bot.snashot_update_event()
@@ -51,6 +52,9 @@ class GatherDiamond(Task):
         self.back_to_home_gui()
         self.back_to_map_gui()
         self.bot.snashot_update_event()
+        
+        self.swipe((400, 320), (800, 320))
+        self.swipe((800, 320), (400, 320))
         
         result = self.gui.resource_amount_image_to_string()
         if result and len(result) > 4:
@@ -71,24 +75,22 @@ class GatherDiamond(Task):
             direction = 'S'
             
             max_kilometer = self.get_kilometer(total_count)
+            last_resource_pos = []
             self.set_text(insert="开始寻找宝石, 一共{}次, 搜索最大距离约{}公里".format(total_count, max_kilometer))
             self.set_text(insert="寻找宝石")
-            
-            last_resource_pos = []
         
             while count < total_count:
                 size_step = size_count
                 while size_step > 0:
                     self.set_text(replace="寻找宝石, {}/{}次, {}/{}步, {}, 当前最大距离约{}公里".format(count, total_count, size_count-size_step, size_count, direction, self.get_kilometer(count)), index=0)
                     self.swipe(src, dst, 1)
-                    time.sleep(self.bot.config.tapSleep)
                     size_step = size_step - 1
                     self.bot.snashot_update_event()
                     
                     _, _, diamond_pos = self.bot.gui.check_any(ImagePathAndProps.DIAMOND_IMG_PATH.value)
                     if diamond_pos is not None:
                         self.set_text(insert="发现宝石, {}, {}/{}次, {}步, {}, 当前最大距离约{}公里".format(diamond_pos, count, total_count, size_count, direction, self.get_kilometer(count)), index=1)
-                        self.tap(diamond_pos)
+                        self.tap(diamond_pos, 2 * self.bot.config.tapSleep)
                         self.bot.snashot_update_event()
                         
                         coordinate = ''
@@ -98,12 +100,12 @@ class GatherDiamond(Task):
                             src = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
                             src = src[int(resource_xy_pos[1])-5:int(resource_xy_pos[1] + 20), int(resource_xy_pos[0]+140):int(resource_xy_pos[0]+140+100)]
                             coordinate = img_to_string_eng(src).replace('\n', '').replace(',', '')
-                            self.set_text(insert="发现宝石, 坐标:{}".format(coordinate))
+                            self.set_text(insert="发现宝石, 坐标:{}".format(coordinate), index=1)
                             
                         gather = True
                         if len(coordinate) > 0:
                             if coordinate in last_resource_pos:
-                                self.set_text(insert="宝石正在采集, {}".format(coordinate))
+                                self.set_text(insert="宝石正在采集, 跳过, 坐标:{}".format(coordinate), index=1)
                                 self.bot.snashot_update_event()
                                 gather = False
                             else:
@@ -113,12 +115,13 @@ class GatherDiamond(Task):
                             gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
                             if gather_button_pos is None:
                                 self.set_text(insert="没有发现采集按钮, 可能宝石正在采集", index=1)
-                                continue
-                            self.tap(gather_button_pos, 2 * self.bot.config.tapSleep)
-                            self.bot.snashot_update_event()
-                    
-                            if not self.create_troop():
-                                return next_task
+                                
+                            else:
+                                self.tap(gather_button_pos, 2 * self.bot.config.tapSleep)
+                                self.bot.snashot_update_event()
+                        
+                                if not self.create_troop():
+                                    return next_task
                     
                     if direction == 'S':
                         src = (640, 600)

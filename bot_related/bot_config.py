@@ -24,6 +24,7 @@ class BotConfig:
         self.terminate = config.get("terminate", False)
         self.breakDoRound = config.get('breakDoRound', 1)
         self.tapSleep = config.get('tapSleep', 3)
+        self.swipeSleep = config.get('swipeSleep', 1)
         self.restartSleep = config.get('restartSleep', 60)
 
         self.hasBuildingPos = config.get('hasBuildingPos', False)
