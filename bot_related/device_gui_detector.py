@@ -134,7 +134,7 @@ class GuiDetector:
             try:
                 rec = img_to_string(resource_image).replace(' ', '').replace(',', '')
                 unit = 1
-                if rec.find('亿') != -1:
+                if rec.find('亿') != -1 or rec.find('仁') != -1:
                     unit = 100000000
                 elif rec.find('万') != -1:
                     unit = 10000

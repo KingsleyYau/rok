@@ -14,7 +14,7 @@ class GatherResource(Task):
         super().__init__(bot)
         self.max_query_space = 5
 
-    def create_troop(self):
+    def create_troop(self, full_load=False):
         new_troops_button_pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
         if new_troops_button_pos is None:
             self.set_text(insert="没有更多队列采集")
@@ -29,7 +29,17 @@ class GatherResource(Task):
             self.set_text(insert="移除副将")
             self.tap((473, 501))
             self.bot.snashot_update_event()
-            
+        
+        if full_load:
+            self.set_text(insert="最大化部队")
+            clear_button_pos = self.gui.check_any(ImagePathAndProps.CLEAR_BUTTON_PATH.value)[2]
+            if clear_button_pos is not None:
+                self.tap(clear_button_pos)
+            max_button_pos = self.gui.check_any(ImagePathAndProps.MAX_BUTTON_PATH.value)[2]
+            if max_button_pos is not None:
+                self.tap(max_button_pos)
+            self.bot.snashot_update_event()
+                
         self.set_text(insert="开始行军")
         match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
         self.tap(match_button_pos)
@@ -67,10 +77,11 @@ class GatherResource(Task):
                         if gather_join_pos is None:
                             self.set_text(insert="没有找到加入按钮, 可能已经在采集")
                             break
+                        self.set_text(insert="加入联盟矿")
                         self.tap(gather_join_pos)
                         self.bot.snashot_update_event()
             
-                        if not self.create_troop():
+                        if not self.create_troop(True):
                             return next_task
                         break
             
