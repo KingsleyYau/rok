@@ -49,6 +49,13 @@ class GatherResource(Task):
     def do(self, next_task=TaskName.BREAK):
         self.set_text(title='采集资源', remove=True)
         
+        full_load, cur, total = self.gui.troop_already_full()
+        if full_load:
+            self.set_text(insert="没有更多队列采集")
+            return next_task
+        else:
+            self.set_text(insert="当前采集部队数量:{}/{}".format(cur, total))
+                        
         if self.bot.config.gatherAllianceResource:
             try:
                 self.back_to_home_gui()
@@ -224,6 +231,14 @@ class GatherResource(Task):
                     
                     if not self.create_troop():
                         return next_task
+                    
+                    full_load, cur, total = self.gui.troop_already_full()
+                    if full_load:
+                        self.set_text(insert="没有更多队列采集")
+                        return next_task
+                    else:
+                        self.set_text(insert="当前采集部队数量:{}/{}".format(cur, total))
+                        
                     self.swipe((200, 320), (800, 320))
                     repeat_count = 0
                     

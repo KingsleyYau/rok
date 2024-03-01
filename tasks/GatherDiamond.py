@@ -133,9 +133,12 @@ class GatherDiamond(Task):
                                 if not self.create_troop():
                                     return next_task
                                 
-                                if self.gui.troop_already_full()[0]:
+                                full_load, cur, total = self.gui.troop_already_full()
+                                if full_load:
                                     self.set_text(insert="没有更多队列采集")
                                     return next_task
+                                else:
+                                    self.set_text(insert="当前采集部队数量:{}/{}".format(cur, total))
                     
                     if direction == 'S':
                         src = (640, 600)
