@@ -16,6 +16,8 @@ fi
 ncat -c "ncat 127.0.0.1 5555" -l 9999 --keep-open
 # 打开网页
 adb shell am start -a android.intent.action.VIEW -d http://www.baidu.com
+adb shell input tap 640 640
+adb shell input tap 400 640
 
 
 # 同意隐私
