@@ -113,11 +113,11 @@ class GuiDetector:
                 # device_log(self.__device, 'get_kilometer', box)
                 x0, y0, x1, y1 = box
                 imdst = imsch[y0:y1, x0:x1]
-                kilo_image = Image.fromarray(imdst)
-                kilo_image.save('script/kilo.png')
+                # kilo_image = Image.fromarray(imdst)
+                # kilo_image.save('script/kilo.png')
                 imdst = cv2.cvtColor(imdst, cv2.COLOR_BGR2GRAY)
                 _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
-                cv2.imwrite('script/kilo_v.png', imdst)
+                # cv2.imwrite('script/kilo_v.png', imdst)
                 
                 kilo_image = Image.fromarray(imdst)
                 rec = img_to_string_eng(kilo_image).replace(' ', '').replace(',', '')
@@ -138,9 +138,8 @@ class GuiDetector:
         x0, y0, x1, y1 = box
         imdst = imsch[y0:y1, x0:x1]
         # troop_image = Image.fromarray(imdst)
-        
         _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
-        cv2.imwrite('script/troop_image_v.png', imdst)
+        # cv2.imwrite('script/troop_image_v.png', imdst)
         troop_image = Image.fromarray(imdst)
         
         try:

@@ -131,8 +131,8 @@ class Bot:
         ]
         
         priority_tasks = [
-            [self.gather_resource_task, "gatherResource"],
             [self.gather_diamond_task, "gatherDiamond"],
+            [self.gather_resource_task, "gatherResource"],
         ]
         
 
