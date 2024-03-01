@@ -73,7 +73,8 @@ class SelectedDeviceFrame(Frame):
         frame.rowconfigure(1, weight=5)
         frame.rowconfigure(2, weight=height - 10)
 
-        dl = Label(frame, text=self.device.save_file_prefix, width=width, height=5, bg='white')
+        title = '{}-{}'.format(self.device.save_file_prefix,self.device.nickname) if self.device.nickname is not None else self.device.save_file_prefix
+        dl = Label(frame, text=title, width=width, height=5, bg='white')
         title = Label(frame, text="Task: None", width=width, height=5, bg='white')
         # title.config(bg='white', anchor=W, justify=LEFT)
         text = Text(frame, width=width, height=height - 30)

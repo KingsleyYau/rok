@@ -24,7 +24,7 @@ class DeviceListFrame(Frame):
         dlt = DeviceListTable(self, main_frame)
 
         for config in self.devices_config:
-            dlt.add_row(config.get('name', 'None'), config['ip'], config['port'])
+            dlt.add_row(config.get('name', 'None'), config['ip'], config['port'], config.get('nickname', 'None'))
 
         adf.set_on_add_click(dlt.add_row)
         adf.grid(row=0, column=0, pady=(10, 0), sticky=N + W)
@@ -39,9 +39,9 @@ class DeviceListTable(Frame):
         self.title.grid(row=0, column=0, sticky=W, padx=(5, 0))
         self.device_rows = []
 
-    def add_row(self, name, ip, port):
+    def add_row(self, name, ip, port, nickname=None):
         try:
-            new_row = DeviceRow(self, self.main_frame, name, ip, int(port))
+            new_row = DeviceRow(self, self.main_frame, name, ip, int(port), nickname)
             new_row.set_on_display_click(self.on_display_click)
             new_row.set_on_del_click(self.on_delete_click)
             self.device_rows.append(new_row)
@@ -85,13 +85,14 @@ class DeviceListTable(Frame):
 
 
 class DeviceRow(Frame):
-    def __init__(self, device_list_table, main_frame, name, ip, port, cnf={}, **kwargs):
+    def __init__(self, device_list_table, main_frame, name, ip, port, nickname=None, cnf={}, **kwargs):
         Frame.__init__(self, device_list_table, kwargs)
 
         self.main_frame = main_frame
         self.name = name
         self.ip = ip
         self.port = port
+        self.nickname = nickname
 
         self.device = adb.bridge.get_device(ip, port)
         self.device_frame = None
@@ -121,6 +122,7 @@ class DeviceRow(Frame):
         def callback():
             device = adb.bridge.get_device(self.ip, self.port)
             device.name = self.name
+            device.nickname = self.nickname
             # device.save_file_prefix = f"{self.name}_{device.serial.replace(':', '_')}"
             device.save_file_prefix = f"{self.name}"
             if device is None:
