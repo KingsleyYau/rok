@@ -47,7 +47,7 @@
   "gatherResourceNoSecondaryCommander": true,
   "gatherResourceRatioFood": 1,
   "gatherResourceRatioWood": 1,
-  "gatherResourceRatioStone": 3,
+  "gatherResourceRatioStone": 2,
   "gatherResourceRatioGold": 1,
   "holdOneQuerySpace": false,
   "gatherDiamond": false,
