@@ -66,7 +66,7 @@ class GatherDiamond(Task):
                 device_log(self.device, '解析宝石数量出错{}'.format(e))
             self.set_text(title='采集宝石, 当前宝石: {}, 打工获得宝石: {}'.format(result[4], self.bot.diamond_add), remove=True)
         try:
-            if self.gui.troop_already_full():
+            if self.gui.troop_already_full()[0]:
                 self.set_text(insert="没有更多队列采集")
                 return next_task
                                 
@@ -130,7 +130,7 @@ class GatherDiamond(Task):
                                 if not self.create_troop():
                                     return next_task
                                 
-                                if self.gui.troop_already_full():
+                                if self.gui.troop_already_full()[0]:
                                     self.set_text(insert="没有更多队列采集")
                                     return next_task
                     

@@ -116,11 +116,11 @@ class GuiDetector:
                 kilo_image = Image.fromarray(imdst)
                 kilo_image.save('script/kilo.png')
                 imdst = cv2.cvtColor(imdst, cv2.COLOR_BGR2GRAY)
-                _, imdst = cv2.threshold(imdst, 200, 255, cv2.THRESH_BINARY)
+                _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
                 cv2.imwrite('script/kilo_v.png', imdst)
                 
                 kilo_image = Image.fromarray(imdst)
-                rec = img_to_string(kilo_image).replace(' ', '').replace(',', '')
+                rec = img_to_string_eng(kilo_image).replace(' ', '').replace(',', '')
                 rec = re.sub('[^0-9]', '', rec)
                 if len(rec) > 0:
                     kilo = int(rec)
@@ -131,21 +131,27 @@ class GuiDetector:
         return kilo
     
     def troop_already_full(self):
-        box = (1200, 160, 1250, 185)
+        box = (1205, 160, 1245, 180)
         imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
                      cv2.IMREAD_COLOR)
         imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
         x0, y0, x1, y1 = box
         imdst = imsch[y0:y1, x0:x1]
+        # troop_image = Image.fromarray(imdst)
+        
+        _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
+        cv2.imwrite('script/troop_image_v.png', imdst)
         troop_image = Image.fromarray(imdst)
+        
         try:
-            rec = img_to_string(troop_image).replace(' ', '').replace(',', '')
+            rec = img_to_string_eng(troop_image).replace(' ', '').replace(',', '').replace('\n', '')
             if len(rec) > 1:
-                return rec[0] == rec[-1]
+                device_log(self.__device, 'troop_already_full, {}/{}'.format(rec[0], rec[-1]))
+                return rec[0] == rec[-1], rec[0], rec[-1]
         except Exception as e:
             device_log(self.__device, 'troop_already_full', e)
             traceback.print_exc()
-        return False
+        return False, -1, -1
     
     def resource_amount_image_to_string(self):
         result_list = []

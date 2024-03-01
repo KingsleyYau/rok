@@ -49,7 +49,7 @@ def img_to_string(pil_image):
 def img_to_string_eng(pil_image):
     # pil_image.save(resource_path("test.png"))
     tess.pytesseract.tesseract_cmd = resource_path(FilePaths.TESSERACT_EXE_PATH.value)
-    result = tess.image_to_string(pil_image)
+    result = tess.image_to_string(pil_image, lang='eng', config='--psm 6')
     log('img_to_string_eng', result)
     result = result.replace('\t', '').replace('\n', '').replace('\f', '')
     return result

@@ -4,7 +4,7 @@ from tasks.Task import Task
 from tasks.constants import TaskName
 
 import time
-
+import random
 
 class Break(Task):
     def __init__(self, bot):
@@ -29,8 +29,9 @@ class Break(Task):
             tips = "玉米: {}, 木头: {}, 石头: {}, 金矿: {}, 砖石: {}".format(result[0], result[1], result[2], result[3], result[4])
             self.set_text(insert=tips)
             
-            super().set_text(insert='0/{} seconds'.format(self.bot.config.breakTime))
-            progress_time = max(self.bot.config.breakTime // 20, 1)
+            breakTime = random.uniform(60, self.bot.config.breakTime)
+            super().set_text(insert='0/{} seconds'.format(breakTime))
+            progress_time = max(breakTime // 20, 1)
 
             
             # stop game if config set true
@@ -40,11 +41,11 @@ class Break(Task):
             self.bot.snashot_update_event()
             
             count = 0
-            for i in range(self.bot.config.breakTime):
+            for i in range(breakTime):
                 time.sleep(1)
                 count = count + 1
                 if count % progress_time == 0:
-                    super().set_text(replace='{}/{} seconds'.format(count, self.bot.config.breakTime), index=0)
+                    super().set_text(replace='{}/{} seconds'.format(count, breakTime), index=0)
                     self.bot.snashot_update_event()
             return next_task
         except Exception as e:
