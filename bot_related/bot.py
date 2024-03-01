@@ -152,7 +152,7 @@ class Bot:
 
             random.shuffle(random_tasks)
             tasks = priority_tasks + random_tasks
-            device_log(self.device, tasks)
+            # device_log(self.device, tasks)
             # restart
             if (
                 curr_task == TaskName.KILL_GAME

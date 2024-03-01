@@ -78,7 +78,7 @@ class GatherDiamond(Task):
             total_count = self.bot.config.gatherDiamondMaxRange
             direction = 'S'
             
-            max_kilometer = self.get_kilometer(total_count)
+            cur_kilo = 0
             last_resource_pos = []
             self.set_text(insert="开始寻找宝石, 一共{}次".format(total_count,))
             self.set_text(insert="寻找宝石")
@@ -86,14 +86,17 @@ class GatherDiamond(Task):
             while count < total_count:
                 size_step = size_count
                 while size_step > 0:
-                    self.set_text(replace="寻找宝石, {}/{}次, {}/{}步, {}, 当前距离{}公里".format(count, total_count, size_count-size_step, size_count, direction, self.gui.get_kilometer()), index=0)
+                    kilo = self.gui.get_kilometer()
+                    if kilo > 0 and kilo < 100:
+                        cur_kilo = kilo
+                    self.set_text(replace="寻找宝石, {}/{}次, {}/{}步, {}, 当前距离{}公里".format(count, total_count, size_count-size_step, size_count, direction, cur_kilo), index=0)
                     self.swipe(src, dst, 1)
                     size_step = size_step - 1
                     self.bot.snashot_update_event()
                     
                     _, _, diamond_pos = self.bot.gui.check_any(ImagePathAndProps.DIAMOND_IMG_PATH.value)
                     if diamond_pos is not None:
-                        self.set_text(insert="发现宝石, {}, {}/{}次, {}步, {}, 当前距离{}公里".format(diamond_pos, count, total_count, size_count, direction, self.gui.get_kilometer()), index=1)
+                        self.set_text(insert="发现宝石, {}, {}/{}次, {}步, {}, 当前距离{}公里".format(diamond_pos, count, total_count, size_count, direction, cur_kilo), index=1)
                         self.tap(diamond_pos, 2 * self.bot.config.tapSleep)
                         self.bot.snashot_update_event()
                         
