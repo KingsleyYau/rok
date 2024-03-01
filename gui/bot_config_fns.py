@@ -28,9 +28,9 @@ break_do_round = entry_int_fn_creator('breakDoRound', 'Execute at every', 'round
 terminate_checkbox = checkbox_fn_creator('terminate', 'Terminate when break')
 break_checkbox = checkbox_fn_creator('enableBreak', 'Take break at every end of round')
 
-tap_sleep_entry = entry_int_fn_creator('tapSleep', 'Tap Sleep Time:')
-swipe_sleep_entry = entry_int_fn_creator('swipeSleep', 'Swipe Sleep Time:')
-restart_sleep_entry = entry_int_fn_creator('restartSleep', 'Restart Sleep Time:')
+tap_sleep_entry = entry_int_fn_creator('tapSleep', 'Tap Sleep Time(second):')
+swipe_sleep_entry = entry_int_fn_creator('swipeSleep', 'Swipe Sleep Time(millisecond):')
+restart_sleep_entry = entry_int_fn_creator('restartSleep', 'Restart Sleep Time(second):')
 
 # Mystery Merchant
 mystery_merchant_checkbox = checkbox_fn_creator('enableMysteryMerchant', 'Use resource buy item in Mystery Merchant')

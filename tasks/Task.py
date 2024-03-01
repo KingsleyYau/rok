@@ -308,13 +308,13 @@ class Task:
         time.sleep(sleep_time)
 
     # duration is in milliseconds
-    def swipe(self, pos1, pos2, times=1, duration=500):
+    def swipe(self, pos1, pos2, times=1, duration=300):
         cmd = "input swipe {} {} {} {} {}".format(pos1[0], pos1[1], pos2[0], pos2[1], duration)
         for i in range(times):
             self.device.shell(cmd)
             device_log(self.device, 'swipe', cmd)
             if self.bot.config.swipeSleep > 0:
-                time.sleep(self.bot.config.swipeSleep)
+                time.sleep(self.bot.config.swipeSleep / 1000)
             # time.sleep(duration / 1000 + 0.2)
 
     # def zoom(self, x_f, y_f, x_t, y_t, times=1, duration=300, zoom_type="out"):
