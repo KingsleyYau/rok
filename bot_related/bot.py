@@ -32,6 +32,7 @@ from tasks.Training import Training
 from tasks.MysteryMerchant import MysteryMerchant
 from tasks.SunsetCanyon import SunsetCanyon
 from tasks.GatherDiamond import GatherDiamond
+from tasks.Festival import Festival
 from tasks.constants import TaskName
 from utils import stop_thread
 import random
@@ -83,7 +84,7 @@ class Bot:
         self.lost_canyon = LostCanyon(self)
         self.items_task = Items(self)
         self.gather_diamond_task = GatherDiamond(self)
-
+        self.festival_task = Festival(self)
         # Other task
         self.screen_shot_task = ScreenShot(self)
 
@@ -128,6 +129,7 @@ class Bot:
             [self.sunset_canyon, "enableSunsetCanyon"],
             [self.lost_canyon, "enableLostCanyon"],
             [self.items_task, "useItems"],
+            [self.festival_task, "enableFestival"],
         ]
         
         priority_tasks = [

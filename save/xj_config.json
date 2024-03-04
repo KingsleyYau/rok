@@ -3,7 +3,7 @@
   "enableStop": false,
   "action_wait_time": 1,
   "enableBreak": true,
-  "breakTime": 900,
+  "breakTime": 3600,
   "terminate": false,
   "breakDoRound": 1,
   "tapSleep": 2,
@@ -59,5 +59,6 @@
   "useItems": false,
   "useItemsVip": true,
   "useItemsGems": false,
-  "useItemsDailyRss": false
+  "useItemsDailyRss": false,
+  "enableFestival": false
 }

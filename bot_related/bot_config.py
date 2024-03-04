@@ -118,3 +118,6 @@ class BotConfig:
         self.useItemsVip = config.get('useItemsVip', False)
         self.useItemsGems = config.get('useItemsGems', False)
         self.useItemsDailyRss = config.get('useItemsDailyRss', False)
+        
+        # Festival
+        self.enableFestival = config.get('enableFestival', True)

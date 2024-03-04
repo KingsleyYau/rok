@@ -16,6 +16,7 @@ from tasks.Player1 import Player1
 from tasks.Player2 import Player2
 import time
 from utils import log, device_log
+import os, errno
 
 class SelectedDeviceFrame(Frame):
 
@@ -61,7 +62,16 @@ class SelectedDeviceFrame(Frame):
         
     def refresh_snapshot(self):
         # device_log(self.device, '截图')
-        img = self.bot.gui.get_curr_device_screen_img().resize((205, 155))
+        img = self.bot.gui.get_curr_device_screen_img()
+        try:
+            os.mkdir('capture')
+        except BaseException as e:
+            if e.errno != errno.EEXIST:
+                print(e)
+        img2 = img.convert('RGB')        
+        img2.save('capture/{}.jpg'.format(self.device.name))
+        
+        img = img.resize((205, 155))
         self.display_canvas.img = image = ImageTk.PhotoImage(img)
         self.display_canvas.create_image(5, 5, image=image, anchor='nw')
             

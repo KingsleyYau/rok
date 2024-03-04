@@ -24,7 +24,7 @@
   "trainStableUpgradeLevel": -1,
   "trainSiegeWorkshopTrainingLevel": 2,
   "trainSiegeWorkshopUpgradeLevel": -1,
-  "enableVipClaimChest": true,
+  "enableVipClaimChest": false,
   "vipDoRound": 30,
   "claimQuests": true,
   "questDoRound": 20,
@@ -59,5 +59,6 @@
   "useItems": false,
   "useItemsVip": false,
   "useItemsGems": false,
-  "useItemsDailyRss": false
+  "useItemsDailyRss": false,
+  "enableFestival": false,
 }
