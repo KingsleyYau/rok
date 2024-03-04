@@ -22,18 +22,26 @@ class Alliance(Task):
                 self.bot.snashot_update_event()
                 if name == 'HELP':
                     super().set_text(insert='帮助盟友')
-                    super().tap((920, 400))  # enter the help page
-                    super().tap((650, 650))  # tap the help button if present, otherwise it will tap on empty space
-
+                    # super().tap((920, 400))  # enter the help page
+                    _, _, help_pos = self.gui.check_any(ImagePathAndProps.HELP_IMG_PATH.value)
+                    if help_pos is not None:
+                        super().tap(help_pos)
+                        # tap the help button if present, otherwise it will tap on empty space
+                        super().tap((650, 650))  
                 elif name == 'GIFTS':
                     super().set_text(insert='收集水晶箱子')
                     # gifts_pos = (885, 560)
-                    gifts_pos = (1050, 400)
+                    # gifts_pos = (1050, 400)
                     rate_pos = (930, 205)
                     normal_pos = (670, 205)
                     claim_all_pos = (1110, 205)
                     treasure = (330, 410)
-                    super().tap(gifts_pos)
+                    
+                    _, _, gifts_pos = self.gui.check_any(ImagePathAndProps.GIFT_IMG_PATH.value)
+                    if gifts_pos is not None:
+                        super().tap(gifts_pos)
+                    else:
+                        continue
 
                     # collecting rate gifts
                     super().set_text(insert='收集稀有礼物')
@@ -53,26 +61,30 @@ class Alliance(Task):
 
                 elif name == 'TERRITORY':
                     super().set_text(insert='收集领土资源')
-                    territory_pos = (785, 405)
-                    claim_pos = (1020, 140)
-                    super().tap(territory_pos)
-                    super().tap(claim_pos)
+                    _, _, territory_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value)
+                    if territory_pos is not None:
+                    # territory_pos = (785, 405)
+                        super().tap(territory_pos)
+                        claim_pos = (1020, 140)
+                        super().tap(claim_pos)
 
                 elif name == 'TECHNOLOGY':
                     super().set_text(insert='捐献科技')
-                    technology_pos = (660, 560)
-                    super().tap(technology_pos, 5)
-                    _, _, recommend_image_pos = self.gui.check_any(ImagePathAndProps.TECH_RECOMMEND_IMAGE_PATH.value)
-                    if recommend_image_pos is not None:
-                        x, y = recommend_image_pos
-                        super().tap((x, y + 60))
-                        _, _, donate_btn_pos = self.gui.check_any(
-                            ImagePathAndProps.TECH_DONATE_BUTTON_IMAGE_PATH.value)
-                        if donate_btn_pos is not None:
-                            for i in range(20):
-                                super().tap(donate_btn_pos)
-                    else:
-                        super().set_text(insert="没有找到推荐捐献科技")
+                    # technology_pos = (660, 560)
+                    _, _, technology_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value)
+                    if technology_pos is not None:
+                        super().tap(technology_pos)
+                        _, _, recommend_image_pos = self.gui.check_any(ImagePathAndProps.TECH_RECOMMEND_IMAGE_PATH.value)
+                        if recommend_image_pos is not None:
+                            x, y = recommend_image_pos
+                            super().tap((x, y + 60))
+                            _, _, donate_btn_pos = self.gui.check_any(
+                                ImagePathAndProps.TECH_DONATE_BUTTON_IMAGE_PATH.value)
+                            if donate_btn_pos is not None:
+                                for i in range(20):
+                                    super().tap(donate_btn_pos)
+                        else:
+                            super().set_text(insert="没有找到推荐捐献科技")
                         
                 self.bot.snashot_update_event()
 

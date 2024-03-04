@@ -798,13 +798,13 @@ class ImagePathAndProps(Enum):
         25,
         DIAMOND_IMG,
     ] 
-    TERRITORY_IMG_PATH = [
+    TERRITORY_RESOURCE_IMG_PATH = [
         "resource/territory.png",
         (1280, 720),
         (0, 0, 0, 0),
         0.80,
         25,
-        TERRITORY_IMG,
+        TERRITORY_RESOURCE_IMG,
     ]
     TERRITORY_GATHERING_IMG_PATH = [
         "resource/territory_gathering.png",

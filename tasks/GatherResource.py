@@ -66,6 +66,7 @@ class GatherResource(Task):
                 self.tap(alliance_btn_pos)
                 territory_pos = (785, 405)
                 self.tap(territory_pos)
+                found = False
                 for i in range(2):
                     self.bot.snashot_update_event()
                     territory_gathering_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_GATHERING_IMG_PATH.value)[2]
@@ -83,6 +84,7 @@ class GatherResource(Task):
                         gather_join_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_GATHER_JOIN_IMG_PATH.value)[2]
                         if gather_join_pos is None:
                             self.set_text(insert="没有找到加入按钮, 可能已经在采集")
+                            found = True
                             break
                         self.set_text(insert="加入联盟矿")
                         self.tap(gather_join_pos)
@@ -92,11 +94,14 @@ class GatherResource(Task):
                             return next_task
                         break
             
-                    self.set_text(insert='打开联盟资源中心')   
-                    territory_tab_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value)[2]
+                    self.set_text(insert='第{}次尝试打开联盟资源中心'.format(i+1))   
+                    territory_tab_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_RESOURCE_IMG_PATH.value)[2]
                     if territory_tab_pos is not None:
                         self.tap(territory_tab_pos)
-            
+                    
+                if not found:
+                    self.set_text(insert='没有发现联盟矿')   
+                    
             except Exception as e:
                 traceback.print_exc()
                 pass
@@ -195,8 +200,8 @@ class GatherResource(Task):
                         self.tap(dec_pos)
     
                     self.set_text(insert="发现资源点")
-                    self.tap((640, 320), 2 * self.bot.config.tapSleep)
                     self.bot.snashot_update_event()
+                    self.tap((640, 320), self.bot.config.tapSleep)
                     
                     coordinate = ''
                     _, _, resource_xy_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_IMG_PATH.value)

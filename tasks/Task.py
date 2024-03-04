@@ -79,7 +79,7 @@ class Task:
             if gui_name == GuiName.HOME.name:
                 break
             else:
-                self.set_text(insert='切换到城市, 当前界面{}, {}, loop_count:{}'.format(gui_name, pos, loop_count))
+                self.set_text(insert='切换视觉[城市], 当前界面{}, {}, loop_count:{}'.format(gui_name, pos, loop_count))
                 if gui_name == GuiName.MAP.name:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
@@ -103,7 +103,7 @@ class Task:
         self.tap(pos)
 
     def home_gui_full_view(self):
-        self.set_text(insert='切换到城市全视觉')
+        self.set_text(insert='切换视觉[全城市]')
         self.tap((60, 540), 5)
         self.tap((1105, 200), 5)
         self.tap((1220, 35), 5)
@@ -149,7 +149,7 @@ class Task:
             if gui_name == GuiName.MAP.name:
                 break
             else:
-                self.set_text(insert='切换到地图, 当前界面{}, {}'.format(gui_name,pos))
+                self.set_text(insert='切换视觉[地图], 当前界面{}, {}'.format(gui_name,pos))
                 if gui_name == GuiName.HOME.name:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:

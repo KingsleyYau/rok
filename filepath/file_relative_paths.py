@@ -805,6 +805,14 @@ class ImagePathAndProps(Enum):
         0.80,
         25,
         TERRITORY_IMG,
+    ]    
+    TERRITORY_RESOURCE_IMG_PATH = [
+        "resource/territory_resource.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        TERRITORY_RESOURCE_IMG,
     ]
     TERRITORY_GATHERING_IMG_PATH = [
         "resource/territory_gathering.png",
@@ -822,6 +830,30 @@ class ImagePathAndProps(Enum):
         25,
         TERRITORY_GATHER_JOIN_IMG,
     ]
+    HELP_IMG_PATH = [
+        "resource/help.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        HELP_IMG,
+    ]  
+    GIFT_IMG_PATH = [
+        "resource/gift.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        GIFT_IMG,
+    ]   
+    TECHNOLOGY_IMG_PATH = [
+        "resource/technology.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        TECHNOLOGY_IMG,
+    ] 
     YES_BUTTON_PATH = [
         "resource/yes.png",
         (1280, 720),
