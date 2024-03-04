@@ -29,7 +29,7 @@ class Break(Task):
             tips = "玉米: {}, 木头: {}, 石头: {}, 金矿: {}, 砖石: {}".format(result[0], result[1], result[2], result[3], result[4])
             self.set_text(insert=tips)
             
-            breakTime = int(random.uniform(60, self.bot.config.breakTime))
+            breakTime = int(random.uniform(self.bot.config.breakTime//2, self.bot.config.breakTime))
             super().set_text(insert='0/{} seconds'.format(breakTime))
             progress_time = max(breakTime // 20, 1)
 

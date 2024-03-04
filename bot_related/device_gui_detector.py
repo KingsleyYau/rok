@@ -132,17 +132,15 @@ class GuiDetector:
     
     def troop_already_full(self):
         box = (1205, 160, 1245, 180)
-        imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
-                     cv2.IMREAD_COLOR)
-        imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
-        x0, y0, x1, y1 = box
-        imdst = imsch[y0:y1, x0:x1]
-        # troop_image = Image.fromarray(imdst)
-        _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
-        # cv2.imwrite('script/troop_image_v.png', imdst)
-        troop_image = Image.fromarray(imdst)
-        
         try:
+            imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
+            imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
+            x0, y0, x1, y1 = box
+            imdst = imsch[y0:y1, x0:x1]
+            # troop_image = Image.fromarray(imdst)
+            _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
+            # cv2.imwrite('script/troop_image_v.png', imdst)
+            troop_image = Image.fromarray(imdst)
             rec = img_to_string_eng(troop_image).replace(' ', '').replace(',', '').replace('\n', '')
             if len(rec) > 1:
                 device_log(self.__device, 'troop_already_full, {}/{}'.format(rec[0], rec[-1]))
@@ -157,32 +155,35 @@ class GuiDetector:
         boxes = [
             (695, 10, 770, 34), (820, 10, 890, 34), (943, 10, 1015, 34), (1065, 10, 1140, 34), (1182, 10, 1245, 34)
         ]
-        imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
-                     cv2.IMREAD_COLOR)
-        imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
-        for box in boxes:
-            x0, y0, x1, y1 = box
-            imdst = imsch[y0:y1, x0:x1]
-            resource_image = Image.fromarray(imdst)
-            try:
-                rec = img_to_string(resource_image).replace(' ', '').replace(',', '')
-                unit = 1
-                if (rec.find('亿') != -1) or (rec.find('仁') != -1):
-                    unit = 100000000
-                elif rec.find('万') != -1:
-                    unit = 10000
-                else:
+        try:
+            imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
+            imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
+            for box in boxes:
+                x0, y0, x1, y1 = box
+                imdst = imsch[y0:y1, x0:x1]
+                resource_image = Image.fromarray(imdst)
+                try:
+                    rec = img_to_string(resource_image).replace(' ', '').replace(',', '')
                     unit = 1
-                    rec = rec.replace('.', '')
-                rec = rec.replace('亿', '').replace('万', '')
-                rec = re.sub('[^0-9.]', '', rec)
-                device_log(self.__device, 'resource_amount_image_to_string', rec)
-                count = int(float(rec) * unit)
-                result_list.append(count)
-            except Exception as e:
-                result_list.append(-1)
-                device_log(self.__device, 'resource_amount_image_to_string', e)
-                traceback.print_exc()
+                    if (rec.find('亿') != -1) or (rec.find('仁') != -1):
+                        unit = 100000000
+                    elif rec.find('万') != -1:
+                        unit = 10000
+                    else:
+                        unit = 1
+                        rec = rec.replace('.', '')
+                    rec = rec.replace('亿', '').replace('万', '')
+                    rec = re.sub('[^0-9.]', '', rec)
+                    device_log(self.__device, 'resource_amount_image_to_string', rec)
+                    count = int(float(rec) * unit)
+                    result_list.append(count)
+                except Exception as e:
+                    result_list.append(-1)
+                    device_log(self.__device, 'resource_amount_image_to_string', e)
+                    traceback.print_exc()
+        except Exception as e:
+            device_log(self.__device, 'resource_amount_image_to_string', e)
+            traceback.print_exc()
         return result_list
 
     def materilal_amount_image_to_string(self):
