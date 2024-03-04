@@ -57,6 +57,8 @@ class SelectedDeviceFrame(Frame):
         self.bot.config_update_event = lambda **kw: write_bot_config(kw['config'], kw['prefix'])
         self.bot.snashot_update_event = self.on_snashot_update
         
+        self.refresh_snapshot()
+        
     def refresh_snapshot(self):
         # device_log(self.device, '截图')
         img = self.bot.gui.get_curr_device_screen_img().resize((205, 155))

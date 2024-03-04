@@ -25,7 +25,7 @@ class ClaimQuests(Task):
                 _, _, claim_btn_pos = self.gui.check_any(ImagePathAndProps.QUEST_CLAIM_BUTTON_IMAGE_PATH.value)
                 if claim_btn_pos is None:
                     break
-                super().set_text(insert='Tap claim button at {}'.format(claim_btn_pos))
+                super().set_text(insert='领取礼物 {}'.format(claim_btn_pos))
                 super().tap(claim_btn_pos)
 
             super().set_text(insert='收集每日任务积分')
@@ -34,7 +34,7 @@ class ClaimQuests(Task):
                 _, _, claim_btn_pos = self.gui.check_any(ImagePathAndProps.QUEST_CLAIM_BUTTON_IMAGE_PATH.value)
                 if claim_btn_pos is None:
                     break
-                super().set_text(insert='Tap claim button at {}'.format(claim_btn_pos))
+                super().set_text(insert='领取礼物 {}'.format(claim_btn_pos))
                 super().tap(claim_btn_pos)
 
             super().set_text(insert='收集每日任务宝箱')

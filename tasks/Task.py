@@ -79,7 +79,7 @@ class Task:
             if gui_name == GuiName.HOME.name:
                 break
             else:
-                self.set_text(insert='切换视觉[城市], 当前界面{}, {}, loop_count:{}'.format(gui_name, pos, loop_count))
+                self.set_text(insert='切换视觉[城市], 当前界面[{}], {}, loop_count:{}'.format(gui_name, pos, loop_count))
                 if gui_name == GuiName.MAP.name:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
@@ -135,8 +135,10 @@ class Task:
             ImagePathAndProps.MENU_OPENED_IMAGE_PATH.value
         )
         if should_open and not is_open:
+            self.set_text(insert='打开菜单')
             self.tap((c_x, c_y))
         elif not should_open and is_open:
+            self.set_text(insert='关闭菜单')
             self.tap((c_x, c_y))
 
     # Map

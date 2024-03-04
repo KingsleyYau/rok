@@ -6,7 +6,7 @@
   "breakTime": 2400,
   "terminate": false,
   "breakDoRound": 1,
-  "tapSleep": 5,
+  "tapSleep": 4,
   "swipeSleep": 300,
   "restartSleep": 120,
   "hasBuildingPos": true,

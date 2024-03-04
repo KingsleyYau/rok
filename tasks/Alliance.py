@@ -29,7 +29,7 @@ class Alliance(Task):
                         # tap the help button if present, otherwise it will tap on empty space
                         super().tap((650, 650))  
                 elif name == 'GIFTS':
-                    super().set_text(insert='收集水晶箱子')
+                    super().set_text(insert='收集联盟礼物')
                     # gifts_pos = (885, 560)
                     # gifts_pos = (1050, 400)
                     rate_pos = (930, 205)
@@ -55,8 +55,10 @@ class Alliance(Task):
                     # collecting normal gifts
                     super().set_text(insert='收集普通礼物')
                     super().tap(normal_pos)
+                    super().set_text(insert='一键收集普通礼物')
                     super().tap(claim_all_pos)
                     # collecting treasure of white crystal
+                    super().set_text(insert='收集水晶箱子')
                     super().tap(treasure)
 
                 elif name == 'TERRITORY':
@@ -71,7 +73,7 @@ class Alliance(Task):
                 elif name == 'TECHNOLOGY':
                     super().set_text(insert='捐献科技')
                     # technology_pos = (660, 560)
-                    _, _, technology_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value)
+                    _, _, technology_pos = self.gui.check_any(ImagePathAndProps.TECHNOLOGY_IMG_PATH.value)
                     if technology_pos is not None:
                         super().tap(technology_pos)
                         _, _, recommend_image_pos = self.gui.check_any(ImagePathAndProps.TECH_RECOMMEND_IMAGE_PATH.value)

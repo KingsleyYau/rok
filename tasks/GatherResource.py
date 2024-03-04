@@ -48,6 +48,7 @@ class GatherResource(Task):
         
     def do(self, next_task=TaskName.BREAK):
         self.set_text(title='采集资源', remove=True)
+        self.back_to_map_gui()
         
         full_load, cur, total = self.gui.troop_already_full()
         if full_load:
@@ -58,7 +59,6 @@ class GatherResource(Task):
                         
         if self.bot.config.gatherAllianceResource:
             try:
-                self.back_to_home_gui()
                 self.menu_should_open(True)
                 self.set_text(insert='优先采集联盟矿')
                 self.set_text(insert='打开联盟中心')
@@ -200,8 +200,8 @@ class GatherResource(Task):
                         self.tap(dec_pos)
     
                     self.set_text(insert="发现资源点")
-                    self.bot.snashot_update_event()
                     self.tap((640, 320), self.bot.config.tapSleep)
+                    self.bot.snashot_update_event()
                     
                     coordinate = ''
                     _, _, resource_xy_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_IMG_PATH.value)
