@@ -173,6 +173,7 @@ class Task:
             self.bot.snashot_update_event()
             self.stopRok()
             self.runOfRoK()
+            self.set_text(insert='等待{}秒'.format(20))
             time.sleep(20)
         pos_list = None
         pos_free = (400 + int(50 * (0.5 - random.random())), 400 + int(50 * (0.5 - random.random())))
@@ -206,6 +207,7 @@ class Task:
             elif gui_name == GuiName.HELLO_WROLD_IMG.name:
                 self.set_text(insert='欢迎界面, 点击任意地方, {}'.format(pos_free))
                 self.tap(pos_free)
+                self.set_text(insert='等待{}秒'.format(self.bot.config.restartSleep))
                 time.sleep(self.bot.config.restartSleep)
             # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
             #     pos_list = self.pass_verification()
