@@ -173,8 +173,8 @@ class Task:
             self.bot.snashot_update_event()
             self.stopRok()
             self.runOfRoK()
-            self.set_text(insert='等待{}秒'.format(30))
-            time.sleep(30)
+            self.set_text(insert='等待{}秒'.format(self.bot.config.welcomeSleep))
+            time.sleep(self.bot.config.welcomeSleep)
         pos_list = None
         pos_free = (400 + int(50 * (0.5 - random.random())), 400 + int(50 * (0.5 - random.random())))
         
@@ -405,6 +405,7 @@ class Task:
 
     def set_text(self, **kwargs):
         dt_string = datetime.now().strftime("[%H:%M:%S]")
+        name = 'name'
         title = "title"
         text_list = "text_list"
         insert = "insert"
@@ -412,7 +413,11 @@ class Task:
         replace = "replace"
         index = "index"
         append = "append"
-
+        
+        if name in kwargs:
+            self.bot.text[name] = kwargs[name]
+            device_log(self.device, kwargs[name])
+            
         if title in kwargs:
             self.bot.text[title] = kwargs[title]
             device_log(self.device, kwargs[title])

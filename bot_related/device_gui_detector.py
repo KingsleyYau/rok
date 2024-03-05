@@ -129,7 +129,26 @@ class GuiDetector:
             device_log(self.__device, 'get_kilometer', e)
             traceback.print_exc()
         return kilo
-    
+
+    def player_name(self):
+        name = ""
+        box = (485, 182, 645, 212)
+        try:
+            imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
+            imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
+            x0, y0, x1, y1 = box
+            imdst = imsch[y0:y1, x0:x1]
+            # troop_image = Image.fromarray(imdst)
+            # _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
+            # cv2.imwrite('script/troop_image_v.png', imdst)
+            troop_image = Image.fromarray(imdst)
+            name = img_to_string(troop_image).replace(' ', '').replace('\n', '')
+            device_log(self.__device, 'player_name, {}'.format(name))
+        except Exception as e:
+            device_log(self.__device, 'player_name', e)
+            traceback.print_exc()
+        return name
+        
     def troop_already_full(self):
         box = (1205, 160, 1245, 180)
         try:

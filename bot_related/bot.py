@@ -34,7 +34,7 @@ from tasks.SunsetCanyon import SunsetCanyon
 from tasks.GatherDiamond import GatherDiamond
 from tasks.Festival import Festival
 from tasks.AutoChangePlayer import AutoChangePlayer
-
+from tasks.GetPlayerName import GetPlayerName
 from tasks.constants import TaskName
 from utils import stop_thread
 import random
@@ -48,7 +48,7 @@ class Bot:
         self.device = device
         self.gui = GuiDetector(device)
         self.text_update_event = lambda v: v
-        self.text = {"title": "", "text_list": []}
+        self.text = {"name":"", "title": "", "text_list": []}
         self.snashot_update_event = None
 
         self.building_pos_update_event = lambda **kw: kw
@@ -89,6 +89,7 @@ class Bot:
         # Other task
         self.screen_shot_task = ScreenShot(self)
         self.auto_change_task = AutoChangePlayer(self)
+        self.get_player_name_task = GetPlayerName(self)
 
         self.round_count = 0
         self.diamond = 0
@@ -139,6 +140,7 @@ class Bot:
             [self.gather_resource_task, "gatherResource"],
         ]
         
+        self.get_player_name_task.do(TaskName.INIT_BUILDING_POS)
 
         if self.building_pos is None:
             curr_task = TaskName.INIT_BUILDING_POS

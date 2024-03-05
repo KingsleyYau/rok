@@ -31,7 +31,7 @@ class SelectedDeviceFrame(Frame):
         self.bot_building_pos = load_building_pos(self.device.save_file_prefix)
         self.windows_size = [kwargs['width'], kwargs['height']]
 
-        display_frame, self.task_title, self.task_text, self.display_canvas = self.task_display_frame()
+        display_frame, self.name, self.task_title, self.task_text, self.display_canvas = self.task_display_frame()
         config_frame = self.config_frame()
         bottom_frame = self.bottom_frame()
 
@@ -85,19 +85,19 @@ class SelectedDeviceFrame(Frame):
         frame.rowconfigure(1, weight=5)
         frame.rowconfigure(2, weight=height - 10)
 
-        title = '{}-{}'.format(self.device.save_file_prefix,self.device.nickname) if self.device.nickname is not None else self.device.save_file_prefix
-        dl = Label(frame, text=title, width=width, height=5, bg='white')
+        nickname = '{}'.format(self.device.save_file_prefix,self.device.nickname) if self.device.nickname is not None else self.device.save_file_prefix
+        name = Label(frame, text=nickname, width=width, height=5, bg='white')
         title = Label(frame, text="Task: None", width=width, height=5, bg='white')
         # title.config(bg='white', anchor=W, justify=LEFT)
         text = Text(frame, width=width, height=height - 30)
         canvas = Canvas(frame, width=210)
 
-        dl.grid(row=0, column=0, columnspan=2, pady=5, sticky=N + W)
+        name.grid(row=0, column=0, columnspan=2, pady=5, sticky=N + W)
         title.grid(row=1, column=0, pady=5, sticky=N + W)
         text.grid(row=2, column=0, pady=5, sticky=N + W)
         canvas.grid(row=1, column=1, rowspan=2, pady=0, sticky=N + W)
         
-        return frame, title, text, canvas
+        return frame, name, title, text, canvas
 
     def config_frame(self):
         frame_canvas = LabelFrame(self,
@@ -261,7 +261,10 @@ class SelectedDeviceFrame(Frame):
         return frame
 
     def on_task_update(self, text):
-        title, text_list = text['title'], text['text_list']
+        name, title, text_list = text['name'], text['title'], text['text_list']
+        if len(name) > 0:
+            name = '{}-{}'.format(self.device.save_file_prefix, name)
+            self.name.config(text=name)
         self.task_title.config(text="Task: " + title)
         self.task_text.delete(1.0, END)
         for t in text_list:
