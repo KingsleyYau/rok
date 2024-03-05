@@ -49,7 +49,7 @@ class GatherResource(Task):
     def do(self, next_task=TaskName.BREAK):
         self.set_text(title='采集资源', remove=True)
         self.back_to_map_gui()
-        
+        self.call_idle_back()
         full_load, cur, total = self.gui.troop_already_full()
         if full_load:
             self.set_text(insert="没有更多队列采集")
