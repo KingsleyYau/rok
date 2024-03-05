@@ -16,5 +16,5 @@ class GetPlayerName(Task):
         player_name = self.bot.gui.player_name()
         self.set_text(insert='读取玩家名字, {}'.format(player_name))
         self.set_text(name=player_name)
-        
+        self.bot.player_name = player_name
         return next_task

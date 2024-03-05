@@ -34,6 +34,7 @@ class AutoChangePlayer(Task):
                 self.tap(yes_pos)
                 self.bot.config.playerIndex = playerIndex
                 self.bot.config_update_event(config=self.bot.config, prefix=self.device.save_file_prefix)
+                self.bot.player_name = ""
                 self.stopRok()
                 self.bot.snashot_update_event()
                 break

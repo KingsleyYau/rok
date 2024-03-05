@@ -27,8 +27,7 @@ class LocateBuilding(Task):
             super().menu_should_open(False)
 
             if self.bot.config.hasBuildingPos:
-                super().curr_task = TaskName.NEXT_TASK
-                return
+                return next_task
 
             width = DEFAULT_RESOLUTION['width']
             height = DEFAULT_RESOLUTION['height']
