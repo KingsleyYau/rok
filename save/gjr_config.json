@@ -8,6 +8,7 @@
   "breakDoRound": 1,
   "tapSleep": 2,
   "swipeSleep": 300,
+  "welcomeSleep": 20,
   "restartSleep": 60,
   "hasBuildingPos": true,
   "enableMysteryMerchant": false,

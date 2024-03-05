@@ -173,8 +173,8 @@ class Task:
             self.bot.snashot_update_event()
             self.stopRok()
             self.runOfRoK()
-            self.set_text(insert='等待{}秒'.format(20))
-            time.sleep(20)
+            self.set_text(insert='等待{}秒'.format(30))
+            time.sleep(30)
         pos_list = None
         pos_free = (400 + int(50 * (0.5 - random.random())), 400 + int(50 * (0.5 - random.random())))
         
