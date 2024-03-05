@@ -33,12 +33,13 @@ from tasks.MysteryMerchant import MysteryMerchant
 from tasks.SunsetCanyon import SunsetCanyon
 from tasks.GatherDiamond import GatherDiamond
 from tasks.Festival import Festival
+from tasks.AutoChangePlayer import AutoChangePlayer
+
 from tasks.constants import TaskName
 from utils import stop_thread
 import random
 
 DEFAULT_RESOLUTION = {"height": 720, "width": 1280}
-
 
 class Bot:
     def __init__(self, device, config={}):
@@ -87,6 +88,7 @@ class Bot:
         self.festival_task = Festival(self)
         # Other task
         self.screen_shot_task = ScreenShot(self)
+        self.auto_change_task = AutoChangePlayer(self)
 
         self.round_count = 0
         self.diamond = 0
@@ -180,6 +182,8 @@ class Bot:
                 and self.round_count % self.config.breakDoRound == 0
             ):
                 curr_task = self.break_task.do(TaskName.COLLECTING)
+                if self.config.autoChangePlayer:
+                    curr_task = self.auto_change_task.do(TaskName.COLLECTING)
             elif curr_task == TaskName.BREAK:
                 curr_task = self.break_task.do_no_wait(TaskName.KILL_GAME)
 

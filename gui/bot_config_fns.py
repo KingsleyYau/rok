@@ -143,6 +143,18 @@ use_items_daily_rss = checkbox_fn_creator('useItemsDailyRss', 'Use 5 Level1 Reso
 
 festival_checkbox = checkbox_fn_creator('enableFestival', 'Festival')
 
+# Auto Change Player
+auto_change_player_checkbox = checkbox_fn_creator('autoChangePlayer', 'Auto Change Player')
+player_index = entry_int_fn_creator('playerIndex', 'Current Player Index')
+player_count = entry_int_fn_creator('playerCount', 'Current Player Count')
+
+# break
+break_do_round = entry_int_fn_creator('breakDoRound', 'Execute at every', 'round')
+terminate_checkbox = checkbox_fn_creator('terminate', 'Terminate when break')
+break_checkbox = checkbox_fn_creator('enableBreak', 'Take break at every end of round')
+
+tap_sleep_entry = entry_int_fn_creator('tapSleep', 'Tap Sleep Time(second):')
+
 def resource_ratio(app, parent):
     label_texts = ['Food:', 'Wood:', 'Stone:', 'Gold:']
     attr_names = ['gatherResourceRatioFood',
@@ -211,7 +223,8 @@ bot_config_title_fns = [
     [enable_sunset_canyon_checkbox, []],
     [enable_lost_canyon_checkbox, []],
     [use_items, [use_items_vip, use_items_gems, use_items_daily_rss]],
-    [festival_checkbox, []]
+    [festival_checkbox, []],
+    [auto_change_player_checkbox, [player_index, player_count]]
 ]
 
 

@@ -61,5 +61,8 @@
   "useItemsVip": false,
   "useItemsGems": false,
   "useItemsDailyRss": false,
-  "enableFestival": false
+  "enableFestival": false,
+  "autoChangePlayer": false,
+  "playerIndex": 0,
+  "playerCount": 2
 }

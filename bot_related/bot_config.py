@@ -122,3 +122,8 @@ class BotConfig:
         
         # Festival
         self.enableFestival = config.get('enableFestival', True)
+        
+        # Auto Change Player
+        self.autoChangePlayer = config.get('autoChangePlayer', False)
+        self.playerIndex = config.get('playerIndex', 0)
+        self.playerCount = config.get('playerCount', 1)

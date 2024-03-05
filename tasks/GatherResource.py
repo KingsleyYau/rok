@@ -64,8 +64,12 @@ class GatherResource(Task):
                 self.set_text(insert='打开联盟中心')
                 alliance_btn_pos = (1030, 670)
                 self.tap(alliance_btn_pos)
-                territory_pos = (785, 405)
-                self.tap(territory_pos)
+                # territory_pos = (785, 405)
+                # self.tap(territory_pos)
+                _, _, territory_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value)
+                if territory_pos is not None:
+                    self.tap(territory_pos)
+                        
                 found = False
                 for i in range(2):
                     self.bot.snashot_update_event()

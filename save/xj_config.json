@@ -13,8 +13,8 @@
   "hasBuildingPos": true,
   "enableMysteryMerchant": true,
   "enableCollecting": true,
-  "enableMaterialProduce": false,
-  "materialDoRound": 20,
+  "enableMaterialProduce": true,
+  "materialDoRound": 12,
   "enableTavern": true,
   "enableTraining": false,
   "trainBarracksTrainingLevel": 3,
@@ -27,7 +27,7 @@
   "trainSiegeWorkshopUpgradeLevel": -1,
   "enableVipClaimChest": false,
   "vipDoRound": 30,
-  "claimQuests": true,
+  "claimQuests": false,
   "questDoRound": 20,
   "allianceAction": true,
   "allianceDoRound": 10,
@@ -46,7 +46,7 @@
   "useGatheringBoosts": false,
   "gatherResource": true,
   "gatherResourceNoSecondaryCommander": false,
-  "gatherResourceRatioFood": 1,
+  "gatherResourceRatioFood": 2,
   "gatherResourceRatioWood": 1,
   "gatherResourceRatioStone": 1,
   "gatherResourceRatioGold": 4,
@@ -61,5 +61,8 @@
   "useItemsVip": true,
   "useItemsGems": false,
   "useItemsDailyRss": false,
-  "enableFestival": false
+  "enableFestival": false,
+  "autoChangePlayer": false,
+  "playerIndex": 0,
+  "playerCount": 2
 }
