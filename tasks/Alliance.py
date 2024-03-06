@@ -42,7 +42,7 @@ class Alliance(Task):
                         super().tap(gifts_pos)
                     else:
                         continue
-
+                    self.bot.snashot_update_event()
                     # collecting rate gifts
                     super().set_text(insert='收集稀有礼物')
                     super().tap(rate_pos)
@@ -51,7 +51,7 @@ class Alliance(Task):
                         if pos is None:
                             break
                         super().tap(pos)
-
+                    self.bot.snashot_update_event()
                     # collecting normal gifts
                     super().set_text(insert='收集普通礼物')
                     super().tap(normal_pos)
@@ -65,8 +65,8 @@ class Alliance(Task):
                     super().set_text(insert='收集领土资源')
                     _, _, territory_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value)
                     if territory_pos is not None:
-                    # territory_pos = (785, 405)
                         super().tap(territory_pos)
+                        self.bot.snashot_update_event()
                         claim_pos = (1020, 140)
                         super().tap(claim_pos)
 
@@ -76,6 +76,7 @@ class Alliance(Task):
                     _, _, technology_pos = self.gui.check_any(ImagePathAndProps.TECHNOLOGY_IMG_PATH.value)
                     if technology_pos is not None:
                         super().tap(technology_pos)
+                        self.bot.snashot_update_event()
                         _, _, recommend_image_pos = self.gui.check_any(ImagePathAndProps.TECH_RECOMMEND_IMAGE_PATH.value)
                         if recommend_image_pos is not None:
                             x, y = recommend_image_pos

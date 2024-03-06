@@ -151,7 +151,7 @@ class Task:
             if gui_name == GuiName.MAP.name:
                 break
             else:
-                self.set_text(insert='切换视觉[地图], 当前界面{}, {}'.format(gui_name,pos))
+                self.set_text(insert='切换视觉[地图], 当前界面[{}], {}'.format(gui_name,pos))
                 if gui_name == GuiName.HOME.name:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
