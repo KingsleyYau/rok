@@ -45,7 +45,7 @@ class BotConfig:
 
         # Training
         self.enableTraining = config.get('enableTraining', True)
-
+        self.trainingDoRound = config.get('trainingDoRound', 20)
         self.trainBarracksTrainingLevel = config.get('trainBarracksTrainingLevel',
                                                      TrainingAndUpgradeLevel.T1.value)
         self.trainBarracksUpgradeLevel = config.get('trainBarracksUpgradeLevel',

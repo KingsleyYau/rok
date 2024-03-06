@@ -131,7 +131,7 @@ class Bot:
             [self.materials_task, "enableMaterialProduce", "materialDoRound"],
             [self.scout_task, "enableScout"],
             [self.tavern_task, "enableTavern"],
-            [self.training, "enableTraining"],
+            [self.training, "enableTraining", "traingingDoRound"],
             [self.sunset_canyon, "enableSunsetCanyon"],
             [self.lost_canyon, "enableLostCanyon"],
             [self.items_task, "useItems"],
@@ -164,6 +164,10 @@ class Bot:
             random.shuffle(random_tasks)
             tasks = priority_tasks + random_tasks
                     
+            player_round_count = self.round_count
+            if self.config.autoChangePlayer:
+                player_round_count = self.round_count // self.bot.config.playerCount
+                
             if len(self.player_name) == 0:
                 self.get_player_name_task.do(TaskName.COLLECTING)
             # device_log(self.device, tasks)
@@ -171,7 +175,7 @@ class Bot:
             if (
                 curr_task == TaskName.KILL_GAME
                 and self.config.enableStop
-                and self.round_count % self.config.stopDoRound == 0
+                and player_round_count % self.config.stopDoRound == 0
             ):
                 curr_task = self.restart_task.do(TaskName.BREAK)
             elif curr_task == TaskName.KILL_GAME:
@@ -189,7 +193,7 @@ class Bot:
             elif (
                 curr_task == TaskName.BREAK
                 and self.config.enableBreak
-                and self.round_count % self.config.breakDoRound == 0
+                and player_round_count % self.config.breakDoRound == 0
             ):
                 curr_task = self.break_task.do(TaskName.COLLECTING)
                 if self.config.autoChangePlayer:
@@ -204,7 +208,7 @@ class Bot:
                 else:
                     if (
                         getattr(self.config, task[1])
-                        and self.round_count % getattr(self.config, task[2]) == 0
+                        and player_round_count % getattr(self.config, task[2]) == 0
                     ):
                         curr_task = task[0].do()
 

@@ -75,6 +75,7 @@ material_do_round = entry_int_fn_creator('materialDoRound', 'Execute at every', 
 open_free_chest_in_tavern = checkbox_fn_creator('enableTavern', 'Open free chest in tavern')
 
 training = checkbox_fn_creator('enableTraining', 'Auto upgrade and train troops')
+training_do_round = entry_int_fn_creator('trainingDoRound', 'Execute at every', 'round')
 
 train_barracks = train_fn_creator(
     'Barracks:',
@@ -207,7 +208,7 @@ bot_config_title_fns = [
     [daily_vip_point_and_chest, [vip_do_round]],
     [claim_quest_checkbox, [quest_do_round]],
     [alliance_action_checkbox, [alliance_do_round]],
-    [training, [train_barracks, train_archery_range, train_stable, train_siege]],
+    [training, [training_do_round, train_barracks, train_archery_range, train_stable, train_siege]],
     [attack_barbarians_checkbox, [hold_position_checkbox,
                                   heal_troops_checkbox,
                                   use_daily_ap_checkbox,
