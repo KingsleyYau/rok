@@ -57,8 +57,8 @@ def entry_int_fn_creator(name, begin_text, end_text=None):
                 if action_type == '1':
                     if not value.isdigit():
                         return False
-                    if value[0] == '0':
-                        return False
+                    # if value[0] == '0':
+                    #     return False
                 setattr(app.bot_config, attr_name, int(value if value != '' else '1'))
                 write_bot_config(app.bot_config, app.device.save_file_prefix)
                 return True

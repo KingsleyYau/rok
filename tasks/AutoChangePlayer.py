@@ -33,10 +33,10 @@ class AutoChangePlayer(Task):
                 self.set_text(insert='切换角色, {} => {}'.format(self.bot.config.playerIndex, playerIndex))
                 self.tap(yes_pos)
                 self.bot.config.playerIndex = playerIndex
-                self.bot.config_update_event(config=self.bot.config, prefix=self.device.save_file_prefix)
-                self.bot.player_name = ""
+                self.device.nickname = ""
                 self.stopRok()
                 self.bot.snashot_update_event()
+                self.bot.config_update_event(config=self.bot.config, prefix=self.device.save_file_prefix)
                 break
             else:
                 self.set_text(insert='已是当前角色, 继续下一个')

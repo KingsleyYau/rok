@@ -167,8 +167,9 @@ class Bot:
             player_round_count = self.round_count
             if self.config.autoChangePlayer:
                 player_round_count = self.round_count // self.config.playerCount
-                
-            if len(self.player_name) == 0:
+            
+            self.task.set_text(insert="当前玩家名字, {}".format(self.device.nickname))    
+            if len(self.device.nickname) == 0:
                 self.get_player_name_task.do(TaskName.COLLECTING)
             # device_log(self.device, tasks)
             # restart

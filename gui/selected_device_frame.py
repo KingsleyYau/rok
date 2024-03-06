@@ -55,7 +55,8 @@ class SelectedDeviceFrame(Frame):
 
         self.bot.text_update_event = self.on_task_update
         self.bot.building_pos_update_event = lambda **kw: write_building_pos(kw['building_pos'], kw['prefix'])
-        self.bot.config_update_event = lambda **kw: write_bot_config(kw['config'], kw['prefix'])
+        # self.bot.config_update_event = lambda **kw: write_bot_config(kw['config'], kw['prefix'])
+        self.bot.config_update_event = self.on_config_update
         self.bot.snashot_update_event = self.on_snashot_update
         
         self.refresh_snapshot()
@@ -270,6 +271,13 @@ class SelectedDeviceFrame(Frame):
         for t in text_list:
             self.task_text.insert(INSERT, t + '\n')
             
+    def on_config_update(self, **kw):
+        device_log(self.device, 'on_config_update', kw)
+        write_bot_config(kw['config'], kw['prefix'])
+        config_frame = self.config_frame()
+        config_frame.grid(row=2, column=0, padx=10, sticky=N + W)
+        return
+           
     def on_snashot_update(self):
         self.refresh_snapshot()
 

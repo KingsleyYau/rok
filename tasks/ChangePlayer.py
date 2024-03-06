@@ -31,7 +31,7 @@ class ChangePlayer(Task):
         if yes_pos is not None:
             self.set_text(insert='切换角色, {} => {}'.format(self.bot.config.playerIndex, playerIndex))
             self.tap(yes_pos)
-            self.bot.player_name = ""
+            self.device.nickname = ""
             self.stopRok()
             self.bot.snashot_update_event()
         else:

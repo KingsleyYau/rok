@@ -82,4 +82,4 @@ def log(*args):
     
 def device_log(device, *args):
     time_string = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    print('[{}] {} - {}'.format(time_string, f"{device.name.replace(':', '_')}", args))    
+    print('[{}] {}({}) - {}'.format(time_string, f"{device.name.replace(':', '_')}", device.nickname, args))    
