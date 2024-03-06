@@ -165,7 +165,7 @@ class Bot:
             tasks = priority_tasks + random_tasks
                     
             if len(self.player_name) == 0:
-                self.get_player_name_task.do(TaskName.INIT_BUILDING_POS)
+                self.get_player_name_task.do(TaskName.COLLECTING)
             # device_log(self.device, tasks)
             # restart
             if (

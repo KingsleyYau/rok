@@ -7,7 +7,7 @@ class ChangePlayer(Task):
         super().__init__(bot)
 
     def do(self, next_task = TaskName.BREAK):
-        self.set_text(title='检当前玩家', remove=True)
+        self.set_text(title='检查当前玩家', remove=True)
         self.back_to_map_gui()
         self.set_text(insert='打开设置')
         # 打开设置
@@ -24,7 +24,7 @@ class ChangePlayer(Task):
         x = playerIndex % 2 + 1
         y = playerIndex // 2
         pos = ((400 * x, 230 + 110 * y))
-        self.set_text(insert='当前玩家 {}, 目标玩家 {}, {}'.format(self.bot.config.playerIndex, playerIndex, pos))
+        self.set_text(insert='目标玩家 {}, {}'.format(playerIndex, pos))
         self.tap(pos)
         _, _, yes_pos = self.bot.gui.check_any(ImagePathAndProps.YES_BUTTON_PATH.value)
         self.bot.snashot_update_event()
