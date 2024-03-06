@@ -99,6 +99,7 @@ class GatherResource(Task):
                         break
             
                     self.set_text(insert='第{}次尝试打开联盟资源中心'.format(i+1))   
+                    self.bot.snashot_update_event()
                     territory_tab_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_RESOURCE_IMG_PATH.value)[2]
                     if territory_tab_pos is not None:
                         self.tap(territory_tab_pos)
