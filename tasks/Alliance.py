@@ -55,8 +55,10 @@ class Alliance(Task):
                     # collecting normal gifts
                     super().set_text(insert='收集普通礼物')
                     super().tap(normal_pos)
+                    self.bot.snashot_update_event()
                     super().set_text(insert='一键收集普通礼物')
                     super().tap(claim_all_pos)
+                    self.bot.snashot_update_event()
                     # collecting treasure of white crystal
                     super().set_text(insert='收集水晶箱子')
                     super().tap(treasure)

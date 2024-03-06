@@ -131,7 +131,7 @@ class Bot:
             [self.materials_task, "enableMaterialProduce", "materialDoRound"],
             [self.scout_task, "enableScout"],
             [self.tavern_task, "enableTavern"],
-            [self.training, "enableTraining", "traingingDoRound"],
+            [self.training, "enableTraining", "trainingDoRound"],
             [self.sunset_canyon, "enableSunsetCanyon"],
             [self.lost_canyon, "enableLostCanyon"],
             [self.items_task, "useItems"],
