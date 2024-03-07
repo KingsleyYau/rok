@@ -288,13 +288,13 @@ class GatherResource(Task):
             ]
         chose_name = res_names[0]
         if resourse_code == Resource.FOOD.value:
-            res_names = res_names[0]
+            chose_name = res_names[0]
         elif resourse_code == Resource.WOOD.value:
-            res_names = res_names[1]
+            chose_name = res_names[1]
         elif resourse_code == Resource.STONE.value:
-            res_names = res_names[2]
+            chose_name = res_names[2]
         elif resourse_code == Resource.GOLD.value:
-            res_names = res_names[3]
+            chose_name = res_names[3]
         return chose_name
     
     def get_min_resource(self):
