@@ -149,9 +149,14 @@ class GatherResource(Task):
                 # tap on magnifier
                 magnifier_pos = (60, 540)
                 repeat_count = 0
+                retry_count = 0
                 first_time = True
                 
                 for i in range(10):
+                    if retry_count > 4:
+                        self.set_text(insert="{}次策略没有找到可用资源点".format(retry_count))
+                        break
+                    
                     if repeat_count > 2:
                         self.set_text(insert="{}次没有找到可用资源点".format(repeat_count))
                         new_resourse_code = self.get_next_resource(resourse_code)
@@ -163,6 +168,7 @@ class GatherResource(Task):
                         chose_icon_pos = self.get_resource_pos(new_resourse_code)
                         resourse_code = new_resourse_code
                         repeat_count = 0
+                        retry_count = retry_count + 1
                             
                     if self.bot.config.holdOneQuerySpace:
                         space = self.check_query_space()
@@ -257,13 +263,10 @@ class GatherResource(Task):
         chose_icon_pos = resource_icon_pos[0]
         if resourse_code == Resource.FOOD.value:
             chose_icon_pos = resource_icon_pos[0]
-    
         elif resourse_code == Resource.WOOD.value:
             chose_icon_pos = resource_icon_pos[1]
-    
         elif resourse_code == Resource.STONE.value:
             chose_icon_pos = resource_icon_pos[2]
-    
         elif resourse_code == Resource.GOLD.value:
             chose_icon_pos = resource_icon_pos[3]
         return chose_icon_pos

@@ -250,7 +250,7 @@ class ImagePathAndProps(Enum):
         "resource/troops_match_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         TROOPS_MATCH,
     ]

@@ -2,9 +2,8 @@ import traceback
 
 from filepath.file_relative_paths import ImagePathAndProps
 from tasks.Task import Task
-
 from tasks.constants import TaskName
-
+import random
 
 class Alliance(Task):
     def __init__(self, bot):
@@ -14,7 +13,10 @@ class Alliance(Task):
         super().set_text(title='联盟任务', remove=True)
         alliance_btn_pos = (1030, 670)
         try:
-            for name in ['HELP', 'GIFTS', 'TERRITORY', 'TECHNOLOGY']:
+            random_tasks = ['HELP', 'GIFTS', 'TERRITORY', 'TECHNOLOGY']
+            random.shuffle(random_tasks)
+            
+            for name in random_tasks:
                 super().back_to_home_gui()
                 super().menu_should_open(True)
                 super().set_text(insert='打开联盟中心')
