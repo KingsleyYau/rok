@@ -67,9 +67,9 @@ def bot_print(msg):
     print(msg)
 
 
-def get_last_info():
+def get_last_info(domain):
     try:
-        url = 'https://raw.githubusercontent.com/Dylan-Zheng/Rise-of-Kingdoms-Bot/main/docs/version.json'
+        url = domain + '/main/docs/version.json'
         resp_text = requests.get(url).text
         return json.loads(resp_text)
     except Exception as e:

@@ -18,7 +18,7 @@ class BottomFrame(Frame):
 
         def callback():
 
-            info = get_last_info()
+            info = get_last_info(url)
             if info.get('version', version) > version:
                 label.config(text='There is new version {}, download at'.format(info['version']))
                 return
