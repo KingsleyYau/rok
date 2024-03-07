@@ -144,7 +144,7 @@ class Bot:
         ]
         
         if self.config.autoChangePlayer:
-            curr_task = self.change_player_task.do(TaskName.COLLECTING)
+            curr_task = self.change_player_task.do()
 
         if self.building_pos is None:
             curr_task = TaskName.INIT_BUILDING_POS
@@ -168,19 +168,9 @@ class Bot:
             if self.config.autoChangePlayer:
                 player_round_count = self.round_count // self.config.playerCount
             
-            self.task.set_text(insert="当前玩家名字, {}".format(self.device.nickname))    
             if len(self.device.nickname) == 0:
                 self.get_player_name_task.do(TaskName.COLLECTING)
             # device_log(self.device, tasks)
-            # restart
-            if (
-                curr_task == TaskName.KILL_GAME
-                and self.config.enableStop
-                and player_round_count % self.config.stopDoRound == 0
-            ):
-                curr_task = self.restart_task.do(TaskName.BREAK)
-            elif curr_task == TaskName.KILL_GAME:
-                curr_task = TaskName.BREAK
 
             # init building position if need
             if (
@@ -191,16 +181,6 @@ class Bot:
                     insert="building positions not saved - recalculating"
                 )
                 curr_task = self.locate_building_task.do(next_task=TaskName.COLLECTING)
-            elif (
-                curr_task == TaskName.BREAK
-                and self.config.enableBreak
-                and player_round_count % self.config.breakDoRound == 0
-            ):
-                curr_task = self.break_task.do(TaskName.COLLECTING)
-                if self.config.autoChangePlayer:
-                    curr_task = self.auto_change_task.do(TaskName.COLLECTING)
-            elif curr_task == TaskName.BREAK:
-                curr_task = self.break_task.do_no_wait(TaskName.KILL_GAME)
 
             for task in tasks:
                 if len(task) == 2:
@@ -214,9 +194,15 @@ class Bot:
                         curr_task = task[0].do()
 
             if self.config.enableStop:
-                curr_task = TaskName.KILL_GAME
+                curr_task = self.restart_task.do()
             else:
-                curr_task = TaskName.BREAK
+                if (self.config.enableBreak and player_round_count % self.config.breakDoRound == 0):
+                    curr_task = self.break_task.do()
+                    if self.config.autoChangePlayer:
+                        curr_task = self.auto_change_task.do()
+                else:
+                    curr_task = self.break_task.do_no_wait()
+                    curr_task = self.restart_task.do() 
 
             self.round_count = self.round_count + 1
         return

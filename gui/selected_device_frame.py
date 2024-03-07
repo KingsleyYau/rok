@@ -239,26 +239,6 @@ class SelectedDeviceFrame(Frame):
         switch_account_button = button(frame, on_switch_account_click, text='Switch By Phone')
         switch_account_button.grid(row=1, column=0, columnspan=2, sticky=N + W)
                 
-        # change player
-        def on_change_player_click(btn):
-            self.stop()
-            self.start_button.config(text='Start')
-            task = Player1(self.bot)
-            self.bot.start(task.do)
-                
-        change_player_button = button(frame, on_change_player_click, text='Player1')
-        change_player_button.grid(row=1, column=2, columnspan=1, sticky=N + W)
-        
-        # change player
-        def on_change_player2_click(btn):
-            self.stop()
-            self.bottom_frame.start_button.config(text='Start')
-            task = Player2(self.bot)
-            self.bot.start(task.do)
-                
-        change_player_button = button(frame, on_change_player2_click, text='Player2')
-        change_player_button.grid(row=1, column=3, columnspan=1, sticky=N + W)
-        
         return frame
 
     def on_task_update(self, text):
@@ -272,10 +252,12 @@ class SelectedDeviceFrame(Frame):
             self.task_text.insert(INSERT, t + '\n')
             
     def on_config_update(self, **kw):
-        device_log(self.device, 'on_config_update', kw)
         write_bot_config(kw['config'], kw['prefix'])
         config_frame = self.config_frame()
         config_frame.grid(row=2, column=0, padx=10, sticky=N + W)
+        if len(self.bot.device.nickname) > 0:
+            name = '{}-{}'.format(self.device.save_file_prefix, self.bot.device.nickname)
+            self.name.config(text=name)
         return
            
     def on_snashot_update(self):

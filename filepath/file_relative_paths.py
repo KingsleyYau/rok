@@ -802,7 +802,7 @@ class ImagePathAndProps(Enum):
         "resource/territory.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.80,
+        0.70,
         25,
         TERRITORY_IMG,
     ]    

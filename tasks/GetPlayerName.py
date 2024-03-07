@@ -15,6 +15,7 @@ class GetPlayerName(Task):
         self.bot.snashot_update_event()
         player_name = self.bot.gui.player_name()
         self.set_text(insert='读取玩家名字, {}'.format(player_name))
-        self.set_text(name=player_name)
+        # self.set_text(name=player_name)
         self.device.nickname = player_name
+        self.bot.config_update_event(config=self.bot.config, prefix=self.device.save_file_prefix)
         return next_task

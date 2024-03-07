@@ -9,12 +9,21 @@ class ChangePlayer(Task):
     def do(self, next_task = TaskName.BREAK):
         self.set_text(title='检查当前玩家', remove=True)
         self.back_to_map_gui()
-        self.set_text(insert='打开设置')
+        self.set_text(insert='打开个人中心')
         # 打开设置
         self.tap((50, 50))
-        self.tap((990, 570))
         self.bot.snashot_update_event()
-        # 角色管理
+
+        player_name = self.bot.gui.player_name()
+        self.set_text(insert='读取玩家名字, {}'.format(player_name))
+        # self.set_text(name=player_name)
+        self.device.nickname = player_name
+        self.bot.config_update_event(config=self.bot.config, prefix=self.device.save_file_prefix)
+        
+        # 打开设置
+        self.set_text(insert='打开设置')
+        self.tap((990, 570))
+        # 角色管理 
         self.set_text(insert='打开角色管理')
         self.tap((560, 380), 2 * self.bot.config.tapSleep)
         self.bot.snashot_update_event()
