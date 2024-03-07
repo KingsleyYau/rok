@@ -285,16 +285,19 @@ class Task:
             }
             # open menu
             self.menu_should_open(True)
+            self.bot.snashot_update_event()
             # open items window
             self.tap(items_icon_pos)
+            self.bot.snashot_update_event()
             # tap on tab
             self.tap(tabs_pos[tab_name])
+            self.bot.snashot_update_event()
             # find item, and tap it
             _, _, item_pos = self.gui.check_any(item_img_props)
             if item_pos is None:
                 continue
             self.set_text(insert='使用增益道具, {},{}'.format(path, item_pos))
-            self.tap(item_pos, 5)
+            self.tap(item_pos)
             # tap on use Item
             self.tap(use_btn_pos)
             self.bot.snashot_update_event()

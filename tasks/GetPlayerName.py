@@ -9,7 +9,7 @@ class GetPlayerName(Task):
     def do(self, next_task = TaskName.BREAK):
         self.set_text(title='获取玩家信息', remove=True)
         self.back_to_map_gui()
-        self.set_text(insert='打开玩家信息')
+        self.set_text(insert='打开个人中心')
         # 打开设置
         self.tap((25, 25))
         self.bot.snashot_update_event()

@@ -63,35 +63,37 @@ class GatherResource(Task):
                 self.menu_should_open(True)
                 self.set_text(insert='打开联盟中心')
                 alliance_btn_pos = (1030, 670)
-                self.tap(alliance_btn_pos)
+                self.tap(alliance_btn_pos, 2 * self.bot.config.tapSleep)
                 
                 found = False
                 self.bot.snashot_update_event()
                 _, _, territory_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value)
                 if territory_pos is not None:
-                    self.tap(territory_pos)
+                    self.set_text(insert='打开领土{}'.format(territory_pos))
+                    self.tap(territory_pos, 2 * self.bot.config.tapSleep)
                     self.bot.snashot_update_event()
                     for i in range(2):
                         self.bot.snashot_update_event()
                         territory_gathering_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_GATHERING_IMG_PATH.value)[2]
                         if territory_gathering_pos is not None:
                             self.set_text(insert='定位联盟矿{}'.format(territory_gathering_pos))
-                            self.tap((territory_gathering_pos[0] + 5, territory_gathering_pos[1] - 20))
+                            self.tap((territory_gathering_pos[0] + 5, territory_gathering_pos[1] - 20), 2 * self.bot.config.tapSleep)
                             self.bot.snashot_update_event()
                 
                             self.set_text(insert='打开联盟矿')
                             self.tap((640, 320))
                             gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
-                            self.tap(gather_button_pos)
+                            self.tap(gather_button_pos, 2 * self.bot.config.tapSleep)
                             self.bot.snashot_update_event()
                 
+                            found = True
                             gather_join_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_GATHER_JOIN_IMG_PATH.value)[2]
                             if gather_join_pos is None:
                                 self.set_text(insert="没有找到加入按钮, 可能已经在采集")
                                 found = True
                                 break
                             self.set_text(insert="加入联盟矿")
-                            self.tap(gather_join_pos)
+                            self.tap(gather_join_pos, 2 * self.bot.config.tapSleep)
                             self.bot.snashot_update_event()
                 
                             if not self.create_troop(True):
@@ -102,7 +104,7 @@ class GatherResource(Task):
                         self.bot.snashot_update_event()
                         territory_tab_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_RESOURCE_IMG_PATH.value)[2]
                         if territory_tab_pos is not None:
-                            self.tap(territory_tab_pos)
+                            self.tap(territory_tab_pos, 2 * self.bot.config.tapSleep)
                 if not found:
                     self.set_text(insert='没有发现联盟矿')   
                     
@@ -129,81 +131,69 @@ class GatherResource(Task):
             last_resource_pos = []
             coordinate = ''
             should_decreasing_lv = False
-            resource_icon_pos = [
-                (450, 640),
-                (640, 640),
-                (830, 640),
-                (1030, 640)
-            ]
             try:
-                chose_icon_pos = resource_icon_pos[0]
                 self.back_to_map_gui()
                 self.swipe((360, 600), (200, 400))
                 
                 resourse_code = self.get_min_resource()
                 self.back_to_map_gui()
                 self.swipe((480, 320), (800, 320))
-    
-                if resourse_code == Resource.FOOD.value:
-                    chose_icon_pos = resource_icon_pos[0]
-                    self.set_text(insert="搜索玉米")
-    
-                elif resourse_code == Resource.WOOD.value:
-                    chose_icon_pos = resource_icon_pos[1]
-                    self.set_text(insert="搜索木头")
-    
-                elif resourse_code == Resource.STONE.value:
-                    chose_icon_pos = resource_icon_pos[2]
-                    self.set_text(insert="搜索石头")
-    
-                elif resourse_code == Resource.GOLD.value:
-                    chose_icon_pos = resource_icon_pos[3]
-                    self.set_text(insert="搜索金矿")
+                chose_icon_pos = self.get_resource_pos(resourse_code)
     
                 if self.bot.config.holdOneQuerySpace:
                     space = self.check_query_space()
                     if space <= 1:
-                        self.set_text(insert="保留一队空闲, 停止!")
+                        self.set_text(insert="保留一队空闲, 停止")
                         return next_task
     
                 # tap on magnifier
                 magnifier_pos = (60, 540)
-                self.tap(magnifier_pos)
-                self.tap(chose_icon_pos)
-                search_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_SEARCH_BUTTON_IMAGE_PATH.value)[2]
-                dec_pos = self.gui.check_any(ImagePathAndProps.DECREASING_BUTTON_IMAGE_PATH.value)[2]
-                inc_pos = self.gui.check_any(ImagePathAndProps.INCREASING_BUTTON_IMAGE_PATH.value)[2]
-                self.tap((inc_pos[0] - 33, inc_pos[1]))
-                self.bot.snashot_update_event()
                 repeat_count = 0
+                first_time = True
+                
                 for i in range(10):
-                    # open search resource
-                    if len(last_resource_pos) > 0:
-                        self.back_to_map_gui()
-    
-                        if self.bot.config.holdOneQuerySpace:
-                            space = self.check_query_space()
-                            if space <= 1:
-                                self.set_text(insert="保留一队空闲, 停止!")
-                                return next_task
-    
-                        self.tap(magnifier_pos)
-                        self.tap(chose_icon_pos)
-    
-                    # decreasing level
-                    if should_decreasing_lv:
-                        self.set_text(insert="没有更多资源点, 降级")
-                        self.tap(dec_pos)
-    
-                    for j in range(5):
-                        self.tap(search_pos, 8)
-                        is_found, _, _ = self.gui.check_any(ImagePathAndProps.RESOURCE_SEARCH_BUTTON_IMAGE_PATH.value)
-                        if not is_found:
+                    if repeat_count > 2:
+                        self.set_text(insert="{}次没有找到可用资源点".format(repeat_count))
+                        new_resourse_code = self.get_next_resource(resourse_code)
+                        self.set_text(insert="改变搜索策略, {}=>{}".format(
+                            self.get_resource_name(resourse_code), 
+                            self.get_resource_name(new_resourse_code)
+                            )
+                        )
+                        chose_icon_pos = self.get_resource_pos(new_resourse_code)
+                        resourse_code = new_resourse_code
+                        repeat_count = 0
+                            
+                    if self.bot.config.holdOneQuerySpace:
+                        space = self.check_query_space()
+                        if space <= 1:
+                            self.set_text(insert="保留一队空闲, 停止")
                             break
-                        self.set_text(insert="没有更多资源点, 降级 [{}]".format(j))
+
+                    # 打开搜索资源界面
+                    self.set_text(insert="点击搜索{}".format(self.get_resource_name(resourse_code)))
+                    self.back_to_map_gui()
+                    self.tap(magnifier_pos)
+                    self.tap(chose_icon_pos)
+                    
+                    if should_decreasing_lv:
+                        self.set_text(insert="点击降级, {}".format(6 - repeat_count))
+                        dec_pos = self.gui.check_any(ImagePathAndProps.DECREASING_BUTTON_IMAGE_PATH.value)[2]
                         self.tap(dec_pos)
-    
-                    self.set_text(insert="发现资源点")
+                        self.bot.snashot_update_event()
+                    else:
+                        if first_time:
+                            inc_pos = self.gui.check_any(ImagePathAndProps.INCREASING_BUTTON_IMAGE_PATH.value)[2]
+                            self.tap((inc_pos[0] - 33, inc_pos[1]))
+                            first_time = False
+                        self.bot.snashot_update_event()
+                    
+                    self.set_text(insert="点击搜索")
+                    search_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_SEARCH_BUTTON_IMAGE_PATH.value)[2]
+                    self.tap(search_pos, 2 * self.bot.config.tapSleep)
+                    self.bot.snashot_update_event()
+                    
+                    self.set_text(insert="点击资源点位置")
                     self.tap((640, 320), self.bot.config.tapSleep)
                     self.bot.snashot_update_event()
                     
@@ -213,43 +203,43 @@ class GatherResource(Task):
                         src = cv2.imdecode(np.asarray(self.bot.gui.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
                         src = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
                         src = src[int(resource_xy_pos[1])-5:int(resource_xy_pos[1] + 20), int(resource_xy_pos[0]+140):int(resource_xy_pos[0]+140+100)]
-                        coordinate = img_to_string_eng(src).replace('\n', '')
+                        coordinate = img_to_string_eng(src).replace('\n', '').replace(',', '')
                         self.set_text(insert="发现资源点, 坐标, {}".format(coordinate))
                     
                     # check is same pos
-                    # new_resource_pos = self.gui.resource_location_image_to_string()
                     if len(coordinate) > 0:
                         if coordinate in last_resource_pos:
-                            should_decreasing_lv = True
                             repeat_count = repeat_count + 1
-                            self.set_text(insert="资源点正在采集, 坐标, {}".format(coordinate))
+                            should_decreasing_lv = True
+                            self.set_text(insert="资源点已经处理过, 坐标, {}, 降级, {}".format(coordinate, 6 - repeat_count))
                             self.bot.snashot_update_event()
-                            if repeat_count > 4:
-                                self.set_text(insert="stuck! end task")
-                                break
-                            else:
-                                continue
+                            continue
+                        
                         last_resource_pos.append(coordinate)
+
+                        gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
+                        if gather_button_pos is None:
+                            self.set_text(insert="资源点没有发现采集按钮, 可能正在采集")
+                            continue
                         
-                    should_decreasing_lv = False
-                    gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
-                    if gather_button_pos is None:
-                        self.set_text(insert="没有发现采集按钮, 可能资源点正在采集")
-                        continue
-                    self.tap(gather_button_pos, 2 * self.bot.config.tapSleep)
-                    
-                    if not self.create_troop():
-                        return next_task
-                    
-                    full_load, cur, total = self.gui.troop_already_full()
-                    if full_load:
-                        self.set_text(insert="没有更多队列采集")
-                        return next_task
+                        should_decreasing_lv = False
+                        self.set_text(insert="开始采集资源点, 坐标, {}".format(coordinate))
+                        self.tap(gather_button_pos, 2 * self.bot.config.tapSleep)
+                        
+                        if not self.create_troop():
+                            return next_task
+                        
+                        full_load, cur, total = self.gui.troop_already_full()
+                        if full_load:
+                            self.set_text(insert="没有更多队列采集")
+                            return next_task
+                        else:
+                            self.set_text(insert="当前采集部队数量:{}/{}".format(cur, total))
                     else:
-                        self.set_text(insert="当前采集部队数量:{}/{}".format(cur, total))
-                        
-                    self.swipe((200, 320), (800, 320))
-                    repeat_count = 0
+                        self.set_text(insert="没有更多资源点, 降级")
+                        should_decreasing_lv = True
+                        repeat_count = repeat_count + 1
+                    # self.swipe((200, 320), (800, 320))
                     
                 self.bot.snashot_update_event()
             except Exception as e:
@@ -257,6 +247,56 @@ class GatherResource(Task):
                 return next_task
         return next_task
 
+    def get_resource_pos(self, resourse_code):
+        resource_icon_pos = [
+            (450, 640),
+            (640, 640),
+            (830, 640),
+            (1030, 640)
+        ]
+        chose_icon_pos = resource_icon_pos[0]
+        if resourse_code == Resource.FOOD.value:
+            chose_icon_pos = resource_icon_pos[0]
+    
+        elif resourse_code == Resource.WOOD.value:
+            chose_icon_pos = resource_icon_pos[1]
+    
+        elif resourse_code == Resource.STONE.value:
+            chose_icon_pos = resource_icon_pos[2]
+    
+        elif resourse_code == Resource.GOLD.value:
+            chose_icon_pos = resource_icon_pos[3]
+        return chose_icon_pos
+            
+    def get_next_resource(self, resourse_code):
+        if resourse_code == Resource.FOOD.value:
+            new_resourse_code = Resource.WOOD.value
+        elif resourse_code == Resource.WOOD.value:
+            new_resourse_code = Resource.STONE.value
+        elif resourse_code == Resource.STONE.value:
+            new_resourse_code = Resource.GOLD.value
+        elif resourse_code == Resource.GOLD.value:
+            new_resourse_code = Resource.FOOD.value
+        return new_resourse_code
+    
+    def get_resource_name(self, resourse_code):
+        res_names = [
+            '玉米',
+            '木头',
+            '石头',
+            '金矿',
+            ]
+        chose_name = res_names[0]
+        if resourse_code == Resource.FOOD.value:
+            res_names = res_names[0]
+        elif resourse_code == Resource.WOOD.value:
+            res_names = res_names[1]
+        elif resourse_code == Resource.STONE.value:
+            res_names = res_names[2]
+        elif resourse_code == Resource.GOLD.value:
+            res_names = res_names[3]
+        return chose_name
+    
     def get_min_resource(self):
         res_names = [
             '玉米',

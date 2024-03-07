@@ -69,7 +69,8 @@ class SelectedDeviceFrame(Frame):
         except BaseException as e:
             if e.errno != errno.EEXIST:
                 print(e)
-        img2 = img.convert('RGB')        
+        img2 = img.convert('RGB')    
+        img2 = img2.resize((640, 360))    
         img2.save('capture/{}.jpg'.format(self.device.name))
         
         img = img.resize((205, 155))

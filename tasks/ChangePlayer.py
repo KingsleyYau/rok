@@ -11,7 +11,7 @@ class ChangePlayer(Task):
         self.back_to_map_gui()
         self.set_text(insert='打开个人中心')
         # 打开设置
-        self.tap((50, 50))
+        self.tap((50, 50), 2 * self.bot.config.tapSleep)
         self.bot.snashot_update_event()
 
         player_name = self.bot.gui.player_name()
@@ -38,7 +38,7 @@ class ChangePlayer(Task):
         _, _, yes_pos = self.bot.gui.check_any(ImagePathAndProps.YES_BUTTON_PATH.value)
         self.bot.snashot_update_event()
         if yes_pos is not None:
-            self.set_text(insert='切换角色, {} => {}'.format(self.bot.config.playerIndex, playerIndex))
+            self.set_text(insert='切换角色, {}'.format(playerIndex))
             self.tap(yes_pos)
             self.device.nickname = ""
             self.stopRok()
