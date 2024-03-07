@@ -37,7 +37,8 @@ class Materials(Task):
             _, _, product_btn_pos = self.gui.check_any(ImagePathAndProps.MATERIALS_PRODUCTION_BUTTON_IMAGE_PATH.value)
             if product_btn_pos is None:
                 return next_task
-            super().tap(product_btn_pos, 5)
+            super().tap(product_btn_pos)
+            self.bot.snashot_update_event()
             list_amount = self.gui.materilal_amount_image_to_string()
             super().set_text(insert='皮革: {}, 矿石: {}, 乌木: {}, 兽骨: {}'.format(
                 list_amount[0], list_amount[1], list_amount[2], list_amount[3])

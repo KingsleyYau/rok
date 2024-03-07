@@ -27,7 +27,7 @@ class ClaimQuests(Task):
                     break
                 super().set_text(insert='领取礼物 {}'.format(claim_btn_pos))
                 super().tap(claim_btn_pos)
-
+            self.bot.snashot_update_event()
             super().set_text(insert='收集每日任务积分')
             super().tap(daily_objectives_tap_pos)
             for i in range(20):
@@ -36,7 +36,7 @@ class ClaimQuests(Task):
                     break
                 super().set_text(insert='领取礼物 {}'.format(claim_btn_pos))
                 super().tap(claim_btn_pos)
-
+            self.bot.snashot_update_event()
             super().set_text(insert='收集每日任务宝箱')
             super().tap(daily_objectives_tap_pos)
             # chest position

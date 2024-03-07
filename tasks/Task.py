@@ -273,6 +273,13 @@ class Task:
         items_icon_pos = (930, 675)
         use_btn_pos = (980, 600)
 
+        # open menu
+        self.menu_should_open(True)
+        self.bot.snashot_update_event()
+        # open items window
+        self.tap(items_icon_pos)
+        self.bot.snashot_update_event()  
+        
         for item_img_props in item_img_props_list:
             path, size, box, threshold, least_diff, tab_name = item_img_props
             self.set_text(insert='寻找增益道具, {}'.format(path))
@@ -283,12 +290,7 @@ class Task:
                 EQUIPMENT: (790, 80),
                 OTHER: (970, 80),
             }
-            # open menu
-            self.menu_should_open(True)
-            self.bot.snashot_update_event()
-            # open items window
-            self.tap(items_icon_pos)
-            self.bot.snashot_update_event()
+
             # tap on tab
             self.tap(tabs_pos[tab_name])
             self.bot.snashot_update_event()
@@ -399,7 +401,6 @@ class Task:
         cmd = "am start -n com.lilithgames.rok.offical.cn/com.harry.engine.MainActivity"
         device_log(self.device, 'runOfRoK', cmd)
         str = self.device.shell(cmd)
-        time.sleep(30)
 
     def stopRok(self):
         cmd = "am force-stop com.lilithgames.rok.offical.cn"
