@@ -39,7 +39,7 @@ class ItemsImageAndProps(Enum):
         "resource/items/enhanced_gathering_blue.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.70,
+        0.60,
         25,
         BOOSTS,
     ]
@@ -47,7 +47,7 @@ class ItemsImageAndProps(Enum):
         "resource/items/enhanced_gathering_purple.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.70,
+        0.60,
         25,
         BOOSTS,
     ]

@@ -48,7 +48,7 @@ class Alliance(Task):
                     # collecting rate gifts
                     super().set_text(insert='收集稀有礼物')
                     super().tap(rate_pos)
-                    for i in range(20):
+                    for i in range(100):
                         _, _, pos = self.gui.check_any(ImagePathAndProps.GIFTS_CLAIM_BUTTON_IMAGE_PATH.value)
                         if pos is None:
                             break
