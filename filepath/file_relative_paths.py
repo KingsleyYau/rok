@@ -234,7 +234,7 @@ class ImagePathAndProps(Enum):
         "resource/resource_gather_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         RESOURCE_GATHER,
     ]
@@ -242,7 +242,7 @@ class ImagePathAndProps(Enum):
         "resource/new_troops_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         NEW_TROOPS,
     ]
@@ -250,7 +250,7 @@ class ImagePathAndProps(Enum):
         "resource/troops_match_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.70,
+        0.80,
         25,
         TROOPS_MATCH,
     ]
