@@ -222,7 +222,7 @@ class GatherResource(Task):
                     if len(coordinate) > 0:
                         if coordinate in last_resource_pos:
                             if repeat:
-                                self.set_text(insert="资源点已经处理过, 坐标, {}, 降级, 当前等级{}".format(coordinate, 6 - level))
+                                self.set_text(insert="资源点已经处理过, 坐标, {}, 降级, 等级{}=>等级{}".format(coordinate, 6 - level, 6 - level - 1))
                                 repeat = False
                                 level = level + 1
                                 should_decreasing_lv = True
