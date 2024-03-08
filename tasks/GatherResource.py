@@ -169,6 +169,7 @@ class GatherResource(Task):
                         resourse_code = new_resourse_code
                         repeat_count = 0
                         retry_count = retry_count + 1
+                        should_decreasing_lv = False
                             
                     if self.bot.config.holdOneQuerySpace:
                         space = self.check_query_space()
