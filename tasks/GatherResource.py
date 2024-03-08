@@ -80,8 +80,9 @@ class GatherResource(Task):
                             self.tap((territory_gathering_pos[0] + 5, territory_gathering_pos[1] - 20), 2 * self.bot.config.tapSleep)
                             self.bot.snashot_update_event()
                 
-                            self.set_text(insert='打开联盟矿')
-                            self.tap((640, 320))
+                            pos = (640, 320)
+                            self.set_text(insert='打开联盟矿{}'.format(pos))
+                            self.tap(pos)
                             gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
                             self.tap(gather_button_pos, 2 * self.bot.config.tapSleep)
                             self.bot.snashot_update_event()
@@ -90,9 +91,8 @@ class GatherResource(Task):
                             gather_join_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_GATHER_JOIN_IMG_PATH.value)[2]
                             if gather_join_pos is None:
                                 self.set_text(insert="没有找到加入按钮, 可能已经在采集")
-                                found = True
                                 break
-                            self.set_text(insert="加入联盟矿")
+                            self.set_text(insert="加入联盟矿{}".format(gather_join_pos))
                             self.tap(gather_join_pos, 2 * self.bot.config.tapSleep)
                             self.bot.snashot_update_event()
                 

@@ -184,14 +184,14 @@ class GuiDetector:
                 try:
                     rec = img_to_string(resource_image).replace(' ', '').replace(',', '')
                     unit = 1
-                    if (rec.find('亿') != -1) or (rec.find('仁') != -1):
+                    if (rec.find('亿') != -1) or (rec.find('仁') != -1) or (rec.find('伍') != -1):
                         unit = 100000000
                     elif rec.find('万') != -1:
                         unit = 10000
                     else:
                         unit = 1
                         rec = rec.replace('.', '')
-                    rec = rec.replace('亿', '').replace('万', '')
+                    rec = rec.replace('亿', '').replace('万', '').replace('仁', '').replace('伍', '')
                     rec = re.sub('[^0-9.]', '', rec)
                     device_log(self.__device, 'resource_amount_image_to_string', rec)
                     count = int(float(rec) * unit)
