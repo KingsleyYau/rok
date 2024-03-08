@@ -40,6 +40,7 @@ class AutoChangePlayer(Task):
                 break
             else:
                 self.set_text(insert='已是当前角色, 继续下一个')
+                self.bot.config.playerIndex = self.bot.config.playerIndex + 1
                 continue
             
         return next_task
