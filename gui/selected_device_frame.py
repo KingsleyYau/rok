@@ -12,8 +12,6 @@ from tasks.constants import BuildingNames
 from filepath.file_relative_paths import ImagePathAndProps
 from PIL import ImageTk, Image
 from tasks.Task import Task
-from tasks.Player1 import Player1
-from tasks.Player2 import Player2
 import time
 from utils import log, device_log
 import os, errno

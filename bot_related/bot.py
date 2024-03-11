@@ -36,6 +36,7 @@ from tasks.Festival import Festival
 from tasks.AutoChangePlayer import AutoChangePlayer
 from tasks.ChangePlayer import ChangePlayer
 from tasks.GetPlayerName import GetPlayerName
+from tasks.UpgradeBuildings import UpgradeBuildings
 from tasks.constants import TaskName
 from utils import stop_thread
 import random
@@ -87,12 +88,13 @@ class Bot:
         self.items_task = Items(self)
         self.gather_diamond_task = GatherDiamond(self)
         self.festival_task = Festival(self)
+        self.upgradeBuildings = UpgradeBuildings(self)
         # Other task
         self.screen_shot_task = ScreenShot(self)
         self.auto_change_task = AutoChangePlayer(self)
         self.change_player_task = ChangePlayer(self)
         self.get_player_name_task = GetPlayerName(self)
-
+        
         self.round_count = 0
         self.diamond = 0
         self.diamond_add = 0
@@ -136,6 +138,7 @@ class Bot:
             [self.lost_canyon, "enableLostCanyon"],
             [self.items_task, "useItems"],
             [self.festival_task, "enableFestival"],
+            [self.upgradeBuildings, "enableUpgradeBuilding"],
         ]
         
         priority_tasks = [

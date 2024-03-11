@@ -910,6 +910,31 @@ class ImagePathAndProps(Enum):
         25,
         CONTACT_US_BUTTON,
     ]
+    BUILDING_UPGRADE_BUTTON_PATH = [
+        "resource/building_upgrade.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        BUILDING_UPGRADE_BUTTON,
+    ]   
+    BUILDING_UPGRADE_FORWARD_BUTTON_PATH = [
+        "resource/building_upgrade_forward.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        BUILDING_UPGRADE_FORWARD_BUTTON,
+    ]      
+    BUILDING_UPGRADE_CONFIRM_BUTTON_PATH = [
+        "resource/building_upgrade_confirm.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        BUILDING_UPGRADE_CONFIRM_BUTTON,
+    ]    
+    
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [
         "resource/verification_verify_button.png",

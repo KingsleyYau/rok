@@ -15,8 +15,6 @@ from utils import log
 from api.run_config import RunConfig
 
 from tasks.Task import Task
-from tasks.Player1 import Player1
-from tasks.Player2 import Player2
 
 def find_player(bot, task, server, expected_pos):
     log('寻找玩家', expected_pos)
@@ -113,12 +111,13 @@ def start_work(bot, name):
     return True
  
 def change_player(task, bot, device_name, i):
-    if i == 1:
-        task = Player1(bot)
-        bot.start(task.do)
-    elif i == 2:
-        task = Player2(bot)
-        bot.start(task.do)    
+    return
+    # if i == 1:
+    #     task = Player1(bot)
+    #     bot.start(task.do)
+    # elif i == 2:
+    #     task = Player2(bot)
+    #     bot.start(task.do)    
                  
 def run_api(args):
     log(args)
