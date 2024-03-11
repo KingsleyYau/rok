@@ -199,6 +199,8 @@ class Bot:
                 if (self.config.enableBreak and player_round_count % self.config.breakDoRound == 0):
                     curr_task = self.break_task.do()
                     if self.config.autoChangePlayer:
+                        # 切换账号前, 再尝试一次采集
+                        # curr_task = self.gather_resource_task.do()
                         curr_task = self.auto_change_task.do()
                 else:
                     curr_task = self.break_task.do_no_wait()

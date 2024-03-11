@@ -132,6 +132,7 @@ class GatherResource(Task):
             coordinate = ''
             should_decreasing_lv = False
             try:
+                self.back_to_home_gui()
                 self.back_to_map_gui()
                 self.swipe((360, 600), (200, 400))
                 
