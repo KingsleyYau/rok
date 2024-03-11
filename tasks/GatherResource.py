@@ -284,14 +284,14 @@ class GatherResource(Task):
         return chose_icon_pos
             
     def get_next_resource(self, resourse_code):
-        if resourse_code == Resource.FOOD.value:
-            new_resourse_code = Resource.WOOD.value
-        elif resourse_code == Resource.WOOD.value:
+        if resourse_code == Resource.GOLD.value:
+            new_resourse_code = Resource.FOOD.value
+        elif resourse_code == Resource.FOOD.value:
             new_resourse_code = Resource.STONE.value
         elif resourse_code == Resource.STONE.value:
+            new_resourse_code = Resource.WOOD.value
+        elif resourse_code == Resource.WOOD.value:
             new_resourse_code = Resource.GOLD.value
-        elif resourse_code == Resource.GOLD.value:
-            new_resourse_code = Resource.FOOD.value
         return new_resourse_code
     
     def get_resource_name(self, resourse_code):

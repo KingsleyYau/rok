@@ -36,6 +36,7 @@ class AutoChangePlayer(Task):
                 _, _, contact_us_pos = self.bot.gui.check_any(ImagePathAndProps.CONTACT_US_BUTTON_PATH.value)
                 if contact_us_pos is None:
                     self.bot.config.playerIndex = playerIndex
+                    self.set_text(insert='切换角色, {}, 成功, 重启'.format(playerIndex))
                     self.device.nickname = ""
                     self.stopRok()
                     self.bot.snashot_update_event()
@@ -47,6 +48,5 @@ class AutoChangePlayer(Task):
             else:
                 self.set_text(insert='已是当前角色, 继续下一个')
                 self.bot.config.playerIndex = self.bot.config.playerIndex + 1
-                continue
             
         return next_task

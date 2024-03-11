@@ -64,6 +64,6 @@
   "useItemsDailyRss": false,
   "enableFestival": false,
   "autoChangePlayer": true,
-  "playerIndex": 0,
+  "playerIndex": 1,
   "playerCount": 2
 }
