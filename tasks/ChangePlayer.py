@@ -1,6 +1,7 @@
 from tasks.Task import Task
 from tasks.constants import TaskName
 from filepath.file_relative_paths import ImagePathAndProps
+import time
 
 class ChangePlayer(Task):
     def __init__(self, bot):
@@ -38,16 +39,16 @@ class ChangePlayer(Task):
         _, _, yes_pos = self.bot.gui.check_any(ImagePathAndProps.YES_BUTTON_PATH.value)
         self.bot.snashot_update_event()
         if yes_pos is not None:
+            self.tap(yes_pos)
             self.set_text(insert='切换角色, {}'.format(playerIndex))
             _, _, contact_us_pos = self.bot.gui.check_any(ImagePathAndProps.CONTACT_US_BUTTON_PATH.value)
             if contact_us_pos is None:
                 self.set_text(insert='该账号已被封, 无法切换')
                 self.bot.stop()
             else:
-                self.tap(yes_pos)
                 self.device.nickname = ""
                 self.set_text(insert='切换角色, {}, 成功, 重启'.format(playerIndex))
-                self.stopRok()
+                time.sleep(self.bot.config.restartSleep)
             self.bot.snashot_update_event()
         else:
             self.set_text(insert='已是当前角色, 无需切换')

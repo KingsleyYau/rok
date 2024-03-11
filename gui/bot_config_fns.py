@@ -48,11 +48,11 @@ def time_drop_down(app, parent):
         '10 Minute',
         '15 Minute',
         '20 Minute',
-        '25 Minute',
         '30 Minute',
         '40 Minute',
-        '50 Minute',
-        '60 Minute'
+        '60 Minute',
+        '75 Minute',
+        '90 Minute'
     ]
     variable = StringVar()
     variable.set(value)

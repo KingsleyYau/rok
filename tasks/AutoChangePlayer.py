@@ -1,6 +1,7 @@
 from tasks.Task import Task
 from tasks.constants import TaskName
 from filepath.file_relative_paths import ImagePathAndProps
+import time
 
 class AutoChangePlayer(Task):
     def __init__(self, bot):
@@ -38,9 +39,9 @@ class AutoChangePlayer(Task):
                     self.bot.config.playerIndex = playerIndex
                     self.set_text(insert='切换角色, {}, 成功, 重启'.format(playerIndex))
                     self.device.nickname = ""
-                    self.stopRok()
                     self.bot.snashot_update_event()
                     self.bot.config_update_event(config=self.bot.config, prefix=self.device.save_file_prefix)
+                    time.sleep(self.bot.config.restartSleep)
                     break
                 else:
                     self.set_text(insert='选择角色被封, 继续下一个')
