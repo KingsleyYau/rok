@@ -32,7 +32,6 @@ class Break(Task):
             breakTime = int(random.uniform(self.bot.config.breakTime//2, self.bot.config.breakTime))
             super().set_text(insert='0/{} seconds'.format(breakTime))
             progress_time = max(breakTime // 20, 1)
-
             
             # stop game if config set true
             if self.bot.config.terminate:
@@ -45,7 +44,8 @@ class Break(Task):
                 time.sleep(1)
                 count = count + 1
                 if count % progress_time == 0:
-                    super().set_text(replace='{}/{} seconds'.format(count, breakTime), index=0)
+                    full_load, cur, total = self.gui.troop_already_full()
+                    super().set_text(replace='{}/{} seconds, 采集部队数量:{}/{}'.format(count, breakTime, cur, total), index=0)
                     self.bot.snashot_update_event()
             return next_task
         except Exception as e:

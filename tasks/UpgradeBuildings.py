@@ -11,6 +11,7 @@ class UpgradeBuildings(Task):
     def do(self, next_task = TaskName.BREAK):
         self.set_text(title='升级建筑', remove=True)
 
+        self.back_to_map_gui()
         self.back_to_home_gui()
         
         try:

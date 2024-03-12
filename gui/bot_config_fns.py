@@ -144,6 +144,7 @@ use_items_daily_rss = checkbox_fn_creator('useItemsDailyRss', 'Use 5 Level1 Reso
 
 festival_checkbox = checkbox_fn_creator('enableFestival', 'Festival')
 upgrade_building_checkbox = checkbox_fn_creator('enableUpgradeBuilding', 'UpgradeBuilding')
+auto_fill_troop_checkbox = checkbox_fn_creator('enableAutoFillTroop', 'AutoFillTroop')
 
 # Auto Change Player
 auto_change_player_checkbox = checkbox_fn_creator('autoChangePlayer', 'Auto Change Player')
@@ -227,6 +228,7 @@ bot_config_title_fns = [
     [use_items, [use_items_vip, use_items_gems, use_items_daily_rss]],
     [festival_checkbox, []],
     [upgrade_building_checkbox, []],
+    [auto_fill_troop_checkbox, []],
     [auto_change_player_checkbox, [player_index, player_count]]
 ]
 

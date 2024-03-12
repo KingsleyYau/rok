@@ -37,6 +37,7 @@ from tasks.AutoChangePlayer import AutoChangePlayer
 from tasks.ChangePlayer import ChangePlayer
 from tasks.GetPlayerName import GetPlayerName
 from tasks.UpgradeBuildings import UpgradeBuildings
+from tasks.AutoFillTroop import AutoFillTroop
 from tasks.constants import TaskName
 from utils import stop_thread
 import random
@@ -89,6 +90,7 @@ class Bot:
         self.gather_diamond_task = GatherDiamond(self)
         self.festival_task = Festival(self)
         self.upgradeBuildings = UpgradeBuildings(self)
+        self.autoFillTroop = AutoFillTroop(self)
         # Other task
         self.screen_shot_task = ScreenShot(self)
         self.auto_change_task = AutoChangePlayer(self)
@@ -139,6 +141,7 @@ class Bot:
             [self.items_task, "useItems"],
             [self.festival_task, "enableFestival"],
             [self.upgradeBuildings, "enableUpgradeBuilding"],
+            [self.autoFillTroop, "enableAutoFillTroop"],
         ]
         
         priority_tasks = [

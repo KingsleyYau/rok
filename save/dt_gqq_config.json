@@ -63,7 +63,8 @@
   "useItemsGems": false,
   "useItemsDailyRss": false,
   "enableFestival": false,
-  "autoChangePlayer": false,
-  "playerIndex": 0,
+  "enableUpgradeBuilding": false,
+  "autoChangePlayer": true,
+  "playerIndex": 1,
   "playerCount": 2
 }

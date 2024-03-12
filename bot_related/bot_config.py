@@ -123,6 +123,7 @@ class BotConfig:
         # Festival
         self.enableFestival = config.get('enableFestival', True)
         self.enableUpgradeBuilding = config.get('enableUpgradeBuilding', False)
+        self.enableAutoFillTroop = config.get('enableAutoFillTroop', False)
         
         # Auto Change Player
         self.autoChangePlayer = config.get('autoChangePlayer', False)

@@ -203,7 +203,7 @@ class GatherResource(Task):
                     
                     search_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_SEARCH_BUTTON_IMAGE_PATH.value)[2]
                     self.set_text(insert="点击搜索{}".format(search_pos))
-                    self.tap(search_pos, 2 * self.bot.config.tapSleep)
+                    self.tap(search_pos, 3 * self.bot.config.tapSleep)
                     self.bot.snashot_update_event()
                     
                     self.set_text(insert="打开资源点")

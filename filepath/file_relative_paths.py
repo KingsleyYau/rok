@@ -861,6 +861,14 @@ class ImagePathAndProps(Enum):
         0.90,
         25,
         YES_BUTTON,
+    ]    
+    NO_BUTTON_PATH = [
+        "resource/no.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        NO_BUTTON,
     ] 
     RESOURCE_IMG_PATH = [
         "resource/resource.png",
@@ -934,7 +942,22 @@ class ImagePathAndProps(Enum):
         25,
         BUILDING_UPGRADE_CONFIRM_BUTTON,
     ]    
-    
+    ALLIANCE_WAR_IMG_PATH = [
+        "resource/alliance_war.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        ALLIANCE_WAR_IMG,
+    ]  
+    JOIN_TROOP_IMG_PATH = [
+        "resource/alliance_join_troop.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        JOIN_TROOP_IMG,
+    ] 
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [
         "resource/verification_verify_button.png",
