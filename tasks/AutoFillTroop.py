@@ -75,13 +75,13 @@ class AutoFillTroop(Task):
             if war_pos is not None:
                 self.set_text(insert='打开战争{}'.format(war_pos))
                 self.tap(war_pos, 2 * self.bot.config.tapSleep)
-                self.bot.snashot_update_event()
                 for i in range(5):
+                    self.set_text(insert='第{}次寻找集结'.format(i+1))
                     self.bot.snashot_update_event()
                     join_troop_pos = self.gui.check_any(ImagePathAndProps.JOIN_TROOP_IMG_PATH.value)[2]
                     if join_troop_pos is not None:
                         found = True
-                        self.set_text(insert='点击加入集结{}'.format(join_troop_pos))
+                        self.set_text(insert='发现集结, 点击加入{}'.format(join_troop_pos))
                         self.tap(join_troop_pos, 2 * self.bot.config.tapSleep)
                         self.bot.snashot_update_event()
             
