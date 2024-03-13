@@ -15,19 +15,6 @@ class Break(Task):
             super().set_text(title='Break', remove=True)
             # super().call_idle_back()
             super().back_to_map_gui()
-            # super().home_gui_full_view()
-            # super().heal_troops()
-            
-            res_names = [
-                '玉米',
-                '木头',
-                '石头',
-                '金矿',
-                '砖石'
-            ]
-            result = self.gui.resource_amount_image_to_string()
-            tips = "玉米: {}, 木头: {}, 石头: {}, 金矿: {}, 砖石: {}".format(result[0], result[1], result[2], result[3], result[4])
-            self.set_text(insert=tips)
             
             breakTime = int(random.uniform(self.bot.config.breakTime//2, self.bot.config.breakTime))
             super().set_text(insert='0/{} seconds'.format(breakTime))

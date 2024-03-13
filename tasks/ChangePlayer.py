@@ -48,7 +48,6 @@ class ChangePlayer(Task):
             else:
                 self.device.nickname = ""
                 self.set_text(insert='切换角色, {}, 成功, 重启'.format(playerIndex))
-                time.sleep(self.bot.config.restartSleep)
             self.bot.snashot_update_event()
         else:
             self.set_text(insert='已是当前角色, 无需切换')

@@ -141,10 +141,10 @@ class Bot:
             [self.items_task, "useItems"],
             [self.festival_task, "enableFestival"],
             [self.upgradeBuildings, "enableUpgradeBuilding"],
-            [self.autoFillTroop, "enableAutoFillTroop"],
         ]
         
         priority_tasks = [
+            [self.autoFillTroop, "enableAutoFillTroop"],
             [self.gather_diamond_task, "gatherDiamond"],
             [self.gather_resource_task, "gatherResource"],
         ]
@@ -168,7 +168,8 @@ class Bot:
 
 
             random.shuffle(random_tasks)
-            tasks = priority_tasks + random_tasks
+            # tasks = priority_tasks + random_tasks
+            tasks = random_tasks
                     
             player_round_count = self.round_count
             if self.config.autoChangePlayer:
@@ -203,10 +204,40 @@ class Bot:
                 curr_task = self.restart_task.do()
             else:
                 if (self.config.enableBreak and player_round_count % self.config.breakDoRound == 0):
-                    curr_task = self.break_task.do()
+                    breakTime = int(random.uniform(self.config.breakTime//2, self.config.breakTime))
+                    progress_time = max(breakTime // 10, 1)
+                    count = 0     
+                    start = time.time()
+                    now = start
+                    # for i in range(breakTime):
+                    self.break_task.set_text(title='休息', remove=True)
+                    self.break_task.set_text(insert='休息 {} seconds'.format(breakTime), remove=True)
+                    while now - start <= breakTime:
+                        if count % progress_time == 0:
+                            self.break_task.back_to_map_gui()
+                            full_load, cur, total = self.gui.troop_already_full()
+                            self.break_task.set_text(insert='休息 {}/{} seconds, 部队数量:{}/{}'.format(count, breakTime, cur, total), remove=True)
+                            self.snashot_update_event()
+                            if not full_load:
+                                for task in priority_tasks:
+                                    if len(task) == 2:
+                                        if getattr(self.config, task[1]):
+                                            task[0].do()
+                                self.break_task.set_text(title='休息', remove=True)
+                                self.break_task.back_to_map_gui()
+                                full_load, cur, total = self.gui.troop_already_full()
+                                self.break_task.set_text(insert='休息 {}/{} seconds, 部队数量:{}/{}'.format(count, breakTime, cur, total), remove=True)
+                        count = count + 1
+                        time.sleep(1)
+                        now = time.time()
+                                            
+                    if self.config.terminate:
+                        self.break_task.set_text(insert='关闭ROK')
+                        self.stopRok()
+                        self.snashot_update_event()
+                          
+                    # curr_task = self.break_task.do()
                     if self.config.autoChangePlayer:
-                        # 切换账号前, 再尝试一次采集
-                        # curr_task = self.gather_resource_task.do()
                         curr_task = self.auto_change_task.do()
                 else:
                     curr_task = self.break_task.do_no_wait()

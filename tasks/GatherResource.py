@@ -17,7 +17,7 @@ class GatherResource(Task):
     def create_troop(self, full_load=False):
         new_troops_button_pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
         if new_troops_button_pos is None:
-            self.set_text(insert="没有更多队列采集")
+            self.set_text(insert="没有更多队列")
             self.bot.snashot_update_event()
             return False
         
@@ -42,7 +42,7 @@ class GatherResource(Task):
                 
         match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
         self.set_text(insert="开始行军{}".format(match_button_pos))
-        self.tap(match_button_pos)
+        self.tap(match_button_pos, 3 * self.bot.config.tapSleep)
         self.bot.snashot_update_event()
         return True
         
@@ -52,10 +52,10 @@ class GatherResource(Task):
         self.call_idle_back()
         full_load, cur, total = self.gui.troop_already_full()
         if full_load:
-            self.set_text(insert="没有更多队列采集")
+            self.set_text(insert="没有更多队列")
             return next_task
         else:
-            self.set_text(insert="当前采集部队数量:{}/{}".format(cur, total))
+            self.set_text(insert="当前队列数量:{}/{}".format(cur, total))
                         
         if self.bot.config.gatherAllianceResource:
             try:
@@ -249,10 +249,10 @@ class GatherResource(Task):
                         
                         full_load, cur, total = self.gui.troop_already_full()
                         if full_load:
-                            self.set_text(insert="没有更多队列采集")
+                            self.set_text(insert="没有更多队列")
                             return next_task
                         else:
-                            self.set_text(insert="当前采集部队数量:{}/{}".format(cur, total))
+                            self.set_text(insert="当前队列数量:{}/{}".format(cur, total))
                     else:
                         self.set_text(insert="没有更多资源点, 降级, 当前等级{}".format(6 - level))
                         should_decreasing_lv = True

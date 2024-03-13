@@ -7,6 +7,7 @@ from tasks.constants import TaskName, Resource
 from utils import log, device_log, img_to_string, img_to_string_eng
 import cv2
 import numpy as np
+import time
 
 class AutoFillTroop(Task):
 
@@ -55,7 +56,7 @@ class AutoFillTroop(Task):
         
     def do(self, next_task=TaskName.BREAK):
         self.set_text(title='自动填集结', remove=True)
-        self.back_to_home_gui()
+        self.back_to_map_gui()
         full_load, cur, total = self.gui.troop_already_full()
         if full_load:
             self.set_text(insert="没有更多队列")
@@ -82,12 +83,13 @@ class AutoFillTroop(Task):
                     if join_troop_pos is not None:
                         found = True
                         self.set_text(insert='发现集结, 点击加入{}'.format(join_troop_pos))
-                        self.tap(join_troop_pos, 2 * self.bot.config.tapSleep)
+                        self.tap(join_troop_pos, 3 * self.bot.config.tapSleep)
                         self.bot.snashot_update_event()
             
                         if not self.create_troop(False):
                             break
                     else:
+                        self.set_text(insert='没有更多集结')   
                         break
                      
             if not found:
