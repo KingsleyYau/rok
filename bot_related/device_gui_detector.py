@@ -163,6 +163,7 @@ class GuiDetector:
             rec = img_to_string_eng(troop_image).replace(' ', '').replace(',', '').replace('\n', '')
             if len(rec) > 1:
                 device_log(self.__device, 'troop_already_full, {}/{}'.format(rec[0], rec[-1]))
+                rec = rec.replace('s', '5').replace('S', '5')
                 return rec[0].lower() == rec[-1].lower(), rec[0], rec[-1]
         except Exception as e:
             device_log(self.__device, 'troop_already_full', e)
