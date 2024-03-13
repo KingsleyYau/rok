@@ -43,7 +43,7 @@ class ChangePlayer(Task):
             self.set_text(insert='切换角色, {}'.format(playerIndex))
             _, _, contact_us_pos = self.bot.gui.check_any(ImagePathAndProps.CONTACT_US_BUTTON_PATH.value)
             if contact_us_pos is not None:
-                self.set_text(insert='该账号已被封, 无法切换')
+                self.set_text(insert='该账号已被封, 无法切换, 停止运行')
                 self.bot.stop()
             else:
                 self.device.nickname = ""
