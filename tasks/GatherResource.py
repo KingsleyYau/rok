@@ -336,7 +336,7 @@ class GatherResource(Task):
 
         diff = []
         for i in range(4):
-            diff.append((ratio[i] / ras) - ((result[i] if result[i] > -1 else 0) / res))
+            diff.append(((result[i] if result[i] > -1 else 0) / res) - (ratio[i] / ras))
 
         m = np.argmin(diff)
         self.set_text(insert='最少的资源是{}, {}'.format(res_names[m], diff))

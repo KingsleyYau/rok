@@ -178,10 +178,15 @@ class GuiDetector:
         try:
             imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
             imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
+            i = 0
             for box in boxes:
                 x0, y0, x1, y1 = box
                 imdst = imsch[y0:y1, x0:x1]
+                imdst = cv2.dilate(imdst, (3, 3), 1)
+                imdst = cv2.dilate(imdst, (3, 3), 1)
                 resource_image = Image.fromarray(imdst)
+                resource_image.save('capture/resource_{}.png'.format(i))
+                i = i + 1
                 try:
                     rec = img_to_string(resource_image).replace(' ', '').replace(',', '')
                     unit = 1
