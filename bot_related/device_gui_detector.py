@@ -182,8 +182,6 @@ class GuiDetector:
             for box in boxes:
                 x0, y0, x1, y1 = box
                 imdst = imsch[y0:y1, x0:x1]
-                imdst = cv2.dilate(imdst, (3, 3), 1)
-                imdst = cv2.dilate(imdst, (3, 3), 1)
                 resource_image = Image.fromarray(imdst)
                 resource_image.save('capture/resource_{}.png'.format(i))
                 i = i + 1

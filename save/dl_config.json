@@ -50,7 +50,7 @@
   "gatherResourceRatioFood": 3,
   "gatherResourceRatioWood": 1,
   "gatherResourceRatioStone": 1,
-  "gatherResourceRatioGold": 30,
+  "gatherResourceRatioGold": 99,
   "holdOneQuerySpace": false,
   "gatherDiamond": false,
   "gatherDiamondMaxRange": 20,

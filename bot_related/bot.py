@@ -215,6 +215,8 @@ class Bot:
                     while now - start <= breakTime:
                         if count % progress_time == 0:
                             self.break_task.back_to_map_gui()
+                            result = self.gui.resource_amount_image_to_string()
+                            tips = "玉米: {}, 木头: {}, 石头: {}, 金矿: {}".format(result[0], result[1], result[2], result[3])
                             full_load, cur, total = self.gui.troop_already_full()
                             self.break_task.set_text(insert='已经休息 {}/{} seconds, 部队数量:{}/{}'.format(count, breakTime, cur, total), remove=True)
                             self.snashot_update_event()
