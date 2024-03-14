@@ -211,12 +211,12 @@ class Bot:
                     now = start
                     # for i in range(breakTime):
                     self.break_task.set_text(title='休息', remove=True)
-                    self.break_task.set_text(insert='休息 {} seconds'.format(breakTime), remove=True)
+                    self.break_task.set_text(insert='开始休息 {} seconds'.format(breakTime), remove=True)
                     while now - start <= breakTime:
                         if count % progress_time == 0:
                             self.break_task.back_to_map_gui()
                             full_load, cur, total = self.gui.troop_already_full()
-                            self.break_task.set_text(insert='休息 {}/{} seconds, 部队数量:{}/{}'.format(count, breakTime, cur, total), remove=True)
+                            self.break_task.set_text(insert='已经休息 {}/{} seconds, 部队数量:{}/{}'.format(count, breakTime, cur, total), remove=True)
                             self.snashot_update_event()
                             if not full_load:
                                 for task in priority_tasks:
@@ -226,7 +226,7 @@ class Bot:
                                 self.break_task.set_text(title='休息', remove=True)
                                 self.break_task.back_to_map_gui()
                                 full_load, cur, total = self.gui.troop_already_full()
-                                self.break_task.set_text(insert='休息 {}/{} seconds, 部队数量:{}/{}'.format(count, breakTime, cur, total), remove=True)
+                                self.break_task.set_text(insert='继续休息 {}/{} seconds, 部队数量:{}/{}'.format(count, breakTime, cur, total), remove=True)
                         count = count + 1
                         time.sleep(1)
                         now = time.time()

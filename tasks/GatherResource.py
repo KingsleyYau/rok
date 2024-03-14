@@ -338,11 +338,8 @@ class GatherResource(Task):
         for i in range(4):
             diff.append((ratio[i] / ras) - ((result[i] if result[i] > -1 else 0) / res))
 
-        m = 0
-        for i in range(len(result[:4])):
-            if diff[m] < diff[i]:
-                m = i
-        self.set_text(insert='最少的资源是{}'.format(res_names[m]))
+        m = np.argmin(diff)
+        self.set_text(insert='最少的资源是{}, {}'.format(res_names[m], diff))
         return m
 
     def check_query_space(self):

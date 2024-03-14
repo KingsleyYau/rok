@@ -17,7 +17,7 @@
   "materialDoRound": 10,
   "enableTavern": true,
   "enableTraining": true,
-  "trainingDoRound": 15,
+  "trainingDoRound": 20,
   "trainBarracksTrainingLevel": 3,
   "trainBarracksUpgradeLevel": 5,
   "trainArcheryRangeTrainingLevel": 3,
