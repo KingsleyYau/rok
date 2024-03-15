@@ -162,11 +162,11 @@ class GuiDetector:
             troop_image = Image.fromarray(imdst)
             rec = img_to_string_eng(troop_image).replace(' ', '').replace(',', '').replace('\n', '')
             if len(rec) > 1:
-                device_log(self.__device, 'troop_already_full, {}/{}'.format(rec[0], rec[-1]))
+                device_log(self.__device, '检查队列数量, {}/{}'.format(rec[0], rec[-1]))
                 rec = rec.replace('s', '5').replace('S', '5')
                 return rec[0].lower() == rec[-1].lower(), rec[0], rec[-1]
         except Exception as e:
-            device_log(self.__device, 'troop_already_full', e)
+            device_log(self.__device, '检查队列数量', e)
             traceback.print_exc()
         return False, -1, -1
     
@@ -186,16 +186,18 @@ class GuiDetector:
                 resource_image.save('capture/resource_{}.png'.format(i))
                 i = i + 1
                 try:
-                    rec = img_to_string(resource_image).replace(' ', '').replace(',', '')
+                    rec_unit = img_to_string(resource_image).replace(' ', '').replace(',', '')
                     unit = 1
-                    if (rec.find('亿') != -1) or (rec.find('仁') != -1) or (rec.find('伍') != -1):
+                    if (rec_unit.find('亿') != -1) or (rec_unit.find('仁') != -1) or (rec_unit.find('伍') != -1):
                         unit = 100000000
-                    elif rec.find('万') != -1:
+                    elif rec_unit.find('万') != -1:
                         unit = 10000
                     else:
                         unit = 1
-                        rec = rec.replace('.', '')
-                    rec = rec.replace('亿', '').replace('万', '').replace('仁', '').replace('伍', '')
+                        # rec_unit = rec_unit.replace('.', '')
+                        
+                    rec = img_to_string_eng(resource_image).replace(' ', '').replace(',', '').replace('1Z', '').replace('Z', '')      
+                    # rec = rec.replace('亿', '').replace('万', '').replace('仁', '').replace('伍', '')
                     rec = re.sub('^\D+|[^0-9.]|\D+$', '', rec)
                     device_log(self.__device, 'resource_amount_image_to_string', rec)
                     count = int(float(rec) * unit)
