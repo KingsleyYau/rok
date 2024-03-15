@@ -187,6 +187,13 @@ class Task:
             if comfirm_pos is not None:
                 device_log(self.device, '发现确定按钮, 点击', comfirm_pos)
                 self.tap(comfirm_pos)
+            
+            _, _, comfirm_update_pos = self.gui.check_any(
+                    ImagePathAndProps.CONFIRM_UPDATE_BUTTON_PATH.value
+                    )    
+            if comfirm_update_pos is not None:
+                device_log(self.device, '发现确定更新按钮, 点击', comfirm_update_pos)
+                self.tap(comfirm_update_pos)
              
             _, _, cancel_pos = self.gui.check_any(
                     ImagePathAndProps.CANCEL_BUTTON_PATH.value

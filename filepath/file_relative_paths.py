@@ -770,15 +770,23 @@ class ImagePathAndProps(Enum):
         "resource/confirm.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         CONFIRM_BUTTON,
+    ] 
+    CONFIRM_UPDATE_BUTTON_PATH = [
+        "resource/confirm_update.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        CONFIRM_UPDATE_BUTTON,
     ] 
     CANCEL_BUTTON_PATH = [
         "resource/cancel.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         CANCEL_BUTTON,
     ] 
