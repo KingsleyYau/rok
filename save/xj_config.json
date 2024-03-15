@@ -13,8 +13,8 @@
   "hasBuildingPos": true,
   "enableMysteryMerchant": true,
   "enableCollecting": true,
-  "enableMaterialProduce": true,
-  "materialDoRound": 10,
+  "enableMaterialProduce": false,
+  "materialDoRound": 15,
   "enableTavern": true,
   "enableTraining": true,
   "trainingDoRound": 20,
@@ -66,6 +66,6 @@
   "enableUpgradeBuilding": false,
   "enableAutoFillTroop": false,
   "autoChangePlayer": false,
-  "playerIndex": 0,
-  "playerCount": 1
+  "playerIndex": 2,
+  "playerCount": 3
 }

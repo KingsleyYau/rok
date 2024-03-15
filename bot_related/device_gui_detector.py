@@ -183,7 +183,7 @@ class GuiDetector:
                 x0, y0, x1, y1 = box
                 imdst = imsch[y0:y1, x0:x1]
                 resource_image = Image.fromarray(imdst)
-                resource_image.save('capture/resource_{}.png'.format(i))
+                # resource_image.save('capture/resource_{}.png'.format(i))
                 i = i + 1
                 try:
                     rec_unit = img_to_string(resource_image).replace(' ', '').replace(',', '')
@@ -196,11 +196,15 @@ class GuiDetector:
                         unit = 1
                         # rec_unit = rec_unit.replace('.', '')
                         
-                    rec = img_to_string_eng(resource_image).replace(' ', '').replace(',', '').replace('1Z', '').replace('Z', '')      
+                    rec = img_to_string_eng(resource_image).replace(' ', '').replace(',', '').replace('1Z', '')   
                     # rec = rec.replace('亿', '').replace('万', '').replace('仁', '').replace('伍', '')
+                    # 删除以下字符
+                    # 1.非数字开头
+                    # 2.非数字/小数点
+                    # 3.非数字结尾
                     rec = re.sub('^\D+|[^0-9.]|\D+$', '', rec)
-                    device_log(self.__device, 'resource_amount_image_to_string', rec)
                     count = int(float(rec) * unit)
+                    device_log(self.__device, 'resource_amount_image_to_string', 'rec:{}, unit:{}, count:{}'.format(rec, unit, count))
                     result_list.append(count)
                 except Exception as e:
                     result_list.append(-1)
