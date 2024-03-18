@@ -85,7 +85,7 @@ class SelectedDeviceFrame(Frame):
         frame.rowconfigure(1, weight=5)
         frame.rowconfigure(2, weight=height - 10)
 
-        nickname = '{}'.format(self.device.save_file_prefix,self.device.nickname) if self.device.nickname is not None else self.device.save_file_prefix
+        nickname = '{}-{}'.format(self.device.save_file_prefix,self.device.nickname, self.device.serial) if self.device.nickname is not None else '{}-{}'.format(self.device.save_file_prefix, self.device.serial)
         name = Label(frame, text=nickname, width=width, height=5, bg='white')
         title = Label(frame, text="Task: None", width=width, height=5, bg='white')
         # title.config(bg='white', anchor=W, justify=LEFT)

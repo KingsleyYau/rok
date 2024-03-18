@@ -180,7 +180,13 @@ class Task:
         
         for i in range(0, 1):
             self.bot.snashot_update_event()
-            
+            _, _, closeapp_pos = self.gui.check_any(
+                    ImagePathAndProps.CLOSEAPP_BUTTON_PATH.value
+                    )
+            if closeapp_pos is not None:
+                device_log(self.device, '发现程序卡死按钮, 点击', closeapp_pos)
+                self.tap(closeapp_pos)
+                
             _, _, comfirm_pos = self.gui.check_any(
                     ImagePathAndProps.CONFIRM_BUTTON_PATH.value
                     )

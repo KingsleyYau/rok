@@ -186,6 +186,14 @@ class GuiDetector:
                 # resource_image.save('capture/resource_{}.png'.format(i))
                 i = i + 1
                 try:
+                    rec = img_to_string_eng(resource_image).replace(' ', '').replace(',', '').replace('1Z', '')  
+                    # 删除以下字符
+                    # 1.非数字开头
+                    # 2.非数字/小数点
+                    # 3.非数字结尾
+                    rec = re.sub('^\D+|[^0-9.]|\D+$', '', rec)
+                     
+                    # 处理单位
                     rec_unit = img_to_string(resource_image).replace(' ', '').replace(',', '')
                     unit = 1
                     if (rec_unit.find('亿') != -1) or (rec_unit.find('仁') != -1) or (rec_unit.find('伍') != -1):
@@ -194,15 +202,8 @@ class GuiDetector:
                         unit = 10000
                     else:
                         unit = 1
-                        # rec_unit = rec_unit.replace('.', '')
-                        
-                    rec = img_to_string_eng(resource_image).replace(' ', '').replace(',', '').replace('1Z', '')   
+                        rec = rec.replace('.', '')
                     # rec = rec.replace('亿', '').replace('万', '').replace('仁', '').replace('伍', '')
-                    # 删除以下字符
-                    # 1.非数字开头
-                    # 2.非数字/小数点
-                    # 3.非数字结尾
-                    rec = re.sub('^\D+|[^0-9.]|\D+$', '', rec)
                     count = int(float(rec) * unit)
                     device_log(self.__device, 'resource_amount_image_to_string', 'rec:{}, unit:{}, count:{}'.format(rec, unit, count))
                     result_list.append(count)

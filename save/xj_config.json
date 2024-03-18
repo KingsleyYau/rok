@@ -45,7 +45,7 @@
   "gatherWildResource": true,
   "gatherAllianceResource": true,
   "useGatheringBoosts": true,
-  "gatherResource": true,
+  "gatherResource": false,
   "gatherResourceNoSecondaryCommander": false,
   "gatherResourceRatioFood": 3,
   "gatherResourceRatioWood": 1,

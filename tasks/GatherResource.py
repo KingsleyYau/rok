@@ -17,7 +17,7 @@ class GatherResource(Task):
     def create_troop(self, full_load=False):
         new_troops_button_pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
         if new_troops_button_pos is None:
-            self.set_text(insert="没有更多队列")
+            self.set_text(insert="没有发现创建部队按钮, 没有更多队列")
             self.bot.snashot_update_event()
             return False
         
@@ -339,7 +339,7 @@ class GatherResource(Task):
             diff.append(((result[i] if result[i] > -1 else 0) / res) - (ratio[i] / ras))
 
         m = np.argmin(diff)
-        self.set_text(insert='最少的资源是{}, {}'.format(res_names[m], diff))
+        self.set_text(insert='最需要的资源是{}, {}'.format(res_names[m], diff))
         return m
 
     def check_query_space(self):

@@ -966,6 +966,15 @@ class ImagePathAndProps(Enum):
         25,
         JOIN_TROOP_IMG,
     ] 
+    CLOSEAPP_BUTTON_PATH = [
+        "resource/closeapp.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        CLOSEAPP_BUTTON,
+    ] 
+    
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [
         "resource/verification_verify_button.png",
