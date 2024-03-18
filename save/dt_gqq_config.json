@@ -65,7 +65,7 @@
   "enableFestival": false,
   "enableUpgradeBuilding": false,
   "enableAutoFillTroop": false,
-  "autoChangePlayer": false,
+  "autoChangePlayer": true,
   "playerIndex": 1,
   "playerCount": 2
 }
