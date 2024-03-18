@@ -43,7 +43,7 @@
   "useNormalAPRecovery": false,
   "timeout": 300,
   "gatherWildResource": true,
-  "gatherAllianceResource": false,
+  "gatherAllianceResource": true,
   "useGatheringBoosts": false,
   "gatherResource": true,
   "gatherResourceNoSecondaryCommander": false,
