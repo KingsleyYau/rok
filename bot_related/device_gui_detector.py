@@ -186,16 +186,22 @@ class GuiDetector:
                 # resource_image.save('capture/resource_{}.png'.format(i))
                 i = i + 1
                 try:
+                    # 英文识别
                     rec = img_to_string_eng(resource_image).replace(' ', '').replace(',', '').replace('1Z', '')  
+                    # 中文识别
+                    rec_unit = img_to_string(resource_image).replace(' ', '').replace(',', '')
+                    
+                    # 没有小数, 直接使用中文识别
+                    if (rec.find('.') == -1):
+                        rec = rec_unit
                     # 删除以下字符
                     # 1.非数字开头
                     # 2.非数字/小数点
                     # 3.非数字结尾
-                    rec = re.sub('^\D+|[^0-9.]|\D+$', '', rec)
-                     
+                    rec = re.sub('^\D+|[^0-9.]|\D+$', '', rec)   
+                    
                     # 处理单位
-                    rec_unit = img_to_string(resource_image).replace(' ', '').replace(',', '')
-                    unit = 1
+                    unit = 1 
                     if (rec_unit.find('亿') != -1) or (rec_unit.find('仁') != -1) or (rec_unit.find('伍') != -1):
                         unit = 100000000
                     elif rec_unit.find('万') != -1:

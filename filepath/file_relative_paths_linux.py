@@ -39,7 +39,7 @@ class ItemsImageAndProps(Enum):
         "resource/items/enhanced_gathering_blue.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.80,
+        0.60,
         25,
         BOOSTS,
     ]
@@ -47,7 +47,7 @@ class ItemsImageAndProps(Enum):
         "resource/items/enhanced_gathering_purple.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.80,
+        0.60,
         25,
         BOOSTS,
     ]
@@ -234,7 +234,7 @@ class ImagePathAndProps(Enum):
         "resource/resource_gather_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         RESOURCE_GATHER,
     ]
@@ -242,7 +242,7 @@ class ImagePathAndProps(Enum):
         "resource/new_troops_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         NEW_TROOPS,
     ]
@@ -250,7 +250,7 @@ class ImagePathAndProps(Enum):
         "resource/troops_match_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         TROOPS_MATCH,
     ]
@@ -770,15 +770,23 @@ class ImagePathAndProps(Enum):
         "resource/confirm.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         CONFIRM_BUTTON,
+    ] 
+    CONFIRM_UPDATE_BUTTON_PATH = [
+        "resource/confirm_update.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        CONFIRM_UPDATE_BUTTON,
     ] 
     CANCEL_BUTTON_PATH = [
         "resource/cancel.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         CANCEL_BUTTON,
     ] 
@@ -798,8 +806,16 @@ class ImagePathAndProps(Enum):
         25,
         DIAMOND_IMG,
     ] 
-    TERRITORY_RESOURCE_IMG_PATH = [
+    TERRITORY_IMG_PATH = [
         "resource/territory.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.70,
+        25,
+        TERRITORY_IMG,
+    ]    
+    TERRITORY_RESOURCE_IMG_PATH = [
+        "resource/territory_resource.png",
         (1280, 720),
         (0, 0, 0, 0),
         0.80,
@@ -822,6 +838,30 @@ class ImagePathAndProps(Enum):
         25,
         TERRITORY_GATHER_JOIN_IMG,
     ]
+    HELP_IMG_PATH = [
+        "resource/help.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        HELP_IMG,
+    ]  
+    GIFT_IMG_PATH = [
+        "resource/gift.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        GIFT_IMG,
+    ]   
+    TECHNOLOGY_IMG_PATH = [
+        "resource/technology.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        TECHNOLOGY_IMG,
+    ] 
     YES_BUTTON_PATH = [
         "resource/yes.png",
         (1280, 720),
@@ -829,12 +869,20 @@ class ImagePathAndProps(Enum):
         0.90,
         25,
         YES_BUTTON,
+    ]    
+    NO_BUTTON_PATH = [
+        "resource/no.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        NO_BUTTON,
     ] 
     RESOURCE_IMG_PATH = [
         "resource/resource.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.80,
+        0.70,
         25,
         RESOURCE_IMG,
     ]
@@ -861,7 +909,72 @@ class ImagePathAndProps(Enum):
         0.80,
         25,
         KILO_IMG,
+    ]
+    FREE_BUTTON_PATH = [
+        "resource/free.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        FREE_BUTTON,
+    ]
+    CONTACT_US_BUTTON_PATH = [
+        "resource/contact_us.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        CONTACT_US_BUTTON,
+    ]
+    BUILDING_UPGRADE_BUTTON_PATH = [
+        "resource/building_upgrade.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        BUILDING_UPGRADE_BUTTON,
+    ]   
+    BUILDING_UPGRADE_FORWARD_BUTTON_PATH = [
+        "resource/building_upgrade_forward.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        BUILDING_UPGRADE_FORWARD_BUTTON,
+    ]      
+    BUILDING_UPGRADE_CONFIRM_BUTTON_PATH = [
+        "resource/building_upgrade_confirm.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        BUILDING_UPGRADE_CONFIRM_BUTTON,
     ]    
+    ALLIANCE_WAR_IMG_PATH = [
+        "resource/alliance_war.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        ALLIANCE_WAR_IMG,
+    ]  
+    JOIN_TROOP_IMG_PATH = [
+        "resource/alliance_join_troop.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        JOIN_TROOP_IMG,
+    ] 
+    CLOSEAPP_BUTTON_PATH = [
+        "resource/closeapp.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        CLOSEAPP_BUTTON,
+    ] 
+    
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [
         "resource/verification_verify_button.png",

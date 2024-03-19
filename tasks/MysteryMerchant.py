@@ -14,15 +14,24 @@ class MysteryMerchant(Task):
         self.back_to_home_gui()
         self.home_gui_full_view()
         self.bot.snashot_update_event()
-        found, _, pos = self.gui.check_any(ImagePathAndProps.MERCHANT_ICON_IMAGE_PATH.value)
-        if not found:
+        
+        pos = self.gui.check_any(ImagePathAndProps.MERCHANT_ICON_IMAGE_PATH.value)[2]
+        if pos is None:
             self.set_text(insert='没有发现神秘商店', index=0)
+            # 铭文商店
+            pos = self.gui.check_any(ImagePathAndProps.MERCHANT_ICON2_IMAGE_PATH.value)[2]
+            if pos is not None:
+                self.set_text(insert='打开驿站{}'.format(pos))
+                self.tap(pos)
             return next_task
-        self.set_text(insert='打开神秘商店')
+        
+        self.set_text(insert='打开驿站{}'.format(pos))
         self.tap(pos)
-
-        # 铭文商店
-        # found, _, pos = self.gui.check_any(ImagePathAndProps.MERCHANT_ICON2_IMAGE_PATH.value)
+        
+        pos = self.gui.check_any(ImagePathAndProps.MERCHANT_SHOP_IMAGE_PATH.value)[2]
+        if pos is None:
+            return next_task
+        self.set_text(insert='打开神秘商店{}'.format(pos))
 
         while True:
             self.bot.snashot_update_event()

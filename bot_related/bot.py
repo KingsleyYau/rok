@@ -204,7 +204,7 @@ class Bot:
                 curr_task = self.restart_task.do()
             else:
                 if (self.config.enableBreak and player_round_count % self.config.breakDoRound == 0):
-                    breakTime = int(random.uniform(self.config.breakTime//2, self.config.breakTime))
+                    breakTime = int(random.uniform(int(self.config.breakTime * 3 / 4), self.config.breakTime))
                     progress_time = max(breakTime // 10, 1)
                     count = 0     
                     start = time.time()
