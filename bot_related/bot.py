@@ -210,7 +210,7 @@ class Bot:
                     start = time.time()
                     now = start
                     # for i in range(breakTime):
-                    self.break_task.set_text(title='休息', remove=True)
+                    self.break_task.set_text(title='休息, 当前回合{}'.format(player_round_count), remove=True)
                     self.break_task.set_text(insert='开始休息 {} seconds'.format(breakTime), remove=True)
                     while now - start <= breakTime:
                         if count % progress_time == 0:
@@ -223,7 +223,7 @@ class Bot:
                                     if len(task) == 2:
                                         if getattr(self.config, task[1]):
                                             task[0].do()
-                                self.break_task.set_text(title='休息', remove=True)
+                                self.break_task.set_text(title='休息, 当前回合{}'.format(player_round_count), remove=True)
                                 self.break_task.back_to_map_gui()
                                 full_load, cur, total = self.gui.troop_already_full()
                                 now = time.time()
