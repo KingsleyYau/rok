@@ -26,8 +26,8 @@ class AutoChangePlayer(Task):
             x = playerIndex % 2 + 1
             y = playerIndex // 2
             pos = ((400 * x, 230 + 110 * y))
-            self.set_text(insert='当前玩家 {}, 目标玩家 {}, {}'.format(self.bot.config.playerIndex, playerIndex, pos))
-            self.tap(pos)
+            self.set_text(insert='当前角色 {}, 目标角色 {}, {}'.format(self.bot.config.playerIndex, playerIndex, pos))
+            self.tap(pos, 2 * self.bot.config.tapSleep)
             _, _, yes_pos = self.bot.gui.check_any(ImagePathAndProps.YES_BUTTON_PATH.value)
             self.bot.snashot_update_event()
             if yes_pos is not None:
@@ -44,10 +44,10 @@ class AutoChangePlayer(Task):
                     time.sleep(self.bot.config.restartSleep)
                     break
                 else:
-                    self.set_text(insert='选择角色被封, 继续下一个')
-                    self.bot.config.playerIndex = self.bot.config.playerIndex + 1
+                    self.set_text(insert='目标角色被封, {}, 跳过'.format(playerIndex))
+                    self.bot.config.playerIndex = playerIndex
             else:
-                self.set_text(insert='已是当前角色, 继续下一个')
-                self.bot.config.playerIndex = self.bot.config.playerIndex + 1
+                self.set_text(insert='已是当前角色, {}, 跳过'.format(playerIndex))
+                self.bot.config.playerIndex = playerIndex
             
         return next_task

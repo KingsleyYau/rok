@@ -243,8 +243,8 @@ class SelectedDeviceFrame(Frame):
     def on_task_update(self, text):
         name, title, text_list = text['name'], text['title'], text['text_list']
         if len(name) > 0:
-            name = '{}-{}'.format(self.device.save_file_prefix, name)
-            self.name.config(text=name)
+            nickname = '{}-{}-{}'.format(self.device.save_file_prefix, name, self.device.serial)
+            self.name.config(text=nickname)
         self.task_title.config(text="Task: " + title)
         self.task_text.delete(1.0, END)
         for t in text_list:
@@ -254,9 +254,10 @@ class SelectedDeviceFrame(Frame):
         write_bot_config(kw['config'], kw['prefix'])
         config_frame = self.config_frame()
         config_frame.grid(row=2, column=0, padx=10, sticky=N + W)
-        if len(self.bot.device.nickname) > 0:
-            name = '{}-{}'.format(self.device.save_file_prefix, self.bot.device.nickname)
-            self.name.config(text=name)
+        if len(self.device.nickname) > 0:
+            # name = '{}-{}'.format(self.device.save_file_prefix, self.bot.device.nickname)
+            nickname = '{}-{}-{}'.format(self.device.save_file_prefix, self.device.nickname, self.device.serial) if len(self.device.nickname)>0 is not None else '{}-{}'.format(self.device.save_file_prefix, self.device.serial)
+            self.name.config(text=nickname)
         return
            
     def on_snashot_update(self):
