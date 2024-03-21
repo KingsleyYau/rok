@@ -874,7 +874,7 @@ class ImagePathAndProps(Enum):
         "resource/yes.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         YES_BUTTON,
     ]    
@@ -882,7 +882,7 @@ class ImagePathAndProps(Enum):
         "resource/no.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         NO_BUTTON,
     ] 

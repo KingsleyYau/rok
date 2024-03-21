@@ -209,11 +209,14 @@ class Bot:
                     count = 0     
                     start = time.time()
                     now = start
+                    last = now
                     # for i in range(breakTime):
                     self.break_task.set_text(title='休息, 当前回合{}'.format(player_round_count), remove=True)
                     self.break_task.set_text(insert='开始休息 {} seconds'.format(breakTime), remove=True)
                     while now - start <= breakTime:
-                        if count % progress_time == 0:
+                        now = time.time()
+                        if now - last > 600: 
+                        # if count % progress_time == 0:
                             self.break_task.back_to_map_gui()
                             full_load, cur, total = self.gui.troop_already_full()
                             self.break_task.set_text(insert='已经休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total), remove=True)
@@ -226,12 +229,12 @@ class Bot:
                                 self.break_task.set_text(title='休息, 当前回合{}'.format(player_round_count), remove=True)
                                 self.break_task.back_to_map_gui()
                                 full_load, cur, total = self.gui.troop_already_full()
-                                now = time.time()
-                                self.break_task.set_text(insert='继续休息 {}/{} seconds, 部队数量:{}/{}'.format(int(now - start), breakTime, cur, total), remove=True)
                                 self.snashot_update_event()
+                            now = time.time()
+                            last = now
+                            self.break_task.set_text(insert='继续休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total), remove=True)
                         count = count + 1
                         time.sleep(1)
-                        now = time.time()
                                             
                     if self.config.terminate:
                         self.break_task.set_text(insert='关闭ROK')
