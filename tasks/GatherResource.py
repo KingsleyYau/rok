@@ -154,7 +154,12 @@ class GatherResource(Task):
                 repeat = False
                 first_time = True
                 
-                for i in range(10):
+                gathering_count = 0
+                total_search_count = 0
+                
+                # for i in range(10):
+                while gathering_count < 5 and total_search_count < 10:
+                    total_search_count = total_search_count + 1
                     if retry_count > 4:
                         self.set_text(insert="{}次策略没有找到可用资源点".format(retry_count))
                         break
@@ -253,6 +258,7 @@ class GatherResource(Task):
                             return next_task
                         else:
                             self.set_text(insert="当前队列数量:{}/{}".format(cur, total))
+                            gathering_count = gathering_count + 1
                     else:
                         self.set_text(insert="没有更多资源点, 降级, 当前等级{}".format(6 - level))
                         should_decreasing_lv = True

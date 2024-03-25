@@ -21,11 +21,11 @@ class MysteryMerchant(Task):
             # 铭文商店
             pos = self.gui.check_any(ImagePathAndProps.MERCHANT_ICON2_IMAGE_PATH.value)[2]
             if pos is not None:
-                self.set_text(insert='打开驿站{}'.format(pos))
+                self.set_text(insert='发现铭文图标, 打开驿站{}'.format(pos))
                 self.tap(pos)
             return next_task
         
-        self.set_text(insert='打开驿站{}'.format(pos))
+        self.set_text(insert='发现神秘商店, 打开驿站{}', index=0)
         self.tap(pos)
         
         pos = self.gui.check_any(ImagePathAndProps.MERCHANT_SHOP_IMAGE_PATH.value)[2]
