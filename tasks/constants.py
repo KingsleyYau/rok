@@ -16,8 +16,8 @@ class BuildingNames(Enum):
     ACADEMY = '研究所'
     STOREHOUSE = '仓库'
     TRADING_POST = '商栈'
-    SCOUT_CAMP = '驿站'
-    COURIER_STATION = 'courier_station'
+    SCOUT_CAMP = '斥候营地'
+    COURIER_STATION = '驿站'
     BUILDERS_HUT = "工人小屋"
     CASTLE = '城堡'
     HOSPITAL = '医院'
