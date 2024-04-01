@@ -39,6 +39,7 @@ class BotConfig:
         # Producing
         self.enableMaterialProduce = config.get('enableMaterialProduce', True)
         self.materialDoRound = config.get('materialDoRound', 1)
+        self.onlyProduceBone = config.get('onlyProduceBone', False)
 
         # Tavern
         self.enableTavern = config.get('enableTavern', True)

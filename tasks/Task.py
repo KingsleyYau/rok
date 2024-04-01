@@ -104,9 +104,9 @@ class Task:
 
     def home_gui_full_view(self):
         self.set_text(insert='切换视觉[全城市]')
-        self.tap((60, 540), 5)
-        self.tap((1105, 200), 5)
-        self.tap((1220, 35), 5)
+        self.tap((60, 540), 2 * self.bot.config.tapSleep)
+        self.tap((1105, 200), 2 * self.bot.config.tapSleep)
+        self.tap((1220, 35), 2 * self.bot.config.tapSleep)
 
     # Building Position
     def find_building_title(self):
@@ -180,30 +180,37 @@ class Task:
         
         for i in range(0, 1):
             self.bot.snashot_update_event()
-            _, _, closeapp_pos = self.gui.check_any(
+            closeapp_pos = self.gui.check_any(
                     ImagePathAndProps.CLOSEAPP_BUTTON_PATH.value
-                    )
+                    )[2]
             if closeapp_pos is not None:
                 device_log(self.device, '发现程序卡死按钮, 点击', closeapp_pos)
                 self.tap(closeapp_pos)
                 
-            _, _, comfirm_pos = self.gui.check_any(
+            continue_pos = self.gui.check_any(
+                    ImagePathAndProps.CONTINUE_BUTTON_PATH.value
+                    )[2]
+            if continue_pos is not None:
+                device_log(self.device, '发现继续按钮, 点击', continue_pos)
+                self.tap(continue_pos)   
+                
+            comfirm_pos = self.gui.check_any(
                     ImagePathAndProps.CONFIRM_BUTTON_PATH.value
-                    )
+                    )[2]
             if comfirm_pos is not None:
                 device_log(self.device, '发现确定按钮, 点击', comfirm_pos)
                 self.tap(comfirm_pos)
             
-            _, _, comfirm_update_pos = self.gui.check_any(
+            comfirm_update_pos = self.gui.check_any(
                     ImagePathAndProps.CONFIRM_UPDATE_BUTTON_PATH.value
-                    )    
+                    )    [2]
             if comfirm_update_pos is not None:
                 device_log(self.device, '发现确定更新按钮, 点击', comfirm_update_pos)
                 self.tap(comfirm_update_pos)
              
-            _, _, cancel_pos = self.gui.check_any(
+            cancel_pos = self.gui.check_any(
                     ImagePathAndProps.CANCEL_BUTTON_PATH.value
-                    )
+                    )[2]
             if cancel_pos is not None:
                 device_log(self.device, '发现取消按钮, 点击', cancel_pos)
                 self.tap(cancel_pos)

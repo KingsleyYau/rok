@@ -55,7 +55,7 @@ class SelectedDeviceFrame(Frame):
         self.bot.building_pos_update_event = lambda **kw: write_building_pos(kw['building_pos'], kw['prefix'])
         # self.bot.config_update_event = lambda **kw: write_bot_config(kw['config'], kw['prefix'])
         self.bot.config_update_event = self.on_config_update
-        self.bot.snashot_update_event = self.on_snashot_update
+        # self.bot.snashot_update_event = self.on_snashot_update
         
         self.refresh_snapshot()
         

@@ -71,6 +71,7 @@ collecting_checkbox = checkbox_fn_creator('enableCollecting', 'Collecting resour
 
 produce_material = checkbox_fn_creator('enableMaterialProduce', 'Produce material')
 material_do_round = entry_int_fn_creator('materialDoRound', 'Execute at every', 'round')
+only_produce_bone_checkbox = checkbox_fn_creator('onlyProduceBone', 'Only produce bone')
 
 open_free_chest_in_tavern = checkbox_fn_creator('enableTavern', 'Open free chest in tavern')
 
@@ -206,7 +207,7 @@ bot_config_title_fns = [
     [mystery_merchant_checkbox, []],
     [open_free_chest_in_tavern, []],
     [collecting_checkbox, []],
-    [produce_material, [material_do_round]],
+    [produce_material, [material_do_round, only_produce_bone_checkbox]],
     [daily_vip_point_and_chest, [vip_do_round]],
     [claim_quest_checkbox, [quest_do_round]],
     [alliance_action_checkbox, [alliance_do_round]],

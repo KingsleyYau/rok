@@ -34,6 +34,10 @@ class MysteryMerchant(Task):
         pos = self.gui.check_any(ImagePathAndProps.MERCHANT_SHOP_IMAGE_PATH.value)[2]
         if pos is not None:
             self.set_text(insert='打开神秘商店{}'.format(pos))
+            self.tap(pos, 2 * self.bot.config.tapSleep)
+        else:
+            self.set_text(insert='没有发现神秘商店', index=0)
+            return next_task
 
         while True:
             self.bot.snashot_update_event()

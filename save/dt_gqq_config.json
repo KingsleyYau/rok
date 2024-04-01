@@ -15,6 +15,7 @@
   "enableCollecting": true,
   "enableMaterialProduce": true,
   "materialDoRound": 8,
+  "onlyProduceBone": true,
   "enableTavern": true,
   "enableTraining": true,
   "trainingDoRound": 10,
@@ -66,6 +67,6 @@
   "enableUpgradeBuilding": false,
   "enableAutoFillTroop": false,
   "autoChangePlayer": true,
-  "playerIndex": 0,
+  "playerIndex": 1,
   "playerCount": 2
 }

@@ -2,6 +2,8 @@ from tasks.Task import Task
 from tasks.constants import TaskName
 from filepath.file_relative_paths import ImagePathAndProps
 
+import re
+
 class GetPlayerName(Task):
     def __init__(self, bot):
         super().__init__(bot)
@@ -14,6 +16,7 @@ class GetPlayerName(Task):
         self.tap((25, 25))
         self.bot.snashot_update_event()
         player_name = self.bot.gui.player_name()
+        player_name = re.sub('^[^a-zA-Z0-9_\u4e00-\u9fa5]+$', '', player_name)
         self.set_text(insert='读取玩家名字, {}'.format(player_name))
         # self.set_text(name=player_name)
         self.device.nickname = player_name
