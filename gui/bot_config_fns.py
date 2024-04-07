@@ -49,7 +49,7 @@ def time_drop_down(app, parent):
         '15 Minute',
         '20 Minute',
         '30 Minute',
-        '40 Minute',
+        '45 Minute',
         '60 Minute',
         '75 Minute',
         '90 Minute'
@@ -128,6 +128,7 @@ gather_wild_resource_checkbox = checkbox_fn_creator('gatherWildResource', 'Gathe
 resource_no_secondery_commander = checkbox_fn_creator('gatherResourceNoSecondaryCommander', 'Not secondary commader')
 use_gathering_boosts = checkbox_fn_creator('useGatheringBoosts', 'Use gathering boosts')
 hold_one_query_space_checkbox = checkbox_fn_creator('holdOneQuerySpace', 'Hold space for attack barbarians')
+gather_max_troops_entry = entry_int_fn_creator('gatherMaxTroops', 'Gather Max Troops:')
 
 gather_diamond_checkbox = checkbox_fn_creator('gatherDiamond', 'Gather diamond')
 gather_diamond_max_range_entry = entry_int_fn_creator('gatherDiamondMaxRange', 'Maxmum search range(Default 20):')
@@ -221,7 +222,7 @@ bot_config_title_fns = [
                                   barbarians_max_level_entry,
                                   number_of_attack_entry,
                                   timeout_entry]],
-    [gather_resource_checkbox, [gather_wild_resource_checkbox, gather_alliance_resource_checkbox, use_gathering_boosts, hold_one_query_space_checkbox, resource_ratio, resource_no_secondery_commander]],
+    [gather_resource_checkbox, [gather_wild_resource_checkbox, gather_alliance_resource_checkbox, use_gathering_boosts, hold_one_query_space_checkbox, gather_max_troops_entry, resource_ratio, resource_no_secondery_commander]],
     [gather_diamond_checkbox, [gather_diamond_max_range_entry]],
     [enable_scout_checkbox, [enable_Investigation_checkbox]],
     [enable_sunset_canyon_checkbox, []],

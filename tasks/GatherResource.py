@@ -56,7 +56,8 @@ class GatherResource(Task):
             return next_task
         else:
             self.set_text(insert="当前队列数量:{}/{}".format(cur, total))
-                        
+                 
+        gathering_count = 0       
         if self.bot.config.gatherAllianceResource:
             try:
                 self.set_text(insert='优先采集联盟矿')
@@ -88,6 +89,7 @@ class GatherResource(Task):
                             self.bot.snashot_update_event()
                 
                             found = True
+                            gathering_count = gathering_count + 1
                             gather_join_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_GATHER_JOIN_IMG_PATH.value)[2]
                             if gather_join_pos is None:
                                 self.set_text(insert="没有找到加入按钮, 可能已经在采集")
@@ -154,11 +156,10 @@ class GatherResource(Task):
                 repeat = False
                 first_time = True
                 
-                gathering_count = 0
                 total_search_count = 0
                 
                 # for i in range(10):
-                while gathering_count < 5 and total_search_count < 10:
+                while gathering_count < self.bot.config.gatherMaxTroops and total_search_count < 10:
                     total_search_count = total_search_count + 1
                     if retry_count > 4:
                         self.set_text(insert="{}次策略没有找到可用资源点".format(retry_count))
@@ -252,13 +253,13 @@ class GatherResource(Task):
                         if not self.create_troop():
                             return next_task
                         
+                        gathering_count = gathering_count + 1
                         full_load, cur, total = self.gui.troop_already_full()
                         if full_load:
                             self.set_text(insert="没有更多队列")
                             return next_task
                         else:
                             self.set_text(insert="当前队列数量:{}/{}".format(cur, total))
-                            gathering_count = gathering_count + 1
                     else:
                         self.set_text(insert="没有更多资源点, 降级, 当前等级{}".format(6 - level))
                         should_decreasing_lv = True

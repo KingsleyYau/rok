@@ -226,9 +226,14 @@ class Task:
                 pos_list = self.pass_verification()
             elif gui_name == GuiName.HELLO_WROLD_IMG.name:
                 self.set_text(insert='欢迎界面, 点击任意地方, {}'.format(pos_free))
-                self.tap(pos_free)
                 self.set_text(insert='等待{}秒'.format(self.bot.config.restartSleep))
-                time.sleep(self.bot.config.restartSleep)
+                
+                start = time.time()
+                now = start
+                while now - start <= self.bot.config.restartSleep:
+                    self.tap(pos_free, 10)
+                    now = time.time()
+                    self.set_text(insert='已经等待{}秒...'.format(int(now - start)))
             # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
             #     pos_list = self.pass_verification()
             # elif (gui_name == GuiName.MAP.name) | (gui_name == GuiName.HOME.name):

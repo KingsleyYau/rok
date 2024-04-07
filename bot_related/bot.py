@@ -150,8 +150,11 @@ class Bot:
             [self.gather_resource_task, "gatherResource"],
         ]
         
-        if self.config.autoChangePlayer:
-            curr_task = self.change_player_task.do()
+        try:
+            if self.config.autoChangePlayer:
+                curr_task = self.change_player_task.do()
+        except Exception as e:
+            traceback.print_exc()
 
         if self.building_pos is None:
             curr_task = TaskName.INIT_BUILDING_POS
@@ -165,8 +168,6 @@ class Bot:
             except Exception as e:
                 traceback.print_exc()
                 self.task.set_text(insert="cannot pass verification - stopping bot now")
-                self.stop()
-
 
             random.shuffle(random_tasks)
             # tasks = priority_tasks + random_tasks

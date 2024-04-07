@@ -52,7 +52,7 @@ class Tavern(Task):
         _, _, open_btn_pos = self.gui.check_any(ImagePathAndProps.CHEST_OPEN_BUTTON_IMAGE_PATH.value)
         if open_btn_pos is None:
             return next_task
-        super().set_text(insert="打开免费传说宝箱{}".format(open_btn_pos))
+        super().set_text(insert="打开免费[传说]宝箱{}".format(open_btn_pos))
         self.bot.snashot_update_event()
         super().tap(open_btn_pos, 2 * self.bot.config.tapSleep)
         self.bot.snashot_update_event()

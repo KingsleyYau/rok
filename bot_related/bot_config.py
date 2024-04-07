@@ -102,6 +102,7 @@ class BotConfig:
         self.gatherResourceRatioStone = config.get('gatherResourceRatioStone', 1)
         self.gatherResourceRatioGold = config.get('gatherResourceRatioGold', 1)
         self.holdOneQuerySpace = config.get('holdOneQuerySpace', False)
+        self.gatherMaxTroops = config.get('gatherMaxTroops', 5)
         
         # Gather diamond
         self.gatherDiamond = config.get('gatherDiamond', False)
