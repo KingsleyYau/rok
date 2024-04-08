@@ -136,10 +136,10 @@ class Task:
         )
         if should_open and not is_open:
             self.set_text(insert='打开菜单')
-            self.tap((c_x, c_y))
+            self.tap((c_x, c_y), 2 * self.bot.config.tapSleep)
         elif not should_open and is_open:
             self.set_text(insert='关闭菜单')
-            self.tap((c_x, c_y))
+            self.tap((c_x, c_y), 2 * self.bot.config.tapSlee)
 
     # Map
     def back_to_map_gui(self):
@@ -167,84 +167,92 @@ class Task:
         return loop_count
 
     def get_curr_gui_name(self):
-        if not self.isRoKRunning():
-            str='ROK还没运行, 尝试启动'
-            self.set_text(insert=str)
-            self.bot.snashot_update_event()
-            self.stopRok()
-            self.runOfRoK()
-            self.set_text(insert='等待{}秒'.format(self.bot.config.welcomeSleep))
-            time.sleep(self.bot.config.welcomeSleep)
-        pos_list = None
-        pos_free = (400 + int(50 * (0.5 - random.random())), 400 + int(50 * (0.5 - random.random())))
+        try:
+            if not self.isRoKRunning():
+                str='ROK还没运行, 尝试启动'
+                self.set_text(insert=str)
+                self.bot.snashot_update_event()
+                self.stopRok()
+                self.runOfRoK()
+                self.set_text(insert='等待{}秒'.format(self.bot.config.welcomeSleep))
+                time.sleep(self.bot.config.welcomeSleep)
+            pos_list = None
+            pos_free = (400 + int(50 * (0.5 - random.random())), 400 + int(50 * (0.5 - random.random())))
+            
+            for i in range(0, 1):
+                self.bot.snashot_update_event()
+                self.check_common_button()
+                
+                result = self.gui.get_curr_gui_name()
+                gui_name, pos = ["UNKNOW", None] if result is None else result
+                device_log(self.device, '获取当前界面', gui_name, pos)  
+                
+                self.bot.snashot_update_event()
+                   
+                if gui_name == GuiName.VERIFICATION_VERIFY.name:
+                    self.tap(pos, 5)
+                    pos_list = self.pass_verification()
+                elif gui_name == GuiName.HELLO_WROLD_IMG.name:
+                    self.set_text(insert='欢迎界面, 点击任意地方, {}'.format(pos_free))
+                    self.set_text(insert='等待{}秒'.format(self.bot.config.restartSleep))
+                    
+                    start = time.time()
+                    now = start
+                    while now - start <= self.bot.config.restartSleep:
+                        self.tap(pos_free, 10)
+                        now = time.time()
+                        self.set_text(insert='已经等待{}秒...'.format(int(now - start)))
+                        self.check_common_button()
+                # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
+                #     pos_list = self.pass_verification()
+                # elif (gui_name == GuiName.MAP.name) | (gui_name == GuiName.HOME.name):
+                #     device_log(self.device, '[地图/城市]界面, 不需要处理')
+                # else:
+                #     device_log(self.device, '未知界面, 点击任意地方', pos_free)
+                #     self.tap(pos_free)
+                return result
+            if not pos_list:
+                raise Exception("Could not pass verification")
+        except Exception as e:
+            traceback.print_exc()
+            return None
+    
+    def check_common_button(self):
+        closeapp_pos = self.gui.check_any(
+                ImagePathAndProps.CLOSEAPP_BUTTON_PATH.value
+                )[2]
+        if closeapp_pos is not None:
+            device_log(self.device, '发现程序卡死按钮, 点击', closeapp_pos)
+            self.tap(closeapp_pos)
+            
+        continue_pos = self.gui.check_any(
+                ImagePathAndProps.CONTINUE_BUTTON_PATH.value
+                )[2]
+        if continue_pos is not None:
+            device_log(self.device, '发现继续按钮, 点击', continue_pos)
+            self.tap(continue_pos)   
+            
+        comfirm_pos = self.gui.check_any(
+                ImagePathAndProps.CONFIRM_BUTTON_PATH.value
+                )[2]
+        if comfirm_pos is not None:
+            device_log(self.device, '发现确定按钮, 点击', comfirm_pos)
+            self.tap(comfirm_pos)
         
-        for i in range(0, 1):
-            self.bot.snashot_update_event()
-            closeapp_pos = self.gui.check_any(
-                    ImagePathAndProps.CLOSEAPP_BUTTON_PATH.value
-                    )[2]
-            if closeapp_pos is not None:
-                device_log(self.device, '发现程序卡死按钮, 点击', closeapp_pos)
-                self.tap(closeapp_pos)
-                
-            continue_pos = self.gui.check_any(
-                    ImagePathAndProps.CONTINUE_BUTTON_PATH.value
-                    )[2]
-            if continue_pos is not None:
-                device_log(self.device, '发现继续按钮, 点击', continue_pos)
-                self.tap(continue_pos)   
-                
-            comfirm_pos = self.gui.check_any(
-                    ImagePathAndProps.CONFIRM_BUTTON_PATH.value
-                    )[2]
-            if comfirm_pos is not None:
-                device_log(self.device, '发现确定按钮, 点击', comfirm_pos)
-                self.tap(comfirm_pos)
-            
-            comfirm_update_pos = self.gui.check_any(
-                    ImagePathAndProps.CONFIRM_UPDATE_BUTTON_PATH.value
-                    )    [2]
-            if comfirm_update_pos is not None:
-                device_log(self.device, '发现确定更新按钮, 点击', comfirm_update_pos)
-                self.tap(comfirm_update_pos)
-             
-            cancel_pos = self.gui.check_any(
-                    ImagePathAndProps.CANCEL_BUTTON_PATH.value
-                    )[2]
-            if cancel_pos is not None:
-                device_log(self.device, '发现取消按钮, 点击', cancel_pos)
-                self.tap(cancel_pos)
-            
-            result = self.gui.get_curr_gui_name()
-            gui_name, pos = ["UNKNOW", None] if result is None else result
-            device_log(self.device, '获取当前界面', gui_name, pos)  
-            
-            self.bot.snashot_update_event()
-               
-            if gui_name == GuiName.VERIFICATION_VERIFY.name:
-                self.tap(pos, 5)
-                pos_list = self.pass_verification()
-            elif gui_name == GuiName.HELLO_WROLD_IMG.name:
-                self.set_text(insert='欢迎界面, 点击任意地方, {}'.format(pos_free))
-                self.set_text(insert='等待{}秒'.format(self.bot.config.restartSleep))
-                
-                start = time.time()
-                now = start
-                while now - start <= self.bot.config.restartSleep:
-                    self.tap(pos_free, 10)
-                    now = time.time()
-                    self.set_text(insert='已经等待{}秒...'.format(int(now - start)))
-            # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
-            #     pos_list = self.pass_verification()
-            # elif (gui_name == GuiName.MAP.name) | (gui_name == GuiName.HOME.name):
-            #     device_log(self.device, '[地图/城市]界面, 不需要处理')
-            # else:
-            #     device_log(self.device, '未知界面, 点击任意地方', pos_free)
-            #     self.tap(pos_free)
-            return result
-        if not pos_list:
-            raise Exception("Could not pass verification")
-
+        comfirm_update_pos = self.gui.check_any(
+                ImagePathAndProps.CONFIRM_UPDATE_BUTTON_PATH.value
+                )    [2]
+        if comfirm_update_pos is not None:
+            device_log(self.device, '发现确定更新按钮, 点击', comfirm_update_pos)
+            self.tap(comfirm_update_pos)
+         
+        cancel_pos = self.gui.check_any(
+                ImagePathAndProps.CANCEL_BUTTON_PATH.value
+                )[2]
+        if cancel_pos is not None:
+            device_log(self.device, '发现取消按钮, 点击', cancel_pos)
+            self.tap(cancel_pos)
+                    
     def pass_verification(self):
         pos_list = None
         try:
@@ -302,6 +310,7 @@ class Task:
         self.menu_should_open(True)
         self.bot.snashot_update_event()
         # open items window
+        self.set_text(insert='选择增益道具分栏{}'.format(items_icon_pos))
         self.tap(items_icon_pos)
         self.bot.snashot_update_event()  
         
