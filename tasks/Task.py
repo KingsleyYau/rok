@@ -139,7 +139,7 @@ class Task:
             self.tap((c_x, c_y), 2 * self.bot.config.tapSleep)
         elif not should_open and is_open:
             self.set_text(insert='关闭菜单')
-            self.tap((c_x, c_y), 2 * self.bot.config.tapSlee)
+            self.tap((c_x, c_y), 2 * self.bot.config.tapSleep)
 
     # Map
     def back_to_map_gui(self):
