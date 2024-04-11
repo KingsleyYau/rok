@@ -28,16 +28,29 @@ class Adb:
         try:
             self.client.remote_connect(host, port)
             device = self.client.device('{}:{}'.format(host, port))
+            device.host = host
+            device.port = port
             log('get_device', host, port, device)
-        #     print('get_device', host, port)
-        #     # if device is None:
-        #     #     self.connect_to_device(host, port)
-        #     #     device = self.client.device('{}:{}'.format(host, port))
         except Exception as e:
+            traceback.print_exc()
+            self.enable_adb()
+            return None
+        return device
+    
+    def reconnect(self, device):
+        try:
+            host = device.host
+            port = device.port
+            log('reconnect', host, port)
+            self.connect_to_device(host, port)
+            self.client.remote_connect(host, port)
+            device = self.client.device('{}:{}'.format(host, port))
+            log('reconnect', host, port, device)
+        except Exception as e:
+            log('reconnect', host, port, e)
             traceback.print_exc()
             return None
         return device
-
 
 def enable_adb(host='127.0.0.1', port=5037):
     adb = None

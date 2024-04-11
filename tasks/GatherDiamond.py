@@ -65,14 +65,17 @@ class GatherDiamond(Task):
             except Exception as e:
                 device_log(self.device, '解析宝石数量出错{}'.format(e))
             self.set_text(title='采集宝石, 当前宝石: {}, 打工获得宝石: {}'.format(result[4], self.bot.diamond_add), remove=True)
+        
         try:
             full_load, cur, total = self.gui.troop_already_full()
             if full_load:
-                self.set_text(insert="没有更多队列采集")
+                self.set_text(insert="没有更多队列")
                 return next_task
             else:
-                self.set_text(insert="当前采集部队数量:{}/{}".format(cur, total))
-                                
+                self.set_text(insert="当前队列数量:{}/{}".format(cur, total))
+                      
+            gathering_count = 0          
+            
             size_count = 1
             size_step = size_count
             src = (880, 320)
@@ -86,7 +89,7 @@ class GatherDiamond(Task):
             self.set_text(insert="开始寻找宝石, 一共{}次".format(total_count,))
             self.set_text(insert="寻找宝石")
         
-            while count < total_count:
+            while gathering_count < self.bot.config.gatherMaxTroops and count < total_count:
                 size_step = size_count
                 while size_step > 0:
                     kilo = self.gui.get_kilometer()
@@ -130,6 +133,7 @@ class GatherDiamond(Task):
                                 self.tap(gather_button_pos, 2 * self.bot.config.tapSleep)
                                 self.bot.snashot_update_event()
                         
+                                gathering_count = gathering_count + 1
                                 if not self.create_troop():
                                     return next_task
                                 

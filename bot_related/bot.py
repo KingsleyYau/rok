@@ -3,7 +3,7 @@ import threading
 # import traceback
 from threading import Lock
 import time
-
+import adb
 from tasks.Items import Items
 from tasks.LostCanyon import LostCanyon
 from tasks.Task import *
@@ -155,6 +155,10 @@ class Bot:
                 curr_task = self.change_player_task.do()
         except Exception as e:
             traceback.print_exc()
+            nickname = '{}-{}-{}'.format(self.device.save_file_prefix, self.device.nickname, self.device.serial) if len(self.device.nickname)>0 is not None else '{}-{}'.format(self.device.save_file_prefix, self.device.serial)
+            self.task.set_text(insert="try to reconect {}".format(nickname))
+            adb.bridge.reconnect(self.device)
+            time.sleep(10)
 
         if self.building_pos is None:
             curr_task = TaskName.INIT_BUILDING_POS
@@ -165,92 +169,94 @@ class Bot:
             # Check verification before every task
             try:
                 self.task.get_curr_gui_name()
-            except Exception as e:
-                traceback.print_exc()
-                self.task.set_text(insert="cannot pass verification - stopping bot now")
 
-            random.shuffle(random_tasks)
-            # tasks = priority_tasks + random_tasks
-            tasks = random_tasks
-                    
-            player_round_count = self.round_count
-            if self.config.autoChangePlayer:
-                player_round_count = self.round_count // self.config.playerCount
-            
-            if len(self.device.nickname) == 0:
-                self.get_player_name_task.do(TaskName.COLLECTING)
-            # device_log(self.device, tasks)
-
-            # init building position if need
-            if (
-                not self.config.hasBuildingPos
-                or curr_task == TaskName.INIT_BUILDING_POS
-            ):
-                self.task.set_text(
-                    insert="building positions not saved - recalculating"
-                )
-                curr_task = self.locate_building_task.do(next_task=TaskName.COLLECTING)
-
-            for task in tasks:
-                if len(task) == 2:
-                    if getattr(self.config, task[1]):
-                        curr_task = task[0].do()
+                random.shuffle(random_tasks)
+                # tasks = priority_tasks + random_tasks
+                tasks = random_tasks
+                        
+                player_round_count = self.round_count
+                if self.config.autoChangePlayer:
+                    player_round_count = self.round_count // self.config.playerCount
+                
+                if len(self.device.nickname) == 0:
+                    self.get_player_name_task.do(TaskName.COLLECTING)
+    
+                # init building position if need
+                if (
+                    not self.config.hasBuildingPos
+                    or curr_task == TaskName.INIT_BUILDING_POS
+                ):
+                    self.task.set_text(
+                        insert="building positions not saved - recalculating"
+                    )
+                    curr_task = self.locate_building_task.do(next_task=TaskName.COLLECTING)
+    
+                for task in tasks:
+                    if len(task) == 2:
+                        if getattr(self.config, task[1]):
+                            curr_task = task[0].do()
+                    else:
+                        if (
+                            getattr(self.config, task[1])
+                            and player_round_count % getattr(self.config, task[2]) == 0
+                        ):
+                            curr_task = task[0].do()
+    
+                if self.config.enableStop:
+                    curr_task = self.restart_task.do()
                 else:
-                    if (
-                        getattr(self.config, task[1])
-                        and player_round_count % getattr(self.config, task[2]) == 0
-                    ):
-                        curr_task = task[0].do()
-
-            if self.config.enableStop:
-                curr_task = self.restart_task.do()
-            else:
-                if (self.config.enableBreak and player_round_count % self.config.breakDoRound == 0):
-                    breakTime = int(random.uniform(int(self.config.breakTime * 3 / 4), self.config.breakTime))
-                    progress_time = max(breakTime // 10, 1)
-                    count = 0     
-                    start = time.time()
-                    now = start
-                    last = 0
-                    # for i in range(breakTime):
-                    self.break_task.set_text(title='休息, 当前回合{}'.format(player_round_count), remove=True)
-                    self.break_task.set_text(insert='开始休息 {} seconds'.format(breakTime), remove=True)
-                    while now - start <= breakTime:
-                        if now - last > 600: 
-                        # if count % progress_time == 0:
-                            self.break_task.back_to_map_gui()
-                            full_load, cur, total = self.gui.troop_already_full()
-                            self.break_task.set_text(insert='已经休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total), remove=True)
-                            self.snashot_update_event()
-                            if not full_load:
-                                for task in priority_tasks:
-                                    if len(task) == 2:
-                                        if getattr(self.config, task[1]):
-                                            task[0].do()
-                                self.break_task.set_text(title='休息, 当前回合{}'.format(player_round_count), remove=True)
+                    if (self.config.enableBreak and player_round_count % self.config.breakDoRound == 0):
+                        breakTime = int(random.uniform(int(self.config.breakTime * 3 / 4), self.config.breakTime))
+                        progress_time = max(breakTime // 10, 1)
+                        count = 0     
+                        start = time.time()
+                        now = start
+                        last = 0
+                        # for i in range(breakTime):
+                        self.break_task.set_text(title='休息, 当前回合{}'.format(player_round_count), remove=True)
+                        self.break_task.set_text(insert='开始休息 {} seconds'.format(breakTime), remove=True)
+                        while now - start <= breakTime:
+                            if now - last > 600: 
+                            # if count % progress_time == 0:
                                 self.break_task.back_to_map_gui()
                                 full_load, cur, total = self.gui.troop_already_full()
+                                self.break_task.set_text(insert='已经休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total), remove=True)
                                 self.snashot_update_event()
+                                if not full_load:
+                                    for task in priority_tasks:
+                                        if len(task) == 2:
+                                            if getattr(self.config, task[1]):
+                                                task[0].do()
+                                    self.break_task.set_text(title='休息, 当前回合{}'.format(player_round_count), remove=True)
+                                    self.break_task.back_to_map_gui()
+                                    full_load, cur, total = self.gui.troop_already_full()
+                                    self.snashot_update_event()
+                                now = time.time()
+                                last = now
+                                self.break_task.set_text(insert='继续休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total), remove=True)
+                            count = count + 1
+                            time.sleep(1)
                             now = time.time()
-                            last = now
-                            self.break_task.set_text(insert='继续休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total), remove=True)
-                        count = count + 1
-                        time.sleep(1)
-                        now = time.time()
-                                            
-                    if self.config.terminate:
-                        self.break_task.set_text(insert='关闭ROK')
-                        self.stopRok()
-                        self.snashot_update_event()
-                          
-                    # curr_task = self.break_task.do()
-                    if self.config.autoChangePlayer:
-                        curr_task = self.auto_change_task.do()
-                else:
-                    curr_task = self.break_task.do_no_wait()
-                    curr_task = self.restart_task.do() 
-
-            self.round_count = self.round_count + 1
+                                                
+                        if self.config.terminate:
+                            self.break_task.set_text(insert='关闭ROK')
+                            self.stopRok()
+                            self.snashot_update_event()
+                              
+                        # curr_task = self.break_task.do()
+                        if self.config.autoChangePlayer:
+                            curr_task = self.auto_change_task.do()
+                    else:
+                        curr_task = self.break_task.do_no_wait()
+                        curr_task = self.restart_task.do() 
+    
+                self.round_count = self.round_count + 1
+            except Exception as e:
+                traceback.print_exc()
+                nickname = '{}-{}-{}'.format(self.device.save_file_prefix, self.device.nickname, self.device.serial) if len(self.device.nickname)>0 is not None else '{}-{}'.format(self.device.save_file_prefix, self.device.serial)
+                self.task.set_text(insert="try to reconect {}".format(nickname))
+                adb.bridge.reconnect(self.device)
+                time.sleep(10)
         return
 
     def daemon(self, fn):

@@ -53,7 +53,7 @@ class Materials(Task):
                 for i in range(len(list_amount) - 1):
                     if list_amount[min] > list_amount[i]:
                         min = i
-            super().set_text(insert='生产最少材料, {}'.format(icon_name[min]))
+            super().set_text(insert='生产材料, {}'.format(icon_name[min]))
             for i in range(5):
                 super().tap(icon_pos[min])
             self.bot.snashot_update_event()
