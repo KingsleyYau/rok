@@ -253,7 +253,7 @@ class Bot:
                 self.round_count = self.round_count + 1
             except Exception as e:
                 traceback.print_exc()
-                nickname = '{}-{}-{}'.format(self.device.save_file_prefix, self.device.nickname, self.device.serial) if len(self.device.nickname)>0 is not None else '{}-{}'.format(self.device.save_file_prefix, self.device.serial)
+                nickname = '{}-{}-{}'.format(self.device.save_file_prefix, self.device.nickname, self.device.serial) if len(self.device.nickname)>0 else '{}-{}'.format(self.device.save_file_prefix, self.device.serial)
                 self.task.set_text(insert="try to reconect {}".format(nickname))
                 adb.bridge.reconnect(self.device)
                 time.sleep(10)

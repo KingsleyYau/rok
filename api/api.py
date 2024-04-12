@@ -130,9 +130,11 @@ def run_api(args):
     name = None
     ip = None
     port = None
+    nickname = None
     devices_config = load_device_config()
     for config in devices_config:
         name = config.get('name', 'None')
+        nickname = config.get('nickname', 'None')
         ip = config['ip']
         port = config['port']
         if device_name == name:
@@ -142,6 +144,7 @@ def run_api(args):
     if device is None:
         return
     device.name = name
+    device.nickname = nickname
     log('device:', device)
             
     bot = Bot(device)

@@ -14,7 +14,7 @@
   "enableMysteryMerchant": true,
   "enableCollecting": true,
   "enableMaterialProduce": true,
-  "materialDoRound": 8,
+  "materialDoRound": 4,
   "onlyProduceBone": true,
   "enableTavern": true,
   "enableTraining": true,
