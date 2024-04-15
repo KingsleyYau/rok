@@ -4,7 +4,7 @@ from tkinter import TRUE, FALSE, N, W, LEFT
 
 from utils import resource_path
 from bot_related.bot_config import BotConfig
-from filepath.file_relative_paths import FilePaths
+from filepath.tool_relative_paths import FilePaths
 
 import traceback
 

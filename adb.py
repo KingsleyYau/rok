@@ -2,7 +2,7 @@ from ppadb.client import Client as PPADBClient
 from utils import resource_path
 from utils import build_command
 from utils import log
-from filepath.file_relative_paths import FilePaths
+from filepath.tool_relative_paths import FilePaths
 import subprocess
 import traceback
 
@@ -33,7 +33,7 @@ class Adb:
             log('get_device', host, port, device)
         except Exception as e:
             traceback.print_exc()
-            self.enable_adb()
+            Adb.enable_adb()
             return None
         return device
     

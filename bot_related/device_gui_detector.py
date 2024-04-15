@@ -1,7 +1,7 @@
 from PIL import Image
 from filepath.file_relative_paths import ImagePathAndProps
 from filepath.file_relative_paths import GuiCheckImagePathAndPropsOrdered
-from filepath.file_relative_paths import FilePaths
+from filepath.tool_relative_paths import FilePaths
 from utils import resource_path
 from utils import img_to_string, img_to_string_eng
 from utils import img_remove_background_and_enhance_word
@@ -33,10 +33,10 @@ class GuiName(Enum):
     MAP = 1
     WINDOW = 2
     WINDOW_TITLE = 3
-    # VERIFICATION_CHEST = 4
+    VERIFICATION_CHEST = 4
     VERIFICATION_VERIFY = 5
-    # VERIFICATION_VERIFY_TITLE = 6
-    # VERIFICATION_CLOSE_REFRESH_OK = 7
+    VERIFICATION_VERIFY_TITLE = 6
+    VERIFICATION_CLOSE_REFRESH_OK = 7
     HELLO_WROLD_IMG = 8
 
 

@@ -16,10 +16,10 @@ import config
 import traceback
 import time
 import random
+import adb
 
 from filepath.constants import RESOURCES, SPEEDUPS, BOOSTS, EQUIPMENT, OTHER, MAP, HOME
 from time import sleep
-
 
 class Task:
 
@@ -190,8 +190,16 @@ class Task:
                 self.bot.snashot_update_event()
                    
                 if gui_name == GuiName.VERIFICATION_VERIFY.name:
-                    self.tap(pos, 5)
+                    self.set_text(insert='点击验证按钮, {}'.format(pos))
+                    self.tap(pos, 2 * self.bot.config.tapSleep)
+                elif gui_name == GuiName.VERIFICATION_CHEST.name:
+                    self.set_text(insert='点击验证图标, {}'.format(pos))
+                    self.tap(pos, 2 * self.bot.config.tapSleep)
+                elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
+                    self.set_text(insert='开始验证, {}'.format(pos))
                     pos_list = self.pass_verification()
+                    if pos_list is None:
+                        self.set_text(insert='验证失败')
                 elif gui_name == GuiName.HELLO_WROLD_IMG.name:
                     self.set_text(insert='欢迎界面, 点击任意地方, {}'.format(pos_free))
                     self.set_text(insert='等待{}秒'.format(self.bot.config.restartSleep))
@@ -215,6 +223,7 @@ class Task:
                 raise Exception("Could not pass verification")
         except Exception as e:
             traceback.print_exc()
+            adb.bridge.reconnect(self.device)
             return None
     
     def check_common_button(self):
@@ -256,7 +265,7 @@ class Task:
     def pass_verification(self):
         pos_list = None
         try:
-            self.set_text(insert="pass verification")
+            self.set_text(insert="pass verification, {}".format(config.global_config.method))
             box = (400, 0, 880, 720)
             ok = [780, 680]
             img = self.gui.get_curr_device_screen_img()
@@ -267,7 +276,7 @@ class Task:
                 pos_list = twocaptcha.solve_verification(img)
 
             if pos_list is None:
-                self.set_text(insert="fail to pass verification")
+                self.set_text(insert="fail to pass verification, {}".format(config.global_config.method))
                 return None
 
             for pos in pos_list:

@@ -5,16 +5,6 @@ from filepath.constants import *
 class StrImagePosition(Enum):
     WINDOWS_TITLE = (305, 68, 975, 100)
 
-
-class FilePaths(Enum):
-    TEST_SRC_FOLDER_PATH = "script/capture/"
-    TEST_CURR_SCREEN_CAP_PATH = "test_screen_caps/current_cap.png"
-    ADB_EXE_PATH = "adb/adb"
-    TESSERACT_EXE_PATH = "/usr/local/Cellar/tesseract/5.3.4/bin/tesseract"
-    TESSDATA_CHI_SIM_PATH = "tessdata/chi_sim.traineddata"
-    SAVE_FOLDER_PATH = "save/"
-
-
 class BuffsImageAndProps(Enum):
     ENHANCED_GATHER_BLUE = [
         "resource/buffs/enhanced_gathering_blue.png",
@@ -942,6 +932,14 @@ class ImagePathAndProps(Enum):
         25,
         CONTACT_US_BUTTON,
     ]
+    CHANGE_ROLE_BUTTON_PATH = [
+        "resource/change_role.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        CHANGE_ROLE_BUTTON,
+    ]
     BUILDING_UPGRADE_BUTTON_PATH = [
         "resource/building_upgrade.png",
         (1280, 720),
@@ -1000,6 +998,14 @@ class GuiCheckImagePathAndProps(Enum):
         25,
         VERIFICATION_VERIFY,
     ]
+    VERIFICATION_CLOSE_REFRESH_OK_BUTTON_IMAGE_PATH = [
+        "resource/verification_close_refresh_ok_button.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.90,
+        25,
+        VERIFICATION_CLOSE_REFRESH_OK,
+    ]
     MAP_BUTTON_IMG_PATH = [
         "resource/map_button_0.png",
         (1280, 720),
@@ -1041,10 +1047,10 @@ class GuiCheckImagePathAndProps(Enum):
 
 
 GuiCheckImagePathAndPropsOrdered = [
+    GuiCheckImagePathAndProps.VERIFICATION_CLOSE_REFRESH_OK_BUTTON_IMAGE_PATH,
+    GuiCheckImagePathAndProps.VERIFICATION_VERIFY_BUTTON_IMAGE_PATH,
     GuiCheckImagePathAndProps.VERIFICATION_CHEST_IMG_PATH,
     GuiCheckImagePathAndProps.VERIFICATION_CHEST1_IMG_PATH,
-    # GuiCheckImagePathAndProps.VERIFICATION_CLOSE_REFRESH_OK_BUTTON_IMAGE_PATH,
-    GuiCheckImagePathAndProps.VERIFICATION_VERIFY_BUTTON_IMAGE_PATH,
     GuiCheckImagePathAndProps.MAP_BUTTON_IMG_PATH,
     GuiCheckImagePathAndProps.HOME_BUTTON_IMG_PATH,
     GuiCheckImagePathAndProps.WINDOW_IMG_PATH,

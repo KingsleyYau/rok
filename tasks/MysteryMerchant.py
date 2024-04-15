@@ -56,7 +56,7 @@ class MysteryMerchant(Task):
                         self.tap(buy_with_wood_btn['result'])
 
                 self.set_text(insert='上拉更多道具')
-                self.swipe((730, 575), (730, 475))
+                self.swipe((720, 425), (720, 225), 1, 1000)
 
             # tap on free refresh
             found, _, pos = self.gui.check_any(ImagePathAndProps.MERCHANT_FREE_BTN_IMAGE_PATH.value)
@@ -64,5 +64,5 @@ class MysteryMerchant(Task):
                 return next_task
             else:
                 self.set_text(insert='刷新')
-                # self.tap(pos)
+                self.tap(pos)
                 break
