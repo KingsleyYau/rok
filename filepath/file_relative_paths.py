@@ -852,6 +852,14 @@ class ImagePathAndProps(Enum):
         25,
         HELP_IMG,
     ]  
+    HELP2_IMG_PATH = [
+        "resource/help2.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        HELP2_IMG,
+    ]  
     GIFT_IMG_PATH = [
         "resource/gift.png",
         (1280, 720),

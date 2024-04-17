@@ -77,6 +77,12 @@ class Task:
             result = self.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
             if gui_name == GuiName.HOME.name:
+                help_pos = self.gui.check_any(
+                        ImagePathAndProps.HELP2_IMG_PATH.value
+                        )[2]
+                if help_pos is not None:
+                    device_log(self.device, '发现帮助按钮, 点击', help_pos)
+                    self.tap(help_pos)   
                 break
             else:
                 self.set_text(insert='切换视觉[城市], 当前界面[{}], {}, loop_count:{}'.format(gui_name, pos, loop_count))

@@ -49,6 +49,7 @@ class Adb:
         except Exception as e:
             log('reconnect', host, port, e)
             traceback.print_exc()
+            Adb.enable_adb()
             return None
         return device
 
