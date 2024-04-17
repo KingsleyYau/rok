@@ -77,12 +77,6 @@ class Task:
             result = self.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
             if gui_name == GuiName.HOME.name:
-                help_pos = self.gui.check_any(
-                        ImagePathAndProps.HELP2_IMG_PATH.value
-                        )[2]
-                if help_pos is not None:
-                    device_log(self.device, '发现帮助按钮, 点击', help_pos)
-                    self.tap(help_pos)   
                 break
             else:
                 self.set_text(insert='切换视觉[城市], 当前界面[{}], {}, loop_count:{}'.format(gui_name, pos, loop_count))
@@ -258,7 +252,7 @@ class Task:
                 ImagePathAndProps.CONFIRM_UPDATE_BUTTON_PATH.value
                 )    [2]
         if comfirm_update_pos is not None:
-            device_log(self.device, '发现确定更新按钮, 点击', comfirm_update_pos)
+            device_log(self.device, '发现更新确定按钮, 点击', comfirm_update_pos)
             self.tap(comfirm_update_pos)
          
         cancel_pos = self.gui.check_any(
