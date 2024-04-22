@@ -237,7 +237,8 @@ class Bot:
                             count = count + 1
                             time.sleep(1)
                             now = time.time()
-                                                
+                        self.break_task.set_text(insert='结束休息 {}/{} seconds'.format(int(now - start), breakTime), remove=True)  
+                                              
                         if self.config.terminate:
                             self.break_task.set_text(insert='关闭ROK')
                             self.stopRok()

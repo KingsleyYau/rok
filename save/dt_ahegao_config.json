@@ -14,7 +14,7 @@
   "enableMysteryMerchant": true,
   "enableCollecting": true,
   "enableMaterialProduce": true,
-  "materialDoRound": 3,
+  "materialDoRound": 4,
   "onlyProduceBone": true,
   "enableTavern": true,
   "enableTraining": true,
@@ -53,7 +53,7 @@
   "gatherResourceRatioStone": 2,
   "gatherResourceRatioGold": 6,
   "holdOneQuerySpace": false,
-  "gatherMaxTroops": 5,
+  "gatherMaxTroops": 3,
   "gatherDiamond": false,
   "gatherDiamondMaxRange": 35,
   "enableScout": false,
@@ -69,5 +69,5 @@
   "enableAutoFillTroop": false,
   "autoChangePlayer": true,
   "playerIndex": 1,
-  "playerCount": 3
+  "playerCount": 2
 }

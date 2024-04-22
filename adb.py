@@ -33,7 +33,7 @@ class Adb:
             log('get_device', host, port, device)
         except Exception as e:
             traceback.print_exc()
-            Adb.enable_adb()
+            enable_adb()
             return None
         return device
     
@@ -45,17 +45,18 @@ class Adb:
             self.connect_to_device(host, port)
             self.client.remote_connect(host, port)
             device = self.client.device('{}:{}'.format(host, port))
-            log('reconnect', host, port, device)
+            log('reconnect', '[OK]', host, port, device)
         except Exception as e:
-            log('reconnect', host, port, e)
+            log('reconnect', '[ERR]', host, port, e)
             traceback.print_exc()
-            Adb.enable_adb()
+            enable_adb()
             return None
         return device
 
 def enable_adb(host='127.0.0.1', port=5037):
     adb = None
     adb_path = resource_path(FilePaths.ADB_EXE_PATH.value)
+    log('enable_adb', adb_path, host, port)
     try:
         adb = Adb(host, port)
 
