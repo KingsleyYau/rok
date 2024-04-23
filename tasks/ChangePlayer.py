@@ -23,7 +23,7 @@ class ChangePlayer(Task):
         
         # 打开设置
         self.set_text(insert='打开设置')
-        self.tap((990, 570))
+        self.tap((990, 570), 2 * self.bot.config.tapSleep)
         # 角色管理 
         self.set_text(insert='打开角色管理')
         self.tap((560, 380), 2 * self.bot.config.tapSleep)
