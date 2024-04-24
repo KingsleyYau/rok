@@ -5,7 +5,7 @@ from utils import log
 from filepath.tool_relative_paths import FilePaths
 import subprocess
 import traceback
-
+import time
 bridge = None
 
 
@@ -50,6 +50,7 @@ class Adb:
             log('reconnect', '[ERR]', host, port, e)
             traceback.print_exc()
             enable_adb()
+            time.sleep(10)
             return None
         return device
 
