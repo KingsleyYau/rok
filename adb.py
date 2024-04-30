@@ -42,7 +42,7 @@ class Adb:
             host = device.host
             port = device.port
             log('reconnect', host, port)
-            self.connect_to_device(host, port)
+            # self.connect_to_device(host, port)
             self.client.remote_connect(host, port)
             device = self.client.device('{}:{}'.format(host, port))
             log('reconnect', '[OK]', host, port, device)
