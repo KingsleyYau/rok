@@ -77,6 +77,8 @@ class Task:
             result = self.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
             if gui_name == GuiName.HOME.name:
+                free_pos = (400 + int(50 * (0.5 - random.random())), 500 + int(50 * (0.5 - random.random())))
+                self.tap(free_pos)
                 help_pos = self.gui.check_any(ImagePathAndProps.HELP2_IMG_PATH.value)[2]
                 if help_pos is not None:
                     self.set_text(insert='切换视觉[城市], 当前界面[{}], {}, 发现帮助按钮, 点击'.format(gui_name,pos))
