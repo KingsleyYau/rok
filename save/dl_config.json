@@ -53,7 +53,7 @@
   "gatherResourceRatioStone": 2,
   "gatherResourceRatioGold": 8,
   "holdOneQuerySpace": false,
-  "gatherMaxTroops": 2,
+  "gatherMaxTroops": 1,
   "gatherDiamond": false,
   "gatherDiamondMaxRange": 20,
   "enableScout": false,
@@ -68,6 +68,6 @@
   "enableUpgradeBuilding": false,
   "enableAutoFillTroop": false,
   "autoChangePlayer": true,
-  "playerIndex": 1,
-  "playerCount": 3
+  "playerIndex": 0,
+  "playerCount": 2
 }
