@@ -483,8 +483,9 @@ class Task:
             device_log(self.device, kwargs[name])
             
         if title in kwargs:
-            self.bot.text[title] = kwargs[title]
-            device_log(self.device, kwargs[title])
+            text = '{}, 当前回合:{}'.format(kwargs[title], self.bot.player_round_count)
+            self.bot.text[title] = text
+            device_log(self.device, text)
 
         if replace in kwargs:
             self.bot.text[text_list][kwargs[index]] = (
