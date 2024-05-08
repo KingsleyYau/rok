@@ -995,6 +995,14 @@ class ImagePathAndProps(Enum):
         0.80,
         25,
         CLOSEAPP_BUTTON,
+    ]
+    CLOSE_LEFT_TASK_BUTTON_PATH = [
+        "resource/close_left_task.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        CLOSE_LEFT_TASK_BUTTON,
     ] 
     
 class GuiCheckImagePathAndProps(Enum):

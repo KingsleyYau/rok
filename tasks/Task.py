@@ -79,10 +79,17 @@ class Task:
             if gui_name == GuiName.HOME.name:
                 free_pos = (400 + int(50 * (0.5 - random.random())), 500 + int(50 * (0.5 - random.random())))
                 self.tap(free_pos)
+                
+                left_task_pos = self.gui.check_any(ImagePathAndProps.CLOSE_LEFT_TASK_BUTTON_PATH.value)[2]
+                if left_task_pos is not None:
+                    self.set_text(insert='切换视觉[城市], 当前界面[{}], {}, 发现左侧菜单打开, 关闭'.format(gui_name, left_task_pos))
+                    self.tap(left_task_pos)
+                    
                 help_pos = self.gui.check_any(ImagePathAndProps.HELP2_IMG_PATH.value)[2]
                 if help_pos is not None:
-                    self.set_text(insert='切换视觉[城市], 当前界面[{}], {}, 发现帮助按钮, 点击'.format(gui_name,pos))
+                    self.set_text(insert='切换视觉[城市], 当前界面[{}], {}, 发现帮助按钮, 点击'.format(gui_name, help_pos))
                     self.tap(help_pos)
+                    
                 break
             else:
                 self.set_text(insert='切换视觉[城市], 当前界面[{}], {}, loop_count:{}'.format(gui_name, pos, loop_count))
