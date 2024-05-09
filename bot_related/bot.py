@@ -52,7 +52,6 @@ class Bot:
         self.gui = GuiDetector(device)
         self.text_update_event = lambda v: v
         self.text = {"name":"", "title": "", "text_list": []}
-        self.player_round_count = 0
 
         self.building_pos_update_event = lambda **kw: kw
         self.config_update_event = lambda **kw: kw
@@ -98,6 +97,7 @@ class Bot:
         self.change_player_task = ChangePlayer(self)
         self.get_player_name_task = GetPlayerName(self)
         
+        self.player_round_count = 0
         self.round_count = 0
         self.diamond = 0
         self.diamond_add = 0
