@@ -212,7 +212,7 @@ class Bot:
                         start = time.time()
                         now = start
                         last = 0
-                        diff = 600
+                        diff = 900
                         # for i in range(breakTime):
                         
                         self.player_round_count = player_round_count
