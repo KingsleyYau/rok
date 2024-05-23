@@ -175,8 +175,9 @@ class Bot:
                 tasks = random_tasks
                         
                 player_round_count = self.round_count
+                self.round_count = self.round_count + 1
                 if self.config.autoChangePlayer:
-                    player_round_count = self.round_count // self.config.playerCount
+                    player_round_count = player_round_count // self.config.playerCount
                 
                 if len(self.device.nickname) == 0:
                     self.get_player_name_task.do(TaskName.COLLECTING)
@@ -217,13 +218,13 @@ class Bot:
                         
                         self.player_round_count = player_round_count
                         self.break_task.set_text(title='休息', remove=True)
-                        self.break_task.set_text(insert='开始休息 {} seconds'.format(breakTime), remove=True)
+                        self.break_task.set_text(insert='开始休息 {} seconds'.format(breakTime))
                         while now - start <= breakTime:
                             if now - last > diff: 
                             # if count % progress_time == 0:
                                 self.break_task.back_to_map_gui()
                                 full_load, cur, total = self.gui.troop_already_full()
-                                self.break_task.set_text(insert='已经休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total), remove=True)
+                                self.break_task.set_text(insert='已经休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total))
                                 self.snashot_update_event()
                                 if not full_load:
                                     for task in priority_tasks:
@@ -235,11 +236,11 @@ class Bot:
                                     self.snashot_update_event()
                                 now = time.time()
                                 last = now
-                                self.break_task.set_text(insert='继续休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total), remove=True)
+                                self.break_task.set_text(insert='继续休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total))
                             count = count + 1
                             time.sleep(1)
                             now = time.time()
-                        self.break_task.set_text(insert='结束休息 {}/{} seconds'.format(int(now - start), breakTime), remove=True)  
+                        self.break_task.set_text(insert='结束休息 {}/{} seconds'.format(int(now - start), breakTime))  
                                               
                         if self.config.terminate:
                             self.break_task.set_text(insert='关闭ROK')
@@ -252,8 +253,7 @@ class Bot:
                     else:
                         curr_task = self.break_task.do_no_wait()
                         curr_task = self.restart_task.do() 
-    
-                self.round_count = self.round_count + 1
+                
             except Exception as e:
                 traceback.print_exc()
                 nickname = '{}-{}-{}'.format(self.device.save_file_prefix, self.device.nickname, self.device.serial) if len(self.device.nickname)>0 else '{}-{}'.format(self.device.save_file_prefix, self.device.serial)

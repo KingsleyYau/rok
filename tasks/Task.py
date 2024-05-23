@@ -481,7 +481,10 @@ class Task:
         if name in kwargs:
             self.bot.text[name] = kwargs[name]
             device_log(self.device, kwargs[name])
-            
+         
+        if remove in kwargs and kwargs.get(remove, False):
+            self.bot.text[text_list].clear()   
+
         if title in kwargs:
             text = '{}, 当前回合:{}'.format(kwargs[title], self.bot.player_round_count)
             self.bot.text[title] = text
@@ -502,9 +505,6 @@ class Task:
         if append in kwargs:
             self.bot.text[text_list].append(dt_string + " " + kwargs[append].lower())
             device_log(self.device, f"\t* {dt_string} {kwargs[append].lower()}")
-
-        if remove in kwargs and kwargs.get(remove, False):
-            self.bot.text[text_list].clear()
 
         self.bot.text_update_event(self.bot.text)
 
