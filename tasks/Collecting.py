@@ -1,8 +1,7 @@
 from tasks.Task import Task
-import traceback
-
 from tasks.constants import TaskName, BuildingNames
-
+import traceback
+import random
 
 class Collecting(Task):
     def __init__(self, bot):
@@ -16,7 +15,8 @@ class Collecting(Task):
 
             super().menu_should_open(False)
 
-            pos_e = (105, 125)
+            pos_free = (105, 125)
+            #pos_free = (pos_e[0] + int(10 * (0.5 - random.random())), pos_e[1] + int(10 * (0.5 - random.random())))
             for name in [
                 BuildingNames.BARRACKS.value,
                 BuildingNames.ARCHERY_RANGE.value,
@@ -30,7 +30,7 @@ class Collecting(Task):
             ]:
                 self.set_text(insert='{} at position {}'.format(name, self.bot.building_pos[name]))
                 self.tap(self.bot.building_pos[name])
-                self.tap(pos_e)
+                self.tap(pos_free)
             self.bot.snashot_update_event()
         except Exception as e:
             traceback.print_exc()

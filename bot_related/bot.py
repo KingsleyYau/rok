@@ -155,7 +155,7 @@ class Bot:
                 curr_task = self.change_player_task.do()
         except Exception as e:
             traceback.print_exc()
-            nickname = '{}-{}-{}'.format(self.device.save_file_prefix, self.device.nickname, self.device.serial) if len(self.device.nickname)>0 is not None else '{}-{}'.format(self.device.save_file_prefix, self.device.serial)
+            nickname = '{}-{}-{}'.format(self.device.save_file_prefix, self.device.nickname, self.device.serial) if len(self.device.nickname)>0 else '{}-{}'.format(self.device.save_file_prefix, self.device.serial)
             self.task.set_text(insert="try to reconect {}".format(nickname))
             adb.bridge.reconnect(self.device)
             time.sleep(10)
@@ -166,6 +166,12 @@ class Bot:
             self.config.hasBuildingPos = True
 
         while True:
+            hour = time.strftime("%H", time.localtime())
+            if int(hour) < 6:
+                device_log(self.device, "休息时间...")
+                time.sleep(300)
+                continue
+            
             # Check verification before every task
             try:
                 self.task.get_curr_gui_name()
@@ -236,6 +242,7 @@ class Bot:
                                     self.snashot_update_event()
                                 now = time.time()
                                 last = now
+                                self.break_task.set_text(title='休息')
                                 self.break_task.set_text(insert='继续休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total))
                             count = count + 1
                             time.sleep(1)

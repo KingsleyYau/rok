@@ -82,17 +82,17 @@ class Task:
                 
                 left_task_pos = self.gui.check_any(ImagePathAndProps.CLOSE_LEFT_TASK_BUTTON_PATH.value)[2]
                 if left_task_pos is not None:
-                    self.set_text(insert='切换视觉[城市], 当前界面[{}], {}, 发现左侧菜单打开, 关闭'.format(gui_name, left_task_pos))
+                    self.set_text(insert='切换视觉[home], 当前界面[{}], {}, 发现左侧菜单打开, 关闭'.format(gui_name, left_task_pos))
                     self.tap(left_task_pos)
                     
                 help_pos = self.gui.check_any(ImagePathAndProps.HELP2_IMG_PATH.value)[2]
                 if help_pos is not None:
-                    self.set_text(insert='切换视觉[城市], 当前界面[{}], {}, 发现帮助按钮, 点击'.format(gui_name, help_pos))
+                    self.set_text(insert='切换视觉[home], 当前界面[{}], {}, 发现帮助按钮, 点击'.format(gui_name, help_pos))
                     self.tap(help_pos)
                     
                 break
             else:
-                self.set_text(insert='切换视觉[城市], 当前界面[{}], {}, loop_count:{}'.format(gui_name, pos, loop_count))
+                self.set_text(insert='切换视觉[home], 当前界面[{}], {}, loop_count:{}'.format(gui_name, pos, loop_count))
                 if gui_name == GuiName.MAP.name:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
@@ -116,7 +116,7 @@ class Task:
         self.tap(pos)
 
     def home_gui_full_view(self):
-        self.set_text(insert='切换视觉[全城市]')
+        self.set_text(insert='切换视觉[full home]')
         self.tap((60, 540), 2 * self.bot.config.tapSleep)
         self.tap((1105, 200), 2 * self.bot.config.tapSleep)
         self.tap((1220, 35), 2 * self.bot.config.tapSleep)
@@ -164,11 +164,11 @@ class Task:
             if gui_name == GuiName.MAP.name:
                 help_pos = self.gui.check_any(ImagePathAndProps.HELP2_IMG_PATH.value)[2]
                 if help_pos is not None:
-                    self.set_text(insert='切换视觉[地图], 当前界面[{}], {}, 发现帮助按钮, 点击'.format(gui_name,pos))
+                    self.set_text(insert='切换视觉[map], 当前界面[{}], {}, 发现帮助按钮, 点击'.format(gui_name,pos))
                     self.tap(help_pos)
                 break
             else:
-                self.set_text(insert='切换视觉[地图], 当前界面[{}], {}, loop_count:{}'.format(gui_name,pos,loop_count))
+                self.set_text(insert='切换视觉[map], 当前界面[{}], {}, loop_count:{}'.format(gui_name,pos,loop_count))
                 if gui_name == GuiName.HOME.name:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:

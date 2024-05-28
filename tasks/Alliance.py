@@ -17,6 +17,7 @@ class Alliance(Task):
             random.shuffle(random_tasks)
             
             for name in random_tasks:
+                super().set_text(insert='回到联盟中心菜单')
                 super().back_to_home_gui()
                 super().menu_should_open(True)
                 super().set_text(insert='打开联盟中心')
