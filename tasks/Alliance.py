@@ -59,13 +59,20 @@ class Alliance(Task):
                     super().set_text(insert='收集普通礼物')
                     super().tap(normal_pos)
                     self.bot.snashot_update_event()
+                    
                     super().set_text(insert='一键收集普通礼物')
                     super().tap(claim_all_pos)
                     self.bot.snashot_update_event()
+                    
+                    comfirm_pos = self.gui.check_any(ImagePathAndProps.CONFIRM_BUTTON_PATH.value)[2]
+                    if comfirm_pos is not None:
+                        self.tap(comfirm_pos)
+                                            
                     # collecting treasure of white crystal
                     super().set_text(insert='收集水晶箱子')
                     super().tap(treasure)
-
+                    self.bot.snashot_update_event()
+                    
                 elif name == 'TERRITORY':
                     super().set_text(insert='收集领土资源')
                     _, _, territory_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value)

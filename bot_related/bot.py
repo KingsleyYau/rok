@@ -166,14 +166,16 @@ class Bot:
             self.config.hasBuildingPos = True
 
         while True:
-            hour = time.strftime("%H", time.localtime())
-            if int(hour) < 6:
-                device_log(self.device, "休息时间...")
-                time.sleep(300)
-                continue
-            
             # Check verification before every task
             try:
+                hour = time.strftime("%H", time.localtime())
+                if int(hour) >= 1 and int(hour) < 6:
+                    device_log(self.device, "休息时间...")
+                    if self.task.isRoKRunning():
+                        self.task.stopRok()
+                    time.sleep(300)
+                    continue
+            
                 self.task.get_curr_gui_name()
 
                 random.shuffle(random_tasks)

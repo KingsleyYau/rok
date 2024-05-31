@@ -44,15 +44,17 @@ class MysteryMerchant(Task):
             for i in range(5):
                 list = self.gui.find_all_image_props(ImagePathAndProps.MERCHANT_BUY_WITH_FOOD_IMAGE_PATH.value)
                 if list is not None:
-                    self.set_text(insert='使用食物购买道具')
+                    self.set_text(insert='寻找食物购买的道具')
                     for buy_with_food_btn in list:
+                        self.set_text(insert='使用食物购买道具{}'.format(buy_with_food_btn['result']))
                         self.tap(buy_with_food_btn['result'])
                         
                 
                 list = self.gui.find_all_image_props(ImagePathAndProps.MERCHANT_BUY_WITH_WOOD_IMAGE_PATH.value)
                 if list is not None:
-                    self.set_text(insert='使用木头购买道具')
+                    self.set_text(insert='寻找木头购买的道具')
                     for buy_with_wood_btn in list:
+                        self.set_text(insert='使用木头购买道具{}'.format(buy_with_wood_btn['result']))
                         self.tap(buy_with_wood_btn['result'])
 
                 self.set_text(insert='上拉更多道具')

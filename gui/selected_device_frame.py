@@ -254,10 +254,8 @@ class SelectedDeviceFrame(Frame):
         write_bot_config(kw['config'], kw['prefix'])
         config_frame = self.config_frame()
         config_frame.grid(row=2, column=0, padx=10, sticky=N + W)
-        if len(self.device.nickname) > 0:
-            # name = '{}-{}'.format(self.device.save_file_prefix, self.bot.device.nickname)
-            nickname = '{}-{}-{}'.format(self.device.save_file_prefix, self.device.nickname, self.device.serial) if len(self.device.nickname)>0 is not None else '{}-{}'.format(self.device.save_file_prefix, self.device.serial)
-            self.name.config(text=nickname)
+        nickname = '{}-{}-{}'.format(self.device.save_file_prefix, self.device.nickname, self.device.serial) if len(self.device.nickname)>0 is not None else '{}-{}'.format(self.device.save_file_prefix, self.device.serial)
+        self.name.config(text=nickname)
         return
            
     def on_snashot_update(self):
