@@ -30,7 +30,7 @@
   "enableVipClaimChest": true,
   "vipDoRound": 8,
   "claimQuests": true,
-  "questDoRound": 3,
+  "questDoRound": 4,
   "allianceAction": true,
   "allianceDoRound": 3,
   "attackBarbarians": false,

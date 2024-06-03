@@ -89,8 +89,7 @@ class Training(Task):
                         super().tap(pos)
                         upgraded = True
 
-                if not upgraded and (
-                        config[1] != TrainingAndUpgradeLevel.DISABLED.value):
+                if config[1] != TrainingAndUpgradeLevel.DISABLED.value:
                     for i in range(config[1], -1, -1):
                         super().tap(soldier_icon_pos[i])
                         self.bot.snashot_update_event()

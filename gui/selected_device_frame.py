@@ -237,9 +237,22 @@ class SelectedDeviceFrame(Frame):
             
         switch_account_button = button(frame, on_switch_account_click, text='Switch By Phone')
         switch_account_button.grid(row=1, column=0, columnspan=2, sticky=N + W)
-                
+                     
+        # account baned
+        def on_account_baned_click(btn):
+            task = Task(self.bot)
+            # 账号管理
+            task.tap((800, 460))
+            # 切换账号1
+            task.tap((400, 240))
+            # 切换账号确定
+            task.tap((800, 500))
+            
+        account_baned_button = button(frame, on_account_baned_click, text='Account Baned')
+        account_baned_button.grid(row=1, column=1, columnspan=2, sticky=N + W)
+            
         return frame
-
+    
     def on_task_update(self, text):
         name, title, text_list = text['name'], text['title'], text['text_list']
         if len(name) > 0:
