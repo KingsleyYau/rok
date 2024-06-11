@@ -33,34 +33,34 @@ class Alliance(Task):
                         super().tap((650, 650))  
                 elif name == 'GIFTS':
                     super().set_text(insert='收集联盟礼物')
-                    # gifts_pos = (885, 560)
-                    # gifts_pos = (1050, 400)
-                    rate_pos = (930, 205)
-                    normal_pos = (670, 205)
-                    claim_all_pos = (1110, 205)
-                    treasure = (330, 410)
                     
                     _, _, gifts_pos = self.gui.check_any(ImagePathAndProps.GIFT_IMG_PATH.value)
                     if gifts_pos is not None:
                         super().tap(gifts_pos)
                     else:
+                        super().set_text(insert='没有找到联盟礼物')
                         continue
                     self.bot.snashot_update_event()
                     # collecting rate gifts
                     super().set_text(insert='收集稀有礼物')
+                    rate_pos = (930, 205)
                     super().tap(rate_pos)
                     for i in range(100):
                         _, _, pos = self.gui.check_any(ImagePathAndProps.GIFTS_CLAIM_BUTTON_IMAGE_PATH.value)
                         if pos is None:
+                            super().set_text(insert='没有找到稀有礼物')
                             break
                         super().tap(pos)
                     self.bot.snashot_update_event()
+                    
                     # collecting normal gifts
                     super().set_text(insert='收集普通礼物')
+                    normal_pos = (670, 205)
                     super().tap(normal_pos)
                     self.bot.snashot_update_event()
                     
                     super().set_text(insert='一键收集普通礼物')
+                    claim_all_pos = (1110, 205)
                     super().tap(claim_all_pos)
                     self.bot.snashot_update_event()
                     
@@ -70,6 +70,7 @@ class Alliance(Task):
                                             
                     # collecting treasure of white crystal
                     super().set_text(insert='收集水晶箱子')
+                    treasure = (330, 410)
                     super().tap(treasure)
                     self.bot.snashot_update_event()
                     

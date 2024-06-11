@@ -232,7 +232,7 @@ class ImagePathAndProps(Enum):
         "resource/new_troops_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.80,
+        0.70,
         25,
         NEW_TROOPS,
     ]
@@ -864,7 +864,7 @@ class ImagePathAndProps(Enum):
         "resource/gift.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.80,
+        0.70,
         25,
         GIFT_IMG,
     ]   
@@ -880,7 +880,7 @@ class ImagePathAndProps(Enum):
         "resource/yes.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.80,
+        0.70,
         25,
         YES_BUTTON,
     ]    

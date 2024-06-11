@@ -199,8 +199,9 @@ class GatherResource(Task):
                     
                     if should_decreasing_lv:
                         dec_pos = self.gui.check_any(ImagePathAndProps.DECREASING_BUTTON_IMAGE_PATH.value)[2]
-                        self.set_text(insert="点击降级{}, 当前等级{}".format(dec_pos, 6 - level))
-                        self.tap(dec_pos)
+                        if dec_pos is not None:
+                            self.set_text(insert="点击降级{}, 当前等级{}".format(dec_pos, 6 - level))
+                            self.tap(dec_pos)
                         self.bot.snashot_update_event()
                     else:
                         if first_time:
@@ -252,7 +253,7 @@ class GatherResource(Task):
                             continue
                         
                         should_decreasing_lv = False
-                        self.set_text(insert="开始采集资源点{}, 坐标, {}".format(gather_button_pos, coordinate))
+                        self.set_text(insert="开始第{}次采集资源点{}, 坐标, {}".format(gathering_count + 1, gather_button_pos, coordinate))
                         self.tap(gather_button_pos, 2 * self.bot.config.tapSleep)
                         
                         if not self.create_troop():
