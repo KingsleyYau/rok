@@ -35,21 +35,27 @@ class ChangePlayer(Task):
         y = playerIndex // 2
         pos = ((400 * x, 230 + 110 * y))
         self.set_text(insert='目标玩家 {}, {}'.format(playerIndex, pos))
-        self.tap(pos)
-        _, _, yes_pos = self.bot.gui.check_any(ImagePathAndProps.YES_BUTTON_PATH.value)
-        self.bot.snashot_update_event()
-        if yes_pos is not None:
-            self.tap(yes_pos)
-            self.set_text(insert='切换角色, {}'.format(playerIndex))
-            _, _, contact_us_pos = self.bot.gui.check_any(ImagePathAndProps.CONTACT_US_BUTTON_PATH.value)
-            if contact_us_pos is not None:
-                self.set_text(insert='该账号已被封, 无法切换, 停止运行')
-                self.bot.stop()
-            else:
-                self.device.nickname = ""
-                self.set_text(insert='切换角色, {}, 成功, 重启'.format(playerIndex))
+
+        for j in range(0, 3):
+            self.tap(pos)
+            _, _, yes_pos = self.bot.gui.check_any(ImagePathAndProps.YES_BUTTON_PATH.value)
             self.bot.snashot_update_event()
-        else:
-            self.set_text(insert='已是当前角色, 无需切换')
+            if yes_pos is not None:
+                self.tap(yes_pos)
+                self.set_text(insert='切换角色, {}'.format(playerIndex))
+                _, _, contact_us_pos = self.bot.gui.check_any(ImagePathAndProps.CONTACT_US_BUTTON_PATH.value)
+                self.bot.snashot_update_event()
+                if contact_us_pos is not None:
+                    self.set_text(insert='该账号已被封, 无法切换, 停止运行')
+                    self.bot.stop()
+                    return next_task
+                else:
+                    self.device.nickname = ""
+                    self.set_text(insert='切换角色, {}, 成功, 重启'.format(playerIndex))
+                    return next_task
+            else:
+                self.set_text(insert='第{}次, 没有发现确定按钮, 目标角色, {}'.format(j+1, playerIndex))
+                
+        self.set_text(insert='已是当前角色, 无需切换')
             
         return next_task

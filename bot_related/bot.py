@@ -121,6 +121,7 @@ class Bot:
         if self.curr_thread is not None and self.curr_thread.is_alive():
             stop_thread(self.curr_thread)
             print("curr_thread: {}", self.curr_thread.is_alive())
+        self.player_name = ""
 
     def get_city_image(self):
         return self.screen_shot_task.do_city_screen()
