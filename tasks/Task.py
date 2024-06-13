@@ -430,22 +430,24 @@ class Task:
         self.tap(pos, 0.1)
         time.sleep(1)
         
-    def text(self, x, y, text):
+    def text(self, x, y, text, sleep_time=-1):
+        if sleep_time == -1:
+            sleep_time = self.bot.config.tapSleep
+            
         self.tap((x, y))
         cmd = "input keyevent KEYCODE_MOVE_END"
         self.device.shell(cmd)
-        for i in range(8):
+        for i in range(5):
             cmd = "input keyevent KEYCODE_DEL"
             self.device.shell(cmd)
-        # self.device.shell(cmd)
         
         cmd = "input text {}".format(text)
         str = self.device.shell(cmd)
-        device_log(self.device, cmd)
+        device_log(self.device, cmd, str)
         
-        cmd = "input keyevent KEYCODE_ENTER"
-        self.device.shell(cmd)
-        
+        #cmd = "input keyevent KEYCODE_ENTER"
+        self.tap((10, 10))
+                
     # edit by seashell-freya, github: https://github.com/seashell-freya
     def isRoKRunning(self):
         # cmd = "dumpsys window windows | grep mCurrentFocus"

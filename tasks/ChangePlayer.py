@@ -10,6 +10,7 @@ class ChangePlayer(Task):
     def do(self, next_task = TaskName.BREAK):
         self.set_text(title='检查当前玩家', remove=True)
         self.back_to_map_gui()
+        self.back_to_home_gui()
         self.set_text(insert='打开个人中心')
         # 打开设置
         self.tap((50, 50), 2 * self.bot.config.tapSleep)

@@ -13,6 +13,20 @@ fi
 adb $DEVICE shell input tap 50 50
 adb $DEVICE shell input tap 990 570
 
+
+# 账号
+adb $DEVICE shell input tap 760 380
+# 切换账号
+adb $DEVICE shell input tap 640 680
+# QQ
+adb $DEVICE shell input tap 660 270
+# 同意隐私
+adb $DEVICE shell input tap 660 420
+# QQ
+adb $DEVICE shell input tap 520 1180
+# 扫码
+adb $DEVICE shell input tap 260 1120
+
 # 角色
 adb $DEVICE shell input tap 560 380
 # 角色1
@@ -22,11 +36,7 @@ adb $DEVICE shell input tap 800 240
 # 切换角色 确定
 adb $DEVICE shell input tap 800 500
 
-# 账号
-adb $DEVICE shell input tap 700 380
-# 切换账号
-adb $DEVICE shell input tap 640 680
-
+###################################
 # 首次
 # 同意隐私
 adb $DEVICE shell input tap 125 140

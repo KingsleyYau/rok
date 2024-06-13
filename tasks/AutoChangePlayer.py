@@ -10,6 +10,7 @@ class AutoChangePlayer(Task):
     def do(self, next_task = TaskName.BREAK):
         self.set_text(title='自动切换玩家', remove=True)
         self.back_to_map_gui()
+        self.back_to_home_gui()
         # 打开个人中心
         self.set_text(insert='打开个人中心')
         self.tap((50, 50), 2 * self.bot.config.tapSleep)
