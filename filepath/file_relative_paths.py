@@ -744,7 +744,7 @@ class ImagePathAndProps(Enum):
         "resource/title_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.70,
+        0.60,
         25,
         TITLE_BUTTON
     ]

@@ -446,7 +446,7 @@ class Task:
         device_log(self.device, cmd, str)
         
         #cmd = "input keyevent KEYCODE_ENTER"
-        self.tap((10, 10))
+        self.tap((1, 1))
                 
     # edit by seashell-freya, github: https://github.com/seashell-freya
     def isRoKRunning(self):

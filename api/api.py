@@ -25,7 +25,7 @@ def find_player(bot, task, server, expected_pos):
     # )
     # task.tap(pos[0])
     log('打开坐标搜索')
-    task.tap((435, 15))
+    task.tap((435, 6))
     
     _, _, server_pos = bot.gui.check_any_gray(
         ImagePathAndProps.SEARCH_SERVER_IMAGE_PATH.value
@@ -33,17 +33,19 @@ def find_player(bot, task, server, expected_pos):
     log('输入服务器', server)
     task.text(server_pos[0] - 25, server_pos[1] + 10, server)
     
-    _, _, x_pos = bot.gui.check_any_gray(
-        ImagePathAndProps.SEARCH_X_IMAGE_PATH.value
-    )
+    # _, _, x_pos = bot.gui.check_any_gray(
+    #     ImagePathAndProps.SEARCH_X_IMAGE_PATH.value
+    # )
     log('输入X坐标', expected_pos[0])
-    task.text(x_pos[0] + 25, x_pos[1] + 10, expected_pos[0])
+    x_pos = (590, 131)
+    task.text(x_pos[0], x_pos[1], expected_pos[0])
     
-    _, _, y_pos = bot.gui.check_any_gray(
-        ImagePathAndProps.SEARCH_Y_IMAGE_PATH.value
-    )
+    # _, _, y_pos = bot.gui.check_any_gray(
+    #     ImagePathAndProps.SEARCH_Y_IMAGE_PATH.value
+    # )
     log('输入Y坐标', expected_pos[1])
-    task.text(y_pos[0] + 25, y_pos[1] + 10,  expected_pos[1])
+    y_pos = (750, 131)
+    task.text(y_pos[0], y_pos[1],  expected_pos[1])
     
     _, _, search_pos = bot.gui.check_any_gray(
         ImagePathAndProps.SEARCH_BUTTON_IMAGE_PATH.value
@@ -51,20 +53,22 @@ def find_player(bot, task, server, expected_pos):
     log('点击搜索')
     task.tap(search_pos, 10)
     
-    task.tap((640, 360))
-    _, _, player_pos = bot.gui.check_any(
-        ImagePathAndProps.TITLE_BUTTON_PATH.value
-    )
-    if player_pos:
-        task.tap(player_pos)
-        return True
-    else:
-        log('寻找玩家失败', server, expected_pos)
-        return False
+    log('点击城堡')
+    for i in range(2):
+        task.tap((620, 340))
+        _, _, player_pos = bot.gui.check_any(
+            ImagePathAndProps.TITLE_BUTTON_PATH.value
+        )
+        if player_pos:
+            task.tap(player_pos)
+            return True
+
+    log('寻找玩家失败', server, expected_pos)
+    return False
             
 def finish_title(bot, task, title_item):
     title_expected_pos = title_item['title_check_pos']
-    log('发放头衔', title_item['name'])
+    log('选择头衔', title_item['name'])
     _, _, title_check_pos = bot.gui.check_any(
         ImagePathAndProps.TITLE_CHECK_BUTTON_PATH.value
     )
@@ -73,7 +77,7 @@ def finish_title(bot, task, title_item):
         task.tap(title_expected_pos)
         # time.sleep(30) 
     else:
-        log('发放头衔, 已经拥有头衔, 跳过', title_item['name'])
+        log('已经拥有头衔', title_item['name'])
     _, _, ok_pos = bot.gui.check_any(
         ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
     )
