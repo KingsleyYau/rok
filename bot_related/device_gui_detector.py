@@ -130,9 +130,10 @@ class GuiDetector:
             traceback.print_exc()
         return kilo
 
-    def player_name(self):
+    def player_name(self, box = None):
         name = ""
-        box = (485, 182, 645, 212)
+        if box is None:
+            box = (485, 182, 645, 212)
         try:
             imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
             imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)

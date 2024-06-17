@@ -16,6 +16,25 @@ from api.run_config import RunConfig
 
 from tasks.Task import Task
 
+def get_player_name(bot, title_pos):
+    name = ""
+    box = (485, 182, 645, 212)
+    try:
+        imsch = cv2.imdecode(np.asarray(bot.gui.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
+        imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
+        x0, y0, x1, y1 = box
+        imdst = imsch[y0:y1, x0:x1]
+        # troop_image = Image.fromarray(imdst)
+        # _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
+        # cv2.imwrite('script/troop_image_v.png', imdst)
+        troop_image = Image.fromarray(imdst)
+        name = img_to_string(troop_image).replace(' ', '').replace('\n', '')
+        device_log(self.__device, 'player_name, {}'.format(name))
+    except Exception as e:
+        device_log(self.__device, 'player_name', e)
+        traceback.print_exc()
+    return name
+    
 def find_player(bot, task, server, expected_pos):
     log('寻找玩家', server, expected_pos)
     task.back_to_map_gui()
@@ -59,35 +78,40 @@ def find_player(bot, task, server, expected_pos):
     task.tap(search_pos, 10)
     
     log('点击城堡')
-    for i in range(3):
-        task.tap((610 + i * 5, 330 + i * 5))
-        _, _, player_pos = bot.gui.check_any(
+    player_name = ""
+    for i in range(4):
+        task.tap((615 + i * 5, 335 + i * 5))
+        _, _, player_title_pos = bot.gui.check_any(
             ImagePathAndProps.TITLE_BUTTON_PATH.value
         )
-        if player_pos:
-            task.tap(player_pos)
+        if player_title_pos:
+            #log('寻找玩家成功', server, expected_pos)
+            box = (int(player_title_pos[0]) + 129, int(player_title_pos[1]) + 46, int(player_title_pos[0]) + 129 + 230, int(player_title_pos[1]) + 46 + 30)
+            player_name = bot.gui.player_name(box)
+            log('寻找玩家成功', server, expected_pos, player_name)
+            task.tap(player_title_pos)
             return True
 
     log('寻找玩家失败', server, expected_pos)
     return False
             
-def finish_title(bot, task, title_item):
+def finish_title(bot, task, title_item, expected_pos):
     title_expected_pos = title_item['title_check_pos']
-    log('选择头衔', title_item['name'])
+    log('选择头衔', title_item['name'], expected_pos)
     _, _, title_check_pos = bot.gui.check_any(
         ImagePathAndProps.TITLE_CHECK_BUTTON_PATH.value
     )
-    log('title_check_pos', title_check_pos, 'title_expected_pos', title_expected_pos)
+    # log('title_check_pos', title_check_pos, 'title_expected_pos', title_expected_pos)
     if title_check_pos is None or abs(title_check_pos[0]-title_expected_pos[0]) > 30:
         task.tap(title_expected_pos)
         # time.sleep(30) 
     else:
-        log('已经拥有头衔', title_item['name'])
+        log('已经拥有头衔', title_item['name'], expected_pos)
     _, _, ok_pos = bot.gui.check_any(
         ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
     )
     task.tap(ok_pos)
-    log('发放头衔成功', title_item['name'])
+    log('发放头衔成功', title_item['name'], expected_pos)
 
 def load_run_config(prefix):
     file_path = 'run/{}.json'.format(prefix)
@@ -186,7 +210,7 @@ def run_api(args):
             log('申请头衔', title_item['name'])
             
             if find_player(bot, task, args.server, expected_pos):
-                finish_title(bot, task, title_item)
+                finish_title(bot, task, title_item, expected_pos)
     elif run_type == 'request_stop':
         try:
             config = load_run_config(device_name)
