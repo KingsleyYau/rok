@@ -723,7 +723,15 @@ class ImagePathAndProps(Enum):
         0.60,
         25,
         SEARCH_SERVER
-    ]    
+    ]
+    SEARCH_BOOKMARK_IMAGE_PATH = [
+        "resource/search_bookmark.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.60,
+        25,
+        SEARCH_BOOKMARK
+    ]      
     SEARCH_X_IMAGE_PATH = [
         "resource/search_x.png",
         (1280, 720),
@@ -1026,7 +1034,7 @@ class GuiCheckImagePathAndProps(Enum):
         "resource/map_button_0.png",
         (1280, 720),
         (10, 602, 113, 709),
-        0.98,
+        0.8,
         25,
         HOME,
     ]
@@ -1034,7 +1042,7 @@ class GuiCheckImagePathAndProps(Enum):
         "resource/home_button_0.png",
         (1280, 720),
         (10, 602, 113, 709),
-        0.98,
+        0.8,
         25,
         MAP,
     ]
@@ -1042,7 +1050,7 @@ class GuiCheckImagePathAndProps(Enum):
         "resource/window.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.80,
+        0.8,
         25,
         WINDOW,
     ]

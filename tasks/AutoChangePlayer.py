@@ -52,6 +52,7 @@ class AutoChangePlayer(Task):
                         self.bot.config.playerIndex = playerIndex
                         self.back()
                         self.back()
+                        break
                 else:
                     self.set_text(insert='第{}次, 没有发现确定按钮, 目标角色, {}'.format(j+1, playerIndex))
                     

@@ -430,16 +430,17 @@ class Task:
         self.tap(pos, 0.1)
         time.sleep(1)
         
-    def text(self, x, y, text, sleep_time=-1):
+    def text(self, x, y, text, sleep_time=-1, remove_all = True):
         if sleep_time == -1:
             sleep_time = self.bot.config.tapSleep
             
         self.tap((x, y))
         cmd = "input keyevent KEYCODE_MOVE_END"
         self.device.shell(cmd)
-        for i in range(5):
-            cmd = "input keyevent KEYCODE_DEL"
-            self.device.shell(cmd)
+        if remove_all:
+            for i in range(6):
+                cmd = "input keyevent KEYCODE_DEL"
+                self.device.shell(cmd)
         
         cmd = "input text {}".format(text)
         str = self.device.shell(cmd)

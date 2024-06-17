@@ -19,33 +19,38 @@ from tasks.Task import Task
 def find_player(bot, task, server, expected_pos):
     log('寻找玩家', server, expected_pos)
     task.back_to_map_gui()
-    task.double_tap((400, 400))
+    # task.double_tap((400, 400))
     # _, _, pos = bot.gui.check_any_gray(
     #     ImagePathAndProps.SEARCH_ICON_SMALL_IMAGE_PATH.value
     # )
     # task.tap(pos[0])
     log('打开坐标搜索')
-    task.tap((435, 6))
+    # task.tap((435, 6))
+    
+    _, _, bookmark_pos = bot.gui.check_any_gray(
+        ImagePathAndProps.SEARCH_BOOKMARK_IMAGE_PATH.value
+    )
+    task.tap((bookmark_pos[0] - 30, 6))
     
     _, _, server_pos = bot.gui.check_any_gray(
         ImagePathAndProps.SEARCH_SERVER_IMAGE_PATH.value
     )
     log('输入服务器', server)
-    task.text(server_pos[0] - 25, server_pos[1] + 10, server)
+    task.text(server_pos[0] - 25, server_pos[1] + 10, server, 1)
     
     # _, _, x_pos = bot.gui.check_any_gray(
     #     ImagePathAndProps.SEARCH_X_IMAGE_PATH.value
     # )
     log('输入X坐标', expected_pos[0])
     x_pos = (590, 131)
-    task.text(x_pos[0], x_pos[1], expected_pos[0])
+    task.text(x_pos[0], x_pos[1], expected_pos[0], 1, False)
     
     # _, _, y_pos = bot.gui.check_any_gray(
     #     ImagePathAndProps.SEARCH_Y_IMAGE_PATH.value
     # )
     log('输入Y坐标', expected_pos[1])
     y_pos = (750, 131)
-    task.text(y_pos[0], y_pos[1],  expected_pos[1])
+    task.text(y_pos[0], y_pos[1],  expected_pos[1], 1, False)
     
     _, _, search_pos = bot.gui.check_any_gray(
         ImagePathAndProps.SEARCH_BUTTON_IMAGE_PATH.value
@@ -54,8 +59,8 @@ def find_player(bot, task, server, expected_pos):
     task.tap(search_pos, 10)
     
     log('点击城堡')
-    for i in range(2):
-        task.tap((620, 340))
+    for i in range(3):
+        task.tap((610 + i * 5, 330 + i * 5))
         _, _, player_pos = bot.gui.check_any(
             ImagePathAndProps.TITLE_BUTTON_PATH.value
         )
