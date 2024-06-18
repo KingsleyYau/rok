@@ -50,6 +50,11 @@ class GuiDetector:
         img = self.__device.screencap()
         return img
 
+    def get_curr_device_screen_img_cv(self):
+        img = self.__device.screencap()
+        img = cv2.imdecode(np.asarray(img, dtype=np.uint8), cv2.IMREAD_COLOR)
+        return img
+    
     def get_curr_device_screen_img(self):
         return Image.open(io.BytesIO(self.__device.screencap()))
 
@@ -133,12 +138,13 @@ class GuiDetector:
             traceback.print_exc()
         return kilo
 
-    def player_name(self, box = None):
+    def player_name(self, box=None, imsch=None):
         name = ""
         if box is None:
             box = (485, 182, 645, 212)
         try:
-            imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
+            if imsch is None:
+                imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
             imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
             x0, y0, x1, y1 = box
             imdst = imsch[y0:y1, x0:x1]

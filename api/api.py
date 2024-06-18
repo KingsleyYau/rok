@@ -62,14 +62,16 @@ def find_player(bot, task, server, expected_pos):
     player_name = ""
     for i in range(4):
         task.tap((615 + i * 10, 335 + i * 8))
+        imsch = bot.gui.get_curr_device_screen_img_cv()
         _, _, player_title_pos = bot.gui.check_any(
-            ImagePathAndProps.TITLE_BUTTON_PATH.value
+            ImagePathAndProps.TITLE_BUTTON_PATH.value,
+            imsch=imsch
         )
         if player_title_pos:
-            log('寻找玩家成功', server, expected_pos)
-            # box = (int(player_title_pos[0]) + 129, int(player_title_pos[1]) + 46, int(player_title_pos[0]) + 129 + 230, int(player_title_pos[1]) + 46 + 30)
-            # player_name = bot.gui.player_name(box)
-            # log('寻找玩家成功', server, expected_pos, player_name)
+            # log('寻找玩家成功', server, expected_pos)
+            box = (int(player_title_pos[0]) + 129, int(player_title_pos[1]) + 46, int(player_title_pos[0]) + 129 + 230, int(player_title_pos[1]) + 46 + 30)
+            player_name = bot.gui.player_name(box, imsch)
+            log('寻找玩家成功', server, expected_pos, player_name)
             task.tap(player_title_pos)
             return True
 

@@ -51,7 +51,6 @@ def api_deamon(args):
         time.sleep(5)
         
 def api(args):
-    bot = get_bot()
     run_api(args)
 
 class HttpHandler(BaseHTTPRequestHandler):
