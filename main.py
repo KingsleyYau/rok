@@ -29,13 +29,13 @@ def api_deamon(args):
     filepath = args.api_deamon_file
     while True:
         try:
-            with open(filepath, 'r+', encoding='utf-8') as f:
+            with open(filepath, 'r', encoding='utf-8') as f:
                 lines = f.readlines()
                 if len(lines) > 0:
                     try:
                         line = lines[0]
                         item = json.loads(line)
-                        log('item', item)
+                        log('执行记录', item)
                         
                         # 执行记录
                         record = item['record']
@@ -46,16 +46,18 @@ def api_deamon(args):
                         args.y = record['y']
                         run_api(args, bot)
                     except BaseException as e:
-                        log('item', item, e)
-                    finally:
-                        # 移除记录
+                        log(item, e)
+                    # 移除记录
+                    with open(filepath, 'r+', encoding='utf-8') as nf:
+                        lines = nf.readlines()
                         lines = lines[1:]
-                        with open(filepath, 'w', encoding='utf-8') as nf:
-                            nf.writelines(lines)
+                        nf.seek(0)
+                        nf.truncate()
+                        nf.writelines(lines)
                             
         except BaseException as e:
             log(e)
-        time.sleep(1)
+        time.sleep(3)
         
 def api(args):
     run_api(args)
