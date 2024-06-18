@@ -61,7 +61,7 @@ def find_player(bot, task, server, expected_pos):
     log('点击城堡')
     player_name = ""
     for i in range(4):
-        task.tap((615 + i * 5, 335 + i * 5))
+        task.tap((615 + i * 10, 335 + i * 8))
         _, _, player_title_pos = bot.gui.check_any(
             ImagePathAndProps.TITLE_BUTTON_PATH.value
         )
