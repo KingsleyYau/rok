@@ -1071,10 +1071,10 @@ class GuiCheckImagePathAndProps(Enum):
 
 
 GuiCheckImagePathAndPropsOrdered = [
-    GuiCheckImagePathAndProps.VERIFICATION_CLOSE_REFRESH_OK_BUTTON_IMAGE_PATH,
-    GuiCheckImagePathAndProps.VERIFICATION_VERIFY_BUTTON_IMAGE_PATH,
-    GuiCheckImagePathAndProps.VERIFICATION_CHEST_IMG_PATH,
-    GuiCheckImagePathAndProps.VERIFICATION_CHEST1_IMG_PATH,
+    # GuiCheckImagePathAndProps.VERIFICATION_CLOSE_REFRESH_OK_BUTTON_IMAGE_PATH,
+    # GuiCheckImagePathAndProps.VERIFICATION_VERIFY_BUTTON_IMAGE_PATH,
+    # GuiCheckImagePathAndProps.VERIFICATION_CHEST_IMG_PATH,
+    # GuiCheckImagePathAndProps.VERIFICATION_CHEST1_IMG_PATH,
     GuiCheckImagePathAndProps.MAP_BUTTON_IMG_PATH,
     GuiCheckImagePathAndProps.HOME_BUTTON_IMG_PATH,
     GuiCheckImagePathAndProps.WINDOW_IMG_PATH,

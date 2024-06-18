@@ -16,28 +16,9 @@ from api.run_config import RunConfig
 
 from tasks.Task import Task
 
-def get_player_name(bot, title_pos):
-    name = ""
-    box = (485, 182, 645, 212)
-    try:
-        imsch = cv2.imdecode(np.asarray(bot.gui.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
-        imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
-        x0, y0, x1, y1 = box
-        imdst = imsch[y0:y1, x0:x1]
-        # troop_image = Image.fromarray(imdst)
-        # _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
-        # cv2.imwrite('script/troop_image_v.png', imdst)
-        troop_image = Image.fromarray(imdst)
-        name = img_to_string(troop_image).replace(' ', '').replace('\n', '')
-        device_log(self.__device, 'player_name, {}'.format(name))
-    except Exception as e:
-        device_log(self.__device, 'player_name', e)
-        traceback.print_exc()
-    return name
-    
 def find_player(bot, task, server, expected_pos):
     log('寻找玩家', server, expected_pos)
-    task.back_to_map_gui()
+    task.back_to_map_gui(help=False)
     # task.double_tap((400, 400))
     # _, _, pos = bot.gui.check_any_gray(
     #     ImagePathAndProps.SEARCH_ICON_SMALL_IMAGE_PATH.value
@@ -85,10 +66,10 @@ def find_player(bot, task, server, expected_pos):
             ImagePathAndProps.TITLE_BUTTON_PATH.value
         )
         if player_title_pos:
-            #log('寻找玩家成功', server, expected_pos)
-            box = (int(player_title_pos[0]) + 129, int(player_title_pos[1]) + 46, int(player_title_pos[0]) + 129 + 230, int(player_title_pos[1]) + 46 + 30)
-            player_name = bot.gui.player_name(box)
-            log('寻找玩家成功', server, expected_pos, player_name)
+            log('寻找玩家成功', server, expected_pos)
+            # box = (int(player_title_pos[0]) + 129, int(player_title_pos[1]) + 46, int(player_title_pos[0]) + 129 + 230, int(player_title_pos[1]) + 46 + 30)
+            # player_name = bot.gui.player_name(box)
+            # log('寻找玩家成功', server, expected_pos, player_name)
             task.tap(player_title_pos)
             return True
 
@@ -130,15 +111,16 @@ def write_run_config(config, prefix):
         json.dump(config.__dict__, f, indent=2, ensure_ascii=False)   
         
 def snapshot(bot, name):
-    img = bot.gui.get_curr_device_screen_img().resize((480,270))
-    if img is not None:
-        try:
-            os.mkdir('capture')
-        except BaseException as e:
-            if e.errno != errno.EEXIST:
-                print(e)
-        img = img.convert('RGB')
-        img.save('run/{}.jpg'.format(name))
+    # img = bot.gui.get_curr_device_screen_img().resize((480,270))
+    # if img is not None:
+    #     try:
+    #         os.mkdir('capture')
+    #     except BaseException as e:
+    #         if e.errno != errno.EEXIST:
+    #             print(e)
+    #     img = img.convert('RGB')
+    #     img.save('run/{}.jpg'.format(name))
+    return
             
 def start_work(bot, name):
     def on_snashot_update():
@@ -159,15 +141,9 @@ def change_player(task, bot, device_name, i):
     # elif i == 2:
     #     task = Player2(bot)
     #     bot.start(task.do)    
-                 
-def run_api(args):
-    log(args)
+
+def get_bot(device_name = 'request_title'):
     adb.bridge = adb.enable_adb('127.0.0.1', 5037)
-    
-    device_name = 'request_title'
-    if (args.device_name is not None) & (len(args.device_name) > 0):
-        device_name = args.device_name
-        
     name = None
     ip = None
     port = None
@@ -184,13 +160,22 @@ def run_api(args):
     device = adb.bridge.get_device(ip, port)
     if device is None:
         log('没有对应配置, {}:{}', ip, port)
-        return
+        return None
     device.name = name
     device.nickname = nickname
     device.save_file_prefix = name
     log('device:', device)
-            
     bot = Bot(device)
+    
+    return bot
+        
+def run_api(args, bot=None):
+    adb.bridge = adb.enable_adb('127.0.0.1', 5037)
+    
+    device_name = 'request_title'
+    if bot is None:
+        bot = get_bot(args.device_name)
+        
     task = Task(bot)
     expected_pos = (args.x, args.y)
     title_items = {

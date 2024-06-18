@@ -1,0 +1,1 @@
+{"record": {"server": "15", "x": "617", "y": "588", "title": "train"}, "summit_time": "2024-06-17 17:50:19"}

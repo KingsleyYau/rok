@@ -16,7 +16,7 @@ import io
 from utils import log, device_log
 from filepath.constants import HELLO_WROLD_IMG
 import re
-
+import time
 # small percentage are more similar
 def cal_similarity(image1, image2):
     res = cv2.absdiff(image1, image2)
@@ -47,7 +47,8 @@ class GuiDetector:
         self.__device = device
 
     def get_curr_device_screen_img_byte_array(self):
-        return self.__device.screencap()
+        img = self.__device.screencap()
+        return img
 
     def get_curr_device_screen_img(self):
         return Image.open(io.BytesIO(self.__device.screencap()))
@@ -57,8 +58,10 @@ class GuiDetector:
         image.save(resource_path(FilePaths.TEST_SRC_FOLDER_PATH.value + file_name))
 
     def get_curr_gui_name(self):
+        imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
+                                     cv2.IMREAD_COLOR)
         for image_path_and_props in GuiCheckImagePathAndPropsOrdered:
-            result = self.check_any(image_path_and_props.value)
+            result = self.check_any(image_path_and_props.value, imsch=imsch)
             if result[0]:
                 return [result[1], result[2]]
         if not result[0]:
@@ -305,11 +308,11 @@ class GuiDetector:
         title_image.save(resource_path('{}title_x_{}_y_{}.png'.format(FilePaths.TEST_SRC_FOLDER_PATH.value, x0, y0)))
         bot_print("Building <{}> on position [({}, {}), ({}, {})] ".format(s, x0, y0, x1, y1))
 
-    def check_any(self, *props_list):
+    def check_any(self, *props_list, imsch = None):
         try:
-            imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
-                                 cv2.IMREAD_COLOR)
-    
+            if imsch is None:
+                imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
+                                     cv2.IMREAD_COLOR)
             for props in props_list:
                 path, size, box, threshold, least_diff, gui = props
                 imsrc = cv2.imread(resource_path(path))

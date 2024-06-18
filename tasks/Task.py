@@ -17,6 +17,8 @@ import traceback
 import time
 import random
 import adb
+import cv2
+import numpy as np
 
 from filepath.constants import RESOURCES, SPEEDUPS, BOOSTS, EQUIPMENT, OTHER, MAP, HOME
 from time import sleep
@@ -155,17 +157,18 @@ class Task:
             self.tap((c_x, c_y), 2 * self.bot.config.tapSleep)
 
     # Map
-    def back_to_map_gui(self):
+    def back_to_map_gui(self, help=True):
         loop_count = 0
         gui_name = None
         while True:
             result = self.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
             if gui_name == GuiName.MAP.name:
-                help_pos = self.gui.check_any(ImagePathAndProps.HELP2_IMG_PATH.value)[2]
-                if help_pos is not None:
-                    self.set_text(insert='切换视觉[map], 当前界面[{}], {}, 发现帮助按钮, 点击'.format(gui_name,pos))
-                    self.tap(help_pos)
+                if help:
+                    help_pos = self.gui.check_any(ImagePathAndProps.HELP2_IMG_PATH.value)[2]
+                    if help_pos is not None:
+                        self.set_text(insert='切换视觉[map], 当前界面[{}], {}, 发现帮助按钮, 点击'.format(gui_name,pos))
+                        self.tap(help_pos)
                 break
             else:
                 self.set_text(insert='切换视觉[map], 当前界面[{}], {}, loop_count:{}'.format(gui_name,pos,loop_count))
@@ -244,36 +247,42 @@ class Task:
             return None
     
     def check_common_button(self):
+        imsch = cv2.imdecode(np.asarray(self.bot.gui.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
         closeapp_pos = self.gui.check_any(
-                ImagePathAndProps.CLOSEAPP_BUTTON_PATH.value
+                ImagePathAndProps.CLOSEAPP_BUTTON_PATH.value,
+                imsch=imsch
                 )[2]
         if closeapp_pos is not None:
             device_log(self.device, '发现程序卡死按钮, 点击', closeapp_pos)
             self.tap(closeapp_pos)
             
         continue_pos = self.gui.check_any(
-                ImagePathAndProps.CONTINUE_BUTTON_PATH.value
+                ImagePathAndProps.CONTINUE_BUTTON_PATH.value,
+                imsch=imsch
                 )[2]
         if continue_pos is not None:
             device_log(self.device, '发现继续按钮, 点击', continue_pos)
             self.tap(continue_pos)   
             
         comfirm_pos = self.gui.check_any(
-                ImagePathAndProps.CONFIRM_BUTTON_PATH.value
+                ImagePathAndProps.CONFIRM_BUTTON_PATH.value,
+                imsch=imsch
                 )[2]
         if comfirm_pos is not None:
             device_log(self.device, '发现确定按钮, 点击', comfirm_pos)
             self.tap(comfirm_pos)
         
         comfirm_update_pos = self.gui.check_any(
-                ImagePathAndProps.CONFIRM_UPDATE_BUTTON_PATH.value
-                )    [2]
+                ImagePathAndProps.CONFIRM_UPDATE_BUTTON_PATH.value,
+                imsch=imsch
+                )[2]
         if comfirm_update_pos is not None:
             device_log(self.device, '发现更新确定按钮, 点击', comfirm_update_pos)
             self.tap(comfirm_update_pos)
          
         cancel_pos = self.gui.check_any(
-                ImagePathAndProps.CANCEL_BUTTON_PATH.value
+                ImagePathAndProps.CANCEL_BUTTON_PATH.value,
+                imsch=imsch
                 )[2]
         if cancel_pos is not None:
             device_log(self.device, '发现取消按钮, 点击', cancel_pos)
