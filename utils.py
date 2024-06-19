@@ -47,7 +47,7 @@ def img_to_string(pil_image):
     # result = tess.image_to_string(pil_image, lang='chi_sim', config='--psm 6') \
     #     .replace('\t', '').replace('\n', '').replace('\f', '')
         
-    ocr = PaddleOCR(lang="ch", use_gpu=False, det=False, show_log=False)
+    ocr = PaddleOCR(lang="ch", use_gpu=False, det=False, use_angle_cls=False, show_log=False)
     ocr_result = ocr.ocr(numpy.asarray(pil_image), cls=False)
     res = ocr_result[0]
     line = res[0]
@@ -62,7 +62,7 @@ def img_to_string_eng(pil_image):
     # result = tess.image_to_string(pil_image, lang='eng', config='--psm 6')
     # result = result.replace('\t', '').replace('\n', '').replace('\f', '')
     
-    ocr = PaddleOCR(lang="en", use_gpu=False, det=False, show_log=False)
+    ocr = PaddleOCR(lang="en", use_gpu=False, det=False, use_angle_cls=False, show_log=False)
     ocr_result = ocr.ocr(numpy.asarray(pil_image), cls=False)
     res = ocr_result[0]
     line = res[0]

@@ -69,7 +69,7 @@ def find_player(bot, task, server, expected_pos):
         )
         if player_title_pos:
             # log('寻找玩家成功', server, expected_pos)
-            box = (int(player_title_pos[0]) + 129, int(player_title_pos[1]) + 46, int(player_title_pos[0]) + 129 + 230, int(player_title_pos[1]) + 46 + 30)
+            box = (int(player_title_pos[0]) + 129, int(player_title_pos[1]) + 46, int(player_title_pos[0]) + 129 + 230, int(player_title_pos[1]) + 44 + 36)
             player_name = bot.gui.player_name(box, imsch)
             log('寻找玩家成功', server, expected_pos, player_name)
             task.tap(player_title_pos)
