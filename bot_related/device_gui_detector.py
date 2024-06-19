@@ -53,8 +53,7 @@ class GuiDetector:
         return img
 
     def get_curr_device_screen_img_cv(self):
-        img = self.__device.screencap()
-        img = cv2.imdecode(np.asarray(img, dtype=np.uint8), cv2.IMREAD_COLOR)
+        img = cv2.imdecode(np.asarray(self.__device.screencap(), dtype=np.uint8), cv2.IMREAD_COLOR)
         return img
     
     def get_curr_device_screen_img(self):
@@ -65,8 +64,7 @@ class GuiDetector:
         image.save(resource_path(FilePaths.TEST_SRC_FOLDER_PATH.value + file_name))
 
     def get_curr_gui_name(self):
-        imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
-                                     cv2.IMREAD_COLOR)
+        imsch = self.get_curr_device_screen_img_cv()
         for image_path_and_props in GuiCheckImagePathAndPropsOrdered:
             result = self.check_any(image_path_and_props.value, imsch=imsch)
             if result[0]:
@@ -114,7 +112,7 @@ class GuiDetector:
     
     def get_kilometer(self):
         kilo = -1
-        imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
+        imsch = self.get_curr_device_screen_img_cv()
         try:
             pos = self.check_any(ImagePathAndProps.KILO_IMG_PATH.value)[2]
             if pos is not None:
@@ -153,8 +151,8 @@ class GuiDetector:
             # troop_image = Image.fromarray(imdst)
             # _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
             # cv2.imwrite('script/troop_image_v.png', imdst)
-            troop_image = Image.fromarray(imdst)
-            name = img_to_string(troop_image).replace(' ', '').replace('\n', '')
+            img = Image.fromarray(imdst)
+            name = img_to_string(img).replace(' ', '').replace('\n', '')
             device_log(self.__device, 'player_name, {}'.format(name))
         except Exception as e:
             device_log(self.__device, 'player_name', e)
@@ -319,8 +317,7 @@ class GuiDetector:
     def check_any(self, *props_list, imsch = None):
         try:
             if imsch is None:
-                imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
-                                     cv2.IMREAD_COLOR)
+                imsch = self.get_curr_device_screen_img_cv()
             for props in props_list:
                 path, size, box, threshold, least_diff, gui = props
                 imsrc = cv2.imread(resource_path(path))
@@ -341,9 +338,7 @@ class GuiDetector:
         return False, None, None
     
     def check_any_gray(self, *props_list, bgremove=True):
-        imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
-                             cv2.IMREAD_COLOR)
-
+        imsch = self.get_curr_device_screen_img_cv()
         for props in props_list:
             path, size, box, threshold, least_diff, gui = props
             # device_log(self.__device, 'check_any_gray', path, threshold)
