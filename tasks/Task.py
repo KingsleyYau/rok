@@ -82,13 +82,13 @@ class Task:
                 free_pos = (400 + int(50 * (0.5 - random.random())), 500 + int(50 * (0.5 - random.random())))
                 self.tap(free_pos)
                 
-                img = self.gui.get_curr_device_screen_img_cv()
-                left_task_pos = self.gui.check_any(ImagePathAndProps.CLOSE_LEFT_TASK_BUTTON_PATH.value, img)[2]
+                imsch = self.gui.get_curr_device_screen_img_cv()
+                left_task_pos = self.gui.check_any(ImagePathAndProps.CLOSE_LEFT_TASK_BUTTON_PATH.value, imsch=imsch)[2]
                 if left_task_pos is not None:
                     self.set_text(insert='切换视觉[home], 当前界面[{}], {}, 发现左侧菜单打开, 关闭'.format(gui_name, left_task_pos))
                     self.tap(left_task_pos)
                     
-                help_pos = self.gui.check_any(ImagePathAndProps.HELP2_IMG_PATH.value, img)[2]
+                help_pos = self.gui.check_any(ImagePathAndProps.HELP2_IMG_PATH.value, imsch=imsch)[2]
                 if help_pos is not None:
                     self.set_text(insert='切换视觉[home], 当前界面[{}], {}, 发现帮助按钮, 点击'.format(gui_name, help_pos))
                     self.tap(help_pos)
