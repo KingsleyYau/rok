@@ -2,6 +2,7 @@ from filepath.tool_relative_paths import FilePaths
 
 import cv2
 import pytesseract as tess
+from paddleocr import PaddleOCR
 import sys
 import os
 
@@ -11,6 +12,7 @@ import requests
 import json
 import traceback
 import time
+import numpy
 
 def _async_raise(tid, exctype):
     tid = ctypes.c_long(tid)
@@ -40,18 +42,33 @@ def build_command(program_path, *args):
 
 def img_to_string(pil_image):
     # pil_image.save(resource_path("test.png"))
-    tess.pytesseract.tesseract_cmd = resource_path(FilePaths.TESSERACT_EXE_PATH.value)
-    result = tess.image_to_string(pil_image, lang='chi_sim', config='--psm 6') \
-        .replace('\t', '').replace('\n', '').replace('\f', '')
+    
+    # tess.pytesseract.tesseract_cmd = resource_path(FilePaths.TESSERACT_EXE_PATH.value)
+    # result = tess.image_to_string(pil_image, lang='chi_sim', config='--psm 6') \
+    #     .replace('\t', '').replace('\n', '').replace('\f', '')
+        
+    ocr = PaddleOCR(lang="ch", use_gpu=False, det=False, show_log=False)
+    ocr_result = ocr.ocr(numpy.asarray(pil_image), cls=False)
+    res = ocr_result[0]
+    line = res[0]
+    result = line[1][0]
+    
     log('img_to_string', result)
     return result
 
 def img_to_string_eng(pil_image):
     # pil_image.save(resource_path("test.png"))
-    tess.pytesseract.tesseract_cmd = resource_path(FilePaths.TESSERACT_EXE_PATH.value)
-    result = tess.image_to_string(pil_image, lang='eng', config='--psm 6')
+    # tess.pytesseract.tesseract_cmd = resource_path(FilePaths.TESSERACT_EXE_PATH.value)
+    # result = tess.image_to_string(pil_image, lang='eng', config='--psm 6')
+    # result = result.replace('\t', '').replace('\n', '').replace('\f', '')
+    
+    ocr = PaddleOCR(lang="en", use_gpu=False, det=False, show_log=False)
+    ocr_result = ocr.ocr(numpy.asarray(pil_image), cls=False)
+    res = ocr_result[0]
+    line = res[0]
+    result = line[1][0]
+    
     log('img_to_string_eng', result)
-    result = result.replace('\t', '').replace('\n', '').replace('\f', '')
     return result
 
 def img_remove_background_and_enhance_word(cv_image, lower, upper):

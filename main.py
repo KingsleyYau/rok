@@ -35,6 +35,7 @@ def api_deamon(args):
                     try:
                         line = lines[0]
                         item = json.loads(line)
+                        log('################################################################################')
                         log('执行记录', item)
                         
                         # 执行记录
@@ -57,6 +58,7 @@ def api_deamon(args):
                             
         except BaseException as e:
             log(e)
+            adb.bridge.reconnect(bot.device)
         time.sleep(3)
         
 def api(args):

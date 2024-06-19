@@ -159,6 +159,9 @@
             reload();
         }, 30000);
 
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
         if (docCookies.hasItem('server')) {
             $("[id=server]").val(docCookies.getItem('server'));
         }
@@ -172,16 +175,13 @@
             let title = docCookies.getItem('title');
             $('input[value=' + title + ']').prop('checked', true)
         }
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
         reload();
     });
 </script>
 
 <body>
 <div>
-    <div>PS:大概2分钟申请一次</div>
+    <div>PS:大概1分钟申请一次</div>
     <form id="postForm" method="post" onsubmit="return onSummit(this);">
         <div>
             <label for="server">服务器:</label>

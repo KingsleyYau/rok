@@ -17,6 +17,8 @@ from utils import log, device_log
 from filepath.constants import HELLO_WROLD_IMG
 import re
 import time
+
+
 # small percentage are more similar
 def cal_similarity(image1, image2):
     res = cv2.absdiff(image1, image2)

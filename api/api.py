@@ -73,14 +73,14 @@ def find_player(bot, task, server, expected_pos):
             player_name = bot.gui.player_name(box, imsch)
             log('寻找玩家成功', server, expected_pos, player_name)
             task.tap(player_title_pos)
-            return True
+            return True, player_name
 
     log('寻找玩家失败', server, expected_pos)
-    return False
+    return False, None
             
-def finish_title(bot, task, title_item, expected_pos):
+def finish_title(bot, task, title_item, expected_pos, player_name):
     title_expected_pos = title_item['title_check_pos']
-    log('选择头衔', title_item['name'], expected_pos)
+    log('选择头衔', title_item['name'], expected_pos, player_name)
     _, _, title_check_pos = bot.gui.check_any(
         ImagePathAndProps.TITLE_CHECK_BUTTON_PATH.value
     )
@@ -89,12 +89,12 @@ def finish_title(bot, task, title_item, expected_pos):
         task.tap(title_expected_pos)
         # time.sleep(30) 
     else:
-        log('已经拥有头衔', title_item['name'], expected_pos)
+        log('已经拥有头衔', title_item['name'], expected_pos, player_name)
     _, _, ok_pos = bot.gui.check_any(
         ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
     )
     task.tap(ok_pos)
-    log('发放头衔成功', title_item['name'], expected_pos)
+    log('发放头衔成功', title_item['name'], expected_pos, player_name)
 
 def load_run_config(prefix):
     file_path = 'run/{}.json'.format(prefix)
@@ -196,8 +196,9 @@ def run_api(args, bot=None):
         if title_item is not None:
             log('申请头衔', title_item['name'])
             
-            if find_player(bot, task, args.server, expected_pos):
-                finish_title(bot, task, title_item, expected_pos)
+            found, player_name = find_player(bot, task, args.server, expected_pos)
+            if found:
+                finish_title(bot, task, title_item, expected_pos, player_name)
     elif run_type == 'request_stop':
         try:
             config = load_run_config(device_name)
