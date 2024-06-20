@@ -39,16 +39,27 @@ adb $DEVICE shell input tap 800 500
 ###################################
 # 首次
 # 同意隐私
-adb $DEVICE shell input tap 125 140
+adb $DEVICE shell input tap 680 640
 # 输入手机
 adb $DEVICE shell input tap 125 100
 adb $DEVICE shell input text 15220039797
 adb $DEVICE shell input tap 640 200
+# 同意隐私
+adb $DEVICE shell input tap 125 140
+# 同意隐私
+adb $DEVICE shell input tap 660 420
+
 # 输入验证码
 adb $DEVICE shell input tap 125 140
-adb $DEVICE shell input text 15220039797
+adb $DEVICE shell input text 462796
 adb $DEVICE shell input tap 640 200
 
+# QQ
+adb $DEVICE shell input tap 660 270
+# 同意隐私
+adb $DEVICE shell input tap 660 420
+
+###################################
 # 切换
 # 同意隐私
 adb $DEVICE shell input tap 185 220
@@ -58,7 +69,7 @@ adb $DEVICE shell input text 15220039797
 adb $DEVICE shell input tap 640 300
 # 输入验证码
 adb $DEVICE shell input tap 185 220
-adb $DEVICE shell input text 15220039797
+adb $DEVICE shell input text 462796
 adb $DEVICE shell input tap 640 300
 
 ###################################

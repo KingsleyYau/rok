@@ -17,7 +17,7 @@ class Collecting(Task):
 
             pos_free = (105, 125)
             #pos_free = (pos_e[0] + int(10 * (0.5 - random.random())), pos_e[1] + int(10 * (0.5 - random.random())))
-            for name in [
+            buildings = [
                 BuildingNames.BARRACKS.value,
                 BuildingNames.ARCHERY_RANGE.value,
                 BuildingNames.STABLE.value,
@@ -27,7 +27,9 @@ class Collecting(Task):
                 BuildingNames.QUARRY.value,
                 BuildingNames.GOLDMINE.value,
                 BuildingNames.ALLIANCE_CENTER.value
-            ]:
+            ]
+            random.shuffle(buildings)
+            for name in buildings:
                 self.set_text(insert='{} at position {}'.format(name, self.bot.building_pos[name]))
                 self.tap(self.bot.building_pos[name])
                 self.tap(pos_free)

@@ -153,7 +153,7 @@ class GuiDetector:
             # cv2.imwrite('script/troop_image_v.png', imdst)
             img = Image.fromarray(imdst)
             name = img_to_string(img).replace(' ', '').replace('\n', '')
-            device_log(self.__device, 'player_name, {}'.format(name))
+            # device_log(self.__device, 'player_name, {}'.format(name))
         except Exception as e:
             device_log(self.__device, 'player_name', e)
             traceback.print_exc()
