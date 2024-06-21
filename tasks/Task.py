@@ -327,7 +327,7 @@ class Task:
         else:
             return False
         # Start Checking
-        has, _, _ = self.gui.check_any(buff_img_props, self.gui.get_curr_device_screen_img_cv())
+        has, _, _ = self.gui.check_any(buff_img_props, imsch = self.gui.get_curr_device_screen_img_cv())
         return has
 
     def use_item(self, using_location, item_img_props_list):

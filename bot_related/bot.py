@@ -218,7 +218,6 @@ class Bot:
                     if (self.config.enableBreak and player_round_count % self.config.breakDoRound == 0):
                         breakTime = int(random.uniform(int(self.config.breakTime * 3 / 4), self.config.breakTime))
                         progress_time = max(breakTime // 10, 1)
-                        count = 0     
                         start = time.time()
                         now = start
                         last = 0
@@ -229,9 +228,8 @@ class Bot:
                         self.break_task.set_text(title='休息', remove=True)
                         self.break_task.set_text(insert='开始休息 {} seconds'.format(breakTime))
                         while now - start <= breakTime:
-                            if now - last > diff: 
-                            # if count % progress_time == 0:
-                                self.break_task.back_to_map_gui()
+                            self.break_task.back_to_map_gui()
+                            if now - last > diff:
                                 full_load, cur, total = self.gui.troop_already_full()
                                 self.break_task.set_text(insert='已经休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total))
                                 self.snashot_update_event()
@@ -247,8 +245,7 @@ class Bot:
                                 last = now
                                 self.break_task.set_text(title='休息')
                                 self.break_task.set_text(insert='继续休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total))
-                            count = count + 1
-                            time.sleep(1)
+                            time.sleep(60)
                             now = time.time()
                         self.break_task.set_text(insert='结束休息 {}/{} seconds'.format(int(now - start), breakTime))  
                                               

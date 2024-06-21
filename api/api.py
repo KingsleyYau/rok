@@ -80,7 +80,7 @@ def find_player(bot, task, server, expected_pos):
             
 def finish_title(bot, task, title_item, expected_pos, player_name):
     title_expected_pos = title_item['title_check_pos']
-    log('选择头衔', title_item['name'], expected_pos, player_name)
+    log('选择头衔', title_item['name'], expected_pos)
     _, _, title_check_pos = bot.gui.check_any(
         ImagePathAndProps.TITLE_CHECK_BUTTON_PATH.value
     )
@@ -89,7 +89,7 @@ def finish_title(bot, task, title_item, expected_pos, player_name):
         task.tap(title_expected_pos)
         # time.sleep(30) 
     else:
-        log('已经拥有头衔', title_item['name'], expected_pos, player_name)
+        log('已经拥有头衔', title_item['name'], expected_pos)
     _, _, ok_pos = bot.gui.check_any(
         ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
     )
