@@ -1,0 +1,1 @@
+{"record": {"server": "15", "x": "617", "y": "588", "title": "scientist", "player_name": "[15SA]我叫学姐4"}, "summit_time": "2024-06-24 15:53:17", "ip": "221.4.32.204"}

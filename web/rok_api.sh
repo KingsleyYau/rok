@@ -17,4 +17,4 @@ function Clean() {
 trap 'Clean; exit' SIGTERM SIGQUIT
 
 echo "Start rok title script"
-source /root/miniconda2/bin/activate rok && cd /root/Max/project/rok && python -u main.py --api_deamon true --api_deamon_file /root/Max/project/rok/web/record.txt
+source /root/miniconda2/bin/activate rok && cd /root/Max/project/rok && python -u main.py --api_deamon true --api_deamon_file /root/Max/project/rok/web/record.txt --api_deamon_file_last /root/Max/project/rok/web/record_last.txt

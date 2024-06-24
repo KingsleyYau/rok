@@ -27,11 +27,15 @@ def main():
 def api_deamon(args):
     bot = get_bot()
     filepath = args.api_deamon_file
+    filepath_last = args.api_deamon_file_last
     while True:
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
                 lines = f.readlines()
                 if len(lines) > 0:
+                    item = None
+                    result = False
+                    playe_name = ""
                     try:
                         line = lines[0]
                         item = json.loads(line)
@@ -45,9 +49,10 @@ def api_deamon(args):
                         args.server = record['server']
                         args.x = record['x']
                         args.y = record['y']
-                        run_api(args, bot)
+                        result, playe_name = run_api(args, bot)
                     except BaseException as e:
                         log(item, e)
+                        
                     # 移除记录
                     with open(filepath, 'r+', encoding='utf-8') as nf:
                         lines = nf.readlines()
@@ -55,6 +60,13 @@ def api_deamon(args):
                         nf.seek(0)
                         nf.truncate()
                         nf.writelines(lines)
+                    if item is not None and result:
+                        with open(filepath_last, 'w', encoding='utf-8') as wf:
+                            record = item['record']
+                            record['player_name'] = playe_name
+                            line = json.dumps(item, ensure_ascii=False)
+                            wf.writelines([line])
+                            wf.truncate()
                             
         except BaseException as e:
             log(e)
@@ -107,6 +119,7 @@ if __name__ == '__main__':
     parser.add_argument("--player", type=int, default='1', help="player")
     parser.add_argument("--api_deamon", type=str2bool, default=False, help="api deamon mode")
     parser.add_argument("--api_deamon_file", type=str, default='record.txt', help="api record file")
+    parser.add_argument("--api_deamon_file_last", type=str, default='record_last.txt', help="api record last file")
     args = parser.parse_args()
     if args.api:
         api(args)

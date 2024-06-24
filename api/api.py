@@ -103,6 +103,8 @@ def finish_title(bot, task, title_item, expected_pos, player_name):
     task.tap(ok_pos)
     log('发放头衔成功', title_item['name'], expected_pos, player_name)
     snapshot(bot)
+    
+    return True
 
 def load_run_config(prefix):
     file_path = 'run/{}.json'.format(prefix)
@@ -145,7 +147,7 @@ def start_work(bot, name):
     return True
  
 def change_player(task, bot, device_name, i):
-    return
+    return False
     # if i == 1:
     #     task = Player1(bot)
     #     bot.start(task.do)
@@ -207,7 +209,8 @@ def run_api(args, bot=None):
             
             found, player_name = find_player(bot, task, args.server, expected_pos)
             if found:
-                finish_title(bot, task, title_item, expected_pos, player_name)
+                return finish_title(bot, task, title_item, expected_pos, player_name), player_name
+        return False, ""
     elif run_type == 'request_stop':
         try:
             config = load_run_config(device_name)
@@ -221,8 +224,10 @@ def run_api(args, bot=None):
             bot.stop()
             task.stopRok()
             os.remove('run/{}.jpg'.format(device_name))
+            return True, ""
         except BaseException as e:
             log(e)   
+        return False, ""
             
     elif run_type == 'request_bot':
         try:
@@ -237,7 +242,7 @@ def run_api(args, bot=None):
         
         if config.running and args.run:
             log('正在打工, 无需重新开始', config.name)
-            return
+            return False, ""
         
         config.running = args.run;
         write_run_config(config, device_name)
@@ -257,6 +262,9 @@ def run_api(args, bot=None):
         
         file_path = 'run/{}.jpg'.format(device_name)
         os.remove(file_path)
-        
+        return True, ""
+    
     elif run_type == 'change_player':
-        change_player(task, bot, device_name, args.player)
+        return change_player(task, bot, device_name, args.player), ""
+    
+    return False, ""

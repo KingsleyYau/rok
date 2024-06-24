@@ -22,12 +22,56 @@
             width: 100%;
             margin: 2px 0px;
         }
-        
+
         table {
             width: 100%;
-            font-size:14px;
+            font-size:11px;
+            border-collapse: collapse;
+            border-spacing: 0;
         }
 
+        td,th {
+            padding: 0;
+            text-align: center;
+        }
+
+        .pure-table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            empty-cells: show;
+            border: 1px solid #cbcbcb;
+        }
+
+        .pure-table caption {
+            color: #000;
+            font: italic 85%/1 arial,sans-serif;
+            padding: 1em 0;
+            text-align: center;
+        }
+
+        .pure-table td,.pure-table th {
+            border-left: 1px solid #cbcbcb;
+            border-width: 0 0 0 1px;
+            font-size: inherit;
+            margin: 0;
+            overflow: visible;
+            padding: .5em 1em;
+        }
+
+        .pure-table thead {
+            background-color: #e0e0e0;
+            color: #000;
+            text-align: left;
+            vertical-align: bottom;
+        }
+
+        .pure-table td {
+            background-color: transparent;
+        }
+
+        .pure-table-odd td {
+            background-color: #f2f2f2;
+        }
         textarea {
             width: 100%;
             font-size:14px;
@@ -107,30 +151,71 @@
             data: $('#postForm').serialize(),
             success: function (data) {
                 console.info(data);
-                let tb = $("[id=record]");
-                tb.empty();
 
-                let tr = "<tr id=title></tr>"
-                tb.append(tr)
-                tr = $("[id=title]");
-                let index = "<td>序号</td>"
-                tr.append(index);
-                let summit_time = "<td>提交时间</td>"
-                tr.append(summit_time);
-                let server = "<td>服务器</td>"
-                tr.append(server);
-                let x = "<td>x坐标</td>"
-                tr.append(x);
-                let y = "<td>y坐标</td>"
-                tr.append(y);
-                let title = "<td>头衔</td>"
-                tr.append(title);
 
                 if (data.errno == 0) {
+                    if( typeof(data.data.last)!="undefined" && data.data.last!=null ) {
+                        let item = data.data.last;
+                        let tb = $("[id=record_last]");
+                        tb.empty();
+
+                        let tr = "<tr id=title_last class=pure-table-odd></tr>"
+                        tb.append(tr)
+                        tr = $("[id=title_last]");
+                        let index = "<td width=20%>当前</td>"
+                        tr.append(index);
+                        let summit_time = "<td width=25%>提交时间</td>"
+                        tr.append(summit_time);
+                        let server = "<td>服务器</td>"
+                        tr.append(server);
+                        let coordinate = "<td>坐标</td>"
+                        tr.append(coordinate);
+                        let title = "<td>头衔</td>"
+                        tr.append(title);
+
+                        let itemId = 'tr_last';
+                        tr = "<tr id=" + itemId + "></tr>"
+                        tb.append(tr)
+
+                        tr = $("[id=" + itemId + "]");
+                        index = "<td>" + item.record.player_name + "</td>"
+                        tr.append(index);
+                        summit_time = "<td>" + item.summit_time + "</td>"
+                        tr.append(summit_time);
+                        server = "<td>" + item.record.server + "</td>"
+                        tr.append(server);
+                        coordinate = "<td>" + item.record.x + ',' + item.record.y + "</td>"
+                        tr.append(coordinate);
+                        title = "<td>" + titleChs(item.record.title) + "</td>"
+                        tr.append(title);
+                    }
+
+                    let tb = $("[id=record]");
+                    tb.empty();
+
+                    let tr = "<tr id=title class=pure-table-odd></tr>"
+                    tb.append(tr)
+                    tr = $("[id=title]");
+                    let index = "<td width=20%>序号</td>"
+                    tr.append(index);
+                    let summit_time = "<td width=25%>提交时间</td>"
+                    tr.append(summit_time);
+                    let server = "<td>服务器</td>"
+                    tr.append(server);
+                    let coordinate = "<td>坐标</td>"
+                    tr.append(coordinate);
+                    let title = "<td>头衔</td>"
+                    tr.append(title);
+
                     i = 0;
                     data.data.queue.forEach(item => {
                         let itemId = 'tr' + i;
-                        let tr = "<tr id=" + itemId + "></tr>"
+                        let tr
+                        if (i % 2 != 0) {
+                            tr = "<tr id=" + itemId + " class=pure-table-odd></tr>"
+                        } else {
+                            tr = "<tr id=" + itemId + "></tr>"
+                        }
                         tb.append(tr)
 
                         tr = $("[id=" + itemId + "]");
@@ -140,10 +225,8 @@
                         tr.append(summit_time);
                         let server = "<td>" + item.record.server + "</td>"
                         tr.append(server);
-                        let x = "<td>" + item.record.x + "</td>"
-                        tr.append(x);
-                        let y = "<td>" + item.record.y + "</td>"
-                        tr.append(y);
+                        coordinate = "<td>" + item.record.x + ',' + item.record.y + "</td>"
+                        tr.append(coordinate);
                         let title = "<td>" + titleChs(item.record.title) + "</td>"
                         tr.append(title);
                         i++
@@ -222,7 +305,10 @@
     <button class="button" id="refresh" onclick="onQueue()">刷新</button>
 </div>
 <div>
-    <table border="1" id='record'></table>
+    <table border="1" id='record_last' class="pure-table"></table>
+</div>
+<div>
+    <table border="1" id='record' class="pure-table"></table>
 </div>
 <div>
     <img id="snapshot" width: 230px;></img>
