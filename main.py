@@ -63,7 +63,8 @@ def api_deamon(args):
                     if item is not None and result:
                         with open(filepath_last, 'w', encoding='utf-8') as wf:
                             record = item['record']
-                            record['player_name'] = playe_name
+                            item['assign_time'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                            item['player_name'] = playe_name
                             line = json.dumps(item, ensure_ascii=False)
                             wf.writelines([line])
                             wf.truncate()

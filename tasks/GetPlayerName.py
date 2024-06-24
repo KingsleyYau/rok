@@ -17,8 +17,6 @@ class GetPlayerName(Task):
         self.set_text(insert='读取玩家名字')
         for i in range(0, 3):
             player_name = self.bot.gui.player_name()
-            player_name = re.sub('^[^a-zA-Z0-9_\u4e00-\u9fa5]+$', '', player_name)
-            player_name = re.sub('^\[.*\]', '', player_name)
             if len(player_name) > 0:
                 break
             time.sleep(self.bot.config.tapSleep)

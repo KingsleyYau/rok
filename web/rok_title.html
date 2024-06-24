@@ -164,13 +164,13 @@
                         tr = $("[id=title_last]");
                         let index = "<td width=20%>当前</td>"
                         tr.append(index);
-                        let summit_time = "<td width=25%>提交时间</td>"
-                        tr.append(summit_time);
-                        let server = "<td>服务器</td>"
+                        let assign_time = "<td width=25%>发放时间</td>"
+                        tr.append(assign_time);
+                        let server = "<td width=15%>服务器</td>"
                         tr.append(server);
-                        let coordinate = "<td>坐标</td>"
+                        let coordinate = "<td width=20%>坐标</td>"
                         tr.append(coordinate);
-                        let title = "<td>头衔</td>"
+                        let title = "<td width=15%>头衔</td>"
                         tr.append(title);
 
                         let itemId = 'tr_last';
@@ -178,10 +178,10 @@
                         tb.append(tr)
 
                         tr = $("[id=" + itemId + "]");
-                        index = "<td>" + item.record.player_name + "</td>"
+                        index = "<td>" + item.player_name + "</td>"
                         tr.append(index);
-                        summit_time = "<td>" + item.summit_time + "</td>"
-                        tr.append(summit_time);
+                        assign_time = "<td>" + item.assign_time + "</td>"
+                        tr.append(assign_time);
                         server = "<td>" + item.record.server + "</td>"
                         tr.append(server);
                         coordinate = "<td>" + item.record.x + ',' + item.record.y + "</td>"
@@ -200,11 +200,11 @@
                     tr.append(index);
                     let summit_time = "<td width=25%>提交时间</td>"
                     tr.append(summit_time);
-                    let server = "<td>服务器</td>"
+                    let server = "<td width=15%>服务器</td>"
                     tr.append(server);
-                    let coordinate = "<td>坐标</td>"
+                    let coordinate = "<td width=20%>坐标</td>"
                     tr.append(coordinate);
-                    let title = "<td>头衔</td>"
+                    let title = "<td  width=15%>头衔</td>"
                     tr.append(title);
 
                     i = 0;
