@@ -18,6 +18,11 @@
             margin: 2px 0px;
         }
 
+        img {
+            width: 100%;
+            margin: 2px 0px;
+        }
+        
         table {
             width: 100%;
             font-size:14px;
@@ -143,6 +148,9 @@
                         tr.append(title);
                         i++
                     });
+
+                    let snapshot = $("[id=snapshot]");
+                    snapshot.attr('src', data.data.photo);
                 }
             },
             error: function (data) {
@@ -216,7 +224,9 @@
 <div>
     <table border="1" id='record'></table>
 </div>
-
+<div>
+    <img id="snapshot" width: 230px;></img>
+</div>
 <div>
 </div>
 </body>

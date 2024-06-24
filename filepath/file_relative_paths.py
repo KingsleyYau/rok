@@ -1012,6 +1012,22 @@ class ImagePathAndProps(Enum):
         25,
         CLOSE_LEFT_TASK_BUTTON,
     ] 
+    DOWNLOAD_IMG_PATH = [
+        "resource/download.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        DOWNLOAD_IMG,
+    ]  
+    DOWNLOAD_BUTTON_PATH = [
+        "resource/download_button.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        DOWNLOAD_BUTTON,
+    ]
     
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [

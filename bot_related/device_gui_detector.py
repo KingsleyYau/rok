@@ -337,8 +337,9 @@ class GuiDetector:
 
         return False, None, None
     
-    def check_any_gray(self, *props_list, bgremove=True):
-        imsch = self.get_curr_device_screen_img_cv()
+    def check_any_gray(self, *props_list, bgremove=True, imsch = None):
+        if imsch is None:
+            imsch = self.get_curr_device_screen_img_cv()
         for props in props_list:
             path, size, box, threshold, least_diff, gui = props
             # device_log(self.__device, 'check_any_gray', path, threshold)

@@ -165,10 +165,11 @@ class Task:
             result = self.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
             if gui_name == GuiName.MAP.name:
+                imsch = self.gui.get_curr_device_screen_img_cv()
                 if help:
-                    help_pos = self.gui.check_any(ImagePathAndProps.HELP2_IMG_PATH.value)[2]
+                    help_pos = self.gui.check_any(ImagePathAndProps.HELP2_IMG_PATH.value, imsch=imsch)[2]
                     if help_pos is not None:
-                        self.set_text(insert='切换视觉[map], 当前界面[{}], {}, 发现帮助按钮, 点击'.format(gui_name,pos))
+                        self.set_text(insert='切换视觉[map], 当前界面[{}], {}, 发现帮助按钮, 点击'.format(gui_name,help_pos))
                         self.tap(help_pos)
                 break
             else:

@@ -55,7 +55,7 @@ class Bot:
 
         self.building_pos_update_event = lambda **kw: kw
         self.config_update_event = lambda **kw: kw
-        self.snashot_update_event = lambda :{}
+        self.snashot_update_event = lambda **kw: kw
 
         # get screen resolution
         str = device.shell("wm size").replace("\n", "")
@@ -227,6 +227,19 @@ class Bot:
                         self.player_round_count = player_round_count
                         self.break_task.set_text(title='休息', remove=True)
                         self.break_task.set_text(insert='开始休息 {} seconds'.format(breakTime))
+                        
+                        self.break_task.back_to_map_gui()
+                        imsch = self.gui.get_curr_device_screen_img_cv()
+                        download_pos = self.gui.check_any(ImagePathAndProps.DOWNLOAD_IMG_PATH.value, imsch=imsch)[2]
+                        if download_pos is not None:
+                            self.break_task.set_text(insert='发现下载倒计时, 点击'.format(download_pos))
+                            self.break_task.tap(download_pos)
+                            imsch = self.gui.get_curr_device_screen_img_cv()
+                        download_button_pos = self.gui.check_any(ImagePathAndProps.DOWNLOAD_BUTTON_PATH.value, imsch=imsch)[2]
+                        if download_button_pos is not None:
+                            self.break_task.set_text(insert='发现下载按钮, 点击'.format(download_button_pos))
+                            self.break_task.tap(download_button_pos)
+                            
                         while now - start <= breakTime:
                             self.break_task.back_to_map_gui()
                             if now - last > diff:

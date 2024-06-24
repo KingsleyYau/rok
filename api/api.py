@@ -32,29 +32,27 @@ def find_player(bot, task, server, expected_pos):
     )
     task.tap((bookmark_pos[0] - 30, 6))
     
+    imsch = bot.gui.get_curr_device_screen_img_cv()
     _, _, server_pos = bot.gui.check_any_gray(
-        ImagePathAndProps.SEARCH_SERVER_IMAGE_PATH.value
+        ImagePathAndProps.SEARCH_SERVER_IMAGE_PATH.value,
+        imsch=imsch
     )
     log('输入服务器', server)
     task.text(server_pos[0] - 25, server_pos[1] + 10, server, 1)
     
-    # _, _, x_pos = bot.gui.check_any_gray(
-    #     ImagePathAndProps.SEARCH_X_IMAGE_PATH.value
-    # )
     log('输入X坐标', expected_pos[0])
     x_pos = (590, 131)
     task.text(x_pos[0], x_pos[1], expected_pos[0], 1, False)
     
-    # _, _, y_pos = bot.gui.check_any_gray(
-    #     ImagePathAndProps.SEARCH_Y_IMAGE_PATH.value
-    # )
     log('输入Y坐标', expected_pos[1])
     y_pos = (750, 131)
     task.text(y_pos[0], y_pos[1],  expected_pos[1], 1, False)
     
     _, _, search_pos = bot.gui.check_any_gray(
-        ImagePathAndProps.SEARCH_BUTTON_IMAGE_PATH.value
+        ImagePathAndProps.SEARCH_BUTTON_IMAGE_PATH.value,
+        imsch=imsch
     )
+    snapshot(bot, img=imsch)
     log('点击搜索')
     task.tap(search_pos, 10)
     
@@ -67,34 +65,44 @@ def find_player(bot, task, server, expected_pos):
             ImagePathAndProps.TITLE_BUTTON_PATH.value,
             imsch=imsch
         )
+        
         if player_title_pos:
             # log('寻找玩家成功', server, expected_pos)
             box = (int(player_title_pos[0]) + 129, int(player_title_pos[1]) + 46, int(player_title_pos[0]) + 129 + 230, int(player_title_pos[1]) + 44 + 36)
             player_name = bot.gui.player_name(box, imsch)
             log('寻找玩家成功', server, expected_pos, player_name)
+            snapshot(bot, img=imsch)
             task.tap(player_title_pos)
             return True, player_name
 
     log('寻找玩家失败', server, expected_pos)
+    snapshot(bot, img=imsch)
     return False, None
             
 def finish_title(bot, task, title_item, expected_pos, player_name):
     title_expected_pos = title_item['title_check_pos']
     log('选择头衔', title_item['name'], expected_pos)
+    
+    imsch = bot.gui.get_curr_device_screen_img_cv()
     _, _, title_check_pos = bot.gui.check_any(
-        ImagePathAndProps.TITLE_CHECK_BUTTON_PATH.value
+        ImagePathAndProps.TITLE_CHECK_BUTTON_PATH.value,
+        imsch=imsch
     )
+    
     # log('title_check_pos', title_check_pos, 'title_expected_pos', title_expected_pos)
     if title_check_pos is None or abs(title_check_pos[0]-title_expected_pos[0]) > 30:
         task.tap(title_expected_pos)
         # time.sleep(30) 
     else:
         log('已经拥有头衔', title_item['name'], expected_pos)
+        
     _, _, ok_pos = bot.gui.check_any(
-        ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value
+        ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value,
+        imsch=imsch
     )
     task.tap(ok_pos)
     log('发放头衔成功', title_item['name'], expected_pos, player_name)
+    snapshot(bot)
 
 def load_run_config(prefix):
     file_path = 'run/{}.json'.format(prefix)
@@ -112,21 +120,22 @@ def write_run_config(config, prefix):
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(config.__dict__, f, indent=2, ensure_ascii=False)   
         
-def snapshot(bot, name):
-    # img = bot.gui.get_curr_device_screen_img().resize((480,270))
-    # if img is not None:
-    #     try:
-    #         os.mkdir('capture')
-    #     except BaseException as e:
-    #         if e.errno != errno.EEXIST:
-    #             print(e)
-    #     img = img.convert('RGB')
-    #     img.save('run/{}.jpg'.format(name))
+def snapshot(bot, name='screencap', img=None):
+    if img is None:
+        # img = bot.gui.get_curr_device_screen_img().resize((640, 360))
+        img = bot.gui.get_curr_device_screen_img_cv()
+    if img is not None:
+        cv2.resize(img, (360, 640), interpolation=cv2.INTER_LINEAR)
+        output_path = 'web/{}.jpg'.format(name)
+        # img = img.convert('RGB')
+        # img.save('web/{}.jpg'.format(name))
+        cv2.imwrite(output_path, img)
     return
             
 def start_work(bot, name):
-    def on_snashot_update():
-        snapshot(bot, name)
+    def on_snashot_update(img):
+        snapshot(bot, name, img)
+        return
     
     bot.config = load_bot_config(name)
     bot.building_pos = load_building_pos(name)
