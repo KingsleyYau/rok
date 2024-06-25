@@ -162,15 +162,15 @@
                         let tr = "<tr id=title_last class=pure-table-odd></tr>"
                         tb.append(tr)
                         tr = $("[id=title_last]");
-                        let index = "<td width=20%>当前</td>"
+                        let index = "<td width=23%>当前</td>"
                         tr.append(index);
                         let assign_time = "<td width=25%>发放时间</td>"
                         tr.append(assign_time);
-                        let server = "<td width=15%>服务器</td>"
+                        let server = "<td width=17%>服务器</td>"
                         tr.append(server);
-                        let coordinate = "<td width=20%>坐标</td>"
+                        let coordinate = "<td width=19%>坐标</td>"
                         tr.append(coordinate);
-                        let title = "<td width=15%>头衔</td>"
+                        let title = "<td width=16%>头衔</td>"
                         tr.append(title);
 
                         let itemId = 'tr_last';
@@ -196,15 +196,15 @@
                     let tr = "<tr id=title class=pure-table-odd></tr>"
                     tb.append(tr)
                     tr = $("[id=title]");
-                    let index = "<td width=20%>序号</td>"
+                    let index = "<td width=23%>序号</td>"
                     tr.append(index);
                     let summit_time = "<td width=25%>提交时间</td>"
                     tr.append(summit_time);
-                    let server = "<td width=15%>服务器</td>"
+                    let server = "<td width=17%>服务器</td>"
                     tr.append(server);
-                    let coordinate = "<td width=20%>坐标</td>"
+                    let coordinate = "<td width=19%>坐标</td>"
                     tr.append(coordinate);
-                    let title = "<td  width=15%>头衔</td>"
+                    let title = "<td  width=16%>头衔</td>"
                     tr.append(title);
 
                     i = 0;
@@ -279,18 +279,18 @@
             <input type="text" id="server" name="server" value="15" maxlength="6" required>
         </div>
         <div>
-            <label for="x">x坐标:</label>
+            <label for="x">X坐标:</label>
             <input type="text" id="x" name="x" maxlength="4" oninput="value=value.replace(/[^\d]/g,'')" required>
         </div>
         <div>
-            <label for="y">y坐标:</label>
+            <label for="y">Y坐标:</label>
             <input type="text" id="y" name="y" maxlength="4" oninput="value=value.replace(/[^\d]/g,'')" required>
         </div>
         <div>
             <input type="radio" id="train" name="title" value="train" checked>
             <label for="train">公爵</label>
             <input type="radio" id="judge" name="title" value="judge">
-            <label for="judge">法官</label>
+            <label for="judge">大法官</label>
             <input type="radio" id="architect" name="title" value="architect">
             <label for="architect">建筑师</label>
             <input type="radio" id="scientist" name="title" value="scientist">
@@ -301,9 +301,9 @@
         </div>
     </form>
 </div>
-<div>
-    <button class="button" id="refresh" onclick="onQueue()">刷新</button>
-</div>
+<!--<div>-->
+    <!--<button class="button" id="refresh" onclick="onQueue()">刷新</button>-->
+<!--</div>-->
 <div>
     <table border="1" id='record_last' class="pure-table"></table>
 </div>
