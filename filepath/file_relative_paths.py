@@ -1042,7 +1042,7 @@ class GuiCheckImagePathAndProps(Enum):
         "resource/verification_close_refresh_ok_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.70,
         25,
         VERIFICATION_CLOSE_REFRESH_OK,
     ]
@@ -1087,7 +1087,7 @@ class GuiCheckImagePathAndProps(Enum):
 
 
 GuiCheckImagePathAndPropsOrdered = [
-    # GuiCheckImagePathAndProps.VERIFICATION_CLOSE_REFRESH_OK_BUTTON_IMAGE_PATH,
+    GuiCheckImagePathAndProps.VERIFICATION_CLOSE_REFRESH_OK_BUTTON_IMAGE_PATH,
     # GuiCheckImagePathAndProps.VERIFICATION_VERIFY_BUTTON_IMAGE_PATH,
     # GuiCheckImagePathAndProps.VERIFICATION_CHEST_IMG_PATH,
     # GuiCheckImagePathAndProps.VERIFICATION_CHEST1_IMG_PATH,

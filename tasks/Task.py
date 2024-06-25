@@ -19,6 +19,7 @@ import random
 import adb
 import cv2
 import numpy as np
+import utils
 
 from filepath.constants import RESOURCES, SPEEDUPS, BOOSTS, EQUIPMENT, OTHER, MAP, HOME
 from time import sleep
@@ -100,7 +101,7 @@ class Task:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
                     self.back()
-                elif gui_name != GuiName.HELLO_WROLD_IMG.name:
+                elif gui_name != GuiName.HELLO_WROLD_IMG.name and gui_name != GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
                     self.back()
             loop_count = loop_count + 1
             if loop_count > 10:
@@ -178,7 +179,7 @@ class Task:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
                     self.back()
-                elif gui_name != GuiName.HELLO_WROLD_IMG.name:
+                elif gui_name != GuiName.HELLO_WROLD_IMG.name and gui_name != GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
                     self.back()
             loop_count = loop_count + 1
             if loop_count > 10:
@@ -211,17 +212,20 @@ class Task:
                 
                 self.bot.snashot_update_event()
                    
-                if gui_name == GuiName.VERIFICATION_VERIFY.name:
-                    self.set_text(insert='点击验证按钮, {}'.format(pos))
-                    self.tap(pos, 2 * self.bot.config.tapSleep)
-                elif gui_name == GuiName.VERIFICATION_CHEST.name:
-                    self.set_text(insert='点击验证图标, {}'.format(pos))
-                    self.tap(pos, 2 * self.bot.config.tapSleep)
-                elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
-                    self.set_text(insert='开始验证, {}'.format(pos))
-                    pos_list = self.pass_verification()
-                    if pos_list is None:
-                        self.set_text(insert='验证失败')
+                # if gui_name == GuiName.VERIFICATION_VERIFY.name:
+                #     self.set_text(insert='点击验证按钮, {}'.format(pos))
+                #     self.tap(pos, 2 * self.bot.config.tapSleep)
+                # elif gui_name == GuiName.VERIFICATION_CHEST.name:
+                #     self.set_text(insert='点击验证图标, {}'.format(pos))
+                #     self.tap(pos, 2 * self.bot.config.tapSleep)
+                # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
+                #     self.set_text(insert='开始验证, {}'.format(pos))
+                #     pos_list = self.pass_verification()
+                #     if pos_list is None:
+                #         self.set_text(insert='验证失败')
+                if gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
+                    self.set_text(insert='发现验证界面, 开始验证'.format())
+                    self.verify()
                 elif gui_name == GuiName.HELLO_WROLD_IMG.name:
                     self.set_text(insert='欢迎界面, 点击任意地方, {}'.format(pos_free))
                     self.set_text(insert='等待{}秒'.format(self.bot.config.restartSleep))
@@ -233,10 +237,6 @@ class Task:
                         now = time.time()
                         self.set_text(insert='已经等待{}秒...'.format(int(now - start)))
                         self.check_common_button()
-                # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and pos_list is None:
-                #     pos_list = self.pass_verification()
-                # elif (gui_name == GuiName.MAP.name) | (gui_name == GuiName.HOME.name):
-                #     device_log(self.device, '[地图/城市]界面, 不需要处理')
                 # else:
                 #     device_log(self.device, '未知界面, 点击任意地方', pos_free)
                 #     self.tap(pos_free)
@@ -466,7 +466,9 @@ class Task:
         cmd = "dumpsys activity top"
         str = self.device.shell(cmd)
         ret = (str.find("com.lilithgames.rok.offical.cn/com.harry.engine.MainActivity") != -1) | \
-              (str.find('com.lilithgames.rok.offical.cn/com.lilith.sdk.special.uiless.domestic.UILessDomesticSwitchActivity') != -1)
+              (str.find('com.lilithgames.rok.offical.cn/com.lilith.sdk.special.uiless.domestic.UILessDomesticSwitchActivity') != -1) | \
+              (str.find('com.lilithgames.rok.offical.cn/com.lilith.sdk.special.uiless.domestic.UILessDomesticAutoLoginActivity') != -1)
+                         
         # device_log(self.device, 'isRoKRunning', cmd, ret)
         # return True
         return ret
@@ -524,3 +526,29 @@ class Task:
 
     def do(self, next_task):
         return next_task
+    
+    def verify(self):
+        img = self.gui.get_curr_device_screen_img_cv()
+        img = cv2.medianBlur(img, 5)
+    
+        img1 = img[240:420, 490:610]
+        img_result1 = utils.canny(img1)
+        img_result1, c1 = utils.fix_max_contours(img_result1)
+        c1 = np.squeeze(c1)
+        print('c1.shape: {}'.format(c1.shape))
+        min_1 = np.min(c1, axis=0)
+        print('min_1: {}'.format(min_1))
+        start = min_1[0] + 490
+    
+      
+        img2 = img[240:420, 655:775]
+        img_result2 = utils.canny(img2)
+        img_result2, c2 = utils.fix_max_contours(img_result2)
+        c2 = np.squeeze(c2)
+        print('c2.shape: {}'.format(c2.shape))
+        min_2 = np.min(c2, axis=0)
+        print('min_2: {}'.format(min_2))
+        end = min_2[0] + 655
+        
+        self.swipe((start, 460), (end, 460), 1, 1000)
+        time.sleep(3)

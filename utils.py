@@ -1,5 +1,6 @@
 from filepath.tool_relative_paths import FilePaths
 
+import numpy as np
 import cv2
 import pytesseract as tess
 from paddleocr import PaddleOCR
@@ -96,3 +97,73 @@ def log(*args):
 def device_log(device, *args):
     time_string = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     print('[{}] {}({}) - {}'.format(time_string, f"{device.name.replace(':', '_')}", device.nickname, args))    
+ 
+def canny(img):
+    d = img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # d = img_gray / 255
+    
+    scale=1
+    adx = dx = cv2.Sobel(d, -1, 1, 0, scale=scale)
+    # adx = cv2.convertScaleAbs(dx * 255)
+    ady = dy = cv2.Sobel(d, -1, 0, 1, scale=scale)
+    # ady = cv2.convertScaleAbs(dy * 255)
+    
+    adxy = cv2.addWeighted(adx, 0.5, ady, 0.5, 0)
+    
+    # hist = cv2.calcHist([adxy], [0], None, [256], [0, 256]).ravel()
+    hist = cv2.calcHist([img_gray], [0], None, [256], [0, 256]).ravel()
+    adxy_max = np.max(adxy)
+    
+    total = adxy.shape[0] * adxy.shape[1] * .99
+    bin_sum = 0
+    i = 0
+    # for bin_hist in hist:
+    for i in range(len(hist)):
+        bin_hist = hist[i]
+        bin_sum += bin_hist
+        # print('i:', i, 'bin_hist', bin_hist)
+        if bin_sum >= total:
+            break;
+        # i += 1
+        
+    upper = i #(i + 1) * adxy_max / 255
+    lower = .3 * upper
+    last_result = cv2.Canny(img_gray, lower, upper)
+    
+    return last_result   
+ 
+def fix_max_contours(img, fill=True):
+    _, img_thresh = cv2.threshold(img, 1, 255, cv2.THRESH_BINARY)
+    cnts = cv2.findContours(img_thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    
+    # opencv2返回两个值：contours, hierarchy
+    # opencv3会返回三个值：img, countours, hierarchy
+    contours = cnts[0] if len(cnts) == 2 else cnts[1]
+    hierarchy = cnts[1] if len(cnts) == 2 else cnts[2]
+    hierarchy = np.squeeze(hierarchy)
+    
+    max_area = 0
+    max_index = 0
+    max_c = contours[0]
+    # print('len(contours):', len(contours))
+    for i in range(len(contours)):
+        c = contours[i]
+        h = hierarchy[i]
+        area = cv2.contourArea(c)
+        if area > max_area:
+            max_area = area
+            max_index = i
+            
+    for i in range(len(contours)):
+        c = contours[i]
+        h = hierarchy[i]
+        if i == max_index:
+            max_c = c
+            if fill:
+                cv2.drawContours(img, [c], -1, 255, thickness=cv2.FILLED)
+        else:
+            cv2.drawContours(img_thresh, [c], -1, 0, thickness=cv2.FILLED)
+            
+    img_result = cv2.bitwise_and(img, img_thresh)
+
+    return img_result, max_c

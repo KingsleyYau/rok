@@ -70,12 +70,13 @@ class GuiDetector:
             if result[0]:
                 return [result[1], result[2]]
         if not result[0]:
-            return self.get_hello_world_gui()
+            return self.get_hello_world_gui(imsch=imsch)
         return None
 
-    def get_hello_world_gui(self):
+    def get_hello_world_gui(self, imsch):
         result = self.check_any_gray(
-            ImagePathAndProps.HELLO_WROLD_IMG_PATH.value
+            ImagePathAndProps.HELLO_WROLD_IMG_PATH.value,
+            imsch=imsch
         )
         # device_log(self.__device, 'get_hello_world_gui', result)
         if result[0]:
