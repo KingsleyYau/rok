@@ -122,6 +122,10 @@
         let y = formData.get('y');
         docCookies.setItem('y', y, 31536e3);
         let title = formData.get('title');
+        if (typeof(title)=="undefined" || title==null) {
+            alert("该头衔当前禁止申请, 请重新选择")
+            return
+        }
         docCookies.setItem('title', title, 31536e3);
 
         $.ajax({
@@ -154,7 +158,7 @@
 
 
                 if (data.errno == 0) {
-                    if( typeof(data.data.last)!="undefined" && data.data.last!=null ) {
+                    if (typeof(data.data.last)!="undefined" && data.data.last!=null) {
                         let item = data.data.last;
                         let tb = $("[id=record_last]");
                         tb.empty();
@@ -243,7 +247,53 @@
         return false;
     }
 
+    function onConfig() {
+        console.log('onConfig');
+
+        $.ajax({
+            url: "/api/rok_title_config",
+            type: "get",
+            data: "",
+            success: function (data) {
+                console.info(data);
+                config = data.data.config;
+                if (data.errno != 0) {
+                    alert(data.errmsg)
+                } else if (typeof(config)!="undefined" && config!=null){
+                    if (!config.train) {
+                        $("[id=train]").attr('disabled', true)
+                    } else {
+                        $("[id=train]").removeAttr('disabled')
+                    }
+
+                    if (!config.judge) {
+                        $("[id=judge]").attr('disabled', true)
+                    } else {
+                        $("[id=judge]").removeAttr('disabled')
+                    }
+
+                    if (!config.architect) {
+                        $("[id=architect]").attr('disabled', true)
+                    } else {
+                        $("[id=architect]").removeAttr('disabled')
+                    }
+
+                    if (!config.scientist) {
+                        $("[id=scientist]").attr('disabled', true)
+                    } else {
+                        $("[id=scientist]").removeAttr('disabled')
+                    }
+                }
+            },
+            error: function (data) {
+                console.warn(data);
+            }
+        });
+        return false;
+    }
+
     function reload() {
+        onConfig();
         onQueue();
 
         setTimeout(() => {
