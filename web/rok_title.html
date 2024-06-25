@@ -72,6 +72,7 @@
         .pure-table-odd td {
             background-color: #f2f2f2;
         }
+
         textarea {
             width: 100%;
             font-size:14px;
@@ -95,6 +96,10 @@
             background-color: #4CAF50; /* 绿色 */
         }
 
+        .label_title {
+            display:inline-block;
+            width:15%;
+        }
     </style>
 </head>
 
@@ -325,15 +330,15 @@
     <div>PS:大概1分钟申请一次</div>
     <form id="postForm" method="post" onsubmit="return onSummit(this);">
         <div>
-            <label for="server">服务器:</label>
+            <label for="server" class="label_title">服务器:</label>
             <input type="text" id="server" name="server" value="15" maxlength="6" required>
         </div>
         <div>
-            <label for="x">X坐标:</label>
+            <label for="x" class="label_title">X坐标:</label>
             <input type="text" id="x" name="x" maxlength="4" oninput="value=value.replace(/[^\d]/g,'')" required>
         </div>
         <div>
-            <label for="y">Y坐标:</label>
+            <label for="y" class="label_title">Y坐标:</label>
             <input type="text" id="y" name="y" maxlength="4" oninput="value=value.replace(/[^\d]/g,'')" required>
         </div>
         <div>
