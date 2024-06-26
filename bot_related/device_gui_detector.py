@@ -63,8 +63,9 @@ class GuiDetector:
         image = Image.open(io.BytesIO(self.__device.screencap()))
         image.save(resource_path(FilePaths.TEST_SRC_FOLDER_PATH.value + file_name))
 
-    def get_curr_gui_name(self):
-        imsch = self.get_curr_device_screen_img_cv()
+    def get_curr_gui_name(self, imsch=None):
+        if imsch is None:
+            imsch = self.get_curr_device_screen_img_cv()
         for image_path_and_props in GuiCheckImagePathAndPropsOrdered:
             result = self.check_any(image_path_and_props.value, imsch=imsch)
             if result[0]:

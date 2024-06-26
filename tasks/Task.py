@@ -166,8 +166,8 @@ class Task:
             result = self.get_curr_gui_name()
             gui_name, pos = ["UNKNOW", None] if result is None else result
             if gui_name == GuiName.MAP.name:
-                imsch = self.gui.get_curr_device_screen_img_cv()
                 if help:
+                    imsch = self.gui.get_curr_device_screen_img_cv()
                     help_pos = self.gui.check_any(ImagePathAndProps.HELP2_IMG_PATH.value, imsch=imsch)[2]
                     if help_pos is not None:
                         self.set_text(insert='切换视觉[map], 当前界面[{}], {}, 发现帮助按钮, 点击'.format(gui_name,help_pos))
@@ -204,9 +204,10 @@ class Task:
             
             for i in range(0, 1):
                 self.bot.snashot_update_event()
-                self.check_common_button()
                 
-                result = self.gui.get_curr_gui_name()
+                imsch = self.gui.get_curr_device_screen_img_cv()
+                self.check_common_button(imsch)
+                result = self.gui.get_curr_gui_name(imsch)
                 gui_name, pos = ["UNKNOW", None] if result is None else result
                 device_log(self.device, '获取当前界面', gui_name, pos)  
                 
@@ -248,8 +249,9 @@ class Task:
             adb.bridge.reconnect(self.device)
             return None
     
-    def check_common_button(self):
-        imsch = self.gui.get_curr_device_screen_img_cv()
+    def check_common_button(self, imsch=None):
+        if imsch is None:
+            imsch = self.gui.get_curr_device_screen_img_cv()
         closeapp_pos = self.gui.check_any(
                 ImagePathAndProps.CLOSEAPP_BUTTON_PATH.value,
                 imsch=imsch

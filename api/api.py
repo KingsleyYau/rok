@@ -19,11 +19,6 @@ from tasks.Task import Task
 def find_player(bot, task, server, expected_pos):
     log('寻找玩家', server, expected_pos)
     task.back_to_map_gui(help=False)
-    # task.double_tap((400, 400))
-    # _, _, pos = bot.gui.check_any_gray(
-    #     ImagePathAndProps.SEARCH_ICON_SMALL_IMAGE_PATH.value
-    # )
-    # task.tap(pos[0])
     log('打开坐标搜索')
     # task.tap((435, 6))
     
@@ -191,12 +186,6 @@ def run_api(args, bot=None):
         
     task = Task(bot)
     expected_pos = (args.x, args.y)
-    title_items = {
-        'train':{'name':'公爵','title_check_pos':(505, 380)},
-        'judge':{'name':'法官','title_check_pos':(280, 380)},
-        'architect':{'name':'建筑师','title_check_pos':(735, 380)},
-        'scientist':{'name':'科学家','title_check_pos':(965, 380)},
-        }
     
     run_type = 'request_title'
     if (args.run_type is not None) and (len(run_type) > 0):
@@ -204,10 +193,8 @@ def run_api(args, bot=None):
     
     if run_type == 'request_title':
         title_item = RunConfig.TITLE_ITEMS[args.title]
-        # title_item = title_items[args.title]
         if title_item is not None:
             log('申请头衔', title_item['name'])
-            
             found, player_name = find_player(bot, task, args.server, expected_pos)
             if found:
                 return finish_title(bot, task, title_item, expected_pos, player_name), player_name
