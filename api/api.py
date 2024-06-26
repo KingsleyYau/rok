@@ -19,8 +19,7 @@ from tasks.Task import Task
 def find_player(bot, task, server, expected_pos):
     log('寻找玩家', server, expected_pos)
     task.back_to_map_gui(help=False)
-    log('打开坐标搜索')
-    # task.tap((435, 6))
+    log('打开坐标搜索界面')
     
     _, _, bookmark_pos = bot.gui.check_any_gray(
         ImagePathAndProps.SEARCH_BOOKMARK_IMAGE_PATH.value
@@ -49,7 +48,7 @@ def find_player(bot, task, server, expected_pos):
     )
     snapshot(bot, img=imsch)
     log('点击搜索')
-    task.tap(search_pos, 10)
+    task.tap(search_pos, 8)
     
     log('点击城堡')
     player_name = ""
