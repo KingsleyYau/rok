@@ -4,6 +4,7 @@ from gui.main_window import MainWindow
 import argparse
 from api.api import run_api, get_bot
 from utils import log
+from api.run_config import RunConfig
 
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import urllib
@@ -29,6 +30,16 @@ def api_deamon(args):
     filepath = args.api_deamon_file
     filepath_last = args.api_deamon_file_last
     while True:
+        # 读取上次使用记录
+        last_item = None
+        try:
+            with open(filepath_last, 'r', encoding='utf-8') as lf:
+                line = lf.readline()
+                last_item = json.loads(line)
+        except BaseException as e:
+            log(e) 
+            
+        # 读取当前队列记录       
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
                 lines = f.readlines()
@@ -41,9 +52,28 @@ def api_deamon(args):
                         item = json.loads(line)
                         log('################################################################################')
                         log('执行记录', item)
+                        record = item['record']
+                        
+                        if last_item is not None:
+                            last_record = last_item['record']
+                            assign_time = last_item['assign_time']
+                            dt = time.strptime(assign_time, "%Y-%m-%d %H:%M:%S")
+                            last = time.mktime(dt)
+                            if record['title'] == last_record['title']:
+                                while True:
+                                    now = time.time()
+                                    diff = now - last
+                                    if diff < 60:
+                                        title_item = RunConfig.TITLE_ITEMS[last_record['title']]
+                                        if title_item is not None:
+                                            log('等待玩家使用', title_item['name'], '上次发放时间', assign_time, '当前执行时间', time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), '使用时长', int(diff))
+                                            time.sleep(10)
+                                        else:
+                                            break
+                                    else:
+                                        break
                         
                         # 执行记录
-                        record = item['record']
                         args.run_type = 'request_title'
                         args.title = record['title']
                         args.server = record['server']
@@ -52,26 +82,35 @@ def api_deamon(args):
                         result, playe_name = run_api(args, bot)
                     except BaseException as e:
                         log(item, e)
-                        
-                    # 移除记录
-                    with open(filepath, 'r+', encoding='utf-8') as nf:
-                        lines = nf.readlines()
-                        lines = lines[1:]
-                        nf.seek(0)
-                        nf.truncate()
-                        nf.writelines(lines)
-                    if item is not None and result:
-                        with open(filepath_last, 'w', encoding='utf-8') as wf:
-                            record = item['record']
-                            item['assign_time'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-                            item['player_name'] = playe_name
-                            line = json.dumps(item, ensure_ascii=False)
-                            wf.writelines([line])
-                            wf.truncate()
-                            
+                        adb.bridge.reconnect(bot.device)
+                    
+                    try:    
+                        # 移除记录
+                        with open(filepath, 'r+', encoding='utf-8') as nf:
+                            lines = nf.readlines()
+                            lines = lines[1:]
+                            nf.seek(0)
+                            nf.truncate()
+                            nf.writelines(lines)
+                    except BaseException as e:
+                        log(item, e)
+                    
+                    try:        
+                        if item is not None and result:
+                            with open(filepath_last, 'w', encoding='utf-8') as wf:
+                                record = item['record']
+                                item['assign_time'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                                item['player_name'] = playe_name
+                                line = json.dumps(item, ensure_ascii=False)
+                                wf.writelines([line])
+                                wf.truncate()
+                            # # 发放成功, 等待使用
+                            # time.sleep(40)
+                    except BaseException as e:
+                        log(item, e)  
+                              
         except BaseException as e:
             log(e)
-            adb.bridge.reconnect(bot.device)
         time.sleep(3)
         
 def api(args):

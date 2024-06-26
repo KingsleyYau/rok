@@ -203,7 +203,8 @@ def run_api(args, bot=None):
         run_type = args.run_type
     
     if run_type == 'request_title':
-        title_item = title_items[args.title]
+        title_item = RunConfig.TITLE_ITEMS[args.title]
+        # title_item = title_items[args.title]
         if title_item is not None:
             log('申请头衔', title_item['name'])
             

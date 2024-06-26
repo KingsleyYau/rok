@@ -535,20 +535,16 @@ class Task:
         img_result1 = utils.canny(img1)
         img_result1, c1 = utils.fix_max_contours(img_result1)
         c1 = np.squeeze(c1)
-        print('c1.shape: {}'.format(c1.shape))
         min_1 = np.min(c1, axis=0)
-        print('min_1: {}'.format(min_1))
         start = min_1[0] + 490
-    
       
         img2 = img[240:420, 655:775]
         img_result2 = utils.canny(img2)
         img_result2, c2 = utils.fix_max_contours(img_result2)
         c2 = np.squeeze(c2)
-        print('c2.shape: {}'.format(c2.shape))
         min_2 = np.min(c2, axis=0)
-        print('min_2: {}'.format(min_2))
         end = min_2[0] + 655
         
+        self.set_text(insert='尝试滑动验证, {} => {}'.format(start, end))
         self.swipe((start, 460), (end, 460), 1, 1000)
         time.sleep(3)
