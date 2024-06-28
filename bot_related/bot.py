@@ -221,7 +221,7 @@ class Bot:
                         start = time.time()
                         now = start
                         last = 0
-                        diff = 900
+                        diff = self.config.checkTaskTime
                         # for i in range(breakTime):
                         
                         self.player_round_count = player_round_count

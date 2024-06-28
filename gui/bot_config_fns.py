@@ -28,6 +28,7 @@ break_do_round = entry_int_fn_creator('breakDoRound', 'Execute at every', 'round
 terminate_checkbox = checkbox_fn_creator('terminate', 'Terminate when break')
 break_checkbox = checkbox_fn_creator('enableBreak', 'Take break at every end of round')
 
+check_task_entry = entry_int_fn_creator('checkTaskTime', 'Check task time during break(second):')
 tap_sleep_entry = entry_int_fn_creator('tapSleep', 'Tap Sleep Time(second):')
 swipe_sleep_entry = entry_int_fn_creator('swipeSleep', 'Swipe Sleep Time(millisecond):')
 welcome_sleep_entry = entry_int_fn_creator('welcomeSleep', 'Welcome Sleep Time(second):')
@@ -158,8 +159,6 @@ break_do_round = entry_int_fn_creator('breakDoRound', 'Execute at every', 'round
 terminate_checkbox = checkbox_fn_creator('terminate', 'Terminate when break')
 break_checkbox = checkbox_fn_creator('enableBreak', 'Take break at every end of round')
 
-tap_sleep_entry = entry_int_fn_creator('tapSleep', 'Tap Sleep Time(second):')
-
 def resource_ratio(app, parent):
     label_texts = ['Food:', 'Wood:', 'Stone:', 'Gold:']
     attr_names = ['gatherResourceRatioFood',
@@ -204,7 +203,7 @@ def resource_ratio(app, parent):
 
 bot_config_title_fns = [
     # [restart_checkbox, [restart_do_round]],
-    [break_checkbox, [break_do_round, terminate_checkbox, time_drop_down, tap_sleep_entry, swipe_sleep_entry, welcome_sleep_entry, restart_sleep_entry]],
+    [break_checkbox, [break_do_round, terminate_checkbox, time_drop_down, check_task_entry, tap_sleep_entry, swipe_sleep_entry, welcome_sleep_entry, restart_sleep_entry]],
     [mystery_merchant_checkbox, []],
     [open_free_chest_in_tavern, []],
     [collecting_checkbox, []],
