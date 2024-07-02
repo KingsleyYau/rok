@@ -154,6 +154,7 @@ class GuiDetector:
             # device_log(self.__device, 'player_name, {}'.format(name))
             name = re.sub('^[^a-zA-Z0-9_\u4e00-\u9fa5]+$', '', name)
             name = re.sub('^\[.*\]', '', name)
+            name = name.replace('\[', '').replace('\]', '')
         except Exception as e:
             device_log(self.__device, 'player_name', e)
             traceback.print_exc()

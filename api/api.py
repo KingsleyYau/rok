@@ -69,20 +69,26 @@ def monitor(bot, task, filepath):
         cancel_name = text_from_img_box(imsch_gray, cancel_box)
         if len(cancel_name) > 0 :
             player_names = re.findall('^(.+)取消.*$', cancel_name)
-            log('{}, {}'.format(cancel_name, player_names))
+            log('发现通知, {}, player_names: {}'.format(cancel_name, player_names))
             
             if len(player_names) > 0:
-                player_name = player_names[0]
-                items = []
+                player_name = player_names[0].replace('\[', '').replace('\]', '')
+                
+                last_item = None
+                max_time = 0
                 for gethering_item in gathering.values():
-                    gethering_item_player_name = gethering_item['player_name']
-                    if player_name == gethering_item_player_name:
-                        items.append(gethering_item)
-                log(items)
-            
+                    if player_name == gethering_item['player_name']:
+                        add_time = time.mktime(time.strptime(gethering_item['add_time'], "%Y-%m-%d %H:%M:%S"))
+                        if add_time > max_time:
+                            max_time = add_time
+                            last_item = gethering_item
+                
+                if last_item is not None:
+                    log('取消集结', last_item)
+                    identify = last_item['player_xy']+'-'+last_item['xy']
+                    gathering.pop(identify)
                 
         for i in range(1,3):
-            log('寻找集结,{}'.format(i))
             # 用户名
             player_name_pos = (310, 185 * i)
             player_name_box = (player_name_pos[0], player_name_pos[1], player_name_pos[0] + 200, player_name_pos[1] + 35)
@@ -92,6 +98,8 @@ def monitor(bot, task, filepath):
             player_pos = (190, 185 * i + 95)
             player_box = (player_pos[0], player_pos[1], player_pos[0] + 100, player_pos[1] + 30)
             player_xy = text_from_img_box(imsch_gray, player_box)
+            # player_xy_x = re.findall('^X:(.*)Y:.*$', player_xy)[0]
+            # player_xy_y = re.findall('^X:.*Y:(.*)$', player_xy)[0]
             
             # 集结名称
             dst_pos = (850, 185 * i)
@@ -102,23 +110,39 @@ def monitor(bot, task, filepath):
             xy_pos = (985, 185 * i + 95)
             xy_box = (xy_pos[0], xy_pos[1], xy_pos[0] + 100, xy_pos[1] + 30)
             xy = text_from_img_box(imsch_gray, xy_box)
+            # xy_x = re.findall('^X:(.*)Y:.*$', xy)[0]
+            # xy_y = re.findall('^X:.*Y:(.*)$', xy)[0]
             
+            # 集结状态
+            status_pos = (610, 185 * i + 80)
+            status_box = (status_pos[0], status_pos[1], status_pos[0] + 60, status_pos[1] + 25)
+            status = text_from_img_box(imsch_gray, status_box)
+            status = re.sub('^[^a-zA-Z0-9_\u4e00-\u9fa5]+$', '', status)
+            
+            # log('当前集结, {}, {}, {} => {}, {}'.format(i, player_name, player_xy, xy, dst))
             if (len(player_name)>0) and len(dst)>0 and (len(xy)>0):
-                # log('发现集结,{},{},{}'.format(pos, player_name, xy))
+                # log('发现集结,{},{},{}'.format(player_name, xy, status))
                 time_string = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
                 item = {'player_name':player_name, 'player_xy':player_xy, 'xy':xy, 'dst':dst, 'add_time':time_string}
-                if not xy in gathering:
-                    found = True
-                    gathering[xy] = item
-                    log('新增集结,{}'.format(item))
+                        # 'player_xy_x':player_xy_x,'player_xy_y':player_xy_y,'xy_x':xy_x,'xy_y':xy_y}
+                
+                identify = player_xy+'-'+xy
+                if not identify in gathering:
+                    if (status == "准备中" or status == "等待中"):
+                        found = True
+                        gathering[identify] = item
+                        log('新增集结,{},status'.format(item,status))
+                    else:
+                        # log('其他集结信息,{},{}'.format(item, status))
+                        pass
                 else:
-                    old_item = gathering[xy]
+                    old_item = gathering[identify]
                     if old_item['player_name'] == item['player_name']:
-                        # log('重复集结,{},{}'.format(pos, item))
+                        # log('重复集结,{}'.format(item))
                         pass
                     else:
-                        gathering[xy] = item
-                        log('新增集结,{}'.format(item))
+                        log('更新集结信息,{}'.format(item))
+                        gathering[identify] = item
             else:
                 break
                  
@@ -140,7 +164,7 @@ def monitor(bot, task, filepath):
         else:
             item = {'player_xy':gethering_item['player_xy'], 'count':1}
             gathering_count[player_name] = item
-    log('统计寨子, 开始统计时间 {}, {}'.format(monitor_count['start_time'], gathering_count)) 
+    # log('统计寨子, 开始统计时间 {}, {}'.format(monitor_count['start_time'], gathering_count))   
         
     try:        
         if gathering is not None:
@@ -297,6 +321,7 @@ def get_bot(device_name = 'request_title'):
     devices_config = load_device_config()
     for config in devices_config:
         name = config.get('name', 'None')
+        log('{}', name)
         if device_name == name:
             nickname = config.get('nickname', 'None')
             ip = config['ip']

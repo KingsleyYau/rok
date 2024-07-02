@@ -30,7 +30,7 @@ def api_monitor(args):
     args.run_type = 'request_monitor'
     while True:
         run_api(args, bot)
-        # time.sleep(2)
+        time.sleep(2)
     
 def api_deamon(args):
     bot = get_bot()
@@ -168,7 +168,7 @@ if __name__ == '__main__':
     parser.add_argument("--api_deamon_file", type=str, default='record.txt', help="api record file")
     parser.add_argument("--api_deamon_file_last", type=str, default='record_last.txt', help="api record last file")
     parser.add_argument("--api_monitor", type=str2bool, default=False, help="api monitor mode")
-    parser.add_argument("--api_monitor_file", type=str, default='monitor_file.txt', help="api monitor file")
+    parser.add_argument("--api_monitor_file", type=str, default='monitor_file.json', help="api monitor file")
     args = parser.parse_args()
     if args.api:
         api(args)

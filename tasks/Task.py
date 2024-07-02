@@ -104,7 +104,7 @@ class Task:
                 elif gui_name != GuiName.HELLO_WROLD_IMG.name and gui_name != GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and gui_name != GuiName.HELLO_WROLD_2_IMG.name:
                     self.back()
             loop_count = loop_count + 1
-            if loop_count > 10:
+            if loop_count > 20:
                 self.set_text(insert='程序可能卡死, 重启'.format(loop_count))
                 self.stopRok()
                 break;
@@ -182,7 +182,7 @@ class Task:
                 elif gui_name != GuiName.HELLO_WROLD_IMG.name and gui_name != GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and gui_name != GuiName.HELLO_WROLD_2_IMG.name:
                     self.back()
             loop_count = loop_count + 1
-            if loop_count > 10:
+            if loop_count > 20:
                 self.set_text(insert='程序可能卡死, 重启'.format(loop_count))
                 self.stopRok()
                 break;
@@ -239,7 +239,8 @@ class Task:
                         self.set_text(insert='已经等待{}秒...'.format(int(now - start)))
                         self.check_common_button()
                 elif gui_name == GuiName.HELLO_WROLD_2_IMG.name:
-                    self.set_text(insert='欢迎界面, 继续等待')
+                    self.set_text(insert='欢迎界面, 继续等待...')
+                    time.sleep(20)
                 # else:
                 #     device_log(self.device, '未知界面, 点击任意地方', pos_free)
                 #     self.tap(pos_free)
