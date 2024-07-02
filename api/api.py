@@ -74,19 +74,19 @@ def monitor(bot, task, filepath):
             if len(player_names) > 0:
                 player_name = player_names[0].replace('\[', '').replace('\]', '')
                 
-                last_item = None
+                last_identify = None
                 max_time = 0
-                for gethering_item in gathering.values():
+                for identify in gathering:
+                    gethering_item = gathering[identify]
                     if player_name == gethering_item['player_name']:
                         add_time = time.mktime(time.strptime(gethering_item['add_time'], "%Y-%m-%d %H:%M:%S"))
                         if add_time > max_time:
                             max_time = add_time
-                            last_item = gethering_item
+                            last_identify = identify
                 
-                if last_item is not None:
-                    log('取消集结', last_item)
-                    identify = last_item['player_xy']+'-'+last_item['xy']
-                    gathering.pop(identify)
+                if last_identify is not None:
+                    log('取消集结', last_identify, gathering[last_identify])
+                    gathering.pop(last_identify)
                 
         for i in range(1,3):
             # 用户名
@@ -105,6 +105,7 @@ def monitor(bot, task, filepath):
             dst_pos = (850, 185 * i)
             dst_box = (dst_pos[0], dst_pos[1], dst_pos[0] + 130, dst_pos[1] + 35)
             dst = text_from_img_box(imsch_gray, dst_box)
+            is_count = (dst.find('城寨') != -1)
             
             # 集结坐标
             xy_pos = (985, 185 * i + 95)
@@ -128,10 +129,10 @@ def monitor(bot, task, filepath):
                 
                 identify = player_xy+'-'+xy
                 if not identify in gathering:
-                    if (status == "准备中" or status == "等待中"):
+                    if (status == "准备中" or status == "等待中") and is_count:
                         found = True
                         gathering[identify] = item
-                        log('新增集结,{},status'.format(item,status))
+                        log('新增集结,{},{}'.format(item,status))
                     else:
                         # log('其他集结信息,{},{}'.format(item, status))
                         pass
@@ -321,7 +322,6 @@ def get_bot(device_name = 'request_title'):
     devices_config = load_device_config()
     for config in devices_config:
         name = config.get('name', 'None')
-        log('{}', name)
         if device_name == name:
             nickname = config.get('nickname', 'None')
             ip = config['ip']
