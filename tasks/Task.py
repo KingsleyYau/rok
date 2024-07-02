@@ -101,7 +101,7 @@ class Task:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
                     self.back()
-                elif gui_name != GuiName.HELLO_WROLD_IMG.name and gui_name != GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
+                elif gui_name != GuiName.HELLO_WROLD_IMG.name and gui_name != GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and gui_name != GuiName.HELLO_WROLD_2_IMG.name:
                     self.back()
             loop_count = loop_count + 1
             if loop_count > 10:
@@ -179,7 +179,7 @@ class Task:
                     self.tap(pos)
                 elif gui_name == GuiName.WINDOW.name:
                     self.back()
-                elif gui_name != GuiName.HELLO_WROLD_IMG.name and gui_name != GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
+                elif gui_name != GuiName.HELLO_WROLD_IMG.name and gui_name != GuiName.VERIFICATION_CLOSE_REFRESH_OK.name and gui_name != GuiName.HELLO_WROLD_2_IMG.name:
                     self.back()
             loop_count = loop_count + 1
             if loop_count > 10:
@@ -238,6 +238,8 @@ class Task:
                         now = time.time()
                         self.set_text(insert='已经等待{}秒...'.format(int(now - start)))
                         self.check_common_button()
+                elif gui_name == GuiName.HELLO_WROLD_2_IMG.name:
+                    self.set_text(insert='欢迎界面, 继续等待')
                 # else:
                 #     device_log(self.device, '未知界面, 点击任意地方', pos_free)
                 #     self.tap(pos_free)
@@ -342,7 +344,7 @@ class Task:
         else:
             return False
 
-        items_icon_pos = (930, 675)
+        items_icon_pos = (830, 675)
         use_btn_pos = (980, 600)
 
         # open menu

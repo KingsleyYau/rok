@@ -11,7 +11,7 @@ class Alliance(Task):
 
     def do(self, next_task=TaskName.MATERIALS):
         super().set_text(title='联盟任务', remove=True)
-        alliance_btn_pos = (1030, 670)
+        alliance_btn_pos = (930, 670)
         try:
             random_tasks = ['HELP', 'GIFTS', 'TERRITORY', 'TECHNOLOGY']
             random.shuffle(random_tasks)

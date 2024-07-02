@@ -1,6 +1,6 @@
 from PIL import Image
-from filepath.file_relative_paths import ImagePathAndProps
-from filepath.file_relative_paths import GuiCheckImagePathAndPropsOrdered
+import numpy
+from filepath.file_relative_paths import ImagePathAndProps, GuiCheckImagePathAndPropsOrdered, GuiCheckHelloImagePathAndPropsOrdered
 from filepath.tool_relative_paths import FilePaths
 from utils import resource_path
 from utils import img_to_string, img_to_string_eng
@@ -14,7 +14,7 @@ import cv2
 from bot_related import aircve as aircv
 import io
 from utils import log, device_log
-from filepath.constants import HELLO_WROLD_IMG
+from filepath.constants import HELLO_WROLD_IMG, HELLO_WROLD_2_IMG
 import re
 import time
 
@@ -40,6 +40,7 @@ class GuiName(Enum):
     VERIFICATION_VERIFY_TITLE = 6
     VERIFICATION_CLOSE_REFRESH_OK = 7
     HELLO_WROLD_IMG = 8
+    HELLO_WROLD_2_IMG = 9
 
 
 class GuiDetector:
@@ -75,13 +76,13 @@ class GuiDetector:
         return None
 
     def get_hello_world_gui(self, imsch):
-        result = self.check_any_gray(
-            ImagePathAndProps.HELLO_WROLD_IMG_PATH.value,
-            imsch=imsch
-        )
-        # device_log(self.__device, 'get_hello_world_gui', result)
-        if result[0]:
-            return [result[1], result[2]]
+        for image_path_and_props in GuiCheckHelloImagePathAndPropsOrdered:
+            result = self.check_any_gray(image_path_and_props.value, imsch=imsch)
+            if result[0]:
+                return [result[1], result[2]]
+        # # device_log(self.__device, 'get_hello_world_gui', result)
+        # if result[0]:
+        #     return [result[1], result[2]]
         return None
     
     def get_windows_name(self):
@@ -109,7 +110,6 @@ class GuiDetector:
         title_image = imsch[y0:y1, x0:x1]
         title_image = img_remove_background_and_enhance_word(title_image, np.array([0, 0, 160]),
                                                              np.array([255, 255, 255]))
-        title_image = Image.fromarray(title_image)
         return img_to_string(title_image)
     
     def get_kilometer(self):
@@ -129,8 +129,7 @@ class GuiDetector:
                 _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
                 # cv2.imwrite('script/kilo_v.png', imdst)
                 
-                kilo_image = Image.fromarray(imdst)
-                rec = img_to_string_eng(kilo_image).replace(' ', '').replace(',', '')
+                rec = img_to_string_eng(imdst).replace(' ', '').replace(',', '')
                 rec = re.sub('[^0-9]', '', rec)
                 if len(rec) > 0:
                     kilo = int(rec)
@@ -150,11 +149,8 @@ class GuiDetector:
             imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
             x0, y0, x1, y1 = box
             imdst = imsch[y0:y1, x0:x1]
-            # troop_image = Image.fromarray(imdst)
-            # _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
-            # cv2.imwrite('script/troop_image_v.png', imdst)
-            img = Image.fromarray(imdst)
-            name = img_to_string(img).replace(' ', '').replace('\n', '')
+            # cv2.imwrite('script/image.png', imdst)
+            name = img_to_string(imdst).replace(' ', '').replace('\n', '')
             # device_log(self.__device, 'player_name, {}'.format(name))
             name = re.sub('^[^a-zA-Z0-9_\u4e00-\u9fa5]+$', '', name)
             name = re.sub('^\[.*\]', '', name)
@@ -173,8 +169,7 @@ class GuiDetector:
             # troop_image = Image.fromarray(imdst)
             _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
             # cv2.imwrite('script/troop_image_v.png', imdst)
-            troop_image = Image.fromarray(imdst)
-            rec = img_to_string_eng(troop_image).replace(' ', '').replace(',', '').replace('\n', '')
+            rec = img_to_string_eng(imdst).replace(' ', '').replace(',', '').replace('\n', '')
             if len(rec) > 1:
                 device_log(self.__device, '检查队列数量, {}/{}'.format(rec[0], rec[-1]))
                 rec = rec.replace('s', '5').replace('S', '5')
@@ -196,14 +191,13 @@ class GuiDetector:
             for box in boxes:
                 x0, y0, x1, y1 = box
                 imdst = imsch[y0:y1, x0:x1]
-                resource_image = Image.fromarray(imdst)
                 # resource_image.save('capture/resource_{}.png'.format(i))
                 i = i + 1
                 try:
                     # 英文识别
-                    rec = img_to_string_eng(resource_image).replace(' ', '').replace(',', '').replace('1Z', '')  
+                    rec = img_to_string_eng(imdst).replace(' ', '').replace(',', '').replace('1Z', '')  
                     # 中文识别
-                    rec_unit = img_to_string(resource_image).replace(' ', '').replace(',', '')
+                    rec_unit = img_to_string(imdst).replace(' ', '').replace(',', '')
                     
                     # 没有小数, 直接使用中文识别
                     if (rec.find('.') == -1):
@@ -252,10 +246,9 @@ class GuiDetector:
             device_log(self.__device, 'materilal_amount_image_to_string', box)
             imdst = imsch[y0:y1, x0:x1]
             ret, imths = cv2.threshold(imdst, 215, 255, cv2.THRESH_BINARY)
-            resource_image = Image.fromarray(imths)
             i=i+1
             try:
-                result_list.append(int(img_to_string_eng(resource_image)
+                result_list.append(int(img_to_string_eng(imths)
                                        .replace(',', '')
                                        ))
             except Exception as e:
@@ -297,8 +290,7 @@ class GuiDetector:
             imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
             imsch = imsch[y0:y1, x0:x1]
             # ret, imsch = cv2.threshold(imsch, 165, 255, cv2.THRESH_BINARY)
-            resource_image = Image.fromarray(imsch)
-            str = img_to_string(resource_image)
+            str = img_to_string(imsch)
             if self.debug:
                 cv2.imshow('imsch', imsch)
                 print(str)
@@ -314,7 +306,7 @@ class GuiDetector:
     def get_building_name(self, box):
         x0, y0, x1, y1 = box
         title_image = self.get_curr_device_screen_img().crop(box)
-        s = img_to_string(title_image)
+        s = img_to_string(numpy.asarray(title_image))
         title_image.save(resource_path('{}title_x_{}_y_{}.png'.format(FilePaths.TEST_SRC_FOLDER_PATH.value, x0, y0)))
         bot_print("Building <{}> on position [({}, {}), ({}, {})] ".format(s, x0, y0, x1, y1))
 
@@ -326,7 +318,7 @@ class GuiDetector:
                 path, size, box, threshold, least_diff, gui = props
                 imsrc = cv2.imread(resource_path(path))
     
-                result = aircv.find_template(imsrc, imsch, threshold, True)
+                result = aircv.find_template(imsrc, imsch, threshold, rgb=True)
                 # device_log(self.__device, 'check_any', path, threshold, result)
                 
                 if self.debug:
@@ -341,15 +333,21 @@ class GuiDetector:
 
         return False, None, None
     
-    def check_any_gray(self, *props_list, bgremove=True, imsch = None):
+    def check_any_gray(self, *props_list, bgremove=False, imsch=None):
         if imsch is None:
             imsch = self.get_curr_device_screen_img_cv()
         for props in props_list:
             path, size, box, threshold, least_diff, gui = props
-            # device_log(self.__device, 'check_any_gray', path, threshold)
+            
             imsrc = cv2.imread(resource_path(path))
-            result = aircv.find_template(imsrc, imsch, threshold, False, bgremove)
-
+            result = aircv.find_template(imsrc, imsch, threshold, rgb=False, bgremove=bgremove)
+            # device_log(self.__device, 'check_any_gray', path, threshold, result)
+            
+            if self.debug:
+                cv2.imshow('imsrc', imsrc)
+                cv2.imshow('imsch', imsch)
+                cv2.waitKey(0)
+                
             if result is not None:
                 return True, gui, result['result']
 
@@ -395,8 +393,7 @@ class GuiDetector:
                                  cv2.IMREAD_COLOR)
             imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
             imsch = imsch[y0:y1, x0:x1]
-            resource_image = Image.fromarray(imsch)
-            str = img_to_string(resource_image)
+            str = img_to_string(imsch)
             free_attempts = int(str.split('/')[0])
 
             # Tickets
@@ -405,8 +402,7 @@ class GuiDetector:
                                  cv2.IMREAD_COLOR)
             imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
             imsch = imsch[y0:y1, x0:x1]
-            resource_image = Image.fromarray(imsch)
-            str = img_to_string(resource_image)
+            str = img_to_string(imsch)
             ticket_attempts = int(str)
         except Exception as e:
             traceback.print_exc()
@@ -423,8 +419,7 @@ class GuiDetector:
                                  cv2.IMREAD_COLOR)
             imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
             imsch = imsch[y0:y1, x0:x1]
-            resource_image = Image.fromarray(imsch)
-            str = img_to_string(resource_image)
+            str = img_to_string(imsch)
             free_attempts = int(str.split('/')[0])
         except Exception as e:
             traceback.print_exc()

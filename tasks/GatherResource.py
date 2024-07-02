@@ -68,7 +68,7 @@ class GatherResource(Task):
                 self.set_text(insert='优先采集联盟矿')
                 self.menu_should_open(True)
                 self.set_text(insert='打开联盟中心')
-                alliance_btn_pos = (1030, 670)
+                alliance_btn_pos = (930, 670)
                 self.tap(alliance_btn_pos, 2 * self.bot.config.tapSleep)
                 
                 found = False

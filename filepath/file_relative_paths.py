@@ -764,14 +764,6 @@ class ImagePathAndProps(Enum):
         25,
         TITLE_CHECK_BUTTON
     ]
-    HELLO_WROLD_IMG_PATH = [
-        "resource/hellow_world.png",
-        (1280, 720),
-        (0, 0, 0, 0),
-        0.70,
-        25,
-        HELLO_WROLD_IMG
-    ]   
     CONFIRM_BUTTON_PATH = [
         "resource/confirm.png",
         (1280, 720),
@@ -984,9 +976,17 @@ class ImagePathAndProps(Enum):
         "resource/alliance_war.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         ALLIANCE_WAR_IMG,
+    ]  
+    ALLIANCE_WAR_MAIN_PATH = [
+        "resource/alliance_war_main.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        ALLIANCE_WAR_MAIN,
     ]  
     JOIN_TROOP_IMG_PATH = [
         "resource/alliance_join_troop.png",
@@ -1084,7 +1084,27 @@ class GuiCheckImagePathAndProps(Enum):
         0.9,
         25,
         VERIFICATION_CHEST1]
+    HELLO_WROLD_IMG_PATH = [
+        "resource/hellow_world.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.70,
+        25,
+        HELLO_WROLD_IMG
+    ]
+    HELLO_WROLD_2_IMG_PATH = [
+        "resource/hellow_world_2.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.70,
+        25,
+        HELLO_WROLD_2_IMG
+    ]
 
+GuiCheckHelloImagePathAndPropsOrdered = [
+    GuiCheckImagePathAndProps.HELLO_WROLD_IMG_PATH,
+    GuiCheckImagePathAndProps.HELLO_WROLD_2_IMG_PATH
+]
 
 GuiCheckImagePathAndPropsOrdered = [
     GuiCheckImagePathAndProps.VERIFICATION_CLOSE_REFRESH_OK_BUTTON_IMAGE_PATH,

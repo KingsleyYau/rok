@@ -2,7 +2,7 @@ import adb
 
 from gui.main_window import MainWindow
 import argparse
-from api.api import run_api, get_bot
+from api.api import run_api, get_bot, monitor
 from utils import log
 from api.run_config import RunConfig
 
@@ -24,6 +24,13 @@ def main():
     adb.bridge = adb.enable_adb('127.0.0.1', 5037)
     window = MainWindow()
     window.run()
+
+def api_monitor(args):
+    bot = get_bot(args.device_name)
+    args.run_type = 'request_monitor'
+    while True:
+        run_api(args, bot)
+        # time.sleep(2)
     
 def api_deamon(args):
     bot = get_bot()
@@ -160,13 +167,14 @@ if __name__ == '__main__':
     parser.add_argument("--api_deamon", type=str2bool, default=False, help="api deamon mode")
     parser.add_argument("--api_deamon_file", type=str, default='record.txt', help="api record file")
     parser.add_argument("--api_deamon_file_last", type=str, default='record_last.txt', help="api record last file")
+    parser.add_argument("--api_monitor", type=str2bool, default=False, help="api monitor mode")
+    parser.add_argument("--api_monitor_file", type=str, default='monitor_file.txt', help="api monitor file")
     args = parser.parse_args()
     if args.api:
         api(args)
-    # elif args.http:
-    #     httpd = HTTPServer(('0.0.0.0', 9527), HttpHandler)
-    #     httpd.serve_forever()
     elif args.api_deamon:
         api_deamon(args)
+    elif args.api_monitor:
+        api_monitor(args)
     else:
         main()

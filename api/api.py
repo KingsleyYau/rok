@@ -4,7 +4,8 @@ import cv2
 import os, errno
 import json
 import traceback
-
+from PIL import Image
+import re
 from gui.creator import load_bot_config
 from gui.creator import load_building_pos
 from gui.creator import write_device_config, load_device_config
@@ -12,10 +13,148 @@ from bot_related.bot import Bot
 from tasks.constants import BuildingNames
 from filepath.file_relative_paths import ImagePathAndProps
 from utils import log
+from utils import img_to_string, img_to_string_eng
 from api.run_config import RunConfig
 
 from tasks.Task import Task
 
+def text_from_img_box(img, box):
+    x0, y0, x1, y1 = box
+    box_img = img[y0:y1, x0:x1]
+    result = img_to_string(box_img)
+    result = result.replace(' ', '').replace('\n', '')
+    return result
+
+def monitor(bot, task, filepath):
+    # log('监控城寨')
+    start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    monitor_count = {}
+    gathering = {}
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            line = f.readline()
+            monitor_count = json.loads(line)
+            gathering = monitor_count['gathering']
+            # log('已经统计的集结',gathering)
+    except BaseException as e:
+        log(e)  
+        
+    if not 'start_time' in monitor_count:
+        monitor_count['start_time'] = start_time    
+        
+    try:
+        found = False
+        
+        war_main_pos = bot.gui.check_any(ImagePathAndProps.ALLIANCE_WAR_MAIN_PATH.value)[2]
+        if war_main_pos is None:
+            task.back_to_map_gui()
+        
+            task.menu_should_open(True)
+            log('打开联盟中心')
+            alliance_btn_pos = (930, 670)
+            task.tap(alliance_btn_pos, 10)
+        
+            war_pos = bot.gui.check_any(ImagePathAndProps.ALLIANCE_WAR_IMG_PATH.value)[2]
+            if war_pos is not None:
+                log('打开战争界面')
+                task.tap(war_pos, 10)
+        else:
+            # log('已经打开战争界面')
+            pass
+                
+        imsch = bot.gui.get_curr_device_screen_img_cv()
+        imsch_gray = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
+        cancel_pos = (415, 155)
+        cancel_box = (cancel_pos[0], cancel_pos[1], cancel_pos[0] + 320, cancel_pos[1] + 35)
+        cancel_name = text_from_img_box(imsch_gray, cancel_box)
+        if len(cancel_name) > 0 :
+            player_names = re.findall('^(.+)取消.*$', cancel_name)
+            log('{}, {}'.format(cancel_name, player_names))
+            
+            if len(player_names) > 0:
+                player_name = player_names[0]
+                items = []
+                for gethering_item in gathering.values():
+                    gethering_item_player_name = gethering_item['player_name']
+                    if player_name == gethering_item_player_name:
+                        items.append(gethering_item)
+                log(items)
+            
+                
+        for i in range(1,3):
+            log('寻找集结,{}'.format(i))
+            # 用户名
+            player_name_pos = (310, 185 * i)
+            player_name_box = (player_name_pos[0], player_name_pos[1], player_name_pos[0] + 200, player_name_pos[1] + 35)
+            player_name = bot.gui.player_name(player_name_box, imsch)
+            
+            # 用户坐标
+            player_pos = (190, 185 * i + 95)
+            player_box = (player_pos[0], player_pos[1], player_pos[0] + 100, player_pos[1] + 30)
+            player_xy = text_from_img_box(imsch_gray, player_box)
+            
+            # 集结名称
+            dst_pos = (850, 185 * i)
+            dst_box = (dst_pos[0], dst_pos[1], dst_pos[0] + 130, dst_pos[1] + 35)
+            dst = text_from_img_box(imsch_gray, dst_box)
+            
+            # 集结坐标
+            xy_pos = (985, 185 * i + 95)
+            xy_box = (xy_pos[0], xy_pos[1], xy_pos[0] + 100, xy_pos[1] + 30)
+            xy = text_from_img_box(imsch_gray, xy_box)
+            
+            if (len(player_name)>0) and len(dst)>0 and (len(xy)>0):
+                # log('发现集结,{},{},{}'.format(pos, player_name, xy))
+                time_string = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                item = {'player_name':player_name, 'player_xy':player_xy, 'xy':xy, 'dst':dst, 'add_time':time_string}
+                if not xy in gathering:
+                    found = True
+                    gathering[xy] = item
+                    log('新增集结,{}'.format(item))
+                else:
+                    old_item = gathering[xy]
+                    if old_item['player_name'] == item['player_name']:
+                        # log('重复集结,{},{}'.format(pos, item))
+                        pass
+                    else:
+                        gathering[xy] = item
+                        log('新增集结,{}'.format(item))
+            else:
+                break
+                 
+        if not found:
+            # log('没有新增集结') 
+            pass
+            
+    except Exception as e:
+        traceback.print_exc()
+        log(e)
+    
+    gathering_count = {}
+    for gethering_item in gathering.values():
+        player_name = gethering_item['player_name']
+        if player_name in gathering_count:
+            item = gathering_count[player_name]
+            item['count'] = item['count'] + 1
+            gathering_count[player_name] = item
+        else:
+            item = {'player_xy':gethering_item['player_xy'], 'count':1}
+            gathering_count[player_name] = item
+    log('统计寨子, 开始统计时间 {}, {}'.format(monitor_count['start_time'], gathering_count)) 
+        
+    try:        
+        if gathering is not None:
+            with open(filepath, 'w', encoding='utf-8') as wf:
+                monitor_count['gathering'] = gathering
+                monitor_count['gathering_count'] = gathering_count
+                line = json.dumps(monitor_count, ensure_ascii=False)
+                wf.writelines([line])
+                wf.truncate()
+          
+    except BaseException as e:
+        log(e)  
+    return gathering
+            
 def find_player(bot, task, server, expected_pos):
     log('寻找玩家', server, expected_pos)
     task.back_to_map_gui(help=False)
@@ -179,7 +318,6 @@ def get_bot(device_name = 'request_title'):
 def run_api(args, bot=None):
     adb.bridge = adb.enable_adb('127.0.0.1', 5037)
     
-    device_name = 'request_title'
     if bot is None:
         bot = get_bot(args.device_name)
         
@@ -190,7 +328,10 @@ def run_api(args, bot=None):
     if (args.run_type is not None) and (len(run_type) > 0):
         run_type = args.run_type
     
-    if run_type == 'request_title':
+    if run_type == 'request_monitor':
+        monitor(bot, task, args.api_monitor_file)
+        return False, ""
+    elif run_type == 'request_title':
         title_item = RunConfig.TITLE_ITEMS[args.title]
         if title_item is not None:
             log('申请头衔', title_item['name'])
@@ -200,17 +341,17 @@ def run_api(args, bot=None):
         return False, ""
     elif run_type == 'request_stop':
         try:
-            config = load_run_config(device_name)
-            config.name = device_name
+            config = load_run_config(bot.device.name)
+            config.name = bot.device.name
             log('config', config)
             
             config.running = args.run;
-            write_run_config(config, device_name)
+            write_run_config(config, bot.device.name)
         
             log('杀掉', config.name)    
             bot.stop()
             task.stopRok()
-            os.remove('run/{}.jpg'.format(device_name))
+            os.remove('run/{}.jpg'.format(bot.device.name))
             return True, ""
         except BaseException as e:
             log(e)   
@@ -223,8 +364,8 @@ def run_api(args, bot=None):
             if e.errno != errno.EEXIST:
                 print(e)
                 
-        config = load_run_config(device_name)
-        config.name = device_name
+        config = load_run_config(bot.device.name)
+        config.name = bot.device.name
         log('config', config)
         
         if config.running and args.run:
@@ -232,26 +373,26 @@ def run_api(args, bot=None):
             return False, ""
         
         config.running = args.run;
-        write_run_config(config, device_name)
+        write_run_config(config, bot.device.name)
         
         if config.running:
             log('开始打工', config.name)
             config.diamond_add = 0
-            start_work(bot, device_name)
+            start_work(bot, bot.device.name)
         
         while config.running:
             time.sleep(1)
-            config = load_run_config(device_name)
+            config = load_run_config(bot.device.name)
         config.diamond_add = bot.diamond_add
-        write_run_config(config, device_name)   
+        write_run_config(config, bot.device.name)   
         log('停止打工', config.name)    
         bot.stop()
         
-        file_path = 'run/{}.jpg'.format(device_name)
+        file_path = 'run/{}.jpg'.format(bot.device.name)
         os.remove(file_path)
         return True, ""
     
     elif run_type == 'change_player':
-        return change_player(task, bot, device_name, args.player), ""
+        return change_player(task, bot, bot.device.name, args.player), ""
     
     return False, ""

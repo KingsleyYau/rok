@@ -57,7 +57,7 @@ class Adb:
 def enable_adb(host='127.0.0.1', port=5037):
     adb = None
     adb_path = resource_path(FilePaths.ADB_EXE_PATH.value)
-    log('enable_adb', adb_path, host, port)
+    # log('enable_adb', adb_path, host, port)
     try:
         adb = Adb(host, port)
 

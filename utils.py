@@ -14,6 +14,7 @@ import json
 import traceback
 import time
 import numpy
+from matplotlib.pyplot import box
 
 def _async_raise(tid, exctype):
     tid = ctypes.c_long(tid)
@@ -40,32 +41,25 @@ def resource_path(relative_path):
 def build_command(program_path, *args):
     return [program_path, *args]
 
-
-def img_to_string(pil_image):
-    # pil_image.save(resource_path("test.png"))
-    
-    # tess.pytesseract.tesseract_cmd = resource_path(FilePaths.TESSERACT_EXE_PATH.value)
-    # result = tess.image_to_string(pil_image, lang='chi_sim', config='--psm 6') \
-    #     .replace('\t', '').replace('\n', '').replace('\f', '')
-        
+def img_to_string(img):
     ocr = PaddleOCR(lang="ch", use_gpu=False, use_angle_cls=False, show_log=False)
-    ocr_result = ocr.ocr(numpy.asarray(pil_image), cls=False, det=False)
+    ocr_result = ocr.ocr(img, cls=False, det=False)
     line = ocr_result[0][0]
     result = line[0]
-    log('img_to_string', result)
+    # log('img_to_string', result)
     return result
 
-def img_to_string_eng(pil_image):
+def img_to_string_eng(img):
     # pil_image.save(resource_path("test.png"))
     # tess.pytesseract.tesseract_cmd = resource_path(FilePaths.TESSERACT_EXE_PATH.value)
     # result = tess.image_to_string(pil_image, lang='eng', config='--psm 6')
     # result = result.replace('\t', '').replace('\n', '').replace('\f', '')
     
     ocr = PaddleOCR(lang="en", use_gpu=False, use_angle_cls=False, show_log=False)
-    ocr_result = ocr.ocr(numpy.asarray(pil_image), cls=False, det=False)
+    ocr_result = ocr.ocr(img, cls=False, det=False)
     line = ocr_result[0][0]
     result = line[0]
-    log('img_to_string_eng', result)
+    # log('img_to_string_eng', result)
     return result
 
 def img_remove_background_and_enhance_word(cv_image, lower, upper):
