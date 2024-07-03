@@ -210,14 +210,22 @@ def find_player(bot, task, server, expected_pos):
         ImagePathAndProps.SEARCH_BUTTON_IMAGE_PATH.value,
         imsch=imsch
     )
-    snapshot(bot, img=imsch)
+    # snapshot(bot, img=imsch)
     log('点击搜索')
     task.tap(search_pos, 8)
     
     log('点击城堡')
     player_name = ""
-    for i in range(4):
-        task.tap((615 + i * 10, 335 + i * 8))
+    
+    pos_items = [
+        [630, 360], [615, 360], [645, 360],
+        [630, 350], [615, 350], [645, 350],
+        [630, 340], [615, 340], [645, 340]
+        ]
+    
+    for pos in pos_items:
+        task.tap(pos)
+        # task.tap((615 + i * 10, 335 + i * 5))
         imsch = bot.gui.get_curr_device_screen_img_cv()
         _, _, player_title_pos = bot.gui.check_any(
             ImagePathAndProps.TITLE_BUTTON_PATH.value,
@@ -226,18 +234,19 @@ def find_player(bot, task, server, expected_pos):
         
         if player_title_pos:
             # log('寻找玩家成功', server, expected_pos)
-            box = (int(player_title_pos[0]) + 129, int(player_title_pos[1]) + 46, int(player_title_pos[0]) + 129 + 230, int(player_title_pos[1]) + 44 + 36)
+            box = (int(player_title_pos[0]) + 124, int(player_title_pos[1]) + 42, int(player_title_pos[0]) + 124 + 230, int(player_title_pos[1]) + 42 + 36)
             player_name = bot.gui.player_name(box, imsch)
             log('寻找玩家成功', server, expected_pos, player_name)
-            snapshot(bot, img=imsch)
+            x0, y0, x1, y1 = box
+            img = imsch[y0:y1, x0:x1]
+            snapshot(bot, img=img)
             task.tap(player_title_pos)
             return True, player_name
 
     log('寻找玩家失败', server, expected_pos)
-    snapshot(bot, img=imsch)
     return False, None
             
-def finish_title(bot, task, title_item, expected_pos, player_name):
+def finish_title(bot, task, server, title_item, expected_pos, player_name):
     title_expected_pos = title_item['title_check_pos']
     log('选择头衔', title_item['name'], expected_pos)
     
@@ -259,8 +268,8 @@ def finish_title(bot, task, title_item, expected_pos, player_name):
         imsch=imsch
     )
     task.tap(ok_pos)
-    log('发放头衔成功', title_item['name'], expected_pos, player_name)
-    snapshot(bot)
+    log('发放头衔成功', title_item['name'], server, expected_pos, player_name)
+    # snapshot(bot)
     
     return True
 
@@ -285,7 +294,7 @@ def snapshot(bot, name='screencap', img=None):
         # img = bot.gui.get_curr_device_screen_img().resize((640, 360))
         img = bot.gui.get_curr_device_screen_img_cv()
     if img is not None:
-        cv2.resize(img, (360, 640), interpolation=cv2.INTER_LINEAR)
+        # cv2.resize(img, (360, 640), interpolation=cv2.INTER_LINEAR)
         output_path = 'web/{}.jpg'.format(name)
         # img = img.convert('RGB')
         # img.save('web/{}.jpg'.format(name))
@@ -294,14 +303,14 @@ def snapshot(bot, name='screencap', img=None):
             
 def start_work(bot, name):
     def on_snashot_update(img):
-        snapshot(bot, name, img)
+        # snapshot(bot, name, img)
         return
     
     bot.config = load_bot_config(name)
     bot.building_pos = load_building_pos(name)
     bot.snashot_update_event = on_snashot_update
     bot.start(bot.do_task)
-    snapshot(bot, name)
+    # snapshot(bot, name)
     return True
  
 def change_player(task, bot, device_name, i):
@@ -362,7 +371,7 @@ def run_api(args, bot=None):
             log('申请头衔', title_item['name'])
             found, player_name = find_player(bot, task, args.server, expected_pos)
             if found:
-                return finish_title(bot, task, title_item, expected_pos, player_name), player_name
+                return finish_title(bot, task, args.server, title_item, expected_pos, player_name), player_name
         return False, ""
     elif run_type == 'request_stop':
         try:
