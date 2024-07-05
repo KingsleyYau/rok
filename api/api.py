@@ -17,13 +17,15 @@ from utils import img_to_string, img_to_string_eng
 from api.run_config import RunConfig
 
 from tasks.Task import Task
+from tasks.GetRankingList import GetRankingList
 
-def text_from_img_box(img, box):
-    x0, y0, x1, y1 = box
-    box_img = img[y0:y1, x0:x1]
-    result = img_to_string(box_img)
-    result = result.replace(' ', '').replace('\n', '')
-    return result
+def ranking(bot, filepath = ''):
+    if len(filepath) == 0:
+        today = time.strftime("%Y-%m-%d", time.localtime())
+        filepath = 'web/ranking/ranking_list_{}.json'.format(today)
+    task = GetRankingList(bot)    
+    task.do(filepath=filepath)
+    return 
 
 def monitor(bot, task, filepath):
     # log('监控城寨')
@@ -66,7 +68,7 @@ def monitor(bot, task, filepath):
         imsch_gray = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
         cancel_pos = (415, 155)
         cancel_box = (cancel_pos[0], cancel_pos[1], cancel_pos[0] + 320, cancel_pos[1] + 35)
-        cancel_name = text_from_img_box(imsch_gray, cancel_box)
+        cancel_name = bot.gui.text_from_img_box(imsch_gray, cancel_box)
         if len(cancel_name) > 0 :
             player_names = re.findall('^(.+)取消.*$', cancel_name)
             log('发现通知, {}, player_names: {}'.format(cancel_name, player_names))
@@ -92,32 +94,32 @@ def monitor(bot, task, filepath):
             # 用户名
             player_name_pos = (310, 185 * i)
             player_name_box = (player_name_pos[0], player_name_pos[1], player_name_pos[0] + 200, player_name_pos[1] + 35)
-            player_name = bot.gui.player_name(player_name_box, imsch)
+            player_name = bot.gui.player_name(box=player_name_box, imsch=imsch)
             
             # 用户坐标
             player_pos = (190, 185 * i + 95)
             player_box = (player_pos[0], player_pos[1], player_pos[0] + 100, player_pos[1] + 30)
-            player_xy = text_from_img_box(imsch_gray, player_box)
+            player_xy = bot.gui.text_from_img_box(imsch_gray, player_box)
             # player_xy_x = re.findall('^X:(.*)Y:.*$', player_xy)[0]
             # player_xy_y = re.findall('^X:.*Y:(.*)$', player_xy)[0]
             
             # 集结名称
             dst_pos = (850, 185 * i)
             dst_box = (dst_pos[0], dst_pos[1], dst_pos[0] + 130, dst_pos[1] + 35)
-            dst = text_from_img_box(imsch_gray, dst_box)
+            dst = bot.gui.text_from_img_box(imsch_gray, dst_box)
             is_count = (dst.find('城寨') != -1)
             
             # 集结坐标
             xy_pos = (985, 185 * i + 95)
             xy_box = (xy_pos[0], xy_pos[1], xy_pos[0] + 100, xy_pos[1] + 30)
-            xy = text_from_img_box(imsch_gray, xy_box)
+            xy = bot.gui.text_from_img_box(imsch_gray, xy_box)
             # xy_x = re.findall('^X:(.*)Y:.*$', xy)[0]
             # xy_y = re.findall('^X:.*Y:(.*)$', xy)[0]
             
             # 集结状态
             status_pos = (610, 185 * i + 80)
             status_box = (status_pos[0], status_pos[1], status_pos[0] + 60, status_pos[1] + 25)
-            status = text_from_img_box(imsch_gray, status_box)
+            status = bot.gui.text_from_img_box(imsch_gray, status_box)
             status = re.sub('^[^a-zA-Z0-9_\u4e00-\u9fa5]+$', '', status)
             
             # log('当前集结, {}, {}, {} => {}, {}'.format(i, player_name, player_xy, xy, dst))
@@ -240,7 +242,7 @@ def find_player(bot, task, server, expected_pos):
             x0, y0, x1, y1 = box
             img = imsch[y0:y1, x0:x1]
             snapshot(bot, img=img)
-            task.tap(player_title_pos)
+            task.tap(player_title_pos, 2 * bot.config.tapSleep)
             return True, player_name
 
     log('寻找玩家失败', server, expected_pos)
@@ -355,15 +357,19 @@ def run_api(args, bot=None):
     if bot is None:
         bot = get_bot(args.device_name)
         
+    bot.config = load_bot_config(bot.device.name)    
     task = Task(bot)
     expected_pos = (args.x, args.y)
     
     run_type = 'request_title'
     if (args.run_type is not None) and (len(run_type) > 0):
         run_type = args.run_type
-    
+        
     if run_type == 'request_monitor':
         monitor(bot, task, args.api_monitor_file)
+        return False, ""
+    elif run_type == 'ranking':
+        ranking(bot, args.api_file)
         return False, ""
     elif run_type == 'request_title':
         title_item = RunConfig.TITLE_ITEMS[args.title]

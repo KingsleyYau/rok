@@ -38,6 +38,8 @@ from tasks.ChangePlayer import ChangePlayer
 from tasks.GetPlayerName import GetPlayerName
 from tasks.UpgradeBuildings import UpgradeBuildings
 from tasks.AutoFillTroop import AutoFillTroop
+from tasks.GetRankingList import GetRankingList
+
 from tasks.constants import TaskName
 from utils import stop_thread
 import random
@@ -96,6 +98,7 @@ class Bot:
         self.auto_change_task = AutoChangePlayer(self)
         self.change_player_task = ChangePlayer(self)
         self.get_player_name_task = GetPlayerName(self)
+        self.get_rannking_list_task = GetRankingList(self)
         
         self.player_round_count = 0
         self.round_count = 0
@@ -149,6 +152,7 @@ class Bot:
             [self.autoFillTroop, "enableAutoFillTroop"],
             [self.gather_diamond_task, "gatherDiamond"],
             [self.gather_resource_task, "gatherResource"],
+            # [self.get_rannking_list_task, "getRannkingList"],
         ]
         
         try:
@@ -189,7 +193,8 @@ class Bot:
                     player_round_count = player_round_count // self.config.playerCount
                 
                 if len(self.device.nickname) == 0:
-                    self.get_player_name_task.do(TaskName.COLLECTING)
+                    # self.get_player_name_task.do(TaskName.COLLECTING)
+                    pass
     
                 # init building position if need
                 if (

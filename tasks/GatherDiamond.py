@@ -25,25 +25,40 @@ class GatherDiamond(Task):
         max_kilometer = math.ceil(math.sqrt((pow(edge, 2) + pow(edge, 2))))
         return max_kilometer
     
-    def create_troop(self):
+    def create_troop(self, full_load=False):
         new_troops_button_pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
         if new_troops_button_pos is None:
-            self.set_text(insert="没有更多队列采集")
+            self.set_text(insert="没有发现创建部队按钮, 没有更多队列")
             self.bot.snashot_update_event()
             return False
         
-        self.set_text(insert="创建部队", index=1)
-        self.tap(new_troops_button_pos, 2 * self.bot.config.tapSleep)
+        self.set_text(insert="创建部队{}".format(new_troops_button_pos))
+        self.tap(new_troops_button_pos, 3 * self.bot.config.tapSleep)
         self.bot.snashot_update_event()
         
         if self.bot.config.gatherResourceNoSecondaryCommander:
-            self.set_text(insert="移除副将", index=1)
+            self.set_text(insert="移除副将")
             self.tap((473, 501))
             self.bot.snashot_update_event()
-            
-        self.set_text(insert="开始行军", index=1)
+        
+        if full_load:
+            self.set_text(insert="最大化部队")
+            clear_button_pos = self.gui.check_any(ImagePathAndProps.CLEAR_BUTTON_PATH.value)[2]
+            if clear_button_pos is not None:
+                self.tap(clear_button_pos)
+            max_button_pos = self.gui.check_any(ImagePathAndProps.MAX_BUTTON_PATH.value)[2]
+            if max_button_pos is not None:
+                self.tap(max_button_pos)
+            self.bot.snashot_update_event()
+                
         match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
-        self.tap(match_button_pos, 2 * self.bot.config.tapSleep)
+        if match_button_pos is None:
+            self.set_text(insert="没有发现行军按钮")
+            self.bot.snashot_update_event()
+            return False
+        
+        self.set_text(insert="开始行军{}".format(match_button_pos))
+        self.tap(match_button_pos, 3 * self.bot.config.tapSleep)
         self.bot.snashot_update_event()
         return True
     

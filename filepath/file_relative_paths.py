@@ -1027,6 +1027,30 @@ class ImagePathAndProps(Enum):
         0.80,
         25,
         DOWNLOAD_BUTTON,
+    ]    
+    RANKING_BUTTON_PATH = [
+        "resource/ranking_button.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.60,
+        25,
+        RANKING_BUTTON,
+    ]
+    RANKING_POWER_TITLE_PATH = [
+        "resource/ranking_power_title.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.60,
+        25,
+        RANKING_POWER_TITLE,
+    ]
+    PLAYER_DETAIL_TITLE_PATH = [
+        "resource/player_detail_title.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.60,
+        25,
+        PLAYER_DETAIL_TITLE,
     ]
     
 class GuiCheckImagePathAndProps(Enum):

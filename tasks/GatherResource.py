@@ -22,7 +22,7 @@ class GatherResource(Task):
             return False
         
         self.set_text(insert="创建部队{}".format(new_troops_button_pos))
-        self.tap(new_troops_button_pos, 3 * self.bot.config.tapSleep)
+        self.tap(new_troops_button_pos, 5 * self.bot.config.tapSleep)
         self.bot.snashot_update_event()
         
         if self.bot.config.gatherResourceNoSecondaryCommander:
@@ -47,7 +47,7 @@ class GatherResource(Task):
             return False
         
         self.set_text(insert="开始行军{}".format(match_button_pos))
-        self.tap(match_button_pos, 3 * self.bot.config.tapSleep)
+        self.tap(match_button_pos, 5 * self.bot.config.tapSleep)
         self.bot.snashot_update_event()
         return True
         

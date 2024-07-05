@@ -10,6 +10,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import urllib
 import json
 import time
+import copy
 
 def str2bool(v):
     if v.lower() in ('yes', 'true', 'y', '1'):
@@ -153,9 +154,10 @@ class HttpHandler(BaseHTTPRequestHandler):
         print(pr.path, rp)
         self.wfile.write(rp.encode())
 
-if __name__ == '__main__':
+if __name__ == '__main__':   
     parser = argparse.ArgumentParser()
     parser.add_argument("--api", type=str2bool, default=False, help="api mode")
+    parser.add_argument("--api_file", type=str, default='', help="api file")
     parser.add_argument("--run_type", type=str, default='request_title', help="run_type")
     parser.add_argument("--device_name", type=str, default='request_title', help="device_name")
     parser.add_argument("--run", type=str2bool, default=True, help="start/stop bot")
@@ -174,6 +176,8 @@ if __name__ == '__main__':
         api(args)
     elif args.api_deamon:
         api_deamon(args)
+    elif args.api_monitor:
+        api_monitor(args)
     elif args.api_monitor:
         api_monitor(args)
     else:
