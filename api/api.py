@@ -238,7 +238,7 @@ def find_player(bot, task, server, expected_pos):
             # log('寻找玩家成功', server, expected_pos)
             box = (int(player_title_pos[0]) + 124, int(player_title_pos[1]) + 42, int(player_title_pos[0]) + 124 + 230, int(player_title_pos[1]) + 42 + 36)
             player_name = bot.gui.player_name(box, imsch)
-            log('寻找玩家成功', server, expected_pos, player_name)
+            log('寻找玩家成功', server, expected_pos, player_name, box)
             x0, y0, x1, y1 = box
             img = imsch[y0:y1, x0:x1]
             snapshot(bot, img=img)

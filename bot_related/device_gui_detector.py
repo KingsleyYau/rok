@@ -162,7 +162,7 @@ class GuiDetector:
             # device_log(self.__device, 'player_name, {}'.format(name))
             # name = re.sub('[^a-zA-Z0-9_\u4e00-\u9fa5\u9FA6-\u9FFF\u3400-\u4DBF\u20000-\u2A6DF\u2A700-\u2B739\u2B740-\u2B81D\u2B820-\u2CEA1]', '', name)
             name = re.sub('\[.*\]', '', name)
-            name = name.replace('\[', '').replace('\]', '')
+            # name = name.replace('\[', '').replace('\]', '')
         except Exception as e:
             device_log(self.__device, 'player_name', e)
             traceback.print_exc()
@@ -171,14 +171,16 @@ class GuiDetector:
     def troop_already_full(self):
         box = (1205, 160, 1245, 180)
         try:
-            imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
-            imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
-            x0, y0, x1, y1 = box
-            imdst = imsch[y0:y1, x0:x1]
-            # troop_image = Image.fromarray(imdst)
-            _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
-            # cv2.imwrite('script/troop_image_v.png', imdst)
-            rec = img_to_string_eng(imdst).replace(' ', '').replace(',', '').replace('\n', '')
+            # imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
+            # imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
+            imsch = self.get_curr_device_screen_img_cv();
+            rec = self.text_from_img_box(imsch, box)
+            # x0, y0, x1, y1 = box
+            # imdst = imsch[y0:y1, x0:x1]
+            # # troop_image = Image.fromarray(imdst)
+            # _, imdst = cv2.threshold(imdst, 190, 255, cv2.THRESH_BINARY)
+            # # cv2.imwrite('script/troop_image_v.png', imdst)
+            # rec = img_to_string_eng(imdst).replace(' ', '').replace(',', '').replace('\n', '')
             if len(rec) > 1:
                 device_log(self.__device, '检查队列数量, {}/{}'.format(rec[0], rec[-1]))
                 rec = rec.replace('s', '5').replace('S', '5')

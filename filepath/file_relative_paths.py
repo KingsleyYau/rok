@@ -1052,7 +1052,22 @@ class ImagePathAndProps(Enum):
         25,
         PLAYER_DETAIL_TITLE,
     ]
-    
+    PLAYER_MORE_INFO_PATH = [
+        "resource/player_more_info.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.60,
+        25,
+        PLAYER_MORE_INFO,
+    ]
+    PLAYER_MORE_INFO_KILL_PATH = [
+        "resource/player_more_info_kill.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.60,
+        25,
+        PLAYER_MORE_INFO_KILL,
+    ]    
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [
         "resource/verification_verify_button.png",
