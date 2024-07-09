@@ -154,47 +154,7 @@ class HttpHandler(BaseHTTPRequestHandler):
         print(pr.path, rp)
         self.wfile.write(rp.encode())
 
-if __name__ == '__main__':  
-    def get_unit_string(count):
-        unit = ""
-        if count >= 100000000:
-            unit = '亿'
-            count = count / 100000000.0
-            unit_string = '{:.2f}{}'.format(count, unit)
-        elif count >= 10000:
-            unit = '万'
-            count = int(count // 10000)
-            unit_string = '{}{}'.format(count, unit)
-        else:
-            unit_string = '{}{}'.format(count, unit)
-        return unit_string 
-    ranking_list = []
-    filepath = '/Users/max/Documents/Git/rok/web/ranking/ranking_list_2024-07-08.json'
-    try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            line = f.readlines()[0]
-            ranking_list = json.loads(line)
-            
-    except Exception as e:
-        print(e)
-        pass
-    
-    # print(ranking_list)
-    for item in ranking_list:
-        dkp = item['t4'] * 0.15 + item['t5'] * 0.25 + item['dead'] 
-        item['dkp'] = int(dkp)
-        item['dkp_unit'] = get_unit_string(dkp)
-        
-    filepath = '/Users/max/Documents/Git/rok/web/ranking/ranking_list_2024-07-08-2.json'
-    try:
-        with open(filepath, 'w', encoding='utf-8') as f:
-            line = json.dumps(ranking_list, ensure_ascii=False)
-            f.writelines([line])
-            f.truncate()     
-    except Exception as e:
-        print(e)
-        pass
-                    
+if __name__ == '__main__':                     
     parser = argparse.ArgumentParser()
     parser.add_argument("--api", type=str2bool, default=False, help="api mode")
     parser.add_argument("--api_file", type=str, default='', help="api file")

@@ -12,5 +12,5 @@ fi
 FILE=/sdcard/screen.jpg
 adb $DEVICE shell rm -f $FILE
 adb $DEVICE shell screencap -p $FILE
-adb $DEVICE pull $FILE
+adb $DEVICE pull $FILE capture/
 adb $DEVICE shell rm -f $FILE

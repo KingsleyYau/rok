@@ -53,6 +53,7 @@ class GuiDetector:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         x0, y0, x1, y1 = box
         box_img = img[y0:y1, x0:x1]
+        # cv2.imwrite('script/troop_image_v.png', box_img)
         result = img_to_string(box_img)
         result = result.replace(' ', '').replace('\n', '')
         return result
@@ -169,12 +170,13 @@ class GuiDetector:
         return name
         
     def troop_already_full(self):
-        box = (1205, 160, 1245, 180)
+        box = (1205, 135, 1245, 155)
         try:
             # imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
             # imsch = cv2.cvtColor(imsch, cv2.COLOR_BGR2GRAY)
             imsch = self.get_curr_device_screen_img_cv();
             rec = self.text_from_img_box(imsch, box)
+            # device_log(self.__device, '队列数量, {}'.format(rec))
             # x0, y0, x1, y1 = box
             # imdst = imsch[y0:y1, x0:x1]
             # # troop_image = Image.fromarray(imdst)
@@ -182,11 +184,11 @@ class GuiDetector:
             # # cv2.imwrite('script/troop_image_v.png', imdst)
             # rec = img_to_string_eng(imdst).replace(' ', '').replace(',', '').replace('\n', '')
             if len(rec) > 1:
-                device_log(self.__device, '检查队列数量, {}/{}'.format(rec[0], rec[-1]))
+                device_log(self.__device, '队列数量, {}/{}'.format(rec[0], rec[-1]))
                 rec = rec.replace('s', '5').replace('S', '5')
                 return rec[0].lower() == rec[-1].lower(), rec[0], rec[-1]
         except Exception as e:
-            device_log(self.__device, '检查队列数量', e)
+            device_log(self.__device, '队列数量', e)
             traceback.print_exc()
         return False, -1, -1
     
