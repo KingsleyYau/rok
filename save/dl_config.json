@@ -3,7 +3,7 @@
   "enableStop": false,
   "action_wait_time": 1,
   "enableBreak": true,
-  "breakTime": 2700,
+  "breakTime": 1800,
   "terminate": false,
   "breakDoRound": 1,
   "checkTaskTime": 900,
@@ -54,7 +54,7 @@
   "gatherResourceRatioStone": 10,
   "gatherResourceRatioGold": 1,
   "holdOneQuerySpace": false,
-  "gatherMaxTroops": 1,
+  "gatherMaxTroops": 4,
   "gatherDiamond": false,
   "gatherDiamondMaxRange": 20,
   "enableScout": false,
@@ -70,6 +70,6 @@
   "enableAutoFillTroop": false,
   "autoChangePlayer": true,
   "playerIndex": 1,
-  "playerCount": 2,
+  "playerCount": 4,
   "getRannkingList": true
 }

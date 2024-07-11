@@ -174,7 +174,7 @@ class Bot:
             # Check verification before every task
             try:
                 hour = time.strftime("%H", time.localtime())
-                if int(hour) >= 11 and int(hour) < 6:
+                if int(hour) >= 11 and int(hour) < 7:
                     device_log(self.device, "休息时间...")
                     if self.task.isRoKRunning():
                         self.task.stopRok()

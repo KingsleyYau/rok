@@ -152,7 +152,9 @@ cython_debug/
 #.idea/
 
 web/amis/*
-capture/*
-script/capture
+web/ranking/
+
+capture/
+script/capture/
 script/*.png
 script/*.jpg

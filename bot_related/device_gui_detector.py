@@ -57,7 +57,12 @@ class GuiDetector:
         result = img_to_string(box_img)
         result = result.replace(' ', '').replace('\n', '')
         return result
-
+    
+    def int_from_img_box(self, img, box):
+        result = self.text_from_img_box(img, box)
+        result = result.replace('o', '0').replace('O', '0').replace(',', '')
+        return int(result)
+    
     def get_curr_device_screen_img_byte_array(self):
         img = self.__device.screencap()
         return img

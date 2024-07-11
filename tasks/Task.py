@@ -255,13 +255,14 @@ class Task:
     def check_common_button(self, imsch=None):
         if imsch is None:
             imsch = self.gui.get_curr_device_screen_img_cv()
+            
         closeapp_pos = self.gui.check_any(
                 ImagePathAndProps.CLOSEAPP_BUTTON_PATH.value,
                 imsch=imsch
                 )[2]
         if closeapp_pos is not None:
             device_log(self.device, '发现程序卡死按钮, 点击', closeapp_pos)
-            self.tap(closeapp_pos, 2 * self.bot.config.tapSleep)
+            self.tap(closeapp_pos, 3 * self.bot.config.tapSleep)
             
         continue_pos = self.gui.check_any(
                 ImagePathAndProps.CONTINUE_BUTTON_PATH.value,
@@ -269,7 +270,7 @@ class Task:
                 )[2]
         if continue_pos is not None:
             device_log(self.device, '发现继续按钮, 点击', continue_pos)
-            self.tap(continue_pos, 2 * self.bot.config.tapSleep)   
+            self.tap(continue_pos, 3 * self.bot.config.tapSleep)   
             
         comfirm_pos = self.gui.check_any(
                 ImagePathAndProps.CONFIRM_BUTTON_PATH.value,
@@ -277,7 +278,7 @@ class Task:
                 )[2]
         if comfirm_pos is not None:
             device_log(self.device, '发现确定按钮, 点击', comfirm_pos)
-            self.tap(comfirm_pos, 2 * self.bot.config.tapSleep)
+            self.tap(comfirm_pos, 3 * self.bot.config.tapSleep)
         
         comfirm_update_pos = self.gui.check_any(
                 ImagePathAndProps.CONFIRM_UPDATE_BUTTON_PATH.value,
@@ -285,7 +286,7 @@ class Task:
                 )[2]
         if comfirm_update_pos is not None:
             device_log(self.device, '发现更新确定按钮, 点击', comfirm_update_pos)
-            self.tap(comfirm_update_pos, 2 * self.bot.config.tapSleep)
+            self.tap(comfirm_update_pos, 3 * self.bot.config.tapSleep)
          
         cancel_pos = self.gui.check_any(
                 ImagePathAndProps.CANCEL_BUTTON_PATH.value,
@@ -293,7 +294,7 @@ class Task:
                 )[2]
         if cancel_pos is not None:
             device_log(self.device, '发现取消按钮, 点击', cancel_pos)
-            self.tap(cancel_pos, 2 * self.bot.config.tapSleep)
+            self.tap(cancel_pos, 3 * self.bot.config.tapSleep)
                     
     def pass_verification(self):
         pos_list = None

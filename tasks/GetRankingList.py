@@ -70,9 +70,9 @@ class GetRankingList(Task):
                     local_box = (1050, 120, 1050 + 60, 120 + 26)
                     local = self.gui.text_from_img_box(imsch, local_box).replace(',', '')
                     power_box = (705, 260, 705 + 150, 260 + 34)
-                    power = int(self.gui.text_from_img_box(imsch, power_box).replace(',', ''))
+                    power = self.gui.int_from_img_box(imsch, power_box)
                     killed_box = (885, 260, 885 + 180, 260 + 34)
-                    killed = int(self.gui.text_from_img_box(imsch, killed_box).replace(',', ''))
+                    killed = self.gui.int_from_img_box(imsch, killed_box)
                     
                     dead = 0
                     t4_killed = 0
@@ -84,7 +84,7 @@ class GetRankingList(Task):
                         
                         imsch = self.gui.get_curr_device_screen_img_cv()
                         dead_box = (930, 360, 930 + 120, 360 + 25)
-                        dead = int(self.gui.text_from_img_box(imsch, dead_box).replace(',', ''))
+                        dead = self.gui.int_from_img_box(imsch, dead_box)
                         
                         player_more_info_kill_pos = self.gui.check_any(ImagePathAndProps.PLAYER_MORE_INFO_KILL_PATH.value)[2]
                         if player_more_info_kill_pos is not None:
@@ -92,9 +92,9 @@ class GetRankingList(Task):
                             
                             imsch = self.gui.get_curr_device_screen_img_cv()
                             t4_killed_box = (657, 320, 657 + 100, 320 + 25)
-                            t4_killed = int(self.gui.text_from_img_box(imsch, t4_killed_box).replace(',', ''))
+                            t4_killed = self.gui.int_from_img_box(imsch, t4_killed_box)
                             t5_killed_box = (657, 357, 657 + 100, 357 + 25)
-                            t5_killed = int(self.gui.text_from_img_box(imsch, t5_killed_box).replace(',', ''))
+                            t5_killed = self.gui.int_from_img_box(imsch, t5_killed_box)
                             
                             self.back()
                         self.back()
