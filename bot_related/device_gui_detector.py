@@ -17,6 +17,7 @@ from utils import log, device_log
 from filepath.constants import HELLO_WROLD_IMG, HELLO_WROLD_2_IMG
 import re
 import time
+from exceptiongroup._catch import catch
 
 
 # small percentage are more similar
@@ -60,8 +61,12 @@ class GuiDetector:
     
     def int_from_img_box(self, img, box):
         result = self.text_from_img_box(img, box)
-        result = result.replace('o', '0').replace('O', '0').replace(',', '')
-        return int(result)
+        try:
+            result = result.replace('o', '0').replace('O', '0').replace(',', '')
+            result = int(result)
+        except Exception as e:
+            traceback.print_exc()
+        return result
     
     def get_curr_device_screen_img_byte_array(self):
         img = self.__device.screencap()

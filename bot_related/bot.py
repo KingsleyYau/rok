@@ -193,7 +193,7 @@ class Bot:
                     player_round_count = player_round_count // self.config.playerCount
                 
                 if len(self.device.nickname) == 0:
-                    # self.get_player_name_task.do(TaskName.COLLECTING)
+                    self.get_player_name_task.do(TaskName.COLLECTING)
                     pass
     
                 # init building position if need

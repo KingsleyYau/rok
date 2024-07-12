@@ -99,7 +99,7 @@ class GetRankingList(Task):
                             self.back()
                         self.back()
                     
-                    dkp = t4_killed * 0.15 + t5_killed * 0.25 + dead
+                    dkp = int(t4_killed * 0.15 + t5_killed * 0.25 + dead)
                     self.set_text(insert='统计第{}位执政官, {}, {}, {}, 战力:{}, 击杀:{}, 阵亡:{}, t4:{}, t5:{}, dkp:{}'.format(i + 1, player_name, player_id, local, 
                                                                                       self.get_unit_string(power), self.get_unit_string(killed), self.get_unit_string(dead),
                                                                                       self.get_unit_string(t4_killed), self.get_unit_string(t5_killed),

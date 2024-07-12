@@ -152,7 +152,7 @@ cython_debug/
 #.idea/
 
 web/amis/*
-web/ranking/
+web/ranking/*
 
 capture/
 script/capture/

@@ -55,6 +55,7 @@ class AutoChangePlayer(Task):
                         break
                 else:
                     self.set_text(insert='第{}次, 没有发现确定按钮, 目标角色, {}'.format(j+1, playerIndex))
+                    self.check_common_button()
                     
             self.set_text(insert='没有发现确定按钮, 目标角色, {}, 跳过'.format(playerIndex))        
             self.bot.config.playerIndex = playerIndex
