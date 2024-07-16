@@ -9,7 +9,7 @@
   "tapSleep": 1,
   "swipeSleep": 300,
   "welcomeSleep": 60,
-  "restartSleep": 90,
+  "restartSleep": 60,
   "hasBuildingPos": true,
   "enableMysteryMerchant": true,
   "enableCollecting": true,

@@ -1068,6 +1068,31 @@ class ImagePathAndProps(Enum):
         25,
         PLAYER_MORE_INFO_KILL,
     ]    
+    DEAD_BARRACKS_IMG_PATH = [
+        "resource/dead_barracks.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.70,
+        25,
+        DEAD_BARRACKS_IMG,
+    ]   
+    DEAD_SIEGE_IMG_PATH = [
+        "resource/dead_siege.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.70,
+        25,
+        DEAD_SIEGE_IMG,
+    ]    
+    DEAD_ARCHERY_IMG_PATH = [
+        "resource/dead_archery.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.70,
+        25,
+        DEAD_ARCHERY_IMG,
+    ] 
+    
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [
         "resource/verification_verify_button.png",
@@ -1139,7 +1164,8 @@ class GuiCheckImagePathAndProps(Enum):
         25,
         HELLO_WROLD_2_IMG
     ]
-
+      
+    
 GuiCheckHelloImagePathAndPropsOrdered = [
     GuiCheckImagePathAndProps.HELLO_WROLD_IMG_PATH,
     GuiCheckImagePathAndProps.HELLO_WROLD_2_IMG_PATH

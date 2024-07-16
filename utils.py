@@ -161,3 +161,69 @@ def fix_max_contours(img, fill=True):
     img_result = cv2.bitwise_and(img, img_thresh)
 
     return img_result, max_c
+
+def resize(img, new_size, padding=True, fixScale=32):
+    w = img.shape[1]
+    h = img.shape[0]
+    
+    n_w = new_size[0]
+    n_h = new_size[1]
+    
+    scale = w / h
+    scale_n = n_w / n_h
+    
+    out_w = n_w
+    out_h = n_h
+    
+    top, bottom, left, right = (0, 0, 0, 0)
+    delta = 0
+    
+    print("resize {} => {}, padding:".format(scale, scale_n), padding)
+    
+    if not padding:
+        if scale > scale_n:
+            out_w = (int)(n_h / h * w)
+            if fixScale > 0:
+                out_w = (int)(out_w / fixScale) * fixScale
+                out_h = (int)(out_w / scale)
+            delta = out_h - out_w
+            left = delta // 2
+            right = delta - left
+        elif scale < scale_n:
+            out_h = (int)(n_w / w * h)
+            if fixScale > 0:
+                out_h = (int)(out_h / fixScale) * fixScale
+                out_w = (int)(out_h * scale)
+            delta = n_h - n_w
+            top = delta // 2
+            bottom = delta - top
+        
+        print("resize {}x{} => {}x{}".format(w, h, out_w, out_h))
+        img = cv2.resize(img, (out_w, out_h), interpolation=cv2.INTER_CUBIC)
+    else:
+        if scale > scale_n:
+            out_w = (int)(n_h / h * w)
+            if fixScale > 0:
+                out_w = (int)(out_w / fixScale) * fixScale
+                out_h = (int)(out_w / scale)
+            delta = n_w - out_w
+            left = delta // 2
+            right = delta - left
+        elif scale < scale_n:
+            out_h = (int)(n_w / w * h)
+            if fixScale > 0:
+                out_h = (int)(out_h / fixScale) * fixScale
+                out_w = (int)(out_h * scale)
+            delta = n_h - out_h
+            top = delta // 2
+            bottom = delta - top
+        
+        print("resize {}x{} => {}x{}".format(w, h, out_w, out_h))
+        img = cv2.resize(img, (out_w, out_h), interpolation=cv2.INTER_CUBIC)
+        
+        print("padding {},{},{},{} delta:{}".format(top, bottom, left, right, delta))
+        BLACK = [0,0,0]
+        # WHITE = [255,255,255]
+        img = cv2.copyMakeBorder(img, top, bottom, left, right, cv2.BORDER_CONSTANT, value = BLACK)
+    
+    return img

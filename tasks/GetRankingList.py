@@ -59,7 +59,7 @@ class GetRankingList(Task):
                 self.set_text(insert='打开第{}位执政官'.format(i + 1)) 
                 self.tap(cur_pos, 2 * self.bot.config.tapSleep)
                 
-                player_title_pos = self.gui.check_any(ImagePathAndProps.PLAYER_DETAIL_TITLE_PATH.value)[2]
+                player_title_pos = self.gui.check_any(ImagePathAndProps.PLAYER_DETAIL_TITLE_PATH.value, times=3)[2]
                 if player_title_pos is not None:
                     imsch = self.gui.get_curr_device_screen_img_cv()
                     player_id_box = (565, 153, 565 + 130, 153 + 34)
@@ -78,7 +78,7 @@ class GetRankingList(Task):
                     t4_killed = 0
                     t5_killed = 0
                     
-                    player_more_info_pos = self.gui.check_any(ImagePathAndProps.PLAYER_MORE_INFO_PATH.value)[2]
+                    player_more_info_pos = self.gui.check_any(ImagePathAndProps.PLAYER_MORE_INFO_PATH.value, times=3)[2]
                     if player_more_info_pos is not None:
                         self.tap(player_more_info_pos, 2 * self.bot.config.tapSleep)
                         
@@ -86,7 +86,7 @@ class GetRankingList(Task):
                         dead_box = (930, 360, 930 + 120, 360 + 25)
                         dead = self.gui.int_from_img_box(imsch, dead_box)
                         
-                        player_more_info_kill_pos = self.gui.check_any(ImagePathAndProps.PLAYER_MORE_INFO_KILL_PATH.value)[2]
+                        player_more_info_kill_pos = self.gui.check_any(ImagePathAndProps.PLAYER_MORE_INFO_KILL_PATH.value, times=3)[2]
                         if player_more_info_kill_pos is not None:
                             self.tap(player_more_info_kill_pos)
                             
@@ -99,7 +99,7 @@ class GetRankingList(Task):
                             self.back()
                         self.back()
                     
-                    dkp = int(t4_killed * 0.15 + t5_killed * 0.25 + dead)
+                    dkp = int(t4_killed * 0.15 + t5_killed * 0.3 + 0.8 * dead)
                     self.set_text(insert='统计第{}位执政官, {}, {}, {}, 战力:{}, 击杀:{}, 阵亡:{}, t4:{}, t5:{}, dkp:{}'.format(i + 1, player_name, player_id, local, 
                                                                                       self.get_unit_string(power), self.get_unit_string(killed), self.get_unit_string(dead),
                                                                                       self.get_unit_string(t4_killed), self.get_unit_string(t5_killed),
@@ -151,10 +151,9 @@ class GetRankingList(Task):
                         f.truncate()     
                 except Exception as e:
                     traceback.print_exc()   
-                             
-                ranking_power_title_pos = self.gui.check_any(ImagePathAndProps.RANKING_POWER_TITLE_PATH.value)[2]
+                            
+                ranking_power_title_pos = self.gui.check_any(ImagePathAndProps.RANKING_POWER_TITLE_PATH.value, times=3)[2]
                 if ranking_power_title_pos is None:
                     self.set_text(insert='异常退出') 
                     break
-                     
         return next_task

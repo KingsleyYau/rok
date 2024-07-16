@@ -1,6 +1,5 @@
 import adb
 import time
-import cv2
 import os, errno
 import json
 import traceback
@@ -12,12 +11,18 @@ from gui.creator import write_device_config, load_device_config
 from bot_related.bot import Bot
 from tasks.constants import BuildingNames
 from filepath.file_relative_paths import ImagePathAndProps
-from utils import log
-from utils import img_to_string, img_to_string_eng
+from utils import log, img_to_string, img_to_string_eng, resize
 from api.run_config import RunConfig
+from bot_related import aircve as aircv
 
 from tasks.Task import Task
 from tasks.GetRankingList import GetRankingList
+
+import cv2
+import numpy as np
+from paddleocr import PaddleOCR
+
+from config import NONE
 
 def ranking(bot, filepath = ''):
     if len(filepath) == 0:
@@ -184,6 +189,7 @@ def monitor(bot, task, filepath):
             
 def find_player(bot, task, server, expected_pos):
     log('寻找玩家', server, expected_pos)
+    task.tap((300, 100))
     task.back_to_map_gui(help=False)
     log('打开坐标搜索界面')
     
@@ -304,7 +310,7 @@ def snapshot(bot, name='screencap', img=None):
     return
             
 def start_work(bot, name):
-    def on_snashot_update(img):
+    def on_snashot_update():
         # snapshot(bot, name, img)
         return
     
@@ -383,12 +389,11 @@ def run_api(args, bot=None):
         try:
             config = load_run_config(bot.device.name)
             config.name = bot.device.name
+            config.running = False;
             log('config', config)
-            
-            config.running = args.run;
             write_run_config(config, bot.device.name)
         
-            log('杀掉', config.name)    
+            log('停止打工', config.name)    
             bot.stop()
             task.stopRok()
             os.remove('run/{}.jpg'.format(bot.device.name))
@@ -406,26 +411,21 @@ def run_api(args, bot=None):
                 
         config = load_run_config(bot.device.name)
         config.name = bot.device.name
+        config.running = True;
         log('config', config)
-        
-        if config.running and args.run:
-            log('正在打工, 无需重新开始', config.name)
-            return False, ""
-        
-        config.running = args.run;
         write_run_config(config, bot.device.name)
         
-        if config.running:
-            log('开始打工', config.name)
-            config.diamond_add = 0
-            start_work(bot, bot.device.name)
+        log('开始打工', config.name)
+        config.diamond_add = 0
+        start_work(bot, bot.device.name)
         
         while config.running:
             time.sleep(1)
             config = load_run_config(bot.device.name)
+            
         config.diamond_add = bot.diamond_add
         write_run_config(config, bot.device.name)   
-        log('停止打工', config.name)    
+        log('打工结束', config.name)    
         bot.stop()
         
         file_path = 'run/{}.jpg'.format(bot.device.name)
@@ -436,3 +436,100 @@ def run_api(args, bot=None):
         return change_player(task, bot, bot.device.name, args.player), ""
     
     return False, ""
+
+def get_dead_info(args):
+    input_path = '/Users/max/Documents/Git/rok/script/capture/t5.PNG'
+    img = cv2.imread(input_path)
+    
+    img = resize(img, (1280, 720), padding=False, fixScale=0)
+    # cv2.imwrite('/Users/max/Documents/Git/rok/script/capture/t4_2.png', img, [int(cv2.IMWRITE_JPEG_QUALITY), 1])
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    _, img_gray = cv2.threshold(img_gray, 100, 255, cv2.THRESH_BINARY)
+    # cv2.imwrite('/Users/max/Documents/Git/rok/script/capture/t4_3.png', img_gray, [int(cv2.IMWRITE_JPEG_QUALITY), 1])
+    
+    ocr = PaddleOCR(lang="ch", use_gpu=False, use_angle_cls=False, show_log=False)
+    ocr_result = ocr.ocr(img_gray, cls=False, det=True)
+    
+    src_types = [
+        {'name':'barracks',
+         'path':ImagePathAndProps.DEAD_BARRACKS_IMG_PATH.value[0],
+        },
+        {'name':'siege',
+         'path':ImagePathAndProps.DEAD_SIEGE_IMG_PATH.value[0],
+        },
+        {'name':'archery',
+         'path':ImagePathAndProps.DEAD_ARCHERY_IMG_PATH.value[0],
+        },
+    ]
+    
+    result = {
+        'barracks':{
+            't4':0,
+            't5':0,
+        },
+        'siege':{
+            't4':0,
+            't5':0,
+        },
+        'archery':{
+            't4':0,
+            't5':0,
+        },
+        }
+    i=0
+    for item in ocr_result[0]:
+        rect = item[0]
+        value = item[1][0].replace(',','').replace('.','')
+        l = int(rect[0][0])
+        t = int(rect[0][1])
+        r = int(rect[2][0])
+        b = int(rect[2][1])
+        if True:    
+            # print(item)
+            src = img[t:b, l:r]
+            src_type_img = img[t-15:b+15, l-40:l+10]
+            src_level_img = img[t-20:b, l-90:l-50]
+            src_hsv = cv2.cvtColor(src_level_img, cv2.COLOR_BGR2HSV)
+            
+            img_type = "unknow"
+            pmin=(125, 43, 46)
+            pmax=(155, 255, 255)
+            img_purple = cv2.inRange(src_hsv, pmin, pmax)
+            _, img_purple = cv2.threshold(img_purple, 0, 1, cv2.THRESH_BINARY)
+            radio_purple = np.sum(img_purple) / (img_purple.shape[0] * img_purple.shape[1])    
+            # print('shape purple', img_purple.shape, np.sum(img_purple), radio_purple)
+            
+            ymin=(11, 43, 46)
+            ymax=(25, 255, 255)
+            img_orange = cv2.inRange(src_hsv, ymin, ymax)
+            _, img_orange = cv2.threshold(img_orange, 0, 1, cv2.THRESH_BINARY)
+            radio_orange = np.sum(img_orange) / (img_orange.shape[0] * img_orange.shape[1])
+            # print('shape img_orange', img_orange.shape, np.sum(img_orange), radio_orange)          
+
+            if max(radio_purple, radio_orange) > 0.2:
+                if radio_purple > radio_orange:
+                    img_type = 't4'
+                else:
+                    img_type = 't5'
+            # print('img_type', i, img_type) 
+            
+            # cv2.imwrite('/Users/max/Documents/Git/rok/script/capture/t_{}.png'.format(i), src, [int(cv2.IMWRITE_JPEG_QUALITY), 1])
+            # cv2.imwrite('/Users/max/Documents/Git/rok/script/capture/t_type_{}.png'.format(i), src_type_img, [int(cv2.IMWRITE_JPEG_QUALITY), 1])
+            # cv2.imwrite('/Users/max/Documents/Git/rok/script/capture/t_level_{}.png'.format(i), src_level_img, [int(cv2.IMWRITE_JPEG_QUALITY), 1])
+            # cv2.imwrite('/Users/max/Documents/Git/rok/script/capture/t_orange_{}.png'.format(i), img_orange, [int(cv2.IMWRITE_JPEG_QUALITY), 1])
+            # cv2.imwrite('/Users/max/Documents/Git/rok/script/capture/t_purple_{}.png'.format(i), img_purple, [int(cv2.IMWRITE_JPEG_QUALITY), 1])
+            
+            for src_type in src_types:
+                src_img = cv2.imread(src_type['path'])
+                try:
+                    src_type_result = aircv.find_template(src_img, src_type_img, 0.8, rgb=True)
+                    if src_type_result is not None:
+                        print('Found', src_type['name'], value)
+                        if img_type in result[src_type['name']].keys():
+                            result[src_type['name']][img_type] = value
+                            break
+                except Exception as e:
+                    traceback.print_exc()
+            i=i+1
+    print(result)
+    return 

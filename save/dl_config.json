@@ -49,9 +49,9 @@
   "useGatheringBoosts": false,
   "gatherResource": true,
   "gatherResourceNoSecondaryCommander": false,
-  "gatherResourceRatioFood": 15,
-  "gatherResourceRatioWood": 15,
-  "gatherResourceRatioStone": 10,
+  "gatherResourceRatioFood": 4,
+  "gatherResourceRatioWood": 2,
+  "gatherResourceRatioStone": 4,
   "gatherResourceRatioGold": 1,
   "holdOneQuerySpace": false,
   "gatherMaxTroops": 4,
@@ -69,7 +69,7 @@
   "enableUpgradeBuilding": false,
   "enableAutoFillTroop": false,
   "autoChangePlayer": true,
-  "playerIndex": 3,
+  "playerIndex": 2,
   "playerCount": 4,
   "getRannkingList": true
 }

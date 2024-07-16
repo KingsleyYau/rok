@@ -2,7 +2,7 @@ import adb
 
 from gui.main_window import MainWindow
 import argparse
-from api.api import run_api, get_bot, monitor
+from api.api import run_api, get_bot, monitor, get_dead_info
 from utils import log
 from api.run_config import RunConfig
 
@@ -154,7 +154,7 @@ class HttpHandler(BaseHTTPRequestHandler):
         print(pr.path, rp)
         self.wfile.write(rp.encode())
 
-if __name__ == '__main__':                     
+if __name__ == '__main__':                       
     parser = argparse.ArgumentParser()
     parser.add_argument("--api", type=str2bool, default=False, help="api mode")
     parser.add_argument("--api_file", type=str, default='', help="api file")
@@ -172,6 +172,7 @@ if __name__ == '__main__':
     parser.add_argument("--api_monitor", type=str2bool, default=False, help="api monitor mode")
     parser.add_argument("--api_monitor_file", type=str, default='monitor_file.json', help="api monitor file")
     args = parser.parse_args()
+    # get_dead_info(args)
     if args.api:
         api(args)
     elif args.api_deamon:

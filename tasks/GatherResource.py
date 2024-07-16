@@ -69,18 +69,18 @@ class GatherResource(Task):
                 self.menu_should_open(True)
                 self.set_text(insert='打开联盟中心')
                 alliance_btn_pos = (930, 670)
-                self.tap(alliance_btn_pos, 2 * self.bot.config.tapSleep)
+                self.tap(alliance_btn_pos, self.bot.config.tapSleep)
                 
-                found = False
-                self.bot.snashot_update_event()
-                _, _, territory_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value)
+                found = False               
+                self.set_text(insert='寻找领土')
+                _, _, territory_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value, times=3)
                 if territory_pos is not None:
                     self.set_text(insert='打开领土{}'.format(territory_pos))
                     self.tap(territory_pos, 2 * self.bot.config.tapSleep)
                     self.bot.snashot_update_event()
                     for i in range(2):
                         self.bot.snashot_update_event()
-                        territory_gathering_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_GATHERING_IMG_PATH.value)[2]
+                        territory_gathering_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_GATHERING_IMG_PATH.value, times=3)[2]
                         if territory_gathering_pos is not None:
                             self.set_text(insert='定位联盟矿{}'.format(territory_gathering_pos))
                             self.tap((territory_gathering_pos[0] + 5, territory_gathering_pos[1] - 20), 2 * self.bot.config.tapSleep)

@@ -14,6 +14,7 @@ class Alliance(Task):
         alliance_btn_pos = (930, 670)
         try:
             random_tasks = ['HELP', 'GIFTS', 'TERRITORY', 'TECHNOLOGY']
+            random_tasks = ['GIFTS', 'TERRITORY', 'TECHNOLOGY']
             random.shuffle(random_tasks)
             
             for name in random_tasks:
@@ -34,7 +35,7 @@ class Alliance(Task):
                 elif name == 'GIFTS':
                     super().set_text(insert='收集联盟礼物')
                     
-                    _, _, gifts_pos = self.gui.check_any(ImagePathAndProps.GIFT_IMG_PATH.value)
+                    _, _, gifts_pos = self.gui.check_any(ImagePathAndProps.GIFT_IMG_PATH.value, times=3)
                     if gifts_pos is not None:
                         super().tap(gifts_pos)
                     else:
