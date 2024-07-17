@@ -377,6 +377,9 @@ def run_api(args, bot=None):
     elif run_type == 'ranking':
         ranking(bot, args.api_file)
         return False, ""
+    elif run_type == 'get_dead_info':
+        get_dead_info(args.api_file)
+        return False, ""
     elif run_type == 'request_title':
         title_item = RunConfig.TITLE_ITEMS[args.title]
         if title_item is not None:
@@ -437,7 +440,7 @@ def run_api(args, bot=None):
     
     return False, ""
 
-def get_dead_info(args):
+def get_dead_info(filepath = ''):
     input_path = '/Users/max/Documents/Git/rok/script/capture/t5.PNG'
     img = cv2.imread(input_path)
     
