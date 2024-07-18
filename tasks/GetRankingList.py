@@ -148,12 +148,12 @@ class GetRankingList(Task):
                     with open(filepath, 'w', encoding='utf-8') as f:
                         line = json.dumps(ranking_list, ensure_ascii=False)
                         f.writelines([line])
-                        f.truncate()     
+                        f.truncate()
                 except Exception as e:
                     traceback.print_exc()   
                             
                 ranking_power_title_pos = self.gui.check_any(ImagePathAndProps.RANKING_POWER_TITLE_PATH.value, times=3)[2]
                 if ranking_power_title_pos is None:
-                    self.set_text(insert='异常退出') 
+                    self.set_text(insert='异常退出')
                     break
         return next_task

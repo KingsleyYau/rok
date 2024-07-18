@@ -178,7 +178,7 @@ def resize(img, new_size, padding=True, fixScale=32):
     top, bottom, left, right = (0, 0, 0, 0)
     delta = 0
     
-    print("resize {} => {}, padding:".format(scale, scale_n), padding)
+    # print("resize {} => {}, padding:".format(scale, scale_n), padding)
     
     if not padding:
         if scale > scale_n:
@@ -198,7 +198,7 @@ def resize(img, new_size, padding=True, fixScale=32):
             top = delta // 2
             bottom = delta - top
         
-        print("resize {}x{} => {}x{}".format(w, h, out_w, out_h))
+        # print("resize {}x{} => {}x{}".format(w, h, out_w, out_h))
         img = cv2.resize(img, (out_w, out_h), interpolation=cv2.INTER_CUBIC)
     else:
         if scale > scale_n:
@@ -218,10 +218,10 @@ def resize(img, new_size, padding=True, fixScale=32):
             top = delta // 2
             bottom = delta - top
         
-        print("resize {}x{} => {}x{}".format(w, h, out_w, out_h))
+        # print("resize {}x{} => {}x{}".format(w, h, out_w, out_h))
         img = cv2.resize(img, (out_w, out_h), interpolation=cv2.INTER_CUBIC)
         
-        print("padding {},{},{},{} delta:{}".format(top, bottom, left, right, delta))
+        # print("padding {},{},{},{} delta:{}".format(top, bottom, left, right, delta))
         BLACK = [0,0,0]
         # WHITE = [255,255,255]
         img = cv2.copyMakeBorder(img, top, bottom, left, right, cv2.BORDER_CONSTANT, value = BLACK)

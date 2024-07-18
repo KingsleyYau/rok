@@ -2,7 +2,7 @@ import adb
 
 from gui.main_window import MainWindow
 import argparse
-from api.api import run_api, get_bot, monitor, get_dead_info
+from api.api import api, get_bot, monitor, get_dead_info
 from utils import log
 from api.run_config import RunConfig
 
@@ -30,7 +30,7 @@ def api_monitor(args):
     bot = get_bot(args.device_name)
     args.run_type = 'request_monitor'
     while True:
-        run_api(args, bot)
+        api(args, bot)
         time.sleep(2)
     
 def api_deamon(args):
@@ -87,7 +87,7 @@ def api_deamon(args):
                         args.server = record['server']
                         args.x = record['x']
                         args.y = record['y']
-                        result, playe_name = run_api(args, bot)
+                        result, playe_name = api(args, bot)
                         
                         try:    
                             # 移除记录
@@ -122,9 +122,6 @@ def api_deamon(args):
             log(e)
         time.sleep(3)
         
-def api(args):
-    run_api(args)
-
 class HttpHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         pr = urllib.parse.urlparse(self.path)

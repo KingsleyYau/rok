@@ -21,7 +21,7 @@ class GatherResource(Task):
             self.bot.snashot_update_event()
             return False
         
-        self.set_text(insert="创建部队{}".format(new_troops_button_pos))
+        self.set_text(insert="创建部队, {}".format(new_troops_button_pos))
         self.tap(new_troops_button_pos, 5 * self.bot.config.tapSleep)
         self.bot.snashot_update_event()
         
@@ -46,7 +46,7 @@ class GatherResource(Task):
             self.bot.snashot_update_event()
             return False
         
-        self.set_text(insert="开始行军{}".format(match_button_pos))
+        self.set_text(insert="开始行军, {}".format(match_button_pos))
         self.tap(match_button_pos, 5 * self.bot.config.tapSleep)
         self.bot.snashot_update_event()
         return True
@@ -75,19 +75,19 @@ class GatherResource(Task):
                 self.set_text(insert='寻找领土')
                 _, _, territory_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value, times=3)
                 if territory_pos is not None:
-                    self.set_text(insert='打开领土{}'.format(territory_pos))
+                    self.set_text(insert='打开领土, {}'.format(territory_pos))
                     self.tap(territory_pos, 2 * self.bot.config.tapSleep)
                     self.bot.snashot_update_event()
                     for i in range(2):
                         self.bot.snashot_update_event()
                         territory_gathering_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_GATHERING_IMG_PATH.value, times=3)[2]
                         if territory_gathering_pos is not None:
-                            self.set_text(insert='定位联盟矿{}'.format(territory_gathering_pos))
+                            self.set_text(insert='定位联盟矿, {}'.format(territory_gathering_pos))
                             self.tap((territory_gathering_pos[0] + 5, territory_gathering_pos[1] - 20), 2 * self.bot.config.tapSleep)
                             self.bot.snashot_update_event()
                 
                             pos = (640, 320)
-                            self.set_text(insert='打开联盟矿{}'.format(pos))
+                            self.set_text(insert='打开联盟矿, {}'.format(pos))
                             self.tap(pos)
                             gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
                             self.tap(gather_button_pos, 2 * self.bot.config.tapSleep)
@@ -351,6 +351,7 @@ class GatherResource(Task):
         for i in range(4):
             diff.append(((result[i] if result[i] > -1 else 0) / res) - (ratio[i] / ras))
 
+        diff = ['{:.4f}'.format(i) for i in diff]
         m = np.argmin(diff)
         self.set_text(insert='最需要的资源是{}, {}'.format(res_names[m], diff))
         return m

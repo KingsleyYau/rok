@@ -1067,7 +1067,7 @@ class ImagePathAndProps(Enum):
         0.60,
         25,
         PLAYER_MORE_INFO_KILL,
-    ]    
+    ] 
     DEAD_BARRACKS_IMG_PATH = [
         "resource/dead_barracks.png",
         (1280, 720),
@@ -1075,7 +1075,7 @@ class ImagePathAndProps(Enum):
         0.70,
         25,
         DEAD_BARRACKS_IMG,
-    ]   
+    ]
     DEAD_SIEGE_IMG_PATH = [
         "resource/dead_siege.png",
         (1280, 720),
@@ -1083,7 +1083,7 @@ class ImagePathAndProps(Enum):
         0.70,
         25,
         DEAD_SIEGE_IMG,
-    ]    
+    ]
     DEAD_ARCHERY_IMG_PATH = [
         "resource/dead_archery.png",
         (1280, 720),
@@ -1091,6 +1091,14 @@ class ImagePathAndProps(Enum):
         0.70,
         25,
         DEAD_ARCHERY_IMG,
+    ]
+    DEAD_STABLE_IMG_PATH = [
+        "resource/dead_stable.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.70,
+        25,
+        DEAD_STABLE_IMG,
     ] 
     
 class GuiCheckImagePathAndProps(Enum):

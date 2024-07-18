@@ -357,98 +357,97 @@ def get_bot(device_name = 'request_title'):
     
     return bot
         
-def run_api(args, bot=None):
-    adb.bridge = adb.enable_adb('127.0.0.1', 5037)
-    
-    if bot is None:
-        bot = get_bot(args.device_name)
-        
-    bot.config = load_bot_config(bot.device.name)    
-    task = Task(bot)
-    expected_pos = (args.x, args.y)
-    
+def api(args, bot=None):
     run_type = 'request_title'
     if (args.run_type is not None) and (len(run_type) > 0):
         run_type = args.run_type
         
-    if run_type == 'request_monitor':
-        monitor(bot, task, args.api_monitor_file)
-        return False, ""
-    elif run_type == 'ranking':
-        ranking(bot, args.api_file)
-        return False, ""
-    elif run_type == 'get_dead_info':
+    if run_type == 'get_dead_info':
         get_dead_info(args.api_file)
-        return False, ""
-    elif run_type == 'request_title':
-        title_item = RunConfig.TITLE_ITEMS[args.title]
-        if title_item is not None:
-            log('申请头衔', title_item['name'])
-            found, player_name = find_player(bot, task, args.server, expected_pos)
-            if found:
-                return finish_title(bot, task, args.server, title_item, expected_pos, player_name), player_name
-        return False, ""
-    elif run_type == 'request_stop':
-        try:
+        return False, ""    
+    else:
+        adb.bridge = adb.enable_adb('127.0.0.1', 5037)
+        if bot is None:
+            bot = get_bot(args.device_name)
+            
+        bot.config = load_bot_config(bot.device.name)    
+        task = Task(bot)
+        
+        if run_type == 'request_monitor':
+            monitor(bot, task, args.api_monitor_file)
+            return False, ""
+        elif run_type == 'ranking':
+            ranking(bot, args.api_file)
+            return False, ""
+        elif run_type == 'get_dead_info':
+            get_dead_info(args.api_file)
+            return False, ""
+        elif run_type == 'request_title':
+            title_item = RunConfig.TITLE_ITEMS[args.title]
+            if title_item is not None:
+                log('申请头衔', title_item['name'])
+                expected_pos = (args.x, args.y)
+                found, player_name = find_player(bot, task, args.server, expected_pos)
+                if found:
+                    return finish_title(bot, task, args.server, title_item, expected_pos, player_name), player_name
+            return False, ""
+        elif run_type == 'request_stop':
+            try:
+                config = load_run_config(bot.device.name)
+                config.name = bot.device.name
+                config.running = False;
+                log('config', config)
+                write_run_config(config, bot.device.name)
+            
+                log('停止打工', config.name)    
+                bot.stop()
+                task.stopRok()
+                os.remove('run/{}.jpg'.format(bot.device.name))
+                return True, ""
+            except BaseException as e:
+                log(e)   
+            return False, ""
+                
+        elif run_type == 'request_bot':
+            try:
+                os.mkdir('run')
+            except BaseException as e:
+                if e.errno != errno.EEXIST:
+                    print(e)
+                    
             config = load_run_config(bot.device.name)
             config.name = bot.device.name
-            config.running = False;
+            config.running = True;
             log('config', config)
             write_run_config(config, bot.device.name)
-        
-            log('停止打工', config.name)    
-            bot.stop()
-            task.stopRok()
-            os.remove('run/{}.jpg'.format(bot.device.name))
-            return True, ""
-        except BaseException as e:
-            log(e)   
-        return False, ""
             
-    elif run_type == 'request_bot':
-        try:
-            os.mkdir('run')
-        except BaseException as e:
-            if e.errno != errno.EEXIST:
-                print(e)
+            log('开始打工', config.name)
+            config.diamond_add = 0
+            start_work(bot, bot.device.name)
+            
+            while config.running:
+                time.sleep(1)
+                config = load_run_config(bot.device.name)
                 
-        config = load_run_config(bot.device.name)
-        config.name = bot.device.name
-        config.running = True;
-        log('config', config)
-        write_run_config(config, bot.device.name)
-        
-        log('开始打工', config.name)
-        config.diamond_add = 0
-        start_work(bot, bot.device.name)
-        
-        while config.running:
-            time.sleep(1)
-            config = load_run_config(bot.device.name)
+            config.diamond_add = bot.diamond_add
+            write_run_config(config, bot.device.name)   
+            log('打工结束', config.name)    
+            bot.stop()
             
-        config.diamond_add = bot.diamond_add
-        write_run_config(config, bot.device.name)   
-        log('打工结束', config.name)    
-        bot.stop()
+            file_path = 'run/{}.jpg'.format(bot.device.name)
+            os.remove(file_path)
+            return True, ""
         
-        file_path = 'run/{}.jpg'.format(bot.device.name)
-        os.remove(file_path)
-        return True, ""
-    
-    elif run_type == 'change_player':
-        return change_player(task, bot, bot.device.name, args.player), ""
+        elif run_type == 'change_player':
+            return change_player(task, bot, bot.device.name, args.player), ""
     
     return False, ""
 
-def get_dead_info(filepath = ''):
-    input_path = '/Users/max/Documents/Git/rok/script/capture/t5.PNG'
+def get_dead_info(input_path):
     img = cv2.imread(input_path)
-    
     img = resize(img, (1280, 720), padding=False, fixScale=0)
-    # cv2.imwrite('/Users/max/Documents/Git/rok/script/capture/t4_2.png', img, [int(cv2.IMWRITE_JPEG_QUALITY), 1])
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     _, img_gray = cv2.threshold(img_gray, 100, 255, cv2.THRESH_BINARY)
-    # cv2.imwrite('/Users/max/Documents/Git/rok/script/capture/t4_3.png', img_gray, [int(cv2.IMWRITE_JPEG_QUALITY), 1])
     
     ocr = PaddleOCR(lang="ch", use_gpu=False, use_angle_cls=False, show_log=False)
     ocr_result = ocr.ocr(img_gray, cls=False, det=True)
@@ -462,6 +461,9 @@ def get_dead_info(filepath = ''):
         },
         {'name':'archery',
          'path':ImagePathAndProps.DEAD_ARCHERY_IMG_PATH.value[0],
+        },
+        {'name':'stable',
+         'path':ImagePathAndProps.DEAD_STABLE_IMG_PATH.value[0],
         },
     ]
     
@@ -478,6 +480,10 @@ def get_dead_info(filepath = ''):
             't4':0,
             't5':0,
         },
+        'stable':{
+            't4':0,
+            't5':0,
+        },
         }
     i=0
     for item in ocr_result[0]:
@@ -491,10 +497,14 @@ def get_dead_info(filepath = ''):
             # print(item)
             src = img[t:b, l:r]
             src_type_img = img[t-15:b+15, l-40:l+10]
-            src_level_img = img[t-20:b, l-90:l-50]
-            src_hsv = cv2.cvtColor(src_level_img, cv2.COLOR_BGR2HSV)
+            src_level_img = img[t-21:b-10, l-93:l-48]
             
-            img_type = "unknow"
+            # src_level_img_gray = cv2.cvtColor(src_level_img, cv2.COLOR_BGR2GRAY)
+            # src_level_img_bin = cv2.adaptiveThreshold(src_level_img_gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 21, 1)
+            # src_level_img_bin = cv2.cvtColor(src_level_img_bin, cv2.COLOR_GRAY2BGR)
+            # src_level_img = cv2.bitwise_and(src_level_img, src_level_img_bin)
+            
+            src_hsv = cv2.cvtColor(src_level_img, cv2.COLOR_BGR2HSV)
             pmin=(125, 43, 46)
             pmax=(155, 255, 255)
             img_purple = cv2.inRange(src_hsv, pmin, pmax)
@@ -509,11 +519,16 @@ def get_dead_info(filepath = ''):
             radio_orange = np.sum(img_orange) / (img_orange.shape[0] * img_orange.shape[1])
             # print('shape img_orange', img_orange.shape, np.sum(img_orange), radio_orange)          
 
-            if max(radio_purple, radio_orange) > 0.2:
-                if radio_purple > radio_orange:
-                    img_type = 't4'
-                else:
-                    img_type = 't5'
+            img_type = "unknow"
+            if radio_purple > 0.2:
+                img_type = 't4'
+            elif radio_orange > 0.2:
+                img_type = 't5'
+            # if max(radio_purple, radio_orange) > 0.2:
+            #     if radio_purple > radio_orange:
+            #         img_type = 't4'
+            #     else:
+            #         img_type = 't5'
             # print('img_type', i, img_type) 
             
             # cv2.imwrite('/Users/max/Documents/Git/rok/script/capture/t_{}.png'.format(i), src, [int(cv2.IMWRITE_JPEG_QUALITY), 1])
@@ -527,12 +542,12 @@ def get_dead_info(filepath = ''):
                 try:
                     src_type_result = aircv.find_template(src_img, src_type_img, 0.8, rgb=True)
                     if src_type_result is not None:
-                        print('Found', src_type['name'], value)
                         if img_type in result[src_type['name']].keys():
-                            result[src_type['name']][img_type] = value
+                            result[src_type['name']][img_type] = int(value)
                             break
                 except Exception as e:
                     traceback.print_exc()
             i=i+1
+    result = json.dumps(result, ensure_ascii=False)
     print(result)
     return 
