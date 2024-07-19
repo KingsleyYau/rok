@@ -8,6 +8,8 @@ import time
 import json
 import copy
 
+from paddleocr import PaddleOCR
+
 class GetRankingList(Task):
     def __init__(self, bot):
         super().__init__(bot)
@@ -40,6 +42,8 @@ class GetRankingList(Task):
         self.set_text(insert='打开战力排行榜')   
         self.tap((320, 360), 2 * self.bot.config.tapSleep) 
             
+        ocr = PaddleOCR(lang="ch", use_gpu=False, use_angle_cls=False, show_log=False)
+    
         ranking_power_title_pos = self.gui.check_any(ImagePathAndProps.RANKING_POWER_TITLE_PATH.value)[2]
         if ranking_power_title_pos is not None:
             count = 300
@@ -57,10 +61,16 @@ class GetRankingList(Task):
                     cur_pos = (start_pos[0], start_pos[1] + 3 * step + 20)
                     pass
                 self.set_text(insert='打开第{}位执政官'.format(i + 1)) 
-                self.tap(cur_pos, 2 * self.bot.config.tapSleep)
+                self.tap(cur_pos, self.bot.config.tapSleep)
                 
-                player_title_pos = self.gui.check_any(ImagePathAndProps.PLAYER_DETAIL_TITLE_PATH.value, times=3)[2]
-                if player_title_pos is not None:
+                imsch = self.gui.get_curr_device_screen_img_cv()
+                window_title_box = (550, 60, 550 + 170, 60 + 50)
+                window_title = self.gui.text_from_img_box(imsch, window_title_box)
+                self.set_text(insert='打开第{}位执政官, 当前窗口:{}'.format(i + 1, window_title)) 
+            
+                # player_title_pos = self.gui.check_any(ImagePathAndProps.PLAYER_DETAIL_TITLE_PATH.value, times=3)[2]
+                # if player_title_pos is not None:
+                if window_title.find('资料') != -1:
                     imsch = self.gui.get_curr_device_screen_img_cv()
                     player_id_box = (565, 153, 565 + 130, 153 + 34)
                     player_id = self.gui.text_from_img_box(imsch, player_id_box)
@@ -80,7 +90,7 @@ class GetRankingList(Task):
                     
                     player_more_info_pos = self.gui.check_any(ImagePathAndProps.PLAYER_MORE_INFO_PATH.value, times=3)[2]
                     if player_more_info_pos is not None:
-                        self.tap(player_more_info_pos, 2 * self.bot.config.tapSleep)
+                        self.tap(player_more_info_pos, self.bot.config.tapSleep)
                         
                         imsch = self.gui.get_curr_device_screen_img_cv()
                         dead_box = (930, 360, 930 + 120, 360 + 25)
@@ -104,8 +114,8 @@ class GetRankingList(Task):
                                                                                       self.get_unit_string(power), self.get_unit_string(killed), self.get_unit_string(dead),
                                                                                       self.get_unit_string(t4_killed), self.get_unit_string(t5_killed),
                                                                                       self.get_unit_string(dkp)))
-                    # 返回排行榜界面
-                    self.tap((10, 10), 2 * self.bot.config.tapSleep)
+
+                    
                     player_item = {
                         'local':local,
                         'player_id':player_id,
@@ -132,7 +142,7 @@ class GetRankingList(Task):
                             f.truncate()
                     except Exception as e:
                         traceback.print_exc()
-                        
+                  
                 ranking_list_killed = copy.deepcopy(ranking_list)
                 for i in range(0, len(ranking_list_killed)):
                     for j in range(i + 1, len(ranking_list_killed)):
@@ -151,6 +161,9 @@ class GetRankingList(Task):
                         f.truncate()
                 except Exception as e:
                     traceback.print_exc()   
+                                        
+                # 返回排行榜界面
+                self.tap((10, 10), self.bot.config.tapSleep)    
                             
                 ranking_power_title_pos = self.gui.check_any(ImagePathAndProps.RANKING_POWER_TITLE_PATH.value, times=3)[2]
                 if ranking_power_title_pos is None:
