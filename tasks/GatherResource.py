@@ -334,7 +334,7 @@ class GatherResource(Task):
             ]
         self.tap((725, 20))
         result = self.gui.resource_amount_image_to_string()
-        tips = "玉米: {}, 木头: {}, 石头: {}, 金矿: {}".format(result[0], result[1], result[2], result[3])
+        tips = "玉米: {}, 木头: {}, 石头: {}, 金矿: {}, 宝石: {}".format(result[0], result[1], result[2], result[3], result[4])
         self.set_text(insert=tips)
         
         ratio = [

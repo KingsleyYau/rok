@@ -15,4 +15,4 @@ function Clean() {
 trap 'Clean; exit' SIGTERM SIGQUIT
 
 echo "Start rok ranking script"
-source /root/miniconda2/bin/activate rok && cd /root/Max/project/rok && python -u main.py --device_name xj --api true --run_type ranking
+source /root/miniconda2/bin/activate rok && cd /root/Max/project/rok && python -u main.py --device_name request_title --api true --run_type ranking

@@ -51,7 +51,7 @@
   "gatherResourceNoSecondaryCommander": false,
   "gatherResourceRatioFood": 2,
   "gatherResourceRatioWood": 1,
-  "gatherResourceRatioStone": 3,
+  "gatherResourceRatioStone": 2,
   "gatherResourceRatioGold": 3,
   "holdOneQuerySpace": false,
   "gatherMaxTroops": 4,
