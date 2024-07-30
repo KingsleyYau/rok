@@ -1027,7 +1027,15 @@ class ImagePathAndProps(Enum):
         0.80,
         25,
         DOWNLOAD_BUTTON,
-    ]    
+    ]
+    DOWNLOAD_BUTTON_CLOSE_PATH = [
+        "resource/download_button_CLOSE.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.80,
+        25,
+        DOWNLOAD_BUTTON_CLOSE,
+    ]
     RANKING_BUTTON_PATH = [
         "resource/ranking_button.png",
         (1280, 720),

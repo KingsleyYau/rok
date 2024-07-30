@@ -331,6 +331,7 @@ class GatherResource(Task):
             '木头',
             '石头',
             '金矿',
+            '宝石',
             ]
         self.tap((725, 20))
         result = self.gui.resource_amount_image_to_string()

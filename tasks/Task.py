@@ -302,6 +302,18 @@ class Task:
             self.tap(cancel_pos, self.bot.config.tapSleep)
             return True
         
+        download_button_pos = self.gui.check_any(ImagePathAndProps.DOWNLOAD_BUTTON_PATH.value, imsch=imsch)[2]
+        if download_button_pos is not None:
+            device_log(self.device, '发现下载按钮, 点击', download_button_pos)
+            self.tap(download_button_pos)
+            return True
+        
+        download_button_close_pos = self.gui.check_any(ImagePathAndProps.DOWNLOAD_BUTTON_CLOSE_PATH.value, imsch=imsch)[2]
+        if download_button_close_pos is not None:
+            device_log(self.device, '发现下载关闭按钮, 点击', download_button_close_pos)
+            self.tap(download_button_close_pos)
+            return True
+                            
         return False
                     
     def pass_verification(self):

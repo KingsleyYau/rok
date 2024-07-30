@@ -44,9 +44,9 @@ adb $DEVICE shell input tap 680 640
 adb $DEVICE shell input tap 125 100
 adb $DEVICE shell input text 15220039797
 adb $DEVICE shell input tap 640 200
-# 同意隐私
+# 同意隐私1
 adb $DEVICE shell input tap 125 140
-# 同意隐私
+# 同意隐私2
 adb $DEVICE shell input tap 660 420
 
 # 输入验证码
