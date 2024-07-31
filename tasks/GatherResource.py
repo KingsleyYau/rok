@@ -49,6 +49,13 @@ class GatherResource(Task):
         self.set_text(insert="开始行军, {}".format(match_button_pos))
         self.tap(match_button_pos, 5 * self.bot.config.tapSleep)
         self.bot.snashot_update_event()
+        
+        match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
+        if match_button_pos is not None:
+            self.set_text(insert="没有足够部队行军")
+            self.bot.snashot_update_event()
+            return False
+        
         return True
         
     def do(self, next_task=TaskName.BREAK):

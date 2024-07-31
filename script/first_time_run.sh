@@ -28,6 +28,8 @@ adb shell input tap 660 270
 adb shell input tap 760 400
 # 再次QQ登录
 adb shell input tap 660 270
+
+# QQ界面
 # 同意QQ隐私
 adb shell input tap 420 780
 # QQ主界面登录

@@ -1029,7 +1029,7 @@ class ImagePathAndProps(Enum):
         DOWNLOAD_BUTTON,
     ]
     DOWNLOAD_BUTTON_CLOSE_PATH = [
-        "resource/download_button_CLOSE.png",
+        "resource/download_button_close.png",
         (1280, 720),
         (0, 0, 0, 0),
         0.80,
