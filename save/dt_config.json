@@ -54,7 +54,7 @@
   "gatherResourceRatioStone": 2,
   "gatherResourceRatioGold": 3,
   "holdOneQuerySpace": false,
-  "gatherMaxTroops": 4,
+  "gatherMaxTroops": 5,
   "gatherDiamond": false,
   "gatherDiamondMaxRange": 35,
   "enableScout": false,
