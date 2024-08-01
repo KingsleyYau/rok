@@ -32,13 +32,12 @@ class Materials(Task):
             super().set_text(insert='打开铁匠铺')
             blacksmith_pos = self.bot.building_pos[BuildingNames.BLACKSMITH.value]
             super().tap(blacksmith_pos)
-            self.bot.snashot_update_event()
             
             _, _, product_btn_pos = self.gui.check_any(ImagePathAndProps.MATERIALS_PRODUCTION_BUTTON_IMAGE_PATH.value)
             if product_btn_pos is None:
                 return next_task
             super().tap(product_btn_pos)
-            self.bot.snashot_update_event()
+            
             list_amount = self.gui.materilal_amount_image_to_string()
             super().set_text(insert='皮革: {}, 矿石: {}, 乌木: {}, 兽骨: {}'.format(
                 list_amount[0], list_amount[1], list_amount[2], list_amount[3])
@@ -56,7 +55,7 @@ class Materials(Task):
             super().set_text(insert='生产材料, {}'.format(icon_name[min]))
             for i in range(5):
                 super().tap(icon_pos[min])
-            self.bot.snashot_update_event()
+            
         except Exception as e:
             traceback.print_exc()
             return next_task

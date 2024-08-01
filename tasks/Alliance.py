@@ -23,7 +23,6 @@ class Alliance(Task):
                 super().menu_should_open(True)
                 super().set_text(insert='打开联盟中心')
                 super().tap(alliance_btn_pos)
-                self.bot.snashot_update_event()
                 if name == 'HELP':
                     super().set_text(insert='帮助盟友')
                     # super().tap((920, 400))  # enter the help page
@@ -41,7 +40,6 @@ class Alliance(Task):
                     else:
                         super().set_text(insert='没有找到联盟礼物')
                         continue
-                    self.bot.snashot_update_event()
                     # collecting rate gifts
                     super().set_text(insert='收集稀有礼物')
                     rate_pos = (930, 205)
@@ -52,18 +50,15 @@ class Alliance(Task):
                             super().set_text(insert='没有找到稀有礼物')
                             break
                         super().tap(pos)
-                    self.bot.snashot_update_event()
                     
                     # collecting normal gifts
                     super().set_text(insert='收集普通礼物')
                     normal_pos = (670, 205)
                     super().tap(normal_pos)
-                    self.bot.snashot_update_event()
                     
                     super().set_text(insert='一键收集普通礼物')
                     claim_all_pos = (1110, 205)
                     super().tap(claim_all_pos)
-                    self.bot.snashot_update_event()
                     
                     comfirm_pos = self.gui.check_any(ImagePathAndProps.CONFIRM_BUTTON_PATH.value)[2]
                     if comfirm_pos is not None:
@@ -73,14 +68,12 @@ class Alliance(Task):
                     super().set_text(insert='收集水晶箱子')
                     treasure = (330, 410)
                     super().tap(treasure)
-                    self.bot.snashot_update_event()
                     
                 elif name == 'TERRITORY':
                     super().set_text(insert='收集领土资源')
                     _, _, territory_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value)
                     if territory_pos is not None:
                         super().tap(territory_pos)
-                        self.bot.snashot_update_event()
                         claim_pos = (1020, 140)
                         super().tap(claim_pos)
 
@@ -90,7 +83,6 @@ class Alliance(Task):
                     _, _, technology_pos = self.gui.check_any(ImagePathAndProps.TECHNOLOGY_IMG_PATH.value)
                     if technology_pos is not None:
                         super().tap(technology_pos)
-                        self.bot.snashot_update_event()
                         _, _, recommend_image_pos = self.gui.check_any(ImagePathAndProps.TECH_RECOMMEND_IMAGE_PATH.value)
                         if recommend_image_pos is not None:
                             x, y = recommend_image_pos
@@ -103,8 +95,6 @@ class Alliance(Task):
                         else:
                             super().set_text(insert="没有找到推荐捐献科技")
                         
-                self.bot.snashot_update_event()
-
         except Exception as e:
             traceback.print_exc()
             return next_task

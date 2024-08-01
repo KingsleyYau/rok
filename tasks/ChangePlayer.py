@@ -14,7 +14,6 @@ class ChangePlayer(Task):
         self.set_text(insert='打开个人中心')
         # 打开设置
         self.tap((50, 50), 2 * self.bot.config.tapSleep)
-        self.bot.snashot_update_event()
 
         player_name = self.bot.gui.player_name()
         self.set_text(insert='读取玩家名字, {}'.format(player_name))
@@ -28,7 +27,6 @@ class ChangePlayer(Task):
         # 角色管理 
         self.set_text(insert='打开角色管理')
         self.tap((560, 380), 2 * self.bot.config.tapSleep)
-        self.bot.snashot_update_event()
         
         # 判断是否当前角色
         playerIndex = self.bot.config.playerIndex % self.bot.config.playerCount
@@ -40,12 +38,10 @@ class ChangePlayer(Task):
         for j in range(0, 3):
             self.tap(pos)
             _, _, yes_pos = self.bot.gui.check_any(ImagePathAndProps.YES_BUTTON_PATH.value)
-            self.bot.snashot_update_event()
             if yes_pos is not None:
                 self.tap(yes_pos)
                 self.set_text(insert='切换角色, {}'.format(playerIndex))
                 _, _, contact_us_pos = self.bot.gui.check_any(ImagePathAndProps.CONTACT_US_BUTTON_PATH.value)
-                self.bot.snashot_update_event()
                 if contact_us_pos is not None:
                     self.set_text(insert='该账号已被封, 无法切换, 停止运行')
                     self.bot.stop()

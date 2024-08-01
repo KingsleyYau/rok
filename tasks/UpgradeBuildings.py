@@ -20,7 +20,7 @@ class UpgradeBuildings(Task):
             self.tap(city_pos)
             
             for i in range(10):
-                self.bot.snashot_update_event()
+                
                 upgrade_pos = self.gui.check_any(ImagePathAndProps.BUILDING_UPGRADE_BUTTON_PATH.value)[2]
                 if upgrade_pos is not None:
                     self.tap(upgrade_pos)
@@ -28,14 +28,14 @@ class UpgradeBuildings(Task):
                     confirm_pos = self.gui.check_any(ImagePathAndProps.BUILDING_UPGRADE_CONFIRM_BUTTON_PATH.value)[2] 
                     if confirm_pos is not None:
                         self.set_text(insert='升级建筑')
-                        self.bot.snashot_update_event()
+                        
                         self.tap(confirm_pos)
                         break
                     else:
                         forward_pos = self.gui.check_any(ImagePathAndProps.BUILDING_UPGRADE_FORWARD_BUTTON_PATH.value)[2]
                         if forward_pos is not None:
                             self.set_text(insert='打开前置建筑')
-                            self.bot.snashot_update_event()
+                            
                             self.tap(forward_pos)
                         else:
                             break

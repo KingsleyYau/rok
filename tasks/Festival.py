@@ -28,7 +28,6 @@ class Festival(Task):
                 if comfirm_pos is not None:
                     self.tap(comfirm_pos)
 
-            self.bot.snashot_update_event()
         except Exception as e:
             traceback.print_exc()
             return TaskName.ALLIANCE

@@ -21,33 +21,29 @@ class ClaimQuests(Task):
 
             super().set_text(insert='收集任务积分')
             super().tap(quests_tap_pos)
-            self.bot.snashot_update_event()
             for i in range(20):
                 _, _, claim_btn_pos = self.gui.check_any(ImagePathAndProps.QUEST_CLAIM_BUTTON_IMAGE_PATH.value)
                 if claim_btn_pos is None:
                     break
                 super().set_text(insert='领取礼物 {}'.format(claim_btn_pos))
                 super().tap(claim_btn_pos)
-            self.bot.snashot_update_event()
             
             super().set_text(insert='收集每日任务积分')
             super().tap(daily_objectives_tap_pos)
-            self.bot.snashot_update_event()
             for i in range(20):
                 _, _, claim_btn_pos = self.gui.check_any(ImagePathAndProps.QUEST_CLAIM_BUTTON_IMAGE_PATH.value)
                 if claim_btn_pos is None:
                     break
                 super().set_text(insert='领取礼物 {}'.format(claim_btn_pos))
                 super().tap(claim_btn_pos)
-            self.bot.snashot_update_event()
             
             super().set_text(insert='收集每日任务宝箱')
             super().tap(daily_objectives_tap_pos)
-            self.bot.snashot_update_event()
+            
             # chest position
             for pos in [(355, 200), (530, 200), (710, 200), (885, 200), (1050, 200)]:
                 super().tap(pos)
-            self.bot.snashot_update_event()
+            
         except Exception as e:
             traceback.print_exc()
             return TaskName.CLAIM_QUEST

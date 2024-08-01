@@ -14,7 +14,7 @@ class MysteryMerchant(Task):
         self.set_text(title='神秘商店', remove=True)
         self.back_to_home_gui()
         self.home_gui_full_view()
-        self.bot.snashot_update_event()
+        
         
         # pos = self.gui.check_any(ImagePathAndProps.MERCHANT_ICON_IMAGE_PATH.value)[2]
         # if pos is None:
@@ -40,7 +40,7 @@ class MysteryMerchant(Task):
             return next_task
 
         while True:
-            self.bot.snashot_update_event()
+            
             for i in range(5):
                 list = self.gui.find_all_image_props(ImagePathAndProps.MERCHANT_BUY_WITH_FOOD_IMAGE_PATH.value)
                 if list is not None:

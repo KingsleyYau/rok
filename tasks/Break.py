@@ -24,7 +24,6 @@ class Break(Task):
             if self.bot.config.terminate:
                 super().set_text(insert='关闭ROK')
                 super().stopRok()
-            self.bot.snashot_update_event()
             
             count = 0
             for i in range(breakTime):
@@ -33,7 +32,6 @@ class Break(Task):
                 if count % progress_time == 0:
                     full_load, cur, total = self.gui.troop_already_full()
                     super().set_text(replace='{}/{} seconds, 采集部队数量:{}/{}'.format(count, breakTime, cur, total), index=0)
-                    self.bot.snashot_update_event()
             return next_task
         except Exception as e:
             traceback.print_exc()

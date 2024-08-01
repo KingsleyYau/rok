@@ -17,11 +17,9 @@ class AutoChangePlayer(Task):
         # 打开设置
         self.set_text(insert='打开设置')
         self.tap((990, 570), 2 * self.bot.config.tapSleep)
-        self.bot.snashot_update_event()
         # 角色管理
         self.set_text(insert='打开角色管理')
         self.tap((560, 380), 2 * self.bot.config.tapSleep)
-        self.bot.snashot_update_event()
         
         # 切换角色
         for i in range(0, self.bot.config.playerCount):
@@ -33,7 +31,6 @@ class AutoChangePlayer(Task):
             for j in range(0, 3):
                 self.tap(pos, 2 * self.bot.config.tapSleep)
                 _, _, yes_pos = self.bot.gui.check_any(ImagePathAndProps.YES_BUTTON_PATH.value)
-                self.bot.snashot_update_event()
                 if yes_pos is not None:
                     self.set_text(insert='切换角色, {} => {}'.format(self.bot.config.playerIndex, playerIndex))
                     self.tap(yes_pos)
@@ -43,7 +40,6 @@ class AutoChangePlayer(Task):
                         self.bot.config.playerIndex = playerIndex
                         self.set_text(insert='切换角色, {}, 成功, 重启'.format(playerIndex))
                         self.device.nickname = ""
-                        self.bot.snashot_update_event()
                         self.bot.config_update_event(config=self.bot.config, prefix=self.device.save_file_prefix)
                         time.sleep(self.bot.config.restartSleep)
                         return next_task

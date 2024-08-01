@@ -194,7 +194,7 @@ class Task:
             if not self.isRoKRunning():
                 str='ROK还没运行, 尝试启动'
                 self.set_text(insert=str)
-                self.bot.snashot_update_event()
+                
                 self.stopRok()
                 self.runOfRoK()
                 self.set_text(insert='等待{}秒'.format(self.bot.config.welcomeSleep))
@@ -203,8 +203,6 @@ class Task:
             pos_free = (400 + int(50 * (0.5 - random.random())), 400 + int(50 * (0.5 - random.random())))
             
             for i in range(0, 1):
-                self.bot.snashot_update_event()
-                
                 imsch = self.gui.get_curr_device_screen_img_cv()
                 if self.check_common_button(imsch):
                     imsch = self.gui.get_curr_device_screen_img_cv()
@@ -212,7 +210,6 @@ class Task:
                 gui_name, pos = ["UNKNOW", None] if result is None else result
                 device_log(self.device, '获取当前界面', gui_name, pos)  
                 
-                self.bot.snashot_update_event()
                    
                 # if gui_name == GuiName.VERIFICATION_VERIFY.name:
                 #     self.set_text(insert='点击验证按钮, {}'.format(pos))
@@ -227,7 +224,7 @@ class Task:
                 #         self.set_text(insert='验证失败')
                 if gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
                     self.set_text(insert='发现验证界面, 开始验证'.format())
-                    self.verify()
+                    self.verify(pos)
                 elif gui_name == GuiName.HELLO_WROLD_IMG.name:
                     self.set_text(insert='欢迎界面, 点击任意地方, {}'.format(pos_free))
                     self.set_text(insert='等待{}秒'.format(self.bot.config.restartSleep))
@@ -371,11 +368,11 @@ class Task:
 
         # open menu
         self.menu_should_open(True)
-        self.bot.snashot_update_event()
+        
         # open items window
         self.set_text(insert='选择增益道具分栏{}'.format(items_icon_pos))
         self.tap(items_icon_pos)
-        self.bot.snashot_update_event()  
+          
         
         for item_img_props in item_img_props_list:
             path, size, box, threshold, least_diff, tab_name = item_img_props
@@ -390,7 +387,7 @@ class Task:
 
             # tap on tab
             self.tap(tabs_pos[tab_name])
-            self.bot.snashot_update_event()
+            
             # find item, and tap it
             _, _, item_pos = self.gui.check_any(item_img_props)
             if item_pos is None:
@@ -399,7 +396,7 @@ class Task:
             self.tap(item_pos)
             # tap on use Item
             self.tap(use_btn_pos)
-            self.bot.snashot_update_event()
+            
             return True
         self.set_text(insert='没有对应的增益道具')
         return False
@@ -553,24 +550,24 @@ class Task:
     def do(self, next_task):
         return next_task
     
-    def verify(self):
+    def verify(self, pos):
         img = self.gui.get_curr_device_screen_img_cv()
         img = cv2.medianBlur(img, 5)
     
-        img1 = img[240:420, 490:610]
+        img1 = img[240:440, 420:620]
         img_result1 = utils.canny(img1)
         img_result1, c1 = utils.fix_max_contours(img_result1)
         c1 = np.squeeze(c1)
         min_1 = np.min(c1, axis=0)
-        start = min_1[0] + 490
+        start = min_1[0] + 420
       
-        img2 = img[240:420, 655:775]
+        img2 = img[240:440, 675:855]
         img_result2 = utils.canny(img2)
         img_result2, c2 = utils.fix_max_contours(img_result2)
         c2 = np.squeeze(c2)
         min_2 = np.min(c2, axis=0)
-        end = min_2[0] + 655
+        end = min_2[0] + 675
         
-        self.set_text(insert='尝试滑动验证, {} => {}'.format(start, end))
-        self.swipe((start, 460), (end, 460), 1, 1000)
+        self.set_text(insert='尝试滑动验证, min_1[0]:{}, min_2[0]:{}, {} => {}'.format(min_1[0], min_2[0], start, end))
+        self.swipe((start, pos[1]-80), (end, pos[1]-80), 1, 1000)
         time.sleep(3)

@@ -63,9 +63,15 @@ class GetRankingList(Task):
                 self.set_text(insert='打开第{}位执政官'.format(i + 1)) 
                 self.tap(cur_pos, self.bot.config.tapSleep)
                 
-                imsch = self.gui.get_curr_device_screen_img_cv()
-                window_title_box = (550, 60, 550 + 170, 60 + 50)
-                window_title = self.gui.text_from_img_box(imsch, window_title_box)
+                window_title = ""
+                for j in range(0, 5):
+                    imsch = self.gui.get_curr_device_screen_img_cv()
+                    window_title_box = (550, 60, 550 + 170, 60 + 50)
+                    window_title = self.gui.text_from_img_box(imsch, window_title_box)
+                    if len(window_title) > 0:
+                        break
+                    time.sleep(1)
+                    
                 self.set_text(insert='打开第{}位执政官, 当前窗口:{}'.format(i + 1, window_title)) 
             
                 # player_title_pos = self.gui.check_any(ImagePathAndProps.PLAYER_DETAIL_TITLE_PATH.value, times=3)[2]

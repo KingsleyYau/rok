@@ -33,7 +33,6 @@ class Collecting(Task):
                 self.set_text(insert='{} at position {}'.format(name, self.bot.building_pos[name]))
                 self.tap(self.bot.building_pos[name])
                 self.tap(pos_free)
-            self.bot.snashot_update_event()
         except Exception as e:
             traceback.print_exc()
             return next_task

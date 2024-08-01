@@ -18,17 +18,17 @@ class GatherResource(Task):
         new_troops_button_pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
         if new_troops_button_pos is None:
             self.set_text(insert="没有发现创建部队按钮, 没有更多队列")
-            self.bot.snashot_update_event()
+            
             return False
         
         self.set_text(insert="创建部队, {}".format(new_troops_button_pos))
         self.tap(new_troops_button_pos, 5 * self.bot.config.tapSleep)
-        self.bot.snashot_update_event()
+        
         
         if self.bot.config.gatherResourceNoSecondaryCommander:
             self.set_text(insert="移除副将")
             self.tap((473, 501))
-            self.bot.snashot_update_event()
+            
         
         if full_load:
             self.set_text(insert="最大化部队")
@@ -38,22 +38,22 @@ class GatherResource(Task):
             max_button_pos = self.gui.check_any(ImagePathAndProps.MAX_BUTTON_PATH.value)[2]
             if max_button_pos is not None:
                 self.tap(max_button_pos)
-            self.bot.snashot_update_event()
+            
                 
         match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
         if match_button_pos is None:
             self.set_text(insert="没有发现行军按钮")
-            self.bot.snashot_update_event()
+            
             return False
         
         self.set_text(insert="开始行军, {}".format(match_button_pos))
         self.tap(match_button_pos, 5 * self.bot.config.tapSleep)
-        self.bot.snashot_update_event()
+        
         
         match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
         if match_button_pos is not None:
             self.set_text(insert="没有足够部队行军")
-            self.bot.snashot_update_event()
+            
             return False
         
         return True
@@ -84,21 +84,21 @@ class GatherResource(Task):
                 if territory_pos is not None:
                     self.set_text(insert='打开领土, {}'.format(territory_pos))
                     self.tap(territory_pos, 2 * self.bot.config.tapSleep)
-                    self.bot.snashot_update_event()
+                    
                     for i in range(2):
-                        self.bot.snashot_update_event()
+                        
                         territory_gathering_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_GATHERING_IMG_PATH.value, times=3)[2]
                         if territory_gathering_pos is not None:
                             self.set_text(insert='定位联盟矿, {}'.format(territory_gathering_pos))
                             self.tap((territory_gathering_pos[0] + 5, territory_gathering_pos[1] - 20), 2 * self.bot.config.tapSleep)
-                            self.bot.snashot_update_event()
+                            
                 
                             pos = (640, 320)
                             self.set_text(insert='打开联盟矿, {}'.format(pos))
                             self.tap(pos)
                             gather_button_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_GATHER_BUTTON_IMAGE_PATH.value)[2]
                             self.tap(gather_button_pos, 2 * self.bot.config.tapSleep)
-                            self.bot.snashot_update_event()
+                            
                 
                             found = True
                             gathering_count = gathering_count + 1
@@ -108,14 +108,14 @@ class GatherResource(Task):
                                 break
                             self.set_text(insert="加入联盟矿{}".format(gather_join_pos))
                             self.tap(gather_join_pos, 2 * self.bot.config.tapSleep)
-                            self.bot.snashot_update_event()
+                            
                 
                             if not self.create_troop(True):
                                 return next_task
                             break
                 
                         self.set_text(insert='第{}次尝试打开联盟资源中心'.format(i+1))   
-                        self.bot.snashot_update_event()
+                        
                         territory_tab_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_RESOURCE_IMG_PATH.value)[2]
                         if territory_tab_pos is not None:
                             self.tap(territory_tab_pos, 2 * self.bot.config.tapSleep)
@@ -209,7 +209,7 @@ class GatherResource(Task):
                         if dec_pos is not None:
                             self.set_text(insert="点击降级{}, 当前等级{}".format(dec_pos, 6 - level))
                             self.tap(dec_pos)
-                        self.bot.snashot_update_event()
+                        
                     else:
                         if first_time:
                             inc_pos = self.gui.check_any(ImagePathAndProps.INCREASING_BUTTON_IMAGE_PATH.value)[2]
@@ -218,16 +218,16 @@ class GatherResource(Task):
                                 for i in range(3):
                                     self.tap((inc_pos[0] - 33, inc_pos[1]))
                             first_time = False
-                        self.bot.snashot_update_event()
+                        
                     
                     search_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_SEARCH_BUTTON_IMAGE_PATH.value)[2]
                     self.set_text(insert="点击搜索{}".format(search_pos))
                     self.tap(search_pos, 3 * self.bot.config.tapSleep)
-                    self.bot.snashot_update_event()
+                    
                     
                     self.set_text(insert="打开资源点")
                     self.tap((640, 320), self.bot.config.tapSleep)
-                    self.bot.snashot_update_event()
+                    
                     
                     coordinate = ''
                     _, _, resource_xy_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_IMG_PATH.value)
@@ -249,7 +249,7 @@ class GatherResource(Task):
                             else:
                                 self.set_text(insert="资源点已经处理过, 坐标, {}, 再试一次".format(coordinate))
                                 repeat = True
-                            self.bot.snashot_update_event()
+                            
                             continue
                         
                         last_resource_pos.append(coordinate)
@@ -279,7 +279,7 @@ class GatherResource(Task):
                         level = level + 1
                     # self.swipe((200, 320), (800, 320))
                     
-                self.bot.snashot_update_event()
+                
             except Exception as e:
                 traceback.print_exc()
                 return next_task

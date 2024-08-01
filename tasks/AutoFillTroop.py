@@ -1,4 +1,3 @@
-import traceback
 
 from filepath.constants import MAP
 from filepath.file_relative_paths import BuffsImageAndProps, ItemsImageAndProps, ImagePathAndProps
@@ -19,17 +18,14 @@ class AutoFillTroop(Task):
         new_troops_button_pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
         if new_troops_button_pos is None:
             self.set_text(insert="没有更多队列")
-            self.bot.snashot_update_event()
             return False
         
         self.set_text(insert="创建部队{}".format(new_troops_button_pos))
         self.tap(new_troops_button_pos, 3 * self.bot.config.tapSleep)
-        self.bot.snashot_update_event()
         
         if self.bot.config.gatherResourceNoSecondaryCommander:
             self.set_text(insert="移除副将")
             self.tap((473, 501))
-            self.bot.snashot_update_event()
         
         if full_load:
             self.set_text(insert="最大化部队")
@@ -39,18 +35,15 @@ class AutoFillTroop(Task):
             max_button_pos = self.gui.check_any(ImagePathAndProps.MAX_BUTTON_PATH.value)[2]
             if max_button_pos is not None:
                 self.tap(max_button_pos)
-            self.bot.snashot_update_event()
                 
         match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
         self.set_text(insert="开始行军{}".format(match_button_pos))
         self.tap(match_button_pos)
-        self.bot.snashot_update_event()
         
         no_button_pos = self.gui.check_any(ImagePathAndProps.NO_BUTTON_PATH.value)[2]
         if no_button_pos is not None:
             self.set_text(insert="集结太远, 放弃加入{}".format(no_button_pos))
             self.tap(no_button_pos)
-            self.bot.snashot_update_event()
         
         return True
         
@@ -71,20 +64,17 @@ class AutoFillTroop(Task):
             self.tap(alliance_btn_pos, 2 * self.bot.config.tapSleep)
             
             found = False
-            self.bot.snashot_update_event()
             _, _, war_pos = self.gui.check_any(ImagePathAndProps.ALLIANCE_WAR_IMG_PATH.value)
             if war_pos is not None:
                 self.set_text(insert='打开战争{}'.format(war_pos))
                 self.tap(war_pos, 2 * self.bot.config.tapSleep)
                 for i in range(5):
                     self.set_text(insert='第{}次寻找集结'.format(i+1))
-                    self.bot.snashot_update_event()
                     join_troop_pos = self.gui.check_any(ImagePathAndProps.JOIN_TROOP_IMG_PATH.value)[2]
                     if join_troop_pos is not None:
                         found = True
                         self.set_text(insert='发现集结, 点击加入{}'.format(join_troop_pos))
                         self.tap(join_troop_pos, 3 * self.bot.config.tapSleep)
-                        self.bot.snashot_update_event()
             
                         if not self.create_troop(False):
                             break
