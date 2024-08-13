@@ -173,7 +173,7 @@ class GuiDetector:
             name = img_to_string(imdst).replace(' ', '').replace('\n', '')
             # device_log(self.__device, 'player_name, {}'.format(name))
             # name = re.sub('[^a-zA-Z0-9_\u4e00-\u9fa5\u9FA6-\u9FFF\u3400-\u4DBF\u20000-\u2A6DF\u2A700-\u2B739\u2B740-\u2B81D\u2B820-\u2CEA1]', '', name)
-            name = re.sub('\[.*\]', '', name)
+            name = re.sub('.*\]', '', name)
             # name = name.replace('\[', '').replace('\]', '')
         except Exception as e:
             device_log(self.__device, 'player_name', e)

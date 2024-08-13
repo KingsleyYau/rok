@@ -286,7 +286,7 @@ class Task:
                 imsch=imsch
                 )[2]
         if comfirm_update_pos is not None:
-            device_log(self.device, '发现更新确定按钮, 点击', comfirm_update_pos)
+            device_log(self.device, '发现确定按钮, 点击', comfirm_update_pos)
             self.tap(comfirm_update_pos, self.bot.config.tapSleep)
             return True
          
@@ -307,7 +307,7 @@ class Task:
         
         download_button_close_pos = self.gui.check_any(ImagePathAndProps.DOWNLOAD_BUTTON_CLOSE_PATH.value, imsch=imsch)[2]
         if download_button_close_pos is not None:
-            device_log(self.device, '发现下载关闭按钮, 点击', download_button_close_pos)
+            device_log(self.device, '发现关闭按钮, 点击', download_button_close_pos)
             self.tap(download_button_close_pos)
             return True
                             
@@ -554,20 +554,22 @@ class Task:
         img = self.gui.get_curr_device_screen_img_cv()
         img = cv2.medianBlur(img, 5)
     
-        img1 = img[240:440, 420:620]
+        img1_x = 490
+        img1 = img[240:440, img1_x:620]
         img_result1 = utils.canny(img1)
         img_result1, c1 = utils.fix_max_contours(img_result1)
         c1 = np.squeeze(c1)
         min_1 = np.min(c1, axis=0)
-        start = min_1[0] + 420
+        start = min_1[0] + img1_x
       
-        img2 = img[240:440, 675:855]
+        img2_x = 655
+        img2 = img[240:440, img2_x:825]
         img_result2 = utils.canny(img2)
         img_result2, c2 = utils.fix_max_contours(img_result2)
         c2 = np.squeeze(c2)
         min_2 = np.min(c2, axis=0)
-        end = min_2[0] + 675
+        end = min_2[0] + img2_x
         
         self.set_text(insert='尝试滑动验证, min_1[0]:{}, min_2[0]:{}, {} => {}'.format(min_1[0], min_2[0], start, end))
-        self.swipe((start, pos[1]-80), (end, pos[1]-80), 1, 1000)
+        self.swipe((start, pos[1]-55), (end, pos[1]-55), 1, 1000)
         time.sleep(3)

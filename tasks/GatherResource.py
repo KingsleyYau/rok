@@ -40,20 +40,17 @@ class GatherResource(Task):
                 self.tap(max_button_pos)
             
                 
-        match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
+        match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value, 2)[2]
         if match_button_pos is None:
             self.set_text(insert="没有发现行军按钮")
-            
             return False
         
         self.set_text(insert="开始行军, {}".format(match_button_pos))
         self.tap(match_button_pos, 5 * self.bot.config.tapSleep)
         
-        
         match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
         if match_button_pos is not None:
             self.set_text(insert="没有足够部队行军")
-            
             return False
         
         return True
@@ -167,7 +164,6 @@ class GatherResource(Task):
                 retry_count = 0
                 repeat = False
                 first_time = True
-                
                 total_search_count = 0
                 
                 # for i in range(10):
@@ -220,14 +216,15 @@ class GatherResource(Task):
                             first_time = False
                         
                     
-                    search_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_SEARCH_BUTTON_IMAGE_PATH.value)[2]
+                    search_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_SEARCH_BUTTON_IMAGE_PATH.value, times=2)[2]
+                    if search_pos is None:
+                        self.set_text(insert="没有发现搜索按钮".format())
+                        continue
                     self.set_text(insert="点击搜索{}".format(search_pos))
                     self.tap(search_pos, 3 * self.bot.config.tapSleep)
                     
-                    
                     self.set_text(insert="打开资源点")
                     self.tap((640, 320), self.bot.config.tapSleep)
-                    
                     
                     coordinate = ''
                     _, _, resource_xy_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_IMG_PATH.value)

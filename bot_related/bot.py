@@ -246,6 +246,7 @@ class Bot:
                             self.break_task.tap(download_button_pos)
                             
                         while now - start <= breakTime:
+                            now = time.time()
                             self.break_task.back_to_map_gui()
                             if now - last > diff:
                                 full_load, cur, total = self.gui.troop_already_full()
@@ -260,11 +261,15 @@ class Bot:
                                     full_load, cur, total = self.gui.troop_already_full()
                                     self.snashot_update_event()
                                 now = time.time()
-                                last = now
                                 self.break_task.set_text(title='休息')
-                                self.break_task.set_text(insert='继续休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total))
-                            time.sleep(60)
-                            now = time.time()
+
+                                if now - last > diff:
+                                    self.break_task.set_text(insert='继续休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total))
+                                    last = now
+                                    time.sleep(60)
+                                else:
+                                    break
+                                
                         self.break_task.set_text(insert='结束休息 {}/{} seconds'.format(int(now - start), breakTime))  
                                               
                         if self.config.terminate:
