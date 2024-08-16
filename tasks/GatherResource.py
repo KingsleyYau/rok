@@ -15,20 +15,17 @@ class GatherResource(Task):
         self.max_query_space = 5
 
     def create_troop(self, full_load=False):
-        new_troops_button_pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value)[2]
+        new_troops_button_pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value, 2)[2]
         if new_troops_button_pos is None:
             self.set_text(insert="没有发现创建部队按钮, 没有更多队列")
-            
             return False
         
         self.set_text(insert="创建部队, {}".format(new_troops_button_pos))
         self.tap(new_troops_button_pos, 5 * self.bot.config.tapSleep)
         
-        
         if self.bot.config.gatherResourceNoSecondaryCommander:
             self.set_text(insert="移除副将")
             self.tap((473, 501))
-            
         
         if full_load:
             self.set_text(insert="最大化部队")
@@ -338,8 +335,13 @@ class GatherResource(Task):
             '宝石',
             ]
         self.tap((725, 20))
-        result = self.gui.resource_amount_image_to_string()
-        tips = "玉米: {}, 木头: {}, 石头: {}, 金矿: {}, 宝石: {}".format(result[0], result[1], result[2], result[3], result[4])
+        result, result_src_list = self.gui.resource_amount_image_to_string()
+        tips = "玉米: {}({}), 木头: {}({}), 石头: {}({}), 金矿: {}({}), 宝石: {}({})".format(
+            result_src_list[0], result[0], 
+            result_src_list[1], result[1], 
+            result_src_list[2], result[2], 
+            result_src_list[3], result[3], 
+            result_src_list[4], result[4])
         self.set_text(insert=tips)
         
         ratio = [

@@ -205,6 +205,7 @@ class GuiDetector:
     
     def resource_amount_image_to_string(self):
         result_list = []
+        result_src_list = []
         boxes = [
             (695, 10, 770, 34), (820, 10, 890, 34), (943, 10, 1015, 34), (1065, 10, 1140, 34), (1182, 10, 1245, 34)
         ]
@@ -222,7 +223,6 @@ class GuiDetector:
                     rec = img_to_string_eng(imdst).replace(' ', '').replace(',', '').replace('1Z', '')  
                     # 中文识别
                     rec_unit = img_to_string(imdst).replace(' ', '').replace(',', '')
-                    
                     # 没有小数, 直接使用中文识别
                     if (rec.find('.') == -1):
                         rec = rec_unit
@@ -243,16 +243,18 @@ class GuiDetector:
                         rec = rec.replace('.', '')
                     # rec = rec.replace('亿', '').replace('万', '').replace('仁', '').replace('伍', '')
                     count = int(float(rec) * unit)
-                    device_log(self.__device, 'resource_amount_image_to_string', 'rec:{}, unit:{}, count:{}'.format(rec, unit, count))
+                    device_log(self.__device, 'resource_amount_image_to_string', 'rec_unit:{}, rec:{}, unit:{}, count:{}'.format(rec_unit, rec, unit, count))
                     result_list.append(count)
+                    result_src_list.append(rec_unit)
                 except Exception as e:
                     result_list.append(-1)
+                    result_src_list.append(-1)
                     device_log(self.__device, 'resource_amount_image_to_string', e)
                     traceback.print_exc()
         except Exception as e:
             device_log(self.__device, 'resource_amount_image_to_string', e)
             traceback.print_exc()
-        return result_list
+        return result_list, result_src_list
 
     def materilal_amount_image_to_string(self):
         result_list = []
