@@ -158,3 +158,4 @@ capture/
 script/capture/
 script/*.png
 script/*.jpg
+*.pcap
