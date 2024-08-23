@@ -156,6 +156,7 @@ web/ranking/*
 
 capture/
 script/capture/
+script/tcpdump/
 script/*.png
 script/*.jpg
 *.pcap
