@@ -2,15 +2,29 @@
 # Run emulator script
 # Author: Max.Chiu
 
-DEVICE=""
+APP_DIR=$(dirname $(readlink -f "$0"))/..
+
+NAME=""
 if [ ! "$1" == "" ]
 then
-  echo "DEVICE:$1"
-  DEVICE="-s $1"
+  #echo "DEVICE:$1"
+  NAME="$1"
 fi
+
+
+DEVICES_CONFIG=$APP_DIR/save/devices_config.json
+IP=`cat "$DEVICES_CONFIG" | tr -d '\n' | jq --arg NAME "$NAME" -r -c '.[] | select(.name==$NAME) | .ip'`
+PORT=`cat "$DEVICES_CONFIG" | tr -d '\n' | jq --arg NAME "$NAME" -r -c '.[] | select(.name==$NAME) | .port'`
+
+DEVICE="-s $IP:$PORT"
+
 
 FILE=/sdcard/screen.jpg
 adb $DEVICE shell rm -f $FILE
-adb $DEVICE shell screencap -p $FILE
+
+CMD="adb $DEVICE shell screencap -p $FILE"
+echo "$CMD"
+$CMD
+
 adb $DEVICE pull $FILE capture/
 adb $DEVICE shell rm -f $FILE

@@ -15,7 +15,7 @@ class GatherResource(Task):
         self.max_query_space = 5
 
     def create_troop(self, full_load=False):
-        new_troops_button_pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value, 2)[2]
+        new_troops_button_pos = self.gui.check_any(ImagePathAndProps.NEW_TROOPS_BUTTON_IMAGE_PATH.value, times=2)[2]
         if new_troops_button_pos is None:
             self.set_text(insert="没有发现创建部队按钮, 没有更多队列")
             return False
@@ -37,7 +37,7 @@ class GatherResource(Task):
                 self.tap(max_button_pos)
             
                 
-        match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value, 2)[2]
+        match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
         if match_button_pos is None:
             self.set_text(insert="没有发现行军按钮")
             return False
@@ -102,7 +102,6 @@ class GatherResource(Task):
                                 break
                             self.set_text(insert="加入联盟矿{}".format(gather_join_pos))
                             self.tap(gather_join_pos, 2 * self.bot.config.tapSleep)
-                            
                 
                             if not self.create_troop(True):
                                 return next_task

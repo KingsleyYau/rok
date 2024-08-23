@@ -256,7 +256,7 @@ class ImagePathAndProps(Enum):
         "resource/verification_verify_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         VERIFICATION_VERIFY,
     ]
@@ -264,7 +264,7 @@ class ImagePathAndProps(Enum):
         "resource/verification_close_refresh_ok_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         VERIFICATION_CLOSE_REFRESH_OK,
     ]
@@ -272,7 +272,7 @@ class ImagePathAndProps(Enum):
         "resource/alliance_gifts_claim_button.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         GIFTS_CLAIM,
     ]
@@ -280,7 +280,7 @@ class ImagePathAndProps(Enum):
         "resource/alliance_tech_recommend.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         TECH_RECOMMEND,
     ]
@@ -288,7 +288,7 @@ class ImagePathAndProps(Enum):
         "resource/alliance_tech_donate.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.90,
+        0.80,
         25,
         TECH_DONATE,
     ]

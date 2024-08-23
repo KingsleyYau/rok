@@ -21,7 +21,7 @@ adb shell input tap 400 640
 
 
 # 同意隐私
-adb shell input tap 750 530
+adb shell input tap 750 630
 # QQ登录
 adb shell input tap 660 270
 # 同意其他登录
