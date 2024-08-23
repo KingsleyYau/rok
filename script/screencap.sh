@@ -26,5 +26,5 @@ CMD="adb $DEVICE shell screencap -p $FILE"
 echo "$CMD"
 $CMD
 
-adb $DEVICE pull $FILE capture/
+adb $DEVICE pull $FILE capture/$NAME.jpg
 adb $DEVICE shell rm -f $FILE
