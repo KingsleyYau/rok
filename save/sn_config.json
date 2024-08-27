@@ -52,7 +52,7 @@
   "gatherResourceRatioFood": 2,
   "gatherResourceRatioWood": 1,
   "gatherResourceRatioStone": 2,
-  "gatherResourceRatioGold": 3,
+  "gatherResourceRatioGold": 2,
   "holdOneQuerySpace": false,
   "gatherMaxTroops": 5,
   "gatherDiamond": false,

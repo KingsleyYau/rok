@@ -263,13 +263,14 @@ class Bot:
                                 now = time.time()
                                 self.break_task.set_text(title='休息')
 
-                                if now - last > diff:
+                                if now - start <= breakTime:
                                     self.break_task.set_text(insert='继续休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total))
                                     last = now
                                     time.sleep(60)
                                 else:
                                     break
-                                
+                            else:
+                                time.sleep(20)    
                         self.break_task.set_text(insert='结束休息 {}/{} seconds'.format(int(now - start), breakTime))  
                                               
                         if self.config.terminate:

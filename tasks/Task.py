@@ -572,4 +572,4 @@ class Task:
         
         self.set_text(insert='尝试滑动验证, min_1[0]:{}, min_2[0]:{}, {} => {}'.format(min_1[0], min_2[0], start, end))
         self.swipe((start, pos[1]-55), (end, pos[1]-55), 1, 1000)
-        time.sleep(3)
+        time.sleep(10)
