@@ -205,6 +205,7 @@ class Task:
             for i in range(0, 1):
                 imsch = self.gui.get_curr_device_screen_img_cv()
                 if self.check_common_button(imsch):
+                    time.sleep(5)
                     imsch = self.gui.get_curr_device_screen_img_cv()
                 result = self.gui.get_curr_gui_name(imsch)
                 gui_name, pos = ["UNKNOW", None] if result is None else result
