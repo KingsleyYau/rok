@@ -357,7 +357,7 @@ class GuiDetector:
                         return True, gui, result['result']
             except Exception as e:
                 traceback.print_exc()
-            time.sleep(1)
+            time.sleep(3)
 
         return False, None, None
     

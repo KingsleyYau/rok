@@ -108,7 +108,7 @@ class Task:
                 self.set_text(insert='程序可能卡死, 重启'.format(loop_count))
                 self.stopRok()
                 break;
-            time.sleep(self.bot.config.tapSleep)
+            # time.sleep(self.bot.config.tapSleep)
         return loop_count
 
     def find_home(self):

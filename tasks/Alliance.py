@@ -13,7 +13,7 @@ class Alliance(Task):
         super().set_text(title='联盟任务', remove=True)
         alliance_btn_pos = (930, 670)
         try:
-            random_tasks = ['HELP', 'GIFTS', 'TERRITORY', 'TECHNOLOGY']
+            # random_tasks = ['HELP', 'GIFTS', 'TERRITORY', 'TECHNOLOGY']
             random_tasks = ['GIFTS', 'TERRITORY', 'TECHNOLOGY']
             random.shuffle(random_tasks)
             
@@ -26,7 +26,7 @@ class Alliance(Task):
                 if name == 'HELP':
                     super().set_text(insert='帮助盟友')
                     # super().tap((920, 400))  # enter the help page
-                    _, _, help_pos = self.gui.check_any(ImagePathAndProps.HELP_IMG_PATH.value)
+                    _, _, help_pos = self.gui.check_any(ImagePathAndProps.HELP_IMG_PATH.value, times=2)
                     if help_pos is not None:
                         super().tap(help_pos)
                         # tap the help button if present, otherwise it will tap on empty space
@@ -34,7 +34,7 @@ class Alliance(Task):
                 elif name == 'GIFTS':
                     super().set_text(insert='收集联盟礼物')
                     
-                    _, _, gifts_pos = self.gui.check_any(ImagePathAndProps.GIFT_IMG_PATH.value, times=3)
+                    _, _, gifts_pos = self.gui.check_any(ImagePathAndProps.GIFT_IMG_PATH.value, times=2)
                     if gifts_pos is not None:
                         super().tap(gifts_pos)
                     else:
@@ -45,7 +45,7 @@ class Alliance(Task):
                     rate_pos = (930, 205)
                     super().tap(rate_pos)
                     for i in range(100):
-                        _, _, pos = self.gui.check_any(ImagePathAndProps.GIFTS_CLAIM_BUTTON_IMAGE_PATH.value)
+                        _, _, pos = self.gui.check_any(ImagePathAndProps.GIFTS_CLAIM_BUTTON_IMAGE_PATH.value, times=2)
                         if pos is None:
                             super().set_text(insert='没有找到稀有礼物')
                             break
@@ -60,7 +60,7 @@ class Alliance(Task):
                     claim_all_pos = (1110, 205)
                     super().tap(claim_all_pos)
                     
-                    comfirm_pos = self.gui.check_any(ImagePathAndProps.CONFIRM_BUTTON_PATH.value)[2]
+                    comfirm_pos = self.gui.check_any(ImagePathAndProps.CONFIRM_BUTTON_PATH.value, times=2)[2]
                     if comfirm_pos is not None:
                         self.tap(comfirm_pos)
                                             
@@ -71,7 +71,7 @@ class Alliance(Task):
                     
                 elif name == 'TERRITORY':
                     super().set_text(insert='收集领土资源')
-                    _, _, territory_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value)
+                    _, _, territory_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_IMG_PATH.value, times=2)
                     if territory_pos is not None:
                         super().tap(territory_pos)
                         claim_pos = (1020, 140)
@@ -80,15 +80,15 @@ class Alliance(Task):
                 elif name == 'TECHNOLOGY':
                     super().set_text(insert='捐献科技')
                     # technology_pos = (660, 560)
-                    _, _, technology_pos = self.gui.check_any(ImagePathAndProps.TECHNOLOGY_IMG_PATH.value)
+                    _, _, technology_pos = self.gui.check_any(ImagePathAndProps.TECHNOLOGY_IMG_PATH.value, times=3)
                     if technology_pos is not None:
                         super().tap(technology_pos)
-                        _, _, recommend_image_pos = self.gui.check_any(ImagePathAndProps.TECH_RECOMMEND_IMAGE_PATH.value)
+                        _, _, recommend_image_pos = self.gui.check_any(ImagePathAndProps.TECH_RECOMMEND_IMAGE_PATH.value, times=3)
                         if recommend_image_pos is not None:
                             x, y = recommend_image_pos
                             super().tap((x, y + 60))
                             _, _, donate_btn_pos = self.gui.check_any(
-                                ImagePathAndProps.TECH_DONATE_BUTTON_IMAGE_PATH.value)
+                                ImagePathAndProps.TECH_DONATE_BUTTON_IMAGE_PATH.value, times=3)
                             if donate_btn_pos is not None:
                                 for i in range(20):
                                     super().tap(donate_btn_pos)

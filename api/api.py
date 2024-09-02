@@ -9,12 +9,15 @@ from gui.creator import load_bot_config
 from gui.creator import load_building_pos
 from gui.creator import write_device_config, load_device_config
 from bot_related.bot import Bot
-from tasks.constants import BuildingNames
+
 from filepath.file_relative_paths import ImagePathAndProps
 from utils import log, img_to_string, img_to_string_eng, resize
 from api.run_config import RunConfig
 from bot_related import aircve as aircv
 
+from gui.creator import write_bot_config
+
+from tasks.constants import BuildingNames
 from tasks.Task import Task
 from tasks.GetRankingList import GetRankingList
 
@@ -369,6 +372,9 @@ def api(args, bot=None):
         adb.bridge = adb.enable_adb('127.0.0.1', 5037)
         if bot is None:
             bot = get_bot(args.device_name)
+            def on_config_update(**kw):
+                write_bot_config(kw['config'], kw['prefix'])
+            bot.config_update_event = on_config_update
             
         bot.config = load_bot_config(bot.device.name)    
         task = Task(bot)
