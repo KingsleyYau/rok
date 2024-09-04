@@ -355,9 +355,11 @@ class GuiDetector:
         
                     if result is not None:
                         return True, gui, result['result']
+                if i > 1:
+                    second = pow(2, i - 1)
+                    time.sleep(second)
             except Exception as e:
                 traceback.print_exc()
-            time.sleep(3)
 
         return False, None, None
     

@@ -254,7 +254,6 @@ class Task:
     def check_common_button(self, imsch=None):
         if imsch is None:
             imsch = self.gui.get_curr_device_screen_img_cv()
-            
         closeapp_pos = self.gui.check_any(
                 ImagePathAndProps.CLOSEAPP_BUTTON_PATH.value,
                 imsch=imsch

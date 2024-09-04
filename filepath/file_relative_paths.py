@@ -872,7 +872,7 @@ class ImagePathAndProps(Enum):
         "resource/technology.png",
         (1280, 720),
         (0, 0, 0, 0),
-        0.80,
+        0.70,
         25,
         TECHNOLOGY_IMG,
     ] 
