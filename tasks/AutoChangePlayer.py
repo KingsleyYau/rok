@@ -41,7 +41,7 @@ class AutoChangePlayer(Task):
                         self.set_text(insert='切换角色, {}, 成功, 重启'.format(playerIndex))
                         self.device.nickname = ""
                         self.bot.config_update_event(config=self.bot.config, prefix=self.device.save_file_prefix)
-                        time.sleep(self.bot.config.restartSleep)
+                        time.sleep(self.bot.config.welcomeSleep)
                         return next_task
                     else:
                         self.set_text(insert='目标角色被封, {}, 跳过'.format(playerIndex))

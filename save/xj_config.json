@@ -3,7 +3,7 @@
   "enableStop": false,
   "action_wait_time": 1,
   "enableBreak": true,
-  "breakTime": 1800,
+  "breakTime": 1500,
   "terminate": false,
   "breakDoRound": 1,
   "checkTaskTime": 300,
@@ -69,7 +69,7 @@
   "enableUpgradeBuilding": false,
   "enableAutoFillTroop": false,
   "autoChangePlayer": true,
-  "playerIndex": 2,
-  "playerCount": 3,
+  "playerIndex": 1,
+  "playerCount": 2,
   "getRannkingList": 1
 }

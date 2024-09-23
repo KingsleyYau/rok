@@ -3,7 +3,7 @@ import adb
 from gui.main_window import MainWindow
 import argparse
 from api.api import api, get_bot, monitor, get_dead_info
-from utils import log
+from utils import log, img_to_string,img_to_string_eng
 from api.run_config import RunConfig
 
 from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -11,6 +11,7 @@ import urllib
 import json
 import time
 import copy
+import cv2
 
 def str2bool(v):
     if v.lower() in ('yes', 'true', 'y', '1'):
@@ -169,9 +170,14 @@ if __name__ == '__main__':
     parser.add_argument("--api_deamon_file_last", type=str, default='record_last.txt', help="api record last file")
     parser.add_argument("--api_monitor", type=str2bool, default=False, help="api monitor mode")
     parser.add_argument("--api_monitor_file", type=str, default='monitor_file.json', help="api monitor file")
+    parser.add_argument("--img2txt", type=str, default='', help="img file path")
     args = parser.parse_args()
     # get_dead_info(args)
-    if args.api:
+    if len(args.img2txt) > 0:
+        img = cv2.imread(args.img2txt)
+        txt = img_to_string_eng(img).replace('\t', '').replace(' ', '')
+        print(txt)
+    elif args.api:
         api(args)
     elif args.api_deamon:
         api_deamon(args)

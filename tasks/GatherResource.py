@@ -357,8 +357,8 @@ class GatherResource(Task):
         for i in range(4):
             diff.append(((result[i] if result[i] > -1 else 0) / res) - (ratio[i] / ras))
 
-        diff = ['{:.4f}'.format(i) for i in diff]
         m = np.argmin(diff)
+        diff = [float('{:.4f}'.format(i)) for i in diff]
         self.set_text(insert='最需要的资源是{}, {}'.format(res_names[m], diff))
         return m
 

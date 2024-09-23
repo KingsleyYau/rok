@@ -555,7 +555,7 @@ class Task:
         img = cv2.medianBlur(img, 5)
     
         img1_x = 490
-        img1 = img[240:440, img1_x:620]
+        img1 = img[260:420, img1_x:600]
         img_result1 = utils.canny(img1)
         img_result1, c1 = utils.fix_max_contours(img_result1)
         c1 = np.squeeze(c1)
@@ -563,7 +563,7 @@ class Task:
         start = min_1[0] + img1_x
       
         img2_x = 655
-        img2 = img[240:440, img2_x:825]
+        img2 = img[260:420, img2_x:825]
         img_result2 = utils.canny(img2)
         img_result2, c2 = utils.fix_max_contours(img_result2)
         c2 = np.squeeze(c2)
