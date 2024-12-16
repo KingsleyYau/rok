@@ -211,18 +211,6 @@ class Task:
                 gui_name, pos = ["UNKNOW", None] if result is None else result
                 device_log(self.device, '获取当前界面', gui_name, pos)  
                 
-                   
-                # if gui_name == GuiName.VERIFICATION_VERIFY.name:
-                #     self.set_text(insert='点击验证按钮, {}'.format(pos))
-                #     self.tap(pos, 2 * self.bot.config.tapSleep)
-                # elif gui_name == GuiName.VERIFICATION_CHEST.name:
-                #     self.set_text(insert='点击验证图标, {}'.format(pos))
-                #     self.tap(pos, 2 * self.bot.config.tapSleep)
-                # elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
-                #     self.set_text(insert='开始验证, {}'.format(pos))
-                #     pos_list = self.pass_verification()
-                #     if pos_list is None:
-                #         self.set_text(insert='验证失败')
                 if gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
                     self.set_text(insert='发现验证界面, 开始验证'.format())
                     self.verify(pos)
@@ -554,16 +542,17 @@ class Task:
         img = self.gui.get_curr_device_screen_img_cv()
         img = cv2.medianBlur(img, 5)
     
-        img1_x = 490
-        img1 = img[260:420, img1_x:600]
+        img1_x = 430
+        # img1_x = 490
+        img1 = img[200:440, img1_x:570]
         img_result1 = utils.canny(img1)
         img_result1, c1 = utils.fix_max_contours(img_result1)
         c1 = np.squeeze(c1)
         min_1 = np.min(c1, axis=0)
         start = min_1[0] + img1_x
       
-        img2_x = 655
-        img2 = img[260:420, img2_x:825]
+        img2_x = img1_x + 230
+        img2 = img[200:440, img2_x:825]
         img_result2 = utils.canny(img2)
         img_result2, c2 = utils.fix_max_contours(img_result2)
         c2 = np.squeeze(c2)

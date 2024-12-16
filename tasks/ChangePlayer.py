@@ -23,7 +23,10 @@ class ChangePlayer(Task):
         
         # 打开设置
         self.set_text(insert='打开设置')
-        self.tap((990, 570), 2 * self.bot.config.tapSleep)
+        # self.tap((990, 570), 2 * self.bot.config.tapSleep)
+        _, _, setting_pos = self.bot.gui.check_any(ImagePathAndProps.SETTING_BUTTON_PATH.value)
+        self.tap(setting_pos, 2 * self.bot.config.tapSleep)
+        
         # 角色管理 
         self.set_text(insert='打开角色管理')
         self.tap((560, 380), 2 * self.bot.config.tapSleep)

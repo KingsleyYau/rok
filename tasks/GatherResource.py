@@ -199,15 +199,15 @@ class GatherResource(Task):
                     if should_decreasing_lv:
                         dec_pos = self.gui.check_any(ImagePathAndProps.DECREASING_BUTTON_IMAGE_PATH.value)[2]
                         if dec_pos is not None:
-                            self.set_text(insert="点击降级{}, 当前等级{}".format(dec_pos, 6 - level))
+                            self.set_text(insert="点击降级{}, 当前等级{}".format(dec_pos, 8 - level))
                             self.tap(dec_pos)
                         
                     else:
                         if first_time:
                             inc_pos = self.gui.check_any(ImagePathAndProps.INCREASING_BUTTON_IMAGE_PATH.value)[2]
                             if inc_pos is not None:
-                                self.set_text(insert="还原搜索等级, 当前等级{}".format(6 - level))
-                                for i in range(3):
+                                self.set_text(insert="还原搜索等级, 当前等级{}".format(8 - level))
+                                for i in range(4):
                                     self.tap((inc_pos[0] - 33, inc_pos[1]))
                             first_time = False
                         
@@ -235,7 +235,7 @@ class GatherResource(Task):
                     if len(coordinate) > 0:
                         if coordinate in last_resource_pos:
                             if repeat:
-                                self.set_text(insert="资源点已经处理过, 坐标, {}, 降级, 等级{}=>等级{}".format(coordinate, 6 - level, 6 - level - 1))
+                                self.set_text(insert="资源点已经处理过, 坐标, {}, 降级, 等级{}=>等级{}".format(coordinate, 8 - level, 8 - level - 1))
                                 repeat = False
                                 level = level + 1
                                 should_decreasing_lv = True
@@ -267,7 +267,7 @@ class GatherResource(Task):
                         else:
                             self.set_text(insert="当前队列数量:{}/{}".format(cur, total))
                     else:
-                        self.set_text(insert="没有更多资源点, 降级, 当前等级{}".format(6 - level))
+                        self.set_text(insert="没有更多资源点, 降级, 当前等级{}".format(8 - level))
                         should_decreasing_lv = True
                         level = level + 1
                     # self.swipe((200, 320), (800, 320))

@@ -118,7 +118,10 @@ def api_deamon(args):
                     except BaseException as e:
                         log(item, e)
                         adb.bridge.reconnect(bot.device)
-                              
+        
+        except FileNotFoundError:
+            with open(filepath, mode='w', encoding='utf-8') as f:   
+                pass                   
         except BaseException as e:
             log(e)
         time.sleep(3)

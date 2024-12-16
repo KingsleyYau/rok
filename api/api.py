@@ -279,7 +279,8 @@ def finish_title(bot, task, server, title_item, expected_pos, player_name):
         ImagePathAndProps.LOST_CANYON_OK_IMAGE_PATH.value,
         imsch=imsch
     )
-    task.tap(ok_pos)
+    if ok_pos is not None:
+        task.tap(ok_pos)
     log('发放头衔成功', title_item['name'], server, expected_pos, player_name)
     # snapshot(bot)
     

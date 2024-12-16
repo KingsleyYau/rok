@@ -1108,6 +1108,14 @@ class ImagePathAndProps(Enum):
         25,
         DEAD_STABLE_IMG,
     ] 
+    SETTING_BUTTON_PATH = [
+        "resource/setting_button.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.7,
+        25,
+        HOME,
+    ]
     
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [
