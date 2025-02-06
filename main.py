@@ -2,7 +2,7 @@ import adb
 
 from gui.main_window import MainWindow
 import argparse
-from api.api import api, get_bot, monitor, get_dead_info
+from api.api import api, check, get_bot, monitor, get_dead_info
 from utils import log, img_to_string,img_to_string_eng
 from api.run_config import RunConfig
 
@@ -118,6 +118,8 @@ def api_deamon(args):
                     except BaseException as e:
                         log(item, e)
                         adb.bridge.reconnect(bot.device)
+                else:
+                    check(bot)
         
         except FileNotFoundError:
             with open(filepath, mode='w', encoding='utf-8') as f:   

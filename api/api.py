@@ -451,6 +451,12 @@ def api(args, bot=None):
     
     return False, ""
 
+def check(bot):
+    task = Task(bot)
+    imsch = task.gui.get_curr_device_screen_img_cv()
+    if task.check_common_button(imsch):
+        time.sleep(3)
+
 def get_dead_info(input_path):
     img = cv2.imread(input_path)
     img = resize(img, (1280, 720), padding=False, fixScale=0)

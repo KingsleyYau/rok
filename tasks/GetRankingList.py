@@ -78,14 +78,14 @@ class GetRankingList(Task):
                 # if player_title_pos is not None:
                 if window_title.find('资料') != -1:
                     imsch = self.gui.get_curr_device_screen_img_cv()
-                    player_id_box = (565, 153, 565 + 130, 153 + 34)
+                    player_id_box = (555, 143, 555 + 130, 143 + 34)
                     player_id = self.gui.text_from_img_box(imsch, player_id_box)
                     player_id = re.sub('[^0-9]', '', player_id)
                     # player_id = player_id.replace(')', '')
                     player_name = self.gui.player_name(imsch=imsch).replace('·', '').replace('.', '')
-                    local_box = (1050, 120, 1050 + 60, 120 + 26)
-                    local = self.gui.text_from_img_box(imsch, local_box).replace(',', '')
-                    power_box = (705, 260, 705 + 150, 260 + 34)
+                    # local_box = (1050, 120, 1050 + 60, 120 + 26)
+                    # local = self.gui.text_from_img_box(imsch, local_box).replace(',', '')
+                    power_box = (680, 255, 680 + 150, 255 + 34)
                     power = self.gui.int_from_img_box(imsch, power_box)
                     killed_box = (885, 260, 885 + 180, 260 + 34)
                     killed = self.gui.int_from_img_box(imsch, killed_box)
@@ -116,14 +116,14 @@ class GetRankingList(Task):
                         self.back()
                     
                     dkp = int(t4_killed * 0.15 + t5_killed * 0.3 + 0.8 * dead)
-                    self.set_text(insert='统计第{}位执政官, {}, {}, {}, 战力:{}, 击杀:{}, 阵亡:{}, t4:{}, t5:{}, dkp:{}'.format(i + 1, player_name, player_id, local, 
+                    self.set_text(insert='统计第{}位执政官, {}, {}, 战力:{}, 击杀:{}, 阵亡:{}, t4:{}, t5:{}, dkp:{}'.format(i + 1, player_name, player_id, 
                                                                                       self.get_unit_string(power), self.get_unit_string(killed), self.get_unit_string(dead),
                                                                                       self.get_unit_string(t4_killed), self.get_unit_string(t5_killed),
                                                                                       self.get_unit_string(dkp)))
 
                     
                     player_item = {
-                        'local':local,
+                        # 'local':local,
                         'player_id':player_id,
                         'player_name':player_name,
                         'power':power,

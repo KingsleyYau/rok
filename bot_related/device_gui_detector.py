@@ -162,7 +162,7 @@ class GuiDetector:
     def player_name(self, box=None, imsch=None):
         name = ""
         if box is None:
-            box = (485, 182, 630, 214)
+            box = (475, 169, 630, 214)
         try:
             if imsch is None:
                 imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
