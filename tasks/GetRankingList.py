@@ -46,19 +46,20 @@ class GetRankingList(Task):
     
         ranking_power_title_pos = self.gui.check_any(ImagePathAndProps.RANKING_POWER_TITLE_PATH.value)[2]
         if ranking_power_title_pos is not None:
-            count = 300
+            count = 150
             start_pos = (260, 200)
             step = 80
             self.set_text(insert='开始统计战力前{}位执政官'.format(count))
             
             ranking_list = []
+            istep = 0
             for i in range(0, count):
                 player_id = ""
                 player_name = ""
                 if i < 4:
                     cur_pos = (start_pos[0], start_pos[1] + i * step)
                 else:
-                    cur_pos = (start_pos[0], start_pos[1] + 3 * step + 20)
+                    cur_pos = (start_pos[0], start_pos[1] + istep * step + 20)
                     pass
                 self.set_text(insert='打开第{}位执政官'.format(i + 1)) 
                 self.tap(cur_pos, self.bot.config.tapSleep)
@@ -72,11 +73,12 @@ class GetRankingList(Task):
                         break
                     time.sleep(1)
                     
-                self.set_text(insert='打开第{}位执政官, 当前窗口:{}'.format(i + 1, window_title)) 
+                # self.set_text(insert='打开第{}位执政官, 当前窗口:{}'.format(i + 1, window_title)) 
             
                 # player_title_pos = self.gui.check_any(ImagePathAndProps.PLAYER_DETAIL_TITLE_PATH.value, times=3)[2]
                 # if player_title_pos is not None:
                 if window_title.find('资料') != -1:
+                    istep = 3
                     imsch = self.gui.get_curr_device_screen_img_cv()
                     player_id_box = (555, 143, 555 + 130, 143 + 34)
                     player_id = self.gui.text_from_img_box(imsch, player_id_box)
@@ -87,7 +89,7 @@ class GetRankingList(Task):
                     # local = self.gui.text_from_img_box(imsch, local_box).replace(',', '')
                     power_box = (680, 255, 680 + 150, 255 + 34)
                     power = self.gui.int_from_img_box(imsch, power_box)
-                    killed_box = (885, 260, 885 + 180, 260 + 34)
+                    killed_box = (920, 260, 920 + 180, 260 + 32)
                     killed = self.gui.int_from_img_box(imsch, killed_box)
                     
                     dead = 0
@@ -116,7 +118,7 @@ class GetRankingList(Task):
                         self.back()
                     
                     dkp = int(t4_killed * 0.15 + t5_killed * 0.3 + 0.8 * dead)
-                    self.set_text(insert='统计第{}位执政官, {}, {}, 战力:{}, 击杀:{}, 阵亡:{}, t4:{}, t5:{}, dkp:{}'.format(i + 1, player_name, player_id, 
+                    self.set_text(insert='统计第{}位执政官, {}, {}, 战力:{}, 击杀分:{}, 阵亡:{}, t4:{}, t5:{}, dkp:{}'.format(i + 1, player_name, player_id, 
                                                                                       self.get_unit_string(power), self.get_unit_string(killed), self.get_unit_string(dead),
                                                                                       self.get_unit_string(t4_killed), self.get_unit_string(t5_killed),
                                                                                       self.get_unit_string(dkp)))
@@ -140,6 +142,9 @@ class GetRankingList(Task):
                         'dkp_unit':self.get_unit_string(dkp),
                     }
                     ranking_list.append(player_item)
+                else:
+                    istep = istep + 1
+                    
                 if i % 5 == 0:
                     try:
                         with open(filepath, 'w', encoding='utf-8') as f:
@@ -171,8 +176,14 @@ class GetRankingList(Task):
                 # 返回排行榜界面
                 self.tap((10, 10), self.bot.config.tapSleep)    
                             
-                ranking_power_title_pos = self.gui.check_any(ImagePathAndProps.RANKING_POWER_TITLE_PATH.value, times=3)[2]
-                if ranking_power_title_pos is None:
+                imsch = self.gui.get_curr_device_screen_img_cv()            
+                window_title_box = (540, 27, 540 + 210, 27 + 36)
+                window_title = self.gui.text_from_img_box(imsch, window_title_box)
+                if window_title.find('战力排行榜') == -1:
                     self.set_text(insert='异常退出')
                     break
+                # ranking_power_title_pos = self.gui.check_any(ImagePathAndProps.RANKING_POWER_TITLE_PATH.value, times=3)[2]
+                # if ranking_power_title_pos is None:
+                #     self.set_text(insert='异常退出')
+                #     break
         return next_task
