@@ -46,7 +46,7 @@ class GetRankingList(Task):
     
         ranking_power_title_pos = self.gui.check_any(ImagePathAndProps.RANKING_POWER_TITLE_PATH.value)[2]
         if ranking_power_title_pos is not None:
-            count = 150
+            count = 100
             start_pos = (260, 200)
             step = 80
             self.set_text(insert='开始统计战力前{}位执政官'.format(count))
