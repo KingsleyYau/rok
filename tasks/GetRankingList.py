@@ -46,7 +46,7 @@ class GetRankingList(Task):
     
         ranking_power_title_pos = self.gui.check_any(ImagePathAndProps.RANKING_POWER_TITLE_PATH.value)[2]
         if ranking_power_title_pos is not None:
-            count = 100
+            count = 120
             start_pos = (260, 200)
             step = 80
             self.set_text(insert='开始统计战力前{}位执政官'.format(count))
@@ -172,18 +172,24 @@ class GetRankingList(Task):
                         f.truncate()
                 except Exception as e:
                     traceback.print_exc()   
-                                        
-                # 返回排行榜界面
-                self.tap((10, 10), self.bot.config.tapSleep)    
+                
+                found = False
+                for j in range(0, 3):
+                    # 返回排行榜界面
+                    self.tap((10, 10), self.bot.config.tapSleep)    
                             
-                imsch = self.gui.get_curr_device_screen_img_cv()            
-                window_title_box = (540, 27, 540 + 210, 27 + 36)
-                window_title = self.gui.text_from_img_box(imsch, window_title_box)
-                if window_title.find('战力排行榜') == -1:
+                    imsch = self.gui.get_curr_device_screen_img_cv()            
+                    window_title_box = (540, 27, 540 + 210, 27 + 36)
+                    window_title = self.gui.text_from_img_box(imsch, window_title_box)
+                    if window_title.find('战力排行榜') != -1:
+                        found = True
+                        break
+                if not found:
                     self.set_text(insert='异常退出')
                     break
                 # ranking_power_title_pos = self.gui.check_any(ImagePathAndProps.RANKING_POWER_TITLE_PATH.value, times=3)[2]
                 # if ranking_power_title_pos is None:
                 #     self.set_text(insert='异常退出')
                 #     break
+            self.set_text(insert='获取排行榜完成')
         return next_task

@@ -227,3 +227,11 @@ def resize(img, new_size, padding=True, fixScale=32):
         img = cv2.copyMakeBorder(img, top, bottom, left, right, cv2.BORDER_CONSTANT, value = BLACK)
     
     return img
+
+def is_dark(img, thresh=100):
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    avg = cv2.mean(img_gray)[0]
+    print('is_dark', avg)
+    if avg < thresh:
+        return True, avg;
+    return False, avg

@@ -9,7 +9,7 @@ from filepath.file_relative_paths import (
     ItemsImageAndProps,
 )
 from datetime import datetime
-from utils import aircv_rectangle_to_box, stop_thread, log, device_log
+from utils import aircv_rectangle_to_box, stop_thread, log, device_log, is_dark
 from enum import Enum
 
 import config
@@ -202,7 +202,7 @@ class Task:
             pos_list = None
             pos_free = (400 + int(50 * (0.5 - random.random())), 400 + int(50 * (0.5 - random.random())))
             
-            for i in range(0, 1):
+            for i in range(0, 180):
                 imsch = self.gui.get_curr_device_screen_img_cv()
                 if self.check_common_button(imsch):
                     time.sleep(5)
@@ -211,7 +211,12 @@ class Task:
                 gui_name, pos = ["UNKNOW", None] if result is None else result
                 device_log(self.device, '获取当前界面', gui_name, pos)  
                 
-                if gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
+                dark, avg = is_dark(imsch)
+                if dark:
+                    device_log(self.device, '当前界面过暗, 可能断线加载中, 继续等待..., avg:{}'.format(avg))  
+                    time.sleep(10)
+                    continue
+                elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
                     self.set_text(insert='发现验证界面, 开始验证'.format())
                     self.verify(pos)
                 elif gui_name == GuiName.HELLO_WROLD_IMG.name:
