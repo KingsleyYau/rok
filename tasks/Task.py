@@ -211,9 +211,10 @@ class Task:
                 gui_name, pos = ["UNKNOW", None] if result is None else result
                 device_log(self.device, '获取当前界面', gui_name, pos)  
                 
-                dark, avg = is_dark(imsch)
+                dark, avg = is_dark(imsch[180:540, 320:960], 70)
+                device_log(self.device, '当前界面亮度:{}'.format(avg))  
                 if dark:
-                    device_log(self.device, '当前界面过暗, 可能断线加载中, 继续等待..., avg:{}'.format(avg))  
+                    device_log(self.device, '当前界面过暗, 可能断线加载中, 继续等待...')  
                     time.sleep(10)
                     continue
                 elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
