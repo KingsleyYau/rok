@@ -36,6 +36,25 @@ adb shell input tap 420 780
 adb shell input tap 500 1180
 # QQ扫码登录
 adb shell input tap 250 1120
+
+# 手机登录
+# 同意隐私
+adb shell input tap 680 640
+# 输入手机
+adb shell input tap 125 100
+adb shell input text 15220039797
+adb shell input tap 640 200
+# 同意隐私1
+adb shell input tap 125 140
+# 同意隐私2
+adb shell input tap 660 420
+
+# 输入验证码
+adb shell input tap 125 140
+adb shell input text 462796
+adb shell input tap 640 200
+
+
 # ROK出错确定
 adb shell input tap 640 450
 # ROK踢出确定

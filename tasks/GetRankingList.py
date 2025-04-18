@@ -46,7 +46,7 @@ class GetRankingList(Task):
     
         ranking_power_title_pos = self.gui.check_any(ImagePathAndProps.RANKING_POWER_TITLE_PATH.value)[2]
         if ranking_power_title_pos is not None:
-            count = 120
+            count = 150
             start_pos = (260, 200)
             step = 80
             self.set_text(insert='开始统计战力前{}位执政官'.format(count))
@@ -101,7 +101,7 @@ class GetRankingList(Task):
                         self.tap(player_more_info_pos, self.bot.config.tapSleep)
                         
                         imsch = self.gui.get_curr_device_screen_img_cv()
-                        dead_box = (930, 360, 930 + 120, 360 + 25)
+                        dead_box = (930, 365, 930 + 120, 365 + 25)
                         dead = self.gui.int_from_img_box(imsch, dead_box)
                         
                         player_more_info_kill_pos = self.gui.check_any(ImagePathAndProps.PLAYER_MORE_INFO_KILL_PATH.value, times=3)[2]

@@ -69,7 +69,7 @@
   "enableUpgradeBuilding": false,
   "enableAutoFillTroop": false,
   "autoChangePlayer": true,
-  "playerIndex": 0,
+  "playerIndex": 1,
   "playerCount": 3,
   "getRannkingList": true
 }
