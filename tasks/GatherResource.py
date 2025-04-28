@@ -80,7 +80,6 @@ class GatherResource(Task):
                     self.tap(territory_pos, 2 * self.bot.config.tapSleep)
                     
                     for i in range(2):
-                        
                         territory_gathering_pos = self.gui.check_any(ImagePathAndProps.TERRITORY_GATHERING_IMG_PATH.value, times=3)[2]
                         if territory_gathering_pos is not None:
                             self.set_text(insert='定位联盟矿, {}'.format(territory_gathering_pos))
