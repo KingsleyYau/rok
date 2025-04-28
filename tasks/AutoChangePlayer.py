@@ -28,7 +28,7 @@ class AutoChangePlayer(Task):
             playerIndex = (self.bot.config.playerIndex + 1) % self.bot.config.playerCount
             x = playerIndex % 2 + 1
             y = playerIndex // 2
-            pos = ((400 * x, 230 + 110 * y))
+            pos = ((400 * x, 230 + 130 * y))
             self.set_text(insert='当前角色 {}, 目标角色 {}, {}'.format(self.bot.config.playerIndex, playerIndex, pos))
             for j in range(0, 3):
                 self.tap(pos, 2 * self.bot.config.tapSleep)

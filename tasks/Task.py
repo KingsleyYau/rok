@@ -202,7 +202,7 @@ class Task:
             pos_list = None
             pos_free = (400 + int(50 * (0.5 - random.random())), 400 + int(50 * (0.5 - random.random())))
             
-            for i in range(0, 180):
+            for i in range(0, 30):
                 imsch = self.gui.get_curr_device_screen_img_cv()
                 if self.check_common_button(imsch):
                     time.sleep(5)
@@ -214,8 +214,8 @@ class Task:
                 dark, avg = is_dark(imsch[180:540, 320:960], 70)
                 device_log(self.device, '当前界面亮度:{}'.format(avg))  
                 if dark:
-                    device_log(self.device, '当前界面过暗, 可能断线加载中, 继续等待...')  
-                    time.sleep(10)
+                    self.set_text(insert='当前界面过暗, 可能断线加载中, 点击任意地方, {}, 继续等待...'.format(pos_free))     
+                    self.tap(pos_free, 10)
                     continue
                 elif gui_name == GuiName.VERIFICATION_CLOSE_REFRESH_OK.name:
                     self.set_text(insert='发现验证界面, 开始验证'.format())

@@ -35,7 +35,7 @@ class ChangePlayer(Task):
         playerIndex = self.bot.config.playerIndex % self.bot.config.playerCount
         x = playerIndex % 2 + 1
         y = playerIndex // 2
-        pos = ((400 * x, 230 + 110 * y))
+        pos = ((400 * x, 240 + 130 * y))
         self.set_text(insert='目标玩家 {}, {}'.format(playerIndex, pos))
 
         for j in range(0, 3):
