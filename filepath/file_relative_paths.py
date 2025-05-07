@@ -1116,6 +1116,30 @@ class ImagePathAndProps(Enum):
         25,
         HOME,
     ]
+    EDIT_BUTTON_PATH = [
+        "resource/edit_button.png",
+        (1280, 720),
+        (10, 602, 113, 709),
+        0.8,
+        25,
+        EDIT_BUTTON,
+    ]
+    EDIT_BUTTON_2_PATH = [
+        "resource/edit_button_2.png",
+        (1280, 720),
+        (10, 602, 113, 709),
+        0.8,
+        25,
+        EDIT_BUTTON_2,
+    ]
+    EDIT_BUTTON_3_PATH = [
+        "resource/edit_button_3.png",
+        (1280, 720),
+        (10, 602, 113, 709),
+        0.8,
+        25,
+        EDIT_BUTTON_3,
+    ]
     
 class GuiCheckImagePathAndProps(Enum):
     VERIFICATION_VERIFY_BUTTON_IMAGE_PATH = [

@@ -121,9 +121,24 @@ class Task:
 
     def home_gui_full_view(self):
         self.set_text(insert='切换视觉[full home]')
-        self.tap((60, 540), 2 * self.bot.config.tapSleep)
-        self.tap((1105, 200), 2 * self.bot.config.tapSleep)
-        self.tap((1220, 35), 2 * self.bot.config.tapSleep)
+        edit_button_pos = self.gui.check_any(ImagePathAndProps.EDIT_BUTTON_PATH.value)[2]
+        if edit_button_pos is not None:
+            self.tap(edit_button_pos, 2)
+            
+            edit_button_2_pos = self.gui.check_any(ImagePathAndProps.EDIT_BUTTON_2_PATH.value)[2]
+            if edit_button_2_pos is not None:
+                self.tap(edit_button_2_pos, 2)
+                
+            edit_button_3_pos = self.gui.check_any(ImagePathAndProps.EDIT_BUTTON_3_PATH.value)[2]
+            if edit_button_3_pos is not None:
+                self.tap(edit_button_3_pos, 2)   
+                
+            self.back()
+            self.back()
+                    
+        # self.tap((60, 540), 2 * self.bot.config.tapSleep)
+        # self.tap((1105, 200), 2 * self.bot.config.tapSleep)
+        # self.tap((1220, 35), 2 * self.bot.config.tapSleep)
 
     # Building Position
     def find_building_title(self):
@@ -209,10 +224,8 @@ class Task:
                     imsch = self.gui.get_curr_device_screen_img_cv()
                 result = self.gui.get_curr_gui_name(imsch)
                 gui_name, pos = ["UNKNOW", None] if result is None else result
-                device_log(self.device, '获取当前界面', gui_name, pos)  
-                
                 dark, avg = is_dark(imsch[180:540, 320:960], 70)
-                device_log(self.device, '当前界面亮度:{}'.format(avg))  
+                device_log(self.device, '获取当前界面 {}, {}, 亮度:{}'.format(gui_name, pos, avg))  
                 if dark:
                     self.set_text(insert='当前界面过暗, 可能断线加载中, 点击任意地方, {}, 继续等待...'.format(pos_free))     
                     self.tap(pos_free, 10)
@@ -519,7 +532,7 @@ class Task:
             self.bot.text[text_list].clear()   
 
         if title in kwargs:
-            text = '{}, 当前回合:{}'.format(kwargs[title], self.bot.player_round_count)
+            text = '{}, 当前回合:{}, 玩家回合:{}'.format(kwargs[title], self.bot.round_count, self.bot.player_round_count)
             self.bot.text[title] = text
             device_log(self.device, text)
 

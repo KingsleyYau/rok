@@ -120,7 +120,6 @@ class GatherDiamond(Task):
                         self.set_text(insert="发现宝石, {}, {}/{}次, {}步, {}, 当前距离{}公里".format(diamond_pos, count, total_count, size_count, direction, cur_kilo), index=1)
                         self.tap(diamond_pos, 2 * self.bot.config.tapSleep)
                         
-                        
                         coordinate = ''
                         _, _, resource_xy_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_IMG_PATH.value)
                         if resource_xy_pos is not None:

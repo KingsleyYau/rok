@@ -129,6 +129,19 @@ class Bot:
     def get_city_image(self):
         return self.screen_shot_task.do_city_screen()
 
+    def check_download(self):
+        self.break_task.back_to_map_gui()
+        imsch = self.gui.get_curr_device_screen_img_cv()
+        download_pos = self.gui.check_any(ImagePathAndProps.DOWNLOAD_IMG_PATH.value, imsch=imsch)[2]
+        if download_pos is not None:
+            self.break_task.set_text(insert='发现下载倒计时, 点击'.format(download_pos))
+            self.break_task.tap(download_pos)
+            imsch = self.gui.get_curr_device_screen_img_cv()
+        download_button_pos = self.gui.check_any(ImagePathAndProps.DOWNLOAD_BUTTON_PATH.value, imsch=imsch)[2]
+        if download_button_pos is not None:
+            self.break_task.set_text(insert='发现下载按钮, 点击'.format(download_button_pos))
+            self.break_task.tap(download_button_pos)
+                            
     def do_task(self, curr_task=TaskName.COLLECTING):
         random_tasks = [
             [self.mystery_merchant_task, "enableMysteryMerchant"],
@@ -174,8 +187,8 @@ class Bot:
             # Check verification before every task
             try:
                 hour = time.strftime("%H", time.localtime())
-                if int(hour) >= 0 and int(hour) < 7:
-                    device_log(self.device, "休息时间...")
+                if (int(hour) >= 0 and int(hour) < 7) or int(hour) >= 23:
+                    super().set_text(insert='休息时间...')
                     if self.task.isRoKRunning():
                         self.task.stopRok()
                     time.sleep(300)
@@ -188,13 +201,20 @@ class Bot:
                 tasks = random_tasks
                         
                 player_round_count = self.round_count
-                self.round_count = self.round_count + 1
+                round_count = self.round_count + 1
+                roundBreak = True
                 if self.config.autoChangePlayer:
                     player_round_count = player_round_count // self.config.playerCount
+                    self.player_round_count = player_round_count
+                    # 每个玩家都休息
+                    # roundBreak = (player_round_count % self.config.breakDoRound == 0)
+                    # 所有玩家都处理才休息
+                    roundBreak = (round_count % self.config.playerCount == 0)
                 
                 if len(self.device.nickname) == 0:
                     self.get_player_name_task.do(TaskName.COLLECTING)
                     pass
+    
     
                 # init building position if need
                 if (
@@ -206,6 +226,9 @@ class Bot:
                     )
                     curr_task = self.locate_building_task.do(next_task=TaskName.COLLECTING)
     
+                self.check_download()
+                
+                # 其他任务
                 for task in tasks:
                     if len(task) == 2:
                         if getattr(self.config, task[1]):
@@ -216,11 +239,18 @@ class Bot:
                             and player_round_count % getattr(self.config, task[2]) == 0
                         ):
                             curr_task = task[0].do()
+                            
+                # 种田
+                for task in priority_tasks:
+                    if len(task) == 2:
+                        if getattr(self.config, task[1]):
+                            task[0].do()
     
                 if self.config.enableStop:
+                    self.round_count = round_count
                     curr_task = self.restart_task.do()
                 else:
-                    if (self.config.enableBreak and player_round_count % self.config.breakDoRound == 0):
+                    if (self.config.enableBreak and roundBreak):
                         breakTime = int(random.uniform(int(self.config.breakTime * 3 / 4), self.config.breakTime))
                         progress_time = max(breakTime // 10, 1)
                         start = time.time()
@@ -229,21 +259,7 @@ class Bot:
                         diff = self.config.checkTaskTime
                         # for i in range(breakTime):
                         
-                        self.player_round_count = player_round_count
-                        self.break_task.set_text(title='休息', remove=True)
-                        self.break_task.set_text(insert='开始休息 {} seconds'.format(breakTime))
-                        
-                        self.break_task.back_to_map_gui()
-                        imsch = self.gui.get_curr_device_screen_img_cv()
-                        download_pos = self.gui.check_any(ImagePathAndProps.DOWNLOAD_IMG_PATH.value, imsch=imsch)[2]
-                        if download_pos is not None:
-                            self.break_task.set_text(insert='发现下载倒计时, 点击'.format(download_pos))
-                            self.break_task.tap(download_pos)
-                            imsch = self.gui.get_curr_device_screen_img_cv()
-                        download_button_pos = self.gui.check_any(ImagePathAndProps.DOWNLOAD_BUTTON_PATH.value, imsch=imsch)[2]
-                        if download_button_pos is not None:
-                            self.break_task.set_text(insert='发现下载按钮, 点击'.format(download_button_pos))
-                            self.break_task.tap(download_button_pos)
+                        self.check_download()
                             
                         while now - start <= breakTime:
                             now = time.time()
@@ -272,7 +288,9 @@ class Bot:
                             else:
                                 time.sleep(20)    
                         self.break_task.set_text(insert='结束休息 {}/{} seconds'.format(int(now - start), breakTime))  
-                                              
+                        
+                        self.round_count = round_count   
+                                           
                         if self.config.terminate:
                             self.break_task.set_text(insert='关闭ROK')
                             self.stopRok()
@@ -282,8 +300,12 @@ class Bot:
                         if self.config.autoChangePlayer:
                             curr_task = self.auto_change_task.do()
                     else:
-                        curr_task = self.break_task.do_no_wait()
-                        curr_task = self.restart_task.do() 
+                        self.round_count = round_count
+                        if self.config.autoChangePlayer:
+                            curr_task = self.auto_change_task.do()
+                        else:
+                            curr_task = self.break_task.do_no_wait()
+                            curr_task = self.restart_task.do() 
                 
             except Exception as e:
                 traceback.print_exc()
