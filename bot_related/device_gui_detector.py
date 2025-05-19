@@ -74,6 +74,10 @@ class GuiDetector:
         return img
 
     def get_curr_device_screen_img_cv(self):
+        # img = Image.fromarray(np.asarray(self.__device.screencap(), dtype=np.uint8).astype(np.uint8))
+        # img = img.convert("RGB")
+        # image_array = np.array(img)
+        # decoded_image = cv2.imdecode(np.asarray(image_array, dtype=np.uint8), cv2.IMREAD_COLOR)
         img = cv2.imdecode(np.asarray(self.__device.screencap(), dtype=np.uint8), cv2.IMREAD_COLOR)
         return img
     

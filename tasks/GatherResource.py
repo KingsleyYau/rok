@@ -21,7 +21,7 @@ class GatherResource(Task):
             return False
         
         self.set_text(insert="创建部队, {}".format(new_troops_button_pos))
-        self.tap(new_troops_button_pos, 5 * self.bot.config.tapSleep)
+        self.tap(new_troops_button_pos, 3 * self.bot.config.tapSleep)
         
         if self.bot.config.gatherResourceNoSecondaryCommander:
             self.set_text(insert="移除副将")
@@ -43,7 +43,7 @@ class GatherResource(Task):
             return False
         
         self.set_text(insert="开始行军, {}".format(match_button_pos))
-        self.tap(match_button_pos, 5 * self.bot.config.tapSleep)
+        self.tap(match_button_pos, 3 * self.bot.config.tapSleep)
         
         match_button_pos = self.gui.check_any(ImagePathAndProps.TROOPS_MATCH_BUTTON_IMAGE_PATH.value)[2]
         if match_button_pos is not None:
@@ -62,7 +62,12 @@ class GatherResource(Task):
             return next_task
         else:
             self.set_text(insert="当前队列数量:{}/{}".format(cur, total))
-                 
+            
+        forbidden_pos = self.gui.check_any(ImagePathAndProps.FORBIDDEN_IMG_PATH.value)[2] 
+        if forbidden_pos is not None:
+            self.set_text(insert="限制出兵")
+            return next_task;
+        
         gathering_count = 0       
         if self.bot.config.gatherAllianceResource:
             try:
@@ -168,7 +173,7 @@ class GatherResource(Task):
                         self.set_text(insert="{}次策略没有找到可用资源点".format(retry_count))
                         break
                     
-                    if level > 2:
+                    if level > 1:
                         self.set_text(insert="{}次没有找到可用资源点".format(level))
                         new_resourse_code = self.get_next_resource(resourse_code)
                         self.set_text(insert="改变搜索策略, {}=>{}".format(
@@ -216,19 +221,24 @@ class GatherResource(Task):
                         self.set_text(insert="没有发现搜索按钮".format())
                         continue
                     self.set_text(insert="点击搜索{}".format(search_pos))
-                    self.tap(search_pos, 3 * self.bot.config.tapSleep)
-                    
-                    self.set_text(insert="打开资源点")
-                    self.tap((640, 320), self.bot.config.tapSleep)
+                    self.tap(search_pos, max(15, 6 * self.bot.config.tapSleep))
                     
                     coordinate = ''
-                    _, _, resource_xy_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_IMG_PATH.value)
-                    if resource_xy_pos is not None:
-                        src = cv2.imdecode(np.asarray(self.bot.gui.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
-                        src = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
-                        src = src[int(resource_xy_pos[1])-5:int(resource_xy_pos[1] + 20), int(resource_xy_pos[0]+140):int(resource_xy_pos[0]+140+100)]
-                        coordinate = img_to_string_eng(src).replace('\n', '').replace(',', '')
-                        self.set_text(insert="发现资源点, 坐标, {}".format(coordinate))
+                    
+                    find_resource_cout = 0
+                    while find_resource_cout < 2:
+                        _, _, resource_xy_pos = self.gui.check_any(ImagePathAndProps.RESOURCE_IMG_PATH.value)
+                        if resource_xy_pos is not None:
+                            src = cv2.imdecode(np.asarray(self.bot.gui.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR)
+                            src = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+                            src = src[int(resource_xy_pos[1])-5:int(resource_xy_pos[1] + 20), int(resource_xy_pos[0]+140):int(resource_xy_pos[0]+140+100)]
+                            coordinate = img_to_string_eng(src).replace('\n', '').replace(',', '')
+                            self.set_text(insert="发现资源点, 坐标, {}".format(coordinate))
+                            break
+                        else:
+                            self.set_text(insert="打开资源点")
+                            self.tap((640, 320), self.bot.config.tapSleep)
+                            find_resource_cout += 1
                     
                     # check is same pos
                     if len(coordinate) > 0:

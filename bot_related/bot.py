@@ -187,8 +187,8 @@ class Bot:
             # Check verification before every task
             try:
                 hour = time.strftime("%H", time.localtime())
-                if (int(hour) >= 0 and int(hour) < 7) or int(hour) >= 23:
-                    super().set_text(insert='休息时间...')
+                if (int(hour) >= 0 and int(hour) < 7) or (int(hour) >= 23):
+                    self.task.set_text(insert='休息时间...')
                     if self.task.isRoKRunning():
                         self.task.stopRok()
                     time.sleep(300)
@@ -228,6 +228,12 @@ class Bot:
     
                 self.check_download()
                 
+                # 种田
+                for task in priority_tasks:
+                    if len(task) == 2:
+                        if getattr(self.config, task[1]):
+                            task[0].do()
+                            
                 # 其他任务
                 for task in tasks:
                     if len(task) == 2:
@@ -239,13 +245,8 @@ class Bot:
                             and player_round_count % getattr(self.config, task[2]) == 0
                         ):
                             curr_task = task[0].do()
-                            
-                # 种田
-                for task in priority_tasks:
-                    if len(task) == 2:
-                        if getattr(self.config, task[1]):
-                            task[0].do()
-    
+                  
+                # 休息          
                 if self.config.enableStop:
                     self.round_count = round_count
                     curr_task = self.restart_task.do()
@@ -268,6 +269,7 @@ class Bot:
                                 full_load, cur, total = self.gui.troop_already_full()
                                 self.break_task.set_text(insert='已经休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total))
                                 self.snashot_update_event()
+                                # 种田
                                 if not full_load:
                                     for task in priority_tasks:
                                         if len(task) == 2:

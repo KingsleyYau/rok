@@ -844,6 +844,14 @@ class ImagePathAndProps(Enum):
         25,
         TERRITORY_GATHER_JOIN_IMG,
     ]
+    FORBIDDEN_IMG_PATH = [
+        "resource/forbidden.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.70,
+        25,
+        FORBIDDEN_IMG,
+    ]    
     HELP_IMG_PATH = [
         "resource/help.png",
         (1280, 720),

@@ -532,7 +532,7 @@ class Task:
             self.bot.text[text_list].clear()   
 
         if title in kwargs:
-            text = '{}, 当前回合:{}, 玩家回合:{}'.format(kwargs[title], self.bot.round_count, self.bot.player_round_count)
+            text = '{}, 当前玩家:{}, 当前回合:{}, 玩家回合:{}'.format(kwargs[title], self.bot.config.playerCount, self.bot.round_count, self.bot.player_round_count)
             self.bot.text[title] = text
             device_log(self.device, text)
 
