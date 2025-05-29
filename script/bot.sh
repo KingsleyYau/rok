@@ -4,7 +4,7 @@
 
 APP_DIR=$(dirname $(readlink -f "$0"))/..
 
-DEVICE="xj"
+DEVICE="request_title"
 if [ ! "$1" == "" ]
 then
   DEVICE="$1"

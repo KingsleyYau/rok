@@ -187,12 +187,12 @@ class Bot:
             # Check verification before every task
             try:
                 hour = time.strftime("%H", time.localtime())
-                if (int(hour) >= 0 and int(hour) < 7) or (int(hour) >= 23):
-                    self.task.set_text(insert='休息时间...')
-                    if self.task.isRoKRunning():
-                        self.task.stopRok()
-                    time.sleep(300)
-                    continue
+                # if (int(hour) >= 0 and int(hour) < 7) or (int(hour) >= 23):
+                #     self.task.set_text(insert='休息时间...')
+                #     if self.task.isRoKRunning():
+                #         self.task.stopRok()
+                #     time.sleep(300)
+                #     continue
             
                 self.task.get_curr_gui_name()
 
@@ -262,27 +262,31 @@ class Bot:
                         
                         self.check_download()
                             
-                        while now - start <= breakTime:
+                        while True:
                             now = time.time()
-                            self.break_task.back_to_map_gui()
+                            # self.break_task.back_to_map_gui()
                             if now - last > diff:
-                                full_load, cur, total = self.gui.troop_already_full()
-                                self.break_task.set_text(insert='已经休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total))
-                                self.snashot_update_event()
+                                # full_load, cur, total = self.gui.troop_already_full()
+                                self.break_task.set_text(insert='已经休息 {}/{} seconds'.format(int(now - start), breakTime))
+                                # self.snashot_update_event()
+                                
                                 # 种田
-                                if not full_load:
-                                    for task in priority_tasks:
-                                        if len(task) == 2:
-                                            if getattr(self.config, task[1]):
-                                                task[0].do()
-                                    self.break_task.back_to_map_gui()
-                                    full_load, cur, total = self.gui.troop_already_full()
-                                    self.snashot_update_event()
+                                # if not full_load:
+                                #     for task in priority_tasks:
+                                #         if len(task) == 2:
+                                #             if getattr(self.config, task[1]):
+                                #                 task[0].do()
+                                #     self.break_task.back_to_map_gui()
+                                #     full_load, cur, total = self.gui.troop_already_full()
+                                #     self.snashot_update_event()
+                                # 直接关掉
+                                if self.task.isRoKRunning():
+                                    self.task.stopRok()
                                 now = time.time()
                                 self.break_task.set_text(title='休息')
 
                                 if now - start <= breakTime:
-                                    self.break_task.set_text(insert='继续休息 {}/{} seconds, 队列数量:{}/{}'.format(int(now - start), breakTime, cur, total))
+                                    self.break_task.set_text(insert='继续休息 {}/{} seconds'.format(int(now - start), breakTime))
                                     last = now
                                     time.sleep(60)
                                 else:

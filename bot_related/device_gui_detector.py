@@ -20,6 +20,31 @@ import time
 from exceptiongroup._catch import catch
 
 
+from contextlib import contextmanager
+import sys
+import os
+
+import warnings
+# 忽略 libpng 相关警告
+warnings.filterwarnings("ignore", category=UserWarning, message="libpng warning: iCCP:*")
+
+@contextmanager
+def suppress_libpng_warnings():
+    """临时抑制 libpng 警告输出"""
+    # 保存原始标准错误输出
+    original_stderr = sys.stderr
+    try:
+        # 打开一个临时文件用于捕获警告
+        with open(os.devnull, 'w') as fnull:
+            # 重定向标准错误到临时文件
+            sys.stderr = fnull
+            # 执行代码块
+            yield
+    finally:
+        # 恢复原始标准错误输出
+        sys.stderr = original_stderr
+    return
+        
 # small percentage are more similar
 def cal_similarity(image1, image2):
     res = cv2.absdiff(image1, image2)
@@ -49,6 +74,9 @@ class GuiDetector:
     def __init__(self, device):
         self.debug = False
         self.__device = device
+        
+        # 忽略 libpng 相关警告
+        warnings.filterwarnings("ignore", category=UserWarning, message="libpng warning: iCCP:*")
 
     def text_from_img_box(self, img, box):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -70,7 +98,8 @@ class GuiDetector:
         return result
     
     def get_curr_device_screen_img_byte_array(self):
-        img = self.__device.screencap()
+        with suppress_libpng_warnings():
+            img = self.__device.screencap()
         return img
 
     def get_curr_device_screen_img_cv(self):
@@ -78,11 +107,14 @@ class GuiDetector:
         # img = img.convert("RGB")
         # image_array = np.array(img)
         # decoded_image = cv2.imdecode(np.asarray(image_array, dtype=np.uint8), cv2.IMREAD_COLOR)
-        img = cv2.imdecode(np.asarray(self.__device.screencap(), dtype=np.uint8), cv2.IMREAD_COLOR)
+        with suppress_libpng_warnings():
+            img = cv2.imdecode(np.asarray(self.__device.screencap(), dtype=np.uint8), cv2.IMREAD_COLOR)
         return img
     
     def get_curr_device_screen_img(self):
-        return Image.open(io.BytesIO(self.__device.screencap()))
+        with suppress_libpng_warnings():
+            img = Image.open(io.BytesIO(self.__device.screencap()))
+        return img
 
     def save_screen(self, file_name):
         image = Image.open(io.BytesIO(self.__device.screencap()))
@@ -116,7 +148,8 @@ class GuiDetector:
             cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8), cv2.IMREAD_COLOR),
             size
         )
-        imsrc = cv2.imread(resource_path(path))
+        with suppress_libpng_warnings():
+            imsrc = cv2.imread(resource_path(path))
 
         # find 2 window title mark location
         result = aircv.find_all_template(imsrc, imsch, threshold)
@@ -347,7 +380,8 @@ class GuiDetector:
                     imsch = self.get_curr_device_screen_img_cv()
                 for props in props_list:
                     path, size, box, threshold, least_diff, gui = props
-                    imsrc = cv2.imread(resource_path(path))
+                    with suppress_libpng_warnings():
+                        imsrc = cv2.imread(resource_path(path))
         
                     result = aircv.find_template(imsrc, imsch, threshold, rgb=True)
                     # device_log(self.__device, 'check_any', path, threshold, result)
@@ -373,7 +407,8 @@ class GuiDetector:
         for props in props_list:
             path, size, box, threshold, least_diff, gui = props
             
-            imsrc = cv2.imread(resource_path(path))
+            with suppress_libpng_warnings():
+                imsrc = cv2.imread(resource_path(path))
             result = aircv.find_template(imsrc, imsch, threshold, rgb=False, bgremove=bgremove)
             # device_log(self.__device, 'check_any_gray', path, threshold, result)
             
@@ -389,17 +424,19 @@ class GuiDetector:
     
     def has_image_props(self, props):
         path, size, box, threshold, least_diff, gui = props
-        imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
-                             cv2.IMREAD_COLOR)
-        imsrc = cv2.imread(resource_path(path))
+        with suppress_libpng_warnings():
+            imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
+                                 cv2.IMREAD_COLOR)
+            imsrc = cv2.imread(resource_path(path))
         result = aircv.find_template(imsrc, imsch, threshold, True)
         return result
 
     def find_all_image_props(self, props, max_cnt=3):
         path, size, box, threshold, least_diff, gui = props
-        imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
+        with suppress_libpng_warnings():
+            imsch = cv2.imdecode(np.asarray(self.get_curr_device_screen_img_byte_array(), dtype=np.uint8),
                              cv2.IMREAD_COLOR)
-        imsrc = cv2.imread(resource_path(path))
+            imsrc = cv2.imread(resource_path(path))
         result = aircv.find_all_template(imsrc, imsch, threshold, max_cnt, True)
         return result
 
