@@ -30,20 +30,20 @@ warnings.filterwarnings("ignore", category=UserWarning, message="libpng warning:
 
 @contextmanager
 def suppress_libpng_warnings():
-    """临时抑制 libpng 警告输出"""
-    # 保存原始标准错误输出
-    original_stderr = sys.stderr
-    try:
-        # 打开一个临时文件用于捕获警告
-        with open(os.devnull, 'w') as fnull:
-            # 重定向标准错误到临时文件
-            sys.stderr = fnull
-            # 执行代码块
-            yield
-    finally:
-        # 恢复原始标准错误输出
-        sys.stderr = original_stderr
-    return
+    yield
+    # """临时抑制 libpng 警告输出"""
+    # # 保存原始标准错误输出
+    # original_stderr = sys.stderr
+    # try:
+    #     # 打开一个临时文件用于捕获警告
+    #     with open(os.devnull, 'w') as fnull:
+    #         # 重定向标准错误到临时文件
+    #         sys.stderr = fnull
+    #         # 执行代码块
+    #         yield
+    # finally:
+    #     # 恢复原始标准错误输出
+    #     sys.stderr = original_stderr
         
 # small percentage are more similar
 def cal_similarity(image1, image2):

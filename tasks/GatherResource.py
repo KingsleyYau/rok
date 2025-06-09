@@ -173,7 +173,7 @@ class GatherResource(Task):
                         self.set_text(insert="{}次策略没有找到可用资源点".format(retry_count))
                         break
                     
-                    if level > 1:
+                    if level > 2:
                         self.set_text(insert="{}次没有找到可用资源点".format(level))
                         new_resourse_code = self.get_next_resource(resourse_code)
                         self.set_text(insert="改变搜索策略, {}=>{}".format(
@@ -307,11 +307,11 @@ class GatherResource(Task):
             
     def get_next_resource(self, resourse_code):
         if resourse_code == Resource.GOLD.value:
-            new_resourse_code = Resource.FOOD.value
-        elif resourse_code == Resource.FOOD.value:
             new_resourse_code = Resource.STONE.value
-        elif resourse_code == Resource.STONE.value:
+        elif resourse_code == Resource.FOOD.value:
             new_resourse_code = Resource.WOOD.value
+        elif resourse_code == Resource.STONE.value:
+            new_resourse_code = Resource.FOOD.value
         elif resourse_code == Resource.WOOD.value:
             new_resourse_code = Resource.GOLD.value
         return new_resourse_code
@@ -334,6 +334,18 @@ class GatherResource(Task):
             chose_name = res_names[3]
         return chose_name
     
+    def readable_size(self, rec):
+        size = rec
+        unit = "";
+        if (rec > 100000000):
+            size = rec / 100000000;
+            unit = "亿";
+        elif (rec > 10000):
+            size = rec / 10000;
+            unit = "万";
+        result = "{}{}".format(size, unit)
+        return result;
+
     def get_min_resource(self):
         res_names = [
             '玉米',
@@ -344,12 +356,15 @@ class GatherResource(Task):
             ]
         self.tap((725, 20))
         result, result_src_list = self.gui.resource_amount_image_to_string()
-        tips = "玉米: {}({}), 木头: {}({}), 石头: {}({}), 金矿: {}({}), 宝石: {}({})".format(
-            result_src_list[0], result[0], 
-            result_src_list[1], result[1], 
-            result_src_list[2], result[2], 
-            result_src_list[3], result[3], 
-            result_src_list[4], result[4])
+        mix_rec = self.readable_size(result[0] + result[1] + result[2])
+        tips = "玉米:{}, 木头:{}, 石头:{}, 混资:{}, 金矿:{}, 宝石:{}".format(
+            result_src_list[0],
+            result_src_list[1],
+            result_src_list[2],
+            mix_rec,
+            result_src_list[3],
+            result_src_list[4]
+            )
         self.set_text(insert=tips)
         
         ratio = [
