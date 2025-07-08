@@ -246,6 +246,7 @@ class Task:
                         self.check_common_button()
                 elif gui_name == GuiName.HELLO_WROLD_2_IMG.name:
                     self.set_text(insert='欢迎界面, 继续等待...')
+                    self.tap(pos_free, 10)
                     time.sleep(20)
                 # else:
                 #     device_log(self.device, '未知界面, 点击任意地方', pos_free)
