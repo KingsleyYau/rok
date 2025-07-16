@@ -29,7 +29,9 @@ class ChangePlayer(Task):
         
         # 角色管理 
         self.set_text(insert='打开角色管理')
-        self.tap((560, 380), 2 * self.bot.config.tapSleep)
+        #self.tap((560, 380), 2 * self.bot.config.tapSleep)
+        _, _, setting_change_user_pos = self.bot.gui.check_any(ImagePathAndProps.CHANGE_USER_BUTTON_PATH.value)
+        self.tap(setting_change_user_pos, 2 * self.bot.config.tapSleep)
         
         # 判断是否当前角色
         playerIndex = self.bot.config.playerIndex % self.bot.config.playerCount

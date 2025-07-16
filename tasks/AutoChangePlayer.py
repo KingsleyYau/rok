@@ -21,7 +21,8 @@ class AutoChangePlayer(Task):
         self.tap(setting_pos, 2 * self.bot.config.tapSleep)
         # 角色管理
         self.set_text(insert='打开角色管理')
-        self.tap((560, 380), 2 * self.bot.config.tapSleep)
+        _, _, setting_change_user_pos = self.bot.gui.check_any(ImagePathAndProps.CHANGE_USER_BUTTON_PATH.value)
+        self.tap(setting_change_user_pos, 2 * self.bot.config.tapSleep)
         
         # 切换角色
         for i in range(0, self.bot.config.playerCount):

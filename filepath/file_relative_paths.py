@@ -1122,7 +1122,15 @@ class ImagePathAndProps(Enum):
         (0, 0, 0, 0),
         0.7,
         25,
-        HOME,
+        SETTING_BUTTON,
+    ]
+    CHANGE_USER_BUTTON_PATH = [
+        "resource/setting_change_user_button.png",
+        (1280, 720),
+        (0, 0, 0, 0),
+        0.7,
+        25,
+        CHANGE_USER_BUTTON,
     ]
     EDIT_BUTTON_PATH = [
         "resource/edit_button.png",
