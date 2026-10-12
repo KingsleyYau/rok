@@ -41,18 +41,18 @@ adb shell input tap 250 1120
 # 同意隐私
 adb shell input tap 680 640
 # 输入手机
-adb shell input tap 125 100
-adb shell input text 15220039797
-adb shell input tap 640 200
+adb shell input tap 185 125
+adb shell input text 13751872204
+adb shell input tap 640 280
 # 同意隐私1
 adb shell input tap 125 140
 # 同意隐私2
 adb shell input tap 660 420
 
 # 输入验证码
-adb shell input tap 125 140
+adb shell input tap 185 205
 adb shell input text 462796
-adb shell input tap 640 200
+adb shell input tap 640 300
 
 
 # ROK出错确定
